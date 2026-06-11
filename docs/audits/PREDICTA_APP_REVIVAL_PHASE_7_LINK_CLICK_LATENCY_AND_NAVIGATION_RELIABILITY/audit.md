@@ -64,3 +64,40 @@ Green.
 
 Worst checked generated handoff URL dropped from `1,109` characters to `760`
 characters, and the stricter `900` character href budget passed.
+
+## Supplemental Specialist Handoff Voice Lock
+
+- Removed KP internal method instructions from generated main-Predicta handoff
+  prompts. KP now sends the user's refined event question as the prompt while
+  preserving KP cusp, sub-lord, significator, and timing evidence as structured
+  context metadata.
+- Removed Jaimini calculated-evidence payloads from generated main-Predicta
+  handoff prompts. Jaimini now sends a short destiny-chapter request while
+  preserving Jaimini karaka, Arudha, Karakamsha, and destiny evidence as
+  structured context metadata.
+- Added localized UI translation entries for the new KP and Jaimini handoff
+  prompt templates so these links do not create another hardcoded translation
+  island.
+
+## Supplemental Specialist Handoff Audit Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`
+- `corepack pnpm build:web`
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-personal-space`
+- Browser smoke on `http://127.0.0.1:3009/dashboard/kp` and
+  `http://127.0.0.1:3009/dashboard/jaimini` verified route-level Ask links do
+  not carry internal evidence dumps.
+- `node --check scripts/run-app-revival-phase-7-link-reliability-gate.mjs`
+- `git diff --check`
+
+## Supplemental Specialist Handoff Result
+
+Green.
+
+The KP generated handoff URL is now `342` characters and the Jaimini generated
+handoff URL is no longer an oversized/internal-evidence offender. The Phase 7
+manifest, Phase 9 journey manifest, UI overflow audit, and personal-space audit
+all passed after the change.

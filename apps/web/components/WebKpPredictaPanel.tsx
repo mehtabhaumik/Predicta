@@ -4,7 +4,7 @@ import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { composeChalitBhavKpFoundation } from '@pridicta/astrology';
-import { translateUiText } from '@pridicta/config/uiTranslations';
+import { translateUiKey, translateUiText } from '@pridicta/config/uiTranslations';
 import type { KundliData } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { useLanguagePreference } from '../lib/language-preference';
@@ -179,6 +179,7 @@ export function WebKpPredictaPanel({
       buildKpQuestionDraft({
         customQuestion,
         focus: selectedFocus,
+        language,
         mode: questionMode,
         presetQuestion: selectedPreset?.question,
       }),
@@ -812,9 +813,11 @@ function buildKpAskHref({
   kundliId?: string;
   questionDraft: KpQuestionDraft;
 }): string {
+  const buildAnswerPrompt = (question: string): string =>
+    translateUiKey('manual.kp.prompt.answer', language).replace('{question}', question);
   const prompt = handoffQuestion
-    ? `KP Predicta handoff question: ${handoffQuestion}. ${questionDraft.prompt}. ${focus.prompt}`
-    : `${questionDraft.prompt}. ${focus.prompt}${cusp ? ` Selected event-support area ${cusp.house} has star lord ${cusp.lordChain.starLord}, sub lord ${cusp.lordChain.subLord}, and sub-sub lord ${cusp.lordChain.subSubLord}.` : ''}`;
+    ? buildAnswerPrompt(handoffQuestion)
+    : questionDraft.prompt;
   return buildPredictaChatHref({
     carriedContextLabel: focus.title,
     eventOracleHandoff: true,
@@ -843,21 +846,29 @@ type KpQuestionDraft = {
 function buildKpQuestionDraft({
   customQuestion,
   focus,
+  language,
   mode,
   presetQuestion,
 }: {
   customQuestion: string;
   focus: (typeof KP_EVENT_FOCUS)[number];
+  language: 'en' | 'hi' | 'gu';
   mode: KpQuestionMode;
   presetQuestion?: string;
 }): KpQuestionDraft {
+  const localizedFocus = translateUiText(focus.title, language);
+  const buildAnswerPrompt = (question: string): string =>
+    translateUiKey('manual.kp.prompt.answer', language).replace('{question}', question);
+
   if (mode === 'guide') {
     return {
       guidance:
         'Predicta will start with practical readiness: where to be patient, where to prepare, and which decisions need more real-world clarity.',
       label: 'Guide mode',
-      prompt:
-        `I do not have a specific KP question. Using KP only, guide me through ${focus.title} decision readiness in plain language. Do not overclaim certainty; give practical timing caution, preparation, and next steps.`,
+      prompt: translateUiKey('manual.kp.prompt.guide', language).replace(
+        '{focus}',
+        localizedFocus,
+      ),
       refinedQuestion:
         `I do not have a specific question. What should I understand about ${focus.title} decisions right now?`,
     };
@@ -873,8 +884,7 @@ function buildKpQuestionDraft({
           ? 'Your question is still broad, so Predicta will first refine it and then answer carefully.'
           : 'Predicta will keep your intent, make the question clearer, and answer without forcing false certainty.',
       label: raw.length < 18 ? 'Refined from broad question' : 'Refined question',
-      prompt:
-        `The user wrote: "${raw || 'I am not sure what to ask.'}" Refine this into a clear KP decision question first, then answer using KP only in plain language. Refined question: ${refined}`,
+      prompt: buildAnswerPrompt(refined),
       refinedQuestion: refined,
     };
   }
@@ -885,7 +895,7 @@ function buildKpQuestionDraft({
     guidance:
       'This ready question is already written in normal language. Predicta will answer it as decision support, not as a scary prediction.',
     label: 'Ready question',
-    prompt: `Using KP only, answer this practical user question in plain language: ${question}`,
+    prompt: buildAnswerPrompt(question),
     refinedQuestion: question,
   };
 }

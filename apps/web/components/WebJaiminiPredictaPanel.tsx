@@ -52,7 +52,7 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
     handoffMode: 'room_safe',
     kundli: activeKundli,
     prompt:
-      `${copy.chatPrompt} Start with this prediction: ${jaiminiInterpretation.summary} Calculated evidence: ${jaiminiInterpretation.technicalEvidence.slice(0, 4).join(' | ')}`,
+      t('Read my current Jaimini destiny chapter and tell me what it means for my life now.'),
     school: 'JAIMINI',
     sourceScreen: copy.heroEyebrow,
   });

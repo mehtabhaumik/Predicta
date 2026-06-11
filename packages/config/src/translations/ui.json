@@ -291,6 +291,11 @@
       "hi": "वर्तमान डेस्टिनी चैप्टर",
       "gu": "વર્તમાન ડેસ્ટિની ચેપ્ટર"
     },
+    "ui.eventOracle.prompt.jaiminiDestinyChapter": {
+      "en": "Read my current Jaimini destiny chapter and tell me what it means for my life now.",
+      "hi": "मेरे वर्तमान जैमिनी डेस्टिनी चैप्टर को पढ़कर बताइए कि अभी मेरे जीवन के लिए इसका क्या अर्थ है.",
+      "gu": "મારો વર્તમાન જૈમિની ડેસ્ટિની ચેપ્ટર વાંચીને કહો કે અત્યારે મારા જીવન માટે તેનો શું અર્થ છે."
+    },
     "ui.eventOracle.handoffLabel.signatureInput": {
       "en": "Signature Predicta input",
       "hi": "सिग्नेचर प्रेडिक्टा इनपुट",
@@ -4830,6 +4835,16 @@
       "en": "See KP Premium Depth",
       "hi": "कृष्णमूर्ति पद्धति प्रीमियम गहराई देखें",
       "gu": "કૃષ્ણમૂર્તિ પદ્ધતિ પ્રીમિયમ ઊંડાઈ જુઓ"
+    },
+    "manual.kp.prompt.answer": {
+      "en": "Answer this KP question clearly: {question}",
+      "hi": "इस KP प्रश्न का स्पष्ट उत्तर दें: {question}",
+      "gu": "આ KP પ્રશ્નનો સ્પષ્ટ જવાબ આપો: {question}"
+    },
+    "manual.kp.prompt.guide": {
+      "en": "I do not have a specific question. Tell me what I should know about {focus} decisions right now.",
+      "hi": "मेरे पास कोई विशेष प्रश्न नहीं है. अभी {focus} निर्णयों के बारे में मुझे क्या समझना चाहिए, बताइए.",
+      "gu": "મારી પાસે કોઈ ચોક્કસ પ્રશ્ન નથી. અત્યારે {focus} નિર્ણયો વિશે મને શું સમજવું જોઈએ તે કહો."
     },
     "manual.nadi_world": {
       "en": "Jaimini world",
