@@ -1,16 +1,33 @@
-import { Suspense } from 'react';
-import { WebEventQuestionComposer } from '../../../components/WebEventQuestionComposer';
-import { WebPridictaChat } from '../../../components/WebPridictaChat';
+import { redirect } from 'next/navigation';
 
-export default function ChatPage(): React.JSX.Element {
-  return (
-    <section className="dashboard-page predicta-chat-page">
-      <Suspense fallback={<div className="glass-panel event-question-composer" />}>
-        <WebEventQuestionComposer />
-      </Suspense>
-      <Suspense fallback={<div className="card chat-panel predicta-chat-loading" />}>
-        <WebPridictaChat />
-      </Suspense>
-    </section>
-  );
+type LegacyChatSearchParams = Promise<
+  Record<string, string | string[] | undefined>
+>;
+
+export default async function ChatPage({
+  searchParams,
+}: {
+  searchParams?: LegacyChatSearchParams;
+}): Promise<never> {
+  const resolvedSearchParams = (await searchParams) ?? {};
+  const params = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(resolvedSearchParams)) {
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        params.append(key, item);
+      }
+      continue;
+    }
+
+    if (value !== undefined) {
+      params.set(key, value);
+    }
+  }
+
+  if (!params.has('sourceScreen')) {
+    params.set('sourceScreen', 'Legacy Dashboard Chat');
+  }
+
+  redirect(`/ask?${params.toString()}`);
 }

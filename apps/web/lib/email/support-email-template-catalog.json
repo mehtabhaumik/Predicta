@@ -481,7 +481,7 @@
       "previewText": "Your AI question credits are ready.",
       "heading": "Question pack confirmed",
       "bodyParagraphs": ["Hi {{customerName}},", "Your Predicta question pack is ready. Credits are available from your signed-in account."],
-      "cta": { "label": "Ask Predicta", "url": "{{appUrl}}/dashboard/chat" },
+      "cta": { "label": "Ask Predicta", "url": "{{appUrl}}/ask" },
       "footer": "Question credits are used for AI-powered Predicta answers.",
       "requiredVariables": ["customerName", "appUrl"]
     },

@@ -28,6 +28,7 @@ const chromePath =
 const routeChecks = [
   '/',
   '/ask',
+  '/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F',
   '/pricing',
   '/checkout?productId=pridicta_10_questions',
   '/accuracy-method',
@@ -162,6 +163,15 @@ for (const route of routeChecks) {
   if (result.status >= 400) {
     failures.push(`${route} returned HTTP ${result.status}.`);
   }
+
+  if (route.startsWith('/dashboard/chat')) {
+    if (![307, 308].includes(result.status)) {
+      failures.push(`${route} must redirect to /ask instead of rendering dashboard chat.`);
+    }
+    if (!result.location?.startsWith('/ask?')) {
+      failures.push(`${route} redirect location must preserve context into /ask, got ${result.location ?? 'none'}.`);
+    }
+  }
 }
 
 const port = 9700 + Math.floor(Math.random() * 250);
@@ -287,6 +297,7 @@ async function fetchRoute(route) {
 
     return {
       elapsedMs: Date.now() - startedAt,
+      location: response.headers.get('location'),
       route,
       status: response.status,
       url,

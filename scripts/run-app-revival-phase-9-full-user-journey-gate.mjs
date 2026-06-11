@@ -122,6 +122,36 @@ try {
     return { audit, failures: localFailures };
   });
 
+  await runScenario('legacy-dashboard-chat-redirects-to-ask', mobileViewport, async cdp => {
+    const prompt = encodeURIComponent('Will my job improve soon?');
+    await navigateAndWait(cdp, `${baseUrl}/dashboard/chat?prompt=${prompt}&autoSend=true&sourceScreen=Legacy+Dashboard+Chat`);
+    await waitForCondition(cdp, `location.pathname === '/ask' && Boolean(document.querySelector('.auth-required-panel, .chat-workspace, .chat-panel, .predicta-chat-loading'))`, 8_000);
+    const audit = await evaluate(cdp, `(() => ({
+      hasAskShell: Boolean(document.querySelector('.ask-light-shell')),
+      hasDashboardShell: Boolean(document.querySelector('.dashboard-shell')),
+      hasPreservedPrompt: /Will my job improve soon/.test(document.body.textContent || '') ||
+        /Will my job improve soon/.test(document.querySelector('.ask-light-field textarea')?.value || ''),
+      horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+      path: location.pathname,
+      search: location.search,
+      url: location.href,
+    }))()`);
+    const localFailures = [];
+    if (audit.path !== '/ask' || !audit.hasAskShell) {
+      localFailures.push('legacy /dashboard/chat did not redirect into the lightweight /ask shell');
+    }
+    if (audit.hasDashboardShell) {
+      localFailures.push('legacy /dashboard/chat still rendered the dashboard shell');
+    }
+    if (!audit.hasPreservedPrompt) {
+      localFailures.push('legacy /dashboard/chat redirect did not preserve the user prompt');
+    }
+    if (audit.horizontalOverflow) {
+      localFailures.push('legacy /dashboard/chat redirect has horizontal overflow');
+    }
+    return { audit, failures: localFailures };
+  });
+
   await runScenario('new-visitor-creates-kundli-from-chat', mobileViewport, async cdp => {
     const prompt = encodeURIComponent(
       'Create my Kundli. Name: Bhaumik Mehta. DOB: 22 August 1980. Time: 06:30 AM. Place: Mumbai, Maharashtra, India.',
