@@ -1,8 +1,19 @@
 'use client';
 
 import { getCompetitorResponseCopy } from '@pridicta/config';
-import { WebDossierPreview } from '../../../components/WebDossierPreview';
+import dynamic from 'next/dynamic';
 import { useLanguagePreference } from '../../../lib/language-preference';
+
+const WebDossierPreview = dynamic(
+  () =>
+    import('../../../components/WebDossierPreview').then(module => ({
+      default: module.WebDossierPreview,
+    })),
+  {
+    loading: () => <ReportComposerLoading />,
+    ssr: false,
+  },
+);
 
 export default function ReportPage(): React.JSX.Element {
   const { language } = useLanguagePreference();
@@ -22,6 +33,30 @@ export default function ReportPage(): React.JSX.Element {
       </div>
 
       <WebDossierPreview />
+    </section>
+  );
+}
+
+function ReportComposerLoading(): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const copy = getCompetitorResponseCopy(language).reportPage;
+
+  return (
+    <section
+      aria-busy="true"
+      aria-live="polite"
+      className="report-composer-loading"
+    >
+      <div>
+        <span>{copy.loadingEyebrow}</span>
+        <strong>{copy.loadingTitle}</strong>
+        <p>{copy.loadingBody}</p>
+      </div>
+      <div className="report-composer-loading-grid" aria-hidden="true">
+        <i />
+        <i />
+        <i />
+      </div>
     </section>
   );
 }

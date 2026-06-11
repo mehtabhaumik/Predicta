@@ -193,7 +193,10 @@
         "title": "Pick the report that answers your real question.",
         "drawerTitle": "How to choose",
         "openDetails": "Open",
-        "body": "Choose the school or Life Atlas lane first. Predicta keeps Vedic, KP, Jaimini, Numerology, and Signature separate, then gives prediction, evidence, timing, and guidance without turning the report into a lesson."
+        "body": "Choose the school or Life Atlas lane first. Predicta keeps Vedic, KP, Jaimini, Numerology, and Signature separate, then gives prediction, evidence, timing, and guidance without turning the report into a lesson.",
+        "loadingEyebrow": "Preparing your report composer",
+        "loadingTitle": "Predicta is opening the right report lane.",
+        "loadingBody": "The page is ready. The builder is loading separately so navigation stays quick and calm."
       }
     },
     "hi": {
@@ -388,7 +391,10 @@
         "title": "वह रिपोर्ट चुनें जो आपके असली प्रश्न का उत्तर दे.",
         "drawerTitle": "कैसे चुनें",
         "openDetails": "खोलें",
-        "body": "पहले विधि या जीवन एटलस मार्ग चुनें. प्रेडिक्टा वैदिक, कृष्णमूर्ति पद्धति, जैमिनी, अंक ज्योतिष और हस्ताक्षर को अलग रखती है, फिर भविष्यवाणी, प्रमाण, समय और मार्गदर्शन देती है; रिपोर्ट को पाठ नहीं बनाती."
+        "body": "पहले विधि या जीवन एटलस मार्ग चुनें. प्रेडिक्टा वैदिक, कृष्णमूर्ति पद्धति, जैमिनी, अंक ज्योतिष और हस्ताक्षर को अलग रखती है, फिर भविष्यवाणी, प्रमाण, समय और मार्गदर्शन देती है; रिपोर्ट को पाठ नहीं बनाती.",
+        "loadingEyebrow": "आपका रिपोर्ट कंपोज़र तैयार हो रहा है",
+        "loadingTitle": "प्रेडिक्टा सही रिपोर्ट मार्ग खोल रही है.",
+        "loadingBody": "पेज तैयार है. बिल्डर अलग से लोड हो रहा है ताकि नेविगेशन तेज और शांत रहे."
       }
     },
     "gu": {
@@ -583,7 +589,10 @@
         "title": "તમારા સાચા પ્રશ્નનો જવાબ આપતો રિપોર્ટ પસંદ કરો.",
         "drawerTitle": "કેવી રીતે પસંદ કરવું",
         "openDetails": "ખોલો",
-        "body": "પહેલા પદ્ધતિ અથવા જીવન એטלસ માર્ગ પસંદ કરો. પ્રેડિક્ટા વેદિક, કૃષ્ણમૂર્તિ પદ્ધતિ, જૈમિની, અંક જ્યોતિષ અને હસ્તાક્ષરને અલગ રાખે છે, પછી આગાહી, પુરાવો, સમય અને માર્ગદર્શન આપે છે; રિપોર્ટને પાઠ બનાવતું નથી."
+        "body": "પહેલા પદ્ધતિ અથવા જીવન એटलસ માર્ગ પસંદ કરો. પ્રેડિક્ટા વેદિક, કૃષ્ણમૂર્તિ પદ્ધતિ, જૈમિની, અંક જ્યોતિષ અને હસ્તાક્ષરને અલગ રાખે છે, પછી આગાહી, પુરાવો, સમય અને માર્ગદર્શન આપે છે; રિપોર્ટને પાઠ બનાવતું નથી.",
+        "loadingEyebrow": "તમારો રિપોર્ટ કમ્પોઝર તૈયાર થઈ રહ્યો છે",
+        "loadingTitle": "પ્રેડિક્ટા યોગ્ય રિપોર્ટ માર્ગ ખોલી રહી છે.",
+        "loadingBody": "પેજ તૈયાર છે. બિલ્ડર અલગથી લોડ થઈ રહ્યો છે જેથી નેવિગેશન ઝડપી અને શાંત રહે."
       }
     }
   }
