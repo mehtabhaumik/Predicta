@@ -66,6 +66,8 @@ export function SidebarNav({
   const primarySections = allSections.filter(section =>
     PRIMARY_SECTION_IDS.has(section.id),
   );
+  const predictaSection = primarySections.find(section => section.id === 'predicta');
+  const utilitySections = primarySections.filter(section => section.id !== 'predicta');
   const worldSections = allSections.filter(section =>
     WORLD_SECTION_IDS.has(section.id),
   );
@@ -94,28 +96,72 @@ export function SidebarNav({
           <small>{brandSubtitle}</small>
         </span>
       </Link>
-      <nav aria-label="Dashboard navigation" className="nav-list">
-        <div className="nav-section">
-          <span className="nav-section-title">{startLabel}</span>
-          <div className="nav-section-links">
-            {primarySections.map(section =>
-              renderSidebarSectionLink({ activeSection, section }),
-            )}
+      <nav aria-label="Dashboard navigation" className="nav-list nav-list-revival">
+        {predictaSection ? (
+          <div className="nav-section nav-section-predicta-first">
+            {renderSidebarSectionLink({
+              activeSection,
+              primary: true,
+              section: predictaSection,
+            })}
           </div>
-        </div>
+        ) : null}
 
-        <div className="nav-section">
-          <span className="nav-section-title">{worldsLabel}</span>
-          <div className="nav-section-links nav-section-links--compact">
-            {worldSections.map(section =>
-              renderSidebarSectionLink({ activeSection, compact: true, section }),
-            )}
-          </div>
-        </div>
+        {worldSections.length ? (
+          <details
+            className="sidebar-nav-drawer"
+            data-active={WORLD_SECTION_IDS.has(activeSection.id) ? 'true' : 'false'}
+          >
+            <summary>
+              <span>{worldsLabel}</span>
+              <strong>
+                {WORLD_SECTION_IDS.has(activeSection.id)
+                  ? activeSection.label
+                  : worldsLabel}
+              </strong>
+            </summary>
+            <div className="nav-section-links nav-section-links--compact">
+              {worldSections.map(section =>
+                renderSidebarSectionLink({ activeSection, compact: true, section }),
+              )}
+            </div>
+          </details>
+        ) : null}
+
+        {utilitySections.length ? (
+          <details
+            className="sidebar-nav-drawer"
+            data-active={
+              utilitySections.some(section => section.id === activeSection.id)
+                ? 'true'
+                : 'false'
+            }
+          >
+            <summary>
+              <span>{startLabel}</span>
+              <strong>
+                {utilitySections.some(section => section.id === activeSection.id)
+                  ? activeSection.label
+                  : utilitySections.map(section => section.label).join(' · ')}
+              </strong>
+            </summary>
+            <div className="nav-section-links">
+              {utilitySections.map(section =>
+                renderSidebarSectionLink({ activeSection, section }),
+              )}
+            </div>
+          </details>
+        ) : null}
 
         {activeSection.items.length > 1 ? (
-          <div className="nav-section">
-            <span className="nav-section-title">{activeSection.label}</span>
+          <details
+            className="sidebar-nav-drawer sidebar-nav-drawer-subtools"
+            data-active="true"
+          >
+            <summary>
+              <span>{activeSection.label}</span>
+              <strong>{activeSection.label}</strong>
+            </summary>
             <div className="nav-section-links">
               {activeSection.items
                 .filter(
@@ -145,12 +191,15 @@ export function SidebarNav({
                   );
                 })}
             </div>
-          </div>
+          </details>
         ) : null}
 
         {supportGroups.length ? (
-          <div className="nav-section nav-section-utility">
-            <span className="nav-section-title">{ownerLabel}</span>
+          <details className="sidebar-nav-drawer nav-section-utility">
+            <summary>
+              <span>{ownerLabel}</span>
+              <strong>{ownerLabel}</strong>
+            </summary>
             <div className="nav-section-links">
               {supportGroups.flatMap(group => group.items).map(item => {
                 const active = isSidebarNavItemActive(pathname, item.href);
@@ -171,7 +220,7 @@ export function SidebarNav({
                 );
               })}
             </div>
-          </div>
+          </details>
         ) : null}
       </nav>
     </aside>
@@ -181,10 +230,12 @@ export function SidebarNav({
 function renderSidebarSectionLink({
   activeSection,
   compact = false,
+  primary = false,
   section,
 }: {
   activeSection: SidebarSection;
   compact?: boolean;
+  primary?: boolean;
   section: SidebarSection;
 }): React.JSX.Element {
   const active = section.id === activeSection.id;
@@ -194,6 +245,8 @@ function renderSidebarSectionLink({
       <Link
         aria-current={active ? 'page' : undefined}
         className={`nav-link${compact ? ' nav-link-compact' : ''}${
+          primary ? ' nav-link-primary-predicta' : ''
+        }${
           active ? ' active' : ''
         }`}
         href={section.href}

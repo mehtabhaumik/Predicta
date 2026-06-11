@@ -250,3 +250,41 @@ Green. After Kundli creation, the app now keeps the user pointed at Predicta
 instead of presenting a spiderweb of equal-weight tools. The deeper chart,
 timing, report, and remedy paths remain available, but they no longer compete
 with the first guided reading.
+
+## Supplemental Desktop Sidebar Guide-Rail Rebuild
+
+Date: 2026-06-12
+
+### Implemented
+
+- Rebuilt the desktop dashboard sidebar from an always-expanded control-panel
+  navigation stack into a calm guide rail.
+- Kept `Ask Predicta` as the only always-visible primary navigation action.
+- Moved specialist worlds, library/report/account sections, active-section
+  subtools, and owner/admin utility links behind intentional sidebar drawers.
+- Preserved all routes and links in the DOM for reliability and discoverability;
+  this change reduces visual noise without deleting navigation capability.
+- Updated sidebar styling so drawers show the active context without rendering
+  a wall of pills and links.
+- Allowed the Predicta brand subtitle to wrap cleanly instead of truncating
+  with an ellipsis.
+
+### Supplemental Verification
+
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS; key Ask Predicta and room/report links stayed clickable within the latency budget.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard,/dashboard/vedic,/dashboard/report,/ask corepack pnpm test:ui-text-overflow`: PASS, `16` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard,/dashboard/vedic,/dashboard/report,/ask corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `PREDICTA_MOBILE_APP_FEEL_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-8`: PASS, `63` screenshot-backed checks.
+- Visual audit of `desktop-1440-dashboard.png`: PASS. The sidebar now shows
+  Predicta branding, one dominant `Ask Predicta` action, and three calm drawer
+  entries instead of exposing all route groups at once.
+- `git diff --check`: PASS.
+
+### Supplemental Result
+
+Green. The desktop shell now supports the revived product model: Predicta is
+the main path, specialist rooms are available as evidence rooms, and navigation
+depth is intentionally opened instead of forced onto every first screen.

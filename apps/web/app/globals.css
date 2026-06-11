@@ -2822,11 +2822,15 @@ button:disabled,
   min-width: 0;
 }
 
-.dashboard-brand strong,
-.dashboard-brand small {
+.dashboard-brand strong {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.dashboard-brand small {
+  line-height: 1.25;
+  white-space: normal;
 }
 
 .nav-list {
@@ -2834,9 +2838,17 @@ button:disabled,
   gap: 22px;
 }
 
+.nav-list-revival {
+  gap: 14px;
+}
+
 .nav-section {
   display: grid;
   gap: 8px;
+}
+
+.nav-section-predicta-first {
+  margin-bottom: 4px;
 }
 
 .nav-section-title {
@@ -2882,6 +2894,79 @@ button:disabled,
   border-radius: 10px;
   font-size: 13px;
   padding: 10px 12px;
+}
+
+.nav-link-primary-predicta {
+  background:
+    linear-gradient(135deg, rgba(111, 99, 255, 0.88), rgba(77, 175, 255, 0.82)),
+    rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 16px 38px rgba(77, 175, 255, 0.18);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 900;
+  min-height: 48px;
+  text-align: center;
+}
+
+.nav-link-primary-predicta:hover,
+.nav-link-primary-predicta.active {
+  background:
+    linear-gradient(135deg, rgba(111, 99, 255, 0.96), rgba(77, 175, 255, 0.9)),
+    rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.32);
+  color: #fff;
+}
+
+.sidebar-nav-drawer {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border-quiet);
+  border-radius: 16px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sidebar-nav-drawer[data-active='true'] {
+  background:
+    linear-gradient(135deg, rgba(77, 175, 255, 0.075), rgba(239, 80, 175, 0.045)),
+    rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.sidebar-nav-drawer summary {
+  cursor: pointer;
+  display: grid;
+  gap: 4px;
+  list-style: none;
+  padding: 14px;
+}
+
+.sidebar-nav-drawer summary::-webkit-details-marker {
+  display: none;
+}
+
+.sidebar-nav-drawer summary span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sidebar-nav-drawer summary strong {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.25;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-nav-drawer .nav-section-links {
+  border-top: 1px solid rgba(255, 255, 255, 0.075);
+  padding: 10px;
 }
 
 .nav-section-link {
