@@ -69,6 +69,10 @@ try {
     throw new Error('Known local place suggestions showed a stale Searching places status.');
   }
 
+  if (!result.exactTypedSettledClosed) {
+    throw new Error('Exact birth-place auto-populate did not dismiss the suggestions without an extra click.');
+  }
+
   if (
     !result.optionFound &&
     result.inputValue !== 'Petlad, Gujarat, India'
@@ -162,6 +166,28 @@ async function runAutocompleteScenario(cdp) {
   });
   await delay(900);
 
+  const exactTypedState = await collectAutocompleteState(cdp, {
+    optionPattern: /Petlad/i,
+  });
+
+  if (
+    exactTypedState.inputValue === 'Petlad, Gujarat, India' &&
+    !exactTypedState.suggestionsMounted &&
+    !exactTypedState.hasSearchingPlaces
+  ) {
+    return {
+      ...exactTypedState,
+      exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
+      exactTypedSettledClosed: true,
+      exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
+      partialHasSearchingPlaces: partialState.hasSearchingPlaces,
+      partialOptionFound: partialState.optionFound,
+      partialSuggestionsMounted: partialState.suggestionsMounted,
+      partialSuggestionsText: partialState.suggestionsText,
+      ...(await collectRefocusState(cdp)),
+    };
+  }
+
   const clickResponse = await cdp.send('Runtime.evaluate', {
     expression: `(() => {
         const options = [...document.querySelectorAll('.birth-place-suggestions button')];
@@ -206,6 +232,9 @@ async function runAutocompleteScenario(cdp) {
     ) {
       return {
         ...earlyResult,
+        exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
+        exactTypedSettledClosed: false,
+        exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
         partialHasSearchingPlaces: partialState.hasSearchingPlaces,
         partialOptionFound: partialState.optionFound,
         partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -216,6 +245,9 @@ async function runAutocompleteScenario(cdp) {
 
     return {
       ...earlyResult,
+      exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
+      exactTypedSettledClosed: false,
+      exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
       partialHasSearchingPlaces: partialState.hasSearchingPlaces,
       partialOptionFound: partialState.optionFound,
       partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -248,6 +280,9 @@ async function runAutocompleteScenario(cdp) {
 
   return {
     ...selectedResult,
+    exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
+    exactTypedSettledClosed: false,
+    exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
     partialHasSearchingPlaces: partialState.hasSearchingPlaces,
     partialOptionFound: partialState.optionFound,
     partialSuggestionsMounted: partialState.suggestionsMounted,

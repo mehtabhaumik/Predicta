@@ -213,6 +213,26 @@ export function WebKundliWizard(): React.JSX.Element {
     resetBirthPlaceSearchUi();
   }
 
+  function settleBirthPlaceQueryIfPossible(query = birthPlaceQuery) {
+    const trimmedQuery = query.trim();
+
+    if (trimmedQuery.length < 2) {
+      return false;
+    }
+
+    const settledPlace = findSettledBirthPlaceCandidate(
+      searchLocalWebBirthPlaces(trimmedQuery).slice(0, 6),
+      trimmedQuery,
+    );
+
+    if (!settledPlace) {
+      return false;
+    }
+
+    settleBirthPlaceSelection(settledPlace);
+    return true;
+  }
+
   function settleBirthPlaceSelection(option: WebBirthPlace) {
     const optionLabel = getBirthPlaceLabel(option);
 
@@ -562,6 +582,8 @@ export function WebKundliWizard(): React.JSX.Element {
     isPlaceSuggestionsOpen &&
     isSearchingPlaces &&
     visibleBirthPlaceSuggestions.length === 0;
+  const shouldShowBirthPlaceOverlay =
+    shouldShowBirthPlaceSuggestions || shouldShowBirthPlaceSearchStatus;
   const readyFlow = kundli ? (
     <KundliReadyFlow
       creationNote={lastCreationNote}
@@ -696,7 +718,7 @@ export function WebKundliWizard(): React.JSX.Element {
                     return;
                   }
 
-                  if (isBirthPlaceSearchSettled) {
+                  if (isBirthPlaceSearchSettled || settleBirthPlaceQueryIfPossible()) {
                     closeBirthPlaceSuggestions();
                     return;
                   }
@@ -720,46 +742,45 @@ export function WebKundliWizard(): React.JSX.Element {
               <small id="birth-place-help">
                 Select the matching city so the chart uses the right timezone.
               </small>
-              {shouldShowBirthPlaceSearchStatus ? (
-                <small className="birth-place-search-status">
-                  {labels.searchingPlaces}
-                </small>
-              ) : null}
-              {shouldShowBirthPlaceSuggestions ? (
+              {shouldShowBirthPlaceOverlay ? (
                 <div className="birth-place-suggestions" role="listbox">
-                  {visibleBirthPlaceSuggestions.map(option => {
-                    const optionLabel = getBirthPlaceLabel(option);
-
-                    return (
-                      <button
-                        aria-selected={
-                          selectedPlace
-                            ? doesBirthPlaceMatchQuery(option, selectedPlaceLabel)
-                            : false
-                        }
-                        key={`${option.place}-${option.latitude}-${option.longitude}`}
-                        onPointerDown={event => {
-                          event.preventDefault();
-                          selectBirthPlace(option);
-                        }}
-                        onKeyDown={event => {
-                          if (event.key === 'Enter' || event.key === ' ') {
+                  {shouldShowBirthPlaceSuggestions ? (
+                    visibleBirthPlaceSuggestions.map(option => {
+                      return (
+                        <button
+                          aria-selected={
+                            selectedPlace
+                              ? doesBirthPlaceMatchQuery(option, selectedPlaceLabel)
+                              : false
+                          }
+                          key={`${option.place}-${option.latitude}-${option.longitude}`}
+                          onPointerDown={event => {
                             event.preventDefault();
                             selectBirthPlace(option);
-                          }
-                        }}
-                        role="option"
-                        type="button"
-                      >
-                        <strong>{option.city ?? option.label.split(',')[0]}</strong>
-                        <span>
-                          {[option.state, option.country]
-                            .filter(Boolean)
-                            .join(', ') || option.place}
-                        </span>
-                      </button>
-                    );
-                  })}
+                          }}
+                          onKeyDown={event => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                              event.preventDefault();
+                              selectBirthPlace(option);
+                            }
+                          }}
+                          role="option"
+                          type="button"
+                        >
+                          <strong>{option.city ?? option.label.split(',')[0]}</strong>
+                          <span>
+                            {[option.state, option.country]
+                              .filter(Boolean)
+                              .join(', ') || option.place}
+                          </span>
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <small className="birth-place-search-status">
+                      {labels.searchingPlaces}
+                    </small>
+                  )}
                 </div>
               ) : null}
             </div>

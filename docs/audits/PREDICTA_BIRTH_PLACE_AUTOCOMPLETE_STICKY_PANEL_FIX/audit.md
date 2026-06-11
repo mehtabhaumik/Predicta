@@ -71,3 +71,34 @@ Date: 2026-06-11
 Green. The selected birth-place state is now a hard UI terminal state: the
 autocomplete cannot keep a stale loading receipt open once the place is settled,
 and focusing the accepted field does not reopen the old suggestion panel.
+
+## Exact Auto-Populate Reaudit
+
+Date: 2026-06-12
+
+### Additional Fix
+
+- Added a blur-time exact-query settlement guard so a known local city can commit
+  and close the overlay even if the user does not click the suggestion.
+- Collapsed suggestions and loading into one mutually exclusive floating overlay
+  so `Searching places...` cannot remain visible below a selectable result.
+- Strengthened the regression gate to fail if typing exact `Petlad` does not
+  auto-populate `Petlad, Gujarat, India` and dismiss the panel without an extra
+  click.
+
+### Supplemental Evidence
+
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_AUTOCOMPLETE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:birth-place-autocomplete`: PASS. Exact `Petlad` resolves to `Petlad, Gujarat, India`, suggestions are unmounted, `Searching places...` is absent, refocus stays closed, and no horizontal overflow is present.
+- Browser verification on `http://127.0.0.1:3009/dashboard/kundli`: PASS. Filling `Petlad` leaves the input committed to `Petlad, Gujarat, India` with no suggestion panel, no searching text, and no horizontal overflow.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/kundli,/dashboard,/ask corepack pnpm test:ui-text-overflow`: PASS, `12` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard/kundli,/dashboard,/ask corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `git diff --check`: PASS.
+
+### Supplemental Result
+
+Green. The exact auto-populate path now behaves like a completed action, not a
+half-open search state: once Predicta recognizes the birth place, the field is
+committed and the dropdown is gone.
