@@ -133,7 +133,7 @@ export default function FeedbackPage(): React.JSX.Element {
               <div className="section-title">{copy.formEyebrow}</div>
               <h2>{copy.formTitle}</h2>
             </div>
-            <Link className="button secondary" href="/dashboard">
+            <Link className="button secondary" href="/ask">
               {copy.dashboard}
             </Link>
           </div>

@@ -234,7 +234,7 @@ export function FounderPageClient(): React.JSX.Element {
             </h1>
             <p className="founder-lede">{copy.hero.body}</p>
             <div className="founder-actions">
-              <Link className="button" href="/dashboard">
+              <Link className="button" href="/ask">
                 {copy.actions.dashboard}
               </Link>
               <Link className="button secondary" href="/safety">
@@ -300,7 +300,7 @@ export function FounderPageClient(): React.JSX.Element {
         <section className="founder-final">
           <p>{copy.final}</p>
           <FounderSignature />
-          <Link className="button" href="/dashboard">
+          <Link className="button" href="/ask">
             {copy.actions.start}
           </Link>
         </section>

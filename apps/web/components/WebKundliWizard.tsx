@@ -1074,7 +1074,16 @@ function KundliReadyFlow({
             </Link>
           </div>
           <div className="kundli-secondary-links">
-            <Link href="/dashboard">Today for me</Link>
+            <Link
+              href={buildPredictaChatHref({
+                kundli,
+                prompt:
+                  "Use my Kundli and tell me today's most useful guidance first.",
+                sourceScreen: 'Kundli Created',
+              })}
+            >
+              Today for me
+            </Link>
             <Link href="/dashboard/timeline">Timing map</Link>
             <Link href="/dashboard/report">Create report</Link>
             <Link href="/dashboard/remedies">Remedies</Link>

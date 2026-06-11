@@ -16,7 +16,7 @@
         "Reference: {{ticketNumber}}. Topic: {{category}}. Submitted: {{createdAt}}.",
         "What happens next: we review your request, ask clearly if anything is missing, and reply with the next practical step."
       ],
-      "cta": { "label": "Open Predicta", "url": "{{appUrl}}" },
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}/ask" },
       "footer": "Predicta support uses your message only to help with your request. Please do not reply with passwords, payment card numbers, or private secrets.",
       "requiredVariables": ["customerName", "ticketNumber", "category", "createdAt", "appUrl"]
     },
@@ -187,7 +187,7 @@
         "Reference: {{ticketNumber}}.",
         "We will read it carefully and reply if a next step is needed."
       ],
-      "cta": { "label": "Open Predicta", "url": "{{appUrl}}" },
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}/ask" },
       "footer": "Predicta support uses contact messages only to help with your request.",
       "requiredVariables": ["customerName", "ticketNumber", "appUrl"]
     },
@@ -302,7 +302,7 @@
         "Access note: {{resolutionSummary}}.",
         "Reference: {{ticketNumber}}."
       ],
-      "cta": { "label": "Open Predicta", "url": "{{appUrl}}/dashboard" },
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}/ask" },
       "footer": "Premium access is tied to the signed-in Predicta account used for purchase or activation.",
       "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
     },
@@ -321,7 +321,7 @@
         "Current note: {{resolutionSummary}}.",
         "Reference: {{ticketNumber}}."
       ],
-      "cta": { "label": "Open Predicta", "url": "{{appUrl}}" },
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}/ask" },
       "footer": "Predicta support will keep the reply focused on the issue you reported.",
       "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
     },
@@ -378,7 +378,7 @@
         "If something still does not look right, reply to this email and we will reopen the thread.",
         "Reference: {{ticketNumber}}."
       ],
-      "cta": { "label": "Open Predicta", "url": "{{appUrl}}" },
+      "cta": { "label": "Open Predicta", "url": "{{appUrl}}/ask" },
       "footer": "Thank you for trusting Predicta.",
       "requiredVariables": ["customerName", "resolutionSummary", "ticketNumber", "appUrl"]
     },

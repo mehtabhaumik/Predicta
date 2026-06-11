@@ -198,3 +198,32 @@ which directly reduces the "link click is not working / opens late" feeling.
 Green. The app no longer exposes stale `Kundli Library` or old dashboard copy in
 the audited user-facing web/mobile/report-support surfaces, and all touched
 copy remains registered in dedicated translation JSON.
+
+## Supplemental Direct Predicta Entry-Door Lock
+
+- Repointed generic public `Enter Predicta`, `Begin with Predicta`, and
+  feedback `Open Predicta` CTAs from `/dashboard` to `/ask`.
+- Repointed support email `Open Predicta` CTAs from the marketing home or
+  `/dashboard` to `/ask` so email users land in the primary Predicta chat
+  experience.
+- Replaced the Kundli-created `Today for me` secondary link destination from
+  `/dashboard` to a focused Predicta chat handoff for today's guidance.
+- Kept specific saved-work links such as `My Kundlis`, admin fallback, reports,
+  account, and specialist-room destinations unchanged.
+
+## Supplemental Direct Entry Audit Evidence
+
+- `rg --pcre2 -n '"label": "Open Predicta", "url": "\\{\\{appUrl\\}\\}(?!/ask)|href="/dashboard"|Today for me' apps/web/app apps/web/components apps/web/lib/email/support-email-template-catalog.json -g '*.{tsx,json}'` returned only specific My Kundlis/admin links plus the expected `Today for me` label.
+- `node -e "const fs=require('fs'); JSON.parse(fs.readFileSync('apps/web/lib/email/support-email-template-catalog.json','utf8')); console.log('support-email-template-catalog.json ok');"` passed.
+- `corepack pnpm test:global-translation-coverage` passed.
+- `corepack pnpm --filter @pridicta/web typecheck` passed.
+- `corepack pnpm build:web` passed.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3034 corepack pnpm test:app-revival-phase-7` passed.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3034 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/founder,/feedback,/dashboard,/dashboard/kundli,/dashboard/saved-kundlis,/dashboard/report,/pricing corepack pnpm test:ui-text-overflow` passed.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3034 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/founder,/feedback,/dashboard,/dashboard/kundli,/dashboard/saved-kundlis,/dashboard/report,/pricing corepack pnpm test:ui-personal-space` passed.
+
+## Supplemental Direct Entry Result
+
+Green. Generic "open Predicta" user journeys now land in the primary chat
+surface, while `/dashboard` remains a deliberate My Kundlis/saved-work area
+instead of the default app doorway.
