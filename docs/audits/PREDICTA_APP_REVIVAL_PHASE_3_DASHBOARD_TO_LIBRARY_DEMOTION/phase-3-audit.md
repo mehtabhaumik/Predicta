@@ -128,3 +128,38 @@ Date: 2026-06-12
 
 Green. Birth-place autocomplete now closes cleanly after a valid place is
 selected and does not leave the search receipt or suggestion list on screen.
+
+## Supplemental Empty My Kundlis KPI Removal Lock
+
+Date: 2026-06-12
+
+### Implemented
+
+- Hid the `Kundli status` metric panel for brand-new users with no active or
+  saved Kundli so `/dashboard` no longer opens with `0 saved Kundlis` and
+  `0 active profile` dashboard counters.
+- Preserved the same status panel for returning users once an active or saved
+  Kundli exists, keeping useful management context without making first-time
+  users feel like they entered a SaaS control panel.
+- Kept the first visible actions as `Ask Predicta` and `Create Kundli`, with
+  saved Kundli management still available below.
+
+### Supplemental Verification
+
+- Headless Chrome DOM smoke on `http://127.0.0.1:3009/dashboard` at mobile
+  width: `Ask Predicta` present, `/dashboard/kundli` link present,
+  `.library-status-panel` count `0`, zero-KPI text absent, horizontal overflow
+  absent.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard,/dashboard/report,/pricing,/dashboard/kundli,/dashboard/saved-kundlis,/ask,/ corepack pnpm test:ui-text-overflow`: PASS, `28` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard,/dashboard/report,/pricing,/dashboard/kundli,/dashboard/saved-kundlis,/ask,/ corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `git diff --check`: PASS.
+
+### Supplemental Result
+
+Green. Empty `/dashboard` now behaves like a chat-first saved-work surface
+instead of a dashboard KPI page, while returning-user Kundli status remains
+available when it has real content.

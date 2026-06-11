@@ -22,6 +22,7 @@ export default function DashboardPage(): React.JSX.Element {
   const labels = getLightweightAppShellLabels(language);
   const { activeKundli, savedCount } = useLightweightKundliSnapshot();
   const [isFamilyFriendsVisit, setIsFamilyFriendsVisit] = useState(false);
+  const hasSavedKundli = Boolean(activeKundli) || savedCount > 0;
   const askHref = buildPredictaChatHref({
     kundliId: activeKundli?.id,
     prompt: activeKundli
@@ -76,37 +77,42 @@ export default function DashboardPage(): React.JSX.Element {
         </div>
       </section>
 
-      <section className="library-status-panel glass-panel">
-        <div>
-          <div className="section-title">{copy.libraryStatusEyebrow}</div>
-          <h2>
-            {activeKundli
-              ? copy.libraryActiveProfileTitle.replace(
-                  '{name}',
-                  activeKundli.birthDetails.name,
-                )
-              : copy.libraryNoActiveProfileTitle}
-          </h2>
-          <p>
-            {activeKundli
-              ? copy.libraryActiveProfileBody.replace(
-                  '{place}',
-                  activeKundli.birthDetails.place,
-                )
-              : copy.libraryNoActiveProfileBody}
-          </p>
-        </div>
-        <div className="library-status-metrics" aria-label={copy.libraryStatusEyebrow}>
-          <span>
-            <strong>{savedCount}</strong>
-            <small>{copy.librarySavedCountLabel}</small>
-          </span>
-          <span>
-            <strong>{activeKundli ? '1' : '0'}</strong>
-            <small>{copy.libraryActiveCountLabel}</small>
-          </span>
-        </div>
-      </section>
+      {hasSavedKundli ? (
+        <section className="library-status-panel glass-panel">
+          <div>
+            <div className="section-title">{copy.libraryStatusEyebrow}</div>
+            <h2>
+              {activeKundli
+                ? copy.libraryActiveProfileTitle.replace(
+                    '{name}',
+                    activeKundli.birthDetails.name,
+                  )
+                : copy.libraryNoActiveProfileTitle}
+            </h2>
+            <p>
+              {activeKundli
+                ? copy.libraryActiveProfileBody.replace(
+                    '{place}',
+                    activeKundli.birthDetails.place,
+                  )
+                : copy.libraryNoActiveProfileBody}
+            </p>
+          </div>
+          <div
+            aria-label={copy.libraryStatusEyebrow}
+            className="library-status-metrics"
+          >
+            <span>
+              <strong>{savedCount}</strong>
+              <small>{copy.librarySavedCountLabel}</small>
+            </span>
+            <span>
+              <strong>{activeKundli ? '1' : '0'}</strong>
+              <small>{copy.libraryActiveCountLabel}</small>
+            </span>
+          </div>
+        </section>
+      ) : null}
 
       <LibrarySection
         body={copy.librarySavedWorkBody}

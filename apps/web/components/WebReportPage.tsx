@@ -2,6 +2,7 @@
 
 import { getCompetitorResponseCopy } from '@pridicta/config';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useLanguagePreference } from '../lib/language-preference';
 
 const WebDossierPreview = dynamic(
@@ -30,6 +31,14 @@ export function WebReportPage(): React.JSX.Element {
           </summary>
           <p>{copy.body}</p>
         </details>
+        <div className="report-page-quick-actions">
+          <Link className="button" href="/dashboard/kundli">
+            {copy.createKundliCta}
+          </Link>
+          <Link className="button secondary" href="/ask">
+            {copy.askPredictaCta}
+          </Link>
+        </div>
       </div>
 
       <WebDossierPreview />

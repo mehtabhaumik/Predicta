@@ -168,6 +168,34 @@ Green. The public landing and direct `/ask` doorway now expose suggested
 questions as real links instead of fragile button-only JavaScript handoffs,
 which directly reduces the "link click is not working / opens late" feeling.
 
+## Supplemental Report And Pricing Direct Action Lock
+
+- Added always-visible report-page actions for `Create Kundli` and
+  `Ask Predicta` before the dynamic report composer hydrates, so report users
+  are not trapped waiting for the builder before they can start.
+- Added a first-screen Pricing CTA for the `10 AI Questions` pack at
+  `/checkout?productId=pridicta_10_questions`, keeping the purchase path
+  visible and clickable on mobile without requiring a long scroll.
+- Kept these labels localized through the report-page translation JSON and
+  existing product-copy helpers.
+
+## Supplemental Report And Pricing Audit Evidence
+
+- `corepack pnpm test:global-translation-coverage`
+- `corepack pnpm --filter @pridicta/web typecheck`
+- `corepack pnpm build:web`
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard,/dashboard/report,/pricing,/dashboard/kundli,/dashboard/saved-kundlis,/ask,/ corepack pnpm test:ui-text-overflow`
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard,/dashboard/report,/pricing,/dashboard/kundli,/dashboard/saved-kundlis,/ask,/ corepack pnpm test:ui-personal-space`
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`
+- `git diff --check`
+
+## Supplemental Report And Pricing Result
+
+Green. Phase 7 now verifies `/dashboard/report` includes `/dashboard/kundli`,
+`/pricing` includes `/checkout?productId=pridicta_10_questions`, and the
+mobile Pricing checkout click completes in `105ms`.
+
 ## Supplemental Public Copy And Email Link Chat-First Lock
 
 - Removed stale `Dashboard`, `Kundli Library`, `your library`, and dead

@@ -28,6 +28,15 @@ export default function PricingPage(): React.JSX.Element {
           <StatusPill label={copy.pill} tone="quiet" />
           <h1 className="gradient-text">{copy.title}</h1>
           <p>{copy.body}</p>
+          <div className="pricing-heading-actions">
+            <Link className="button" href="/checkout?productId=pridicta_10_questions">
+              {copy.selectPrefix}{' '}
+              {getLocalizedOneTimeProductCopy('AI_QUESTIONS_10', language).label}
+            </Link>
+            <Link className="button secondary" href="#one-time">
+              {copy.oneTimeTitle}
+            </Link>
+          </div>
         </div>
 
         <section className="pricing-difference-panel glass-panel">

@@ -16353,6 +16353,15 @@ button:disabled,
   margin-bottom: 44px;
 }
 
+.pricing-heading-actions,
+.report-page-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 22px;
+}
+
 .pricing-grid,
 .one-time-grid {
   display: grid;
