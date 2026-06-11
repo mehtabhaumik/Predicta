@@ -206,9 +206,6 @@ export function WebVedicWorldPage(): React.JSX.Element {
                 <Link className="button primary" href={chatHref}>
                   {copy.actions.chat}
                 </Link>
-                <Link className="button secondary" href="/dashboard/report">
-                  {copy.report.cta}
-                </Link>
               </div>
             </div>
             <div
@@ -224,61 +221,49 @@ export function WebVedicWorldPage(): React.JSX.Element {
             </div>
           </div>
 
-          <div className="predicta-world-local glass-panel">
-            <div className="predicta-world-local-copy">
-              <p className="section-title">{getWorldStructureLabel(language)}</p>
-              <h2>{copy.note.title}</h2>
-              <p>{copy.note.body}</p>
-            </div>
-            <div className="predicta-world-local-actions">
-              <Link href="/dashboard/charts">
+          <details className="predicta-world-local-map glass-panel">
+            <summary className="predicta-world-disclosure-summary">
+              <div>
+                <p className="section-title">{getWorldStructureLabel(language)}</p>
+                <h2>{copy.note.title}</h2>
+                <p>{copy.note.body}</p>
+              </div>
+              <strong>{translateUiText('Open', language)}</strong>
+            </summary>
+            <div className="predicta-world-local-grid">
+              <Link className="predicta-world-local-card" href="/dashboard/charts">
                 <strong>{copy.actions.charts}</strong>
-                <span>{getLocalActionNote(language, 'charts')}</span>
+                <p>{getLocalActionNote(language, 'charts')}</p>
               </Link>
-              <Link href="/dashboard/remedies">
+              <Link className="predicta-world-local-card" href="/dashboard/remedies">
                 <strong>{getRemediesLabel(language)}</strong>
-                <span>{getLocalActionNote(language, 'remedies')}</span>
+                <p>{getLocalActionNote(language, 'remedies')}</p>
               </Link>
-              <Link href="/dashboard/birth-time">
+              <Link className="predicta-world-local-card" href="/dashboard/birth-time">
                 <strong>{copy.actions.birthTime}</strong>
-                <span>{getLocalActionNote(language, 'birthTime')}</span>
+                <p>{getLocalActionNote(language, 'birthTime')}</p>
               </Link>
-              <Link href="/dashboard/report">
+              <Link className="predicta-world-local-card" href="/dashboard/report">
                 <strong>{copy.report.cta}</strong>
-                <span>{copy.report.body}</span>
+                <p>{copy.report.body}</p>
               </Link>
             </div>
-          </div>
+          </details>
 
-          <section className="glass-panel predicta-world-focus-panel">
-            <div className="predicta-world-focus-copy">
-              <p className="section-title">{copy.report.title}</p>
-              <h2>{copy.report.title}</h2>
-              <p>{copy.note.body}</p>
-            </div>
-            <div className="predicta-world-focus-grid">
+          <details className="predicta-world-proof-disclosure glass-panel vedic-world-proof-drawer">
+            <summary>
+              <span>{copy.report.title}</span>
+              <strong>{translateUiText('Open evidence', language)}</strong>
+            </summary>
+            <div className="predicta-world-proof-grid">
               {copy.cards.map(card => (
-                <article key={card.title}>
+                <article className="predicta-world-proof-card" key={card.title}>
                   <span>{card.title}</span>
                   <strong>{card.body}</strong>
                 </article>
               ))}
             </div>
-            <div className="action-row">
-              <Link className="button secondary" href="/dashboard/kundli">
-                {copy.actions.create}
-              </Link>
-              <Link className="button secondary" href="/dashboard/charts">
-                {copy.actions.charts}
-              </Link>
-              <Link className="button secondary" href="/dashboard/birth-time">
-                {copy.actions.birthTime}
-              </Link>
-              <Link className="button primary" href="/dashboard/report">
-                {copy.report.cta}
-              </Link>
-            </div>
-          </section>
+          </details>
         </section>
 
         <WebVedicIntelligencePanelLoader />

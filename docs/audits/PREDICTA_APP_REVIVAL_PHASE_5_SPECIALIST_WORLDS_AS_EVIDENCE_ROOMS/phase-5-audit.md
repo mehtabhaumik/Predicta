@@ -59,3 +59,46 @@ Routes smoke tested with HTTP 200:
 - Predicta can receive room context through the Ask Predicta handoff: PASS.
 - No text overflow or spacing regression was found in automated UI gates: PASS.
 
+## Supplemental Vedic Room Duplicate-Action Collapse
+
+Date: 2026-06-12
+
+### Implemented
+
+- Removed the duplicate visible `Build Vedic report` hero CTA so the Vedic
+  room opens with one clear primary action: chat with Predicta.
+- Converted the always-visible Vedic local tool grid into the shared
+  `predicta-world-local-map` disclosure pattern used by other evidence rooms.
+- Preserved `Open charts`, `Remedies`, `Check birth time`, and
+  `Build Vedic report`, but moved them behind the closed local-map drawer.
+- Converted the Vedic report/evidence focus panel into a closed proof drawer,
+  preserving the same evidence cards without presenting another visible action
+  row.
+- Kept the deeper Vedic intelligence runtime below the entry section; this
+  change only reduces the top-level room clutter and duplicate CTA pressure.
+
+### Supplemental Verification
+
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard,/ask corepack pnpm test:ui-text-overflow`: PASS, `28` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard,/ask corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `corepack pnpm test:app-revival-phase-6`: PASS; `/dashboard/vedic` stayed
+  within the specialist route bundle budget.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, `15` scenarios.
+- Headless Chrome check on `/dashboard/vedic`: PASS. The local-map drawer and
+  Vedic proof drawer existed, both were closed, painted `0` nested cards while
+  closed, exposed one hero action (`Chat with Vedic Predicta`), and had `0px`
+  horizontal overflow.
+- `corepack pnpm test:app-revival-phase-5` is not a configured package script;
+  Phase 5 is documented by this audit file and covered by the route/browser
+  gates above.
+- `git diff --check`: PASS.
+
+### Supplemental Result
+
+Green. Vedic now behaves like the calmer specialist evidence rooms: answer/chat
+first, local tools only when intentionally opened, and proof only when the user
+asks for it.
