@@ -7,7 +7,7 @@ export function WebJaiminiPage(): React.JSX.Element {
     evidenceSourceLabel:
       'Jaimini karaka, Arudha, Karakamsha, and destiny chapter evidence',
     handoffMode: 'room_safe',
-    prompt: 'Read my destiny direction, soul role, and current Jaimini life chapter.',
+    prompt: 'Read my current Jaimini destiny chapter and tell me what it means for my life now.',
     school: 'JAIMINI',
     sourceScreen: 'Jaimini Evidence Room',
   });

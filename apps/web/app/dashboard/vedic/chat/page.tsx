@@ -11,7 +11,7 @@ export default async function VedicPredictaChatPage({
   return redirectLegacyChatToAsk({
     defaults: {
       prompt:
-        'Read my Vedic chart using D1, varga support, dasha, gochar, remedies, and current life timing.',
+        'Read my Vedic chart and tell me what it means for my life right now.',
       school: 'PARASHARI',
       sourceScreen: 'Vedic Predicta',
     },

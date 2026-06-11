@@ -11,7 +11,7 @@ export default async function LegacyNadiPredictaChatPage({
   return redirectLegacyChatToAsk({
     defaults: {
       prompt:
-        'Read my destiny direction, soul role, and current Jaimini life chapter.',
+        'Read my current Jaimini destiny chapter and tell me what it means for my life now.',
       school: 'JAIMINI',
       sourceScreen: 'Jaimini Predicta',
     },

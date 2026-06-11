@@ -11,7 +11,7 @@ export default async function NumerologyPredictaChatPage({
   return redirectLegacyChatToAsk({
     defaults: {
       prompt:
-        'Read my numerology profile from name number, birth number, destiny number, personal timing, and name rhythm.',
+        'Read my number pattern and tell me what it means for my life right now.',
       school: 'NUMEROLOGY',
       sourceScreen: 'Numerology Predicta',
     },

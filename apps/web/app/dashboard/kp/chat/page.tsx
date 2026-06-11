@@ -11,7 +11,7 @@ export default async function KpPredictaChatPage({
   return redirectLegacyChatToAsk({
     defaults: {
       prompt:
-        'Use KP Predicta for my question. Keep the answer grounded in cusps, star lords, sub lords, significators, ruling planets, and KP timing.',
+        'Answer my KP question clearly with timing, likely trigger, and what I should do next.',
       school: 'KP',
       sourceScreen: 'KP Predicta',
     },

@@ -11,7 +11,7 @@ export default async function SignaturePredictaChatPage({
   return redirectLegacyChatToAsk({
     defaults: {
       prompt:
-        'Open Signature Predicta. Explain confirmed visible signature traits safely and reflectively.',
+        'Read my confirmed signature traits safely and tell me what they reflect.',
       school: 'SIGNATURE',
       sourceScreen: 'Signature Predicta',
     },

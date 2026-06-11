@@ -101,3 +101,36 @@ The KP generated handoff URL is now `342` characters and the Jaimini generated
 handoff URL is no longer an oversized/internal-evidence offender. The Phase 7
 manifest, Phase 9 journey manifest, UI overflow audit, and personal-space audit
 all passed after the change.
+
+## Supplemental Legacy Redirect Voice Lock
+
+- Tightened legacy `/dashboard/*/chat` redirects so old room URLs land in
+  Predicta with short, answer-first prompts instead of method-heavy classroom
+  prompts.
+- Updated Vedic and Jaimini evidence-room entry prompts to match the same
+  direct-answer rhythm.
+- Kept Nadi legacy compatibility URLs mapped to Jaimini context, but with a
+  Jaimini destiny prompt rather than old Nadi/story-room language.
+- Added a shared UI translation entry for the simplified Vedic life-meaning
+  prompt used by the Vedic evidence-room Ask CTA.
+
+## Supplemental Legacy Redirect Audit Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`
+- `corepack pnpm build:web`
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-personal-space`
+- `node --check scripts/run-app-revival-phase-7-link-reliability-gate.mjs`
+- `node --check scripts/run-app-revival-phase-9-full-user-journey-gate.mjs`
+- `git diff --check`
+
+## Supplemental Legacy Redirect Result
+
+Green.
+
+Phase 7 route results verify legacy Vedic, KP, Jaimini, Nadi, Numerology, and
+Signature chat URLs redirect to `/ask` with compact room-safe prompts. The
+fastest app path remains the direct `/ask` route, while stale room URLs no
+longer reintroduce the control-panel/toolkit voice.

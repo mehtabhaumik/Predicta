@@ -296,6 +296,11 @@
       "hi": "मेरे वर्तमान जैमिनी डेस्टिनी चैप्टर को पढ़कर बताइए कि अभी मेरे जीवन के लिए इसका क्या अर्थ है.",
       "gu": "મારો વર્તમાન જૈમિની ડેસ્ટિની ચેપ્ટર વાંચીને કહો કે અત્યારે મારા જીવન માટે તેનો શું અર્થ છે."
     },
+    "ui.eventOracle.prompt.vedicLifeMeaning": {
+      "en": "Read my Vedic chart and tell me what it means for my life right now.",
+      "hi": "मेरी वैदिक कुंडली पढ़कर बताइए कि अभी मेरे जीवन के लिए इसका क्या अर्थ है.",
+      "gu": "મારી વૈદિક કુંડળી વાંચીને કહો કે અત્યારે મારા જીવન માટે તેનો શું અર્થ છે."
+    },
     "ui.eventOracle.handoffLabel.signatureInput": {
       "en": "Signature Predicta input",
       "hi": "सिग्नेचर प्रेडिक्टा इनपुट",

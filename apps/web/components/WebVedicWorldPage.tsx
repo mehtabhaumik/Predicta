@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { getNativeCopy } from '@pridicta/config';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import { WebEvidenceRoomEntry } from './WebEvidenceRoomEntry';
 import { WebVedicIntelligencePanelLoader } from './WebVedicIntelligencePanelLoader';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
@@ -160,8 +161,10 @@ export function WebVedicWorldPage(): React.JSX.Element {
   const copy = VEDIC_WORLD_COPY[language] ?? VEDIC_WORLD_COPY.en;
   const chatHref = buildPredictaChatHref({
     kundliId: activeKundli?.id,
-    prompt:
-      'Read my Vedic chart using D1, varga support, dasha, gochar, remedies, and current life timing.',
+    prompt: translateUiText(
+      'Read my Vedic chart and tell me what it means for my life right now.',
+      language,
+    ),
     school: 'PARASHARI',
     sourceScreen: 'Vedic Predicta',
   });
