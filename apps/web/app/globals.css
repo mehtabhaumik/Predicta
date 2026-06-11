@@ -17386,7 +17386,7 @@ button:disabled,
     display: grid;
     flex: 1 1 auto;
     gap: 12px;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) var(--predicta-touch-target);
     min-width: 0;
     width: 100%;
   }
@@ -17395,6 +17395,11 @@ button:disabled,
     justify-content: center;
     min-width: 0;
     width: 100%;
+  }
+
+  .dashboard-topbar-actions .dashboard-menu-toggle {
+    height: var(--predicta-touch-target);
+    width: var(--predicta-touch-target);
   }
 
   .dashboard-topbar-actions > .language-selector.compact {
@@ -23783,10 +23788,11 @@ select::-ms-expand {
   }
 
   .ask-lean-header {
-    align-items: stretch;
+    align-items: center;
     display: grid;
-    gap: 12px;
+    gap: 10px;
     grid-template-columns: 1fr;
+    padding-block: 10px;
   }
 
   .ask-lean-brand {
@@ -23794,14 +23800,25 @@ select::-ms-expand {
   }
 
   .ask-lean-nav {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-inline: calc(var(--page-gutter) * -1);
+    overflow-x: auto;
+    padding: 0 var(--page-gutter) 2px;
+    scrollbar-width: none;
+    width: calc(100% + calc(var(--page-gutter) * 2));
+  }
+
+  .ask-lean-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .ask-lean-nav a {
-    min-width: 0;
-    padding-inline: 10px;
+    flex: 0 0 auto;
+    min-height: 36px;
+    min-width: max-content;
+    padding: 9px 12px;
     text-align: center;
   }
 

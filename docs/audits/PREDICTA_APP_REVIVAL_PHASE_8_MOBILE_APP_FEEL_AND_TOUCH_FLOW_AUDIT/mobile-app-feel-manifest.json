@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:3009",
-  "generatedAt": "2026-06-11T12:58:39.286Z",
+  "generatedAt": "2026-06-11T15:45:39.613Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -53,28 +53,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 295,
+        "bottom": 269,
         "height": 102,
         "left": 17,
         "right": 343,
-        "top": 193,
+        "top": 167,
         "width": 326
       },
       "chipStrip": {
-        "bottom": 827,
+        "bottom": 801,
         "height": 184,
         "left": 17,
         "right": 343,
-        "top": 643,
+        "top": 617,
         "width": 326
       },
       "documentWidth": 360,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 137,
+          "bottom": 111,
           "className": "ask-lean-header",
-          "height": 137,
+          "height": 111,
           "tag": "header",
           "top": 0
         }
@@ -85,11 +85,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 373,
+        "bottom": 347,
         "height": 50,
         "left": 186,
         "right": 343,
-        "top": 323,
+        "top": 297,
         "width": 157
       },
       "windowHeight": 780,
@@ -106,9 +106,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -133,16 +133,16 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
       ],
       "horizontalOverflow": false,
       "landingTextarea": null,
-      "localGridColumns": "minmax(0px, 1fr)",
+      "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
@@ -160,9 +160,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -187,9 +187,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -214,9 +214,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -241,9 +241,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -268,9 +268,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -338,28 +338,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 295,
+        "bottom": 269,
         "height": 102,
         "left": 17,
         "right": 373,
-        "top": 193,
+        "top": 167,
         "width": 356
       },
       "chipStrip": {
-        "bottom": 837,
+        "bottom": 811,
         "height": 184,
         "left": 17,
         "right": 373,
-        "top": 653,
+        "top": 627,
         "width": 356
       },
       "documentWidth": 390,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 137,
+          "bottom": 111,
           "className": "ask-lean-header",
-          "height": 137,
+          "height": 111,
           "tag": "header",
           "top": 0
         }
@@ -370,11 +370,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 373,
+        "bottom": 347,
         "height": 50,
         "left": 201,
         "right": 373,
-        "top": 323,
+        "top": 297,
         "width": 172
       },
       "windowHeight": 844,
@@ -391,9 +391,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -418,16 +418,16 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
       ],
       "horizontalOverflow": false,
       "landingTextarea": null,
-      "localGridColumns": "minmax(0px, 1fr)",
+      "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
@@ -445,9 +445,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -472,9 +472,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -499,9 +499,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -526,9 +526,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -553,9 +553,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -623,28 +623,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 295,
+        "bottom": 269,
         "height": 102,
         "left": 17,
         "right": 413,
-        "top": 193,
+        "top": 167,
         "width": 396
       },
       "chipStrip": {
-        "bottom": 828,
+        "bottom": 802,
         "height": 184,
         "left": 17,
         "right": 413,
-        "top": 644,
+        "top": 618,
         "width": 396
       },
       "documentWidth": 430,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 137,
+          "bottom": 111,
           "className": "ask-lean-header",
-          "height": 137,
+          "height": 111,
           "tag": "header",
           "top": 0
         }
@@ -655,11 +655,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 373,
+        "bottom": 347,
         "height": 50,
         "left": 221,
         "right": 413,
-        "top": 323,
+        "top": 297,
         "width": 192
       },
       "windowHeight": 932,
@@ -676,9 +676,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -703,16 +703,16 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
       ],
       "horizontalOverflow": false,
       "landingTextarea": null,
-      "localGridColumns": "minmax(0px, 1fr)",
+      "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
@@ -730,9 +730,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -757,9 +757,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -784,9 +784,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -811,9 +811,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -838,9 +838,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -961,9 +961,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -988,16 +988,16 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
       ],
       "horizontalOverflow": false,
       "landingTextarea": null,
-      "localGridColumns": "repeat(2, minmax(0px, 1fr))",
+      "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
@@ -1015,9 +1015,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -1042,9 +1042,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -1069,9 +1069,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -1096,9 +1096,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -1123,9 +1123,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 233,
+          "bottom": 177,
           "className": "dashboard-topbar glass-panel",
-          "height": 215,
+          "height": 159,
           "tag": "div",
           "top": 18
         }
@@ -1282,7 +1282,7 @@
       ],
       "horizontalOverflow": false,
       "landingTextarea": null,
-      "localGridColumns": "repeat(2, minmax(0px, 1fr))",
+      "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
@@ -1567,7 +1567,7 @@
       ],
       "horizontalOverflow": false,
       "landingTextarea": null,
-      "localGridColumns": "repeat(3, minmax(0px, 1fr))",
+      "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
@@ -1866,7 +1866,7 @@
       ],
       "horizontalOverflow": false,
       "landingTextarea": null,
-      "localGridColumns": "repeat(3, minmax(0px, 1fr))",
+      "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,

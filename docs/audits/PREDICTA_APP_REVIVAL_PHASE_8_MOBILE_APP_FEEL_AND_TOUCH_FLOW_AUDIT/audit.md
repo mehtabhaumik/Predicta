@@ -57,3 +57,45 @@ Ask/Speak actions before the app starts explaining itself. The checked
 dashboard, specialist-world, report, Kundli, pricing, and redeem-pass routes
 have no audited text overflow, no horizontal overflow, no personal-space
 violations, and no regression in the birth-place autocomplete selector.
+
+## Supplemental Mobile Header And Action Rhythm Lock
+
+Date: 2026-06-11
+
+After the route runtime rebuild, the mobile shells were technically valid but
+still carried a control-panel smell: dashboard/evidence/report pages placed the
+menu button below the primary Ask Predicta CTA, and the `/ask` lean header could
+wrap into a second row of navigation pills before the user reached the question
+box.
+
+### Changes
+
+- Dashboard mobile topbar now keeps `Ask Predicta` and the menu button in one
+  compact action row.
+- The dashboard menu button uses the same touch target sizing as the primary
+  mobile topbar row instead of dropping into a lonely second line.
+- `/ask` mobile navigation now stays in one horizontal scroll row, preventing
+  `Premium` from wrapping into a bulky extra row above the chat prompt.
+- The first-screen hierarchy remains: question field, Ask/Speak actions,
+  then explanation and suggested questions.
+
+### Evidence
+
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_MOBILE_APP_FEEL_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-8`: PASS, 63 route and viewport screenshots regenerated.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, 32 route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS, 56 route and viewport checks.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `git diff --check`: PASS.
+
+### Visual Audit Notes
+
+- `mobile-390-dashboard.png`: primary Ask Predicta CTA and menu are now aligned
+  in one row inside the top card.
+- `mobile-390-dashboard-report.png`: report page now keeps the CTA/menu row
+  compact before the report chooser begins.
+- `mobile-390-ask.png`: the top navigation stays one line high with horizontal
+  scroll instead of wrapping into a second row before the chat prompt.
