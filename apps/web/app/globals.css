@@ -1616,7 +1616,7 @@ button:disabled,
   gap: 10px;
 }
 
-.landing-question-chips button {
+.landing-question-chips :is(button, a) {
   background: rgba(255, 255, 255, 0.055);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
@@ -1628,10 +1628,11 @@ button:disabled,
   min-height: 42px;
   padding: 10px 14px;
   text-align: left;
+  text-decoration: none;
 }
 
-.landing-question-chips button:hover,
-.landing-question-chips button:focus-visible {
+.landing-question-chips :is(button, a):hover,
+.landing-question-chips :is(button, a):focus-visible {
   background: rgba(77, 175, 255, 0.13);
   border-color: rgba(77, 175, 255, 0.38);
   color: var(--text);
@@ -20739,7 +20740,7 @@ select::-ms-expand {
   min-width: 0;
 }
 
-.ask-light-chips button {
+.ask-light-chips :is(button, a) {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
@@ -20753,6 +20754,7 @@ select::-ms-expand {
   min-height: 42px;
   padding: 10px 14px;
   text-align: left;
+  text-decoration: none;
   transition:
     background 160ms ease,
     border-color 160ms ease,
@@ -20760,8 +20762,8 @@ select::-ms-expand {
     transform 160ms ease;
 }
 
-.ask-light-chips button:hover,
-.ask-light-chips button:focus-visible {
+.ask-light-chips :is(button, a):hover,
+.ask-light-chips :is(button, a):focus-visible {
   background: rgba(77, 175, 255, 0.13);
   border-color: rgba(77, 175, 255, 0.38);
   color: var(--text);
@@ -23825,14 +23827,14 @@ select::-ms-expand {
     padding-right: 0;
   }
 
-  .landing-question-chips button {
+  .landing-question-chips :is(button, a) {
     border-radius: 16px;
     min-height: 48px;
     white-space: normal;
     width: 100%;
   }
 
-  .landing-question-chips button:nth-child(n + 4) {
+  .landing-question-chips :is(button, a):nth-child(n + 4) {
     display: none;
   }
 
@@ -23957,13 +23959,13 @@ select::-ms-expand {
     padding-right: 2px;
   }
 
-  .ask-light-chips button {
+  .ask-light-chips :is(button, a) {
     min-height: 48px;
     white-space: normal;
     width: 100%;
   }
 
-  .ask-light-chips button:nth-child(n + 4) {
+  .ask-light-chips :is(button, a):nth-child(n + 4) {
     display: none;
   }
 

@@ -6,7 +6,7 @@ import {
   getNativeCopy,
 } from '@pridicta/config';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { type CSSProperties, useEffect, useRef, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import {
@@ -263,6 +263,7 @@ export function WebPridictaChat({
 }: {
   room?: WebPredictaChatRoom;
 } = {}): React.JSX.Element {
+  const router = useRouter();
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
   const {
@@ -1943,7 +1944,11 @@ export function WebPridictaChat({
                       persistActiveChatContext(sharedContext, kundli);
                     }
                     if (suggestion.href) {
-                      window.location.assign(suggestion.href);
+                      if (suggestion.href.startsWith('/')) {
+                        router.push(suggestion.href);
+                      } else {
+                        window.location.assign(suggestion.href);
+                      }
                       return;
                     }
                     void sendMessage(suggestion.prompt);

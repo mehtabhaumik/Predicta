@@ -134,3 +134,36 @@ Phase 7 route results verify legacy Vedic, KP, Jaimini, Nadi, Numerology, and
 Signature chat URLs redirect to `/ask` with compact room-safe prompts. The
 fastest app path remains the direct `/ask` route, while stale room URLs no
 longer reintroduce the control-panel/toolkit voice.
+
+## Supplemental No-Dead-Ask-Link Lock
+
+- Converted landing and `/ask` suggested question chips from hydrated-only
+  button handlers into real `/ask?...` links so first interactions work even
+  while client hydration is still settling.
+- Replaced hard `window.location.assign(...)` transitions for landing Ask,
+  Signature-to-Predicta, and internal chat suggestion handoffs with app-router
+  navigation where the destination is internal.
+- Preserved external URL fallback behavior for chat suggestions that may point
+  outside the app.
+- Kept chip touch sizing, focus states, wrapping, and overflow styling identical
+  for button and link chip variants.
+
+## Supplemental No-Dead-Ask-Link Audit Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`
+- `corepack pnpm build:web`
+- Fresh production-like server on `http://127.0.0.1:3027`
+- Browser DOM audit on `http://127.0.0.1:3027/ask`: 4 prompt links, 0 prompt
+  buttons, voice CTA has a real `/ask?...&inputMode=voice` href, no horizontal
+  overflow.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3027 corepack pnpm test:app-revival-phase-7`
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3027 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3027 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-personal-space`
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3027 corepack pnpm test:app-revival-phase-9`
+- `git diff --check`
+
+## Supplemental No-Dead-Ask-Link Result
+
+Green. The public landing and direct `/ask` doorway now expose suggested
+questions as real links instead of fragile button-only JavaScript handoffs,
+which directly reduces the "link click is not working / opens late" feeling.

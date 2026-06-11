@@ -108,3 +108,25 @@ report-composer journeys still work.
 Green. The revived landing can now feel like a real desktop astrology website
 without returning to a crowded control-panel header or breaking the chat-first
 journey.
+
+## Supplemental No-Dead-Ask-Link Journey Reaudit
+
+Date: 2026-06-11
+
+After changing suggested question chips into real links and removing internal
+hard navigations, Phase 9 was rerun against a freshly restarted production-like
+server on `http://127.0.0.1:3027`.
+
+### Evidence
+
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3027 corepack pnpm test:app-revival-phase-9`: PASS, 15 scenarios and screenshots regenerated.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3027 corepack pnpm test:app-revival-phase-7`: PASS, landing Ask click completed in `104ms`, dashboard Ask in `102ms`, and Vedic Ask in `103ms`.
+- Browser DOM audit on `/ask`: suggested prompts render as 4 real links, not buttons, while the voice CTA has a real href and no horizontal overflow.
+- UI overflow and personal-space gates passed across desktop, tablet, mobile,
+  and narrow-mobile viewports.
+
+### Verdict
+
+Green. The chat-first journey no longer depends on hydrated chip button
+handlers for the first prompt selection, and the signed-out Ask flow still
+preserves the user's question before account sign-in.

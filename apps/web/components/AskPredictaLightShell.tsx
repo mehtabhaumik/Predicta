@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { getLightweightCompetitorResponseCopy } from '../lib/lightweight-public-copy';
@@ -66,6 +67,18 @@ export function AskPredictaLightShell(): React.JSX.Element {
 
   function startChat(prompt: string, mode: 'text' | 'voice' = 'text'): void {
     const resolvedPrompt = prompt.trim() || DEFAULT_ASK_PROMPT;
+    const nextUrl = buildAskHref(resolvedPrompt, mode);
+
+    setVoiceNotice(mode === 'voice');
+    setQuestion(resolvedPrompt);
+    setChatStarted(true);
+    router.replace(nextUrl, {
+      scroll: false,
+    });
+  }
+
+  function buildAskHref(prompt: string, mode: 'text' | 'voice' = 'text'): string {
+    const resolvedPrompt = prompt.trim() || DEFAULT_ASK_PROMPT;
     const params = new URLSearchParams(searchParams.toString());
 
     params.set('prompt', resolvedPrompt);
@@ -74,23 +87,11 @@ export function AskPredictaLightShell(): React.JSX.Element {
 
     if (mode === 'voice') {
       params.set('inputMode', 'voice');
-      setVoiceNotice(true);
     } else {
       params.delete('inputMode');
-      setVoiceNotice(false);
     }
 
-    const nextUrl = `/ask?${params.toString()}`;
-
-    if (typeof window !== 'undefined') {
-      window.history.replaceState(null, '', nextUrl);
-    }
-
-    setQuestion(resolvedPrompt);
-    setChatStarted(true);
-    router.replace(nextUrl, {
-      scroll: false,
-    });
+    return `/ask?${params.toString()}`;
   }
 
   return (
@@ -125,13 +126,12 @@ export function AskPredictaLightShell(): React.JSX.Element {
 
         <div className="ask-light-chips" aria-label={landing.suggestedQuestionLabel}>
           {landing.suggestedQuestions.slice(0, 5).map(item => (
-            <button
+            <Link
+              href={buildAskHref(item)}
               key={item}
-              onClick={() => startChat(item)}
-              type="button"
             >
               {item}
-            </button>
+            </Link>
           ))}
         </div>
 
@@ -139,13 +139,12 @@ export function AskPredictaLightShell(): React.JSX.Element {
           <button className="button" type="submit">
             {landing.askSubmit}
           </button>
-          <button
+          <Link
             className="button secondary"
-            onClick={() => startChat(question || DEFAULT_ASK_PROMPT, 'voice')}
-            type="button"
+            href={buildAskHref(question || DEFAULT_ASK_PROMPT, 'voice')}
           >
             {landing.voiceLabel}
-          </button>
+          </Link>
         </div>
 
         <p className="ask-light-support-copy">{landing.askBody}</p>

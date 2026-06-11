@@ -1,6 +1,7 @@
 'use client';
 
 import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
+import { useRouter } from 'next/navigation';
 import {
   useEffect,
   useMemo,
@@ -600,6 +601,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
 };
 
 export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
+  const router = useRouter();
   const { language } = useLanguagePreference();
   const copy = SIGNATURE_COPY[language] ?? SIGNATURE_COPY.en;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -891,7 +893,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
       sourceScreen: 'Signature Predicta',
     });
 
-    window.location.assign(href);
+    router.push(href);
   }
 
   function updateObservedTrait(

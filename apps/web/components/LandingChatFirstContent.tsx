@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
   getLightweightAppShellLabels,
@@ -26,6 +27,7 @@ function buildAskPredictaHref(prompt: string, mode: 'text' | 'voice' = 'text'): 
 }
 
 export function LandingChatFirstContent(): React.JSX.Element {
+  const router = useRouter();
   const { language } = useLightweightLanguagePreference();
   const copy = getLightweightCompetitorResponseCopy(language);
   const landing = copy.landing;
@@ -41,7 +43,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
   ];
 
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {
-    window.location.assign(buildAskPredictaHref(prompt, mode));
+    router.push(buildAskPredictaHref(prompt, mode));
   }
 
   return (
@@ -72,16 +74,12 @@ export function LandingChatFirstContent(): React.JSX.Element {
 
           <div className="landing-question-chips" aria-label={landing.suggestedQuestionLabel}>
             {landing.suggestedQuestions.slice(0, 4).map(item => (
-              <button
+              <Link
+                href={buildAskPredictaHref(item)}
                 key={item}
-                onClick={() => {
-                  setQuestion(item);
-                  openAskPredicta(item);
-                }}
-                type="button"
               >
                 {item}
-              </button>
+              </Link>
             ))}
           </div>
 
