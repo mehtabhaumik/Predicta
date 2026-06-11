@@ -1,16 +1,16 @@
 {
   "baseUrl": "http://127.0.0.1:3009",
-  "generatedAt": "2026-06-11T15:57:44.899Z",
+  "generatedAt": "2026-06-11T16:18:32.108Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
       "askTextarea": null,
       "chipStrip": {
-        "bottom": 569,
+        "bottom": 574,
         "height": 184,
         "left": 37,
         "right": 323,
-        "top": 385,
+        "top": 390,
         "width": 286
       },
       "documentWidth": 360,
@@ -26,22 +26,22 @@
       ],
       "horizontalOverflow": false,
       "landingTextarea": {
-        "bottom": 264,
+        "bottom": 269,
         "height": 100,
         "left": 37,
         "right": 323,
-        "top": 164,
+        "top": 170,
         "width": 286
       },
       "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 359,
+        "bottom": 364,
         "height": 69,
         "left": 186,
         "right": 323,
-        "top": 290,
+        "top": 295,
         "width": 137
       },
       "windowHeight": 780,
@@ -291,11 +291,11 @@
     {
       "askTextarea": null,
       "chipStrip": {
-        "bottom": 569,
-        "height": 184,
+        "bottom": 595,
+        "height": 163,
         "left": 37,
         "right": 353,
-        "top": 385,
+        "top": 433,
         "width": 316
       },
       "documentWidth": 390,
@@ -311,22 +311,22 @@
       ],
       "horizontalOverflow": false,
       "landingTextarea": {
-        "bottom": 264,
+        "bottom": 312,
         "height": 100,
         "left": 37,
         "right": 353,
-        "top": 164,
+        "top": 212,
         "width": 316
       },
       "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 359,
+        "bottom": 407,
         "height": 69,
         "left": 201,
         "right": 353,
-        "top": 290,
+        "top": 338,
         "width": 152
       },
       "windowHeight": 844,
@@ -576,11 +576,11 @@
     {
       "askTextarea": null,
       "chipStrip": {
-        "bottom": 549,
-        "height": 184,
+        "bottom": 624,
+        "height": 152,
         "left": 37,
         "right": 393,
-        "top": 365,
+        "top": 472,
         "width": 356
       },
       "documentWidth": 430,
@@ -596,22 +596,22 @@
       ],
       "horizontalOverflow": false,
       "landingTextarea": {
-        "bottom": 264,
+        "bottom": 371,
         "height": 100,
         "left": 37,
         "right": 393,
-        "top": 164,
+        "top": 271,
         "width": 356
       },
       "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 339,
+        "bottom": 446,
         "height": 50,
         "left": 221,
         "right": 393,
-        "top": 290,
+        "top": 397,
         "width": 172
       },
       "windowHeight": 932,

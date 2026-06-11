@@ -138,3 +138,49 @@ moves the screen closer to a simple text/voice astrology app.
   no clipped fourth chip.
 - The longer `Start with the question on your mind` copy remains available below
   the practical action area instead of competing with it.
+
+## Supplemental Landing And Direct Ask Density Lock
+
+Date: 2026-06-11
+
+The landing and `/ask` first screens still had a small brochure-like residue:
+the landing prompt list could create a cropped mini-scroll stack on mobile, and
+the direct `/ask` route showed duplicate explanatory copy below the practical
+input surface. This pass makes mobile feel more like a simple astrology text and
+voice app.
+
+### Changes
+
+- Landing suggested prompts are limited to the four strongest prompts on
+  desktop/tablet and three visible prompts on mobile.
+- Removed the permanent landing voice instruction card so the first action area
+  stays focused on asking or speaking the question.
+- Removed the mobile landing chip mini-scroll region; no suggested prompt should
+  be half-visible or cropped.
+- Hid the duplicate `/ask` explanatory copy on mobile so the direct chat doorway
+  opens with the textarea, Ask/Speak actions, suggested prompts, and Kundli
+  hints only.
+- Desktop landing and tablet `/ask` still keep the larger story copy where the
+  screen has enough room for it.
+
+### Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_MOBILE_APP_FEEL_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-8`: PASS, 63 route and viewport screenshots regenerated.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, 36 route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS, 56 route and viewport checks.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, 15 scenario screenshots regenerated; runner required manual stop after writing the pass manifest.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+
+### Visual Audit Notes
+
+- `mobile-390-home.png`: first viewport is now the brand header plus the
+  practical Ask/Speak console and three complete prompts; no cropped fourth
+  prompt or instructional voice card remains.
+- `mobile-390-ask.png`: direct Ask route now opens directly to the input,
+  actions, prompts, and Kundli hints without the duplicate marketing headline
+  peeking below the card.
+- `desktop-1440-home.png`: desktop still preserves the premium positioning copy
+  and a fuller prompt set because the available width supports it.

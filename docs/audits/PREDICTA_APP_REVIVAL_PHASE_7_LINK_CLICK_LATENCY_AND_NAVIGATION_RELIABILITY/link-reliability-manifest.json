@@ -6,7 +6,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly.",
       "text": "Ask Predicta",
-      "elapsedMs": 102,
+      "elapsedMs": 126,
       "from": "/",
       "name": "landing primary ask entry",
       "url": "/ask?sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly."
@@ -15,7 +15,7 @@
       "clicked": true,
       "href": "/dashboard",
       "text": "Library",
-      "elapsedMs": 105,
+      "elapsedMs": 65,
       "from": "/ask",
       "name": "ask header dashboard link",
       "url": "/dashboard"
@@ -24,7 +24,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Library&prompt=Help+me+from+my+selected+Kundli.",
       "text": "Ask Predicta",
-      "elapsedMs": 131,
+      "elapsedMs": 104,
       "from": "/dashboard",
       "name": "dashboard ask predicta link",
       "url": "/ask?sourceScreen=Library&prompt=Help+me+from+my+selected+Kundli."
@@ -33,7 +33,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI",
       "text": "Ask Predicta",
-      "elapsedMs": 104,
+      "elapsedMs": 127,
       "from": "/dashboard/vedic",
       "name": "vedic evidence room ask link",
       "url": "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI"
@@ -42,13 +42,13 @@
       "clicked": true,
       "href": "/checkout?productId=pridicta_day_pass_24h",
       "text": "Try Day Pass",
-      "elapsedMs": 103,
+      "elapsedMs": 106,
       "from": "/pricing",
       "name": "pricing checkout link",
       "url": "/checkout?productId=pridicta_day_pass_24h"
     }
   ],
-  "generatedAt": "2026-06-11T15:59:37.419Z",
+  "generatedAt": "2026-06-11T16:19:34.534Z",
   "hrefLengthBudget": 1800,
   "pageResults": [
     {
@@ -222,7 +222,7 @@
           "text": "KP Evidence"
         }
       ],
-      "anchorCount": 28,
+      "anchorCount": 17,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -237,17 +237,6 @@
         "/dashboard/account",
         "/ask?sourceScreen=KP+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=KP",
         "/ask?sourceScreen=KP+Evidence+Room&evidenceSourceLabel=KP+cusp%2C+sub-lord%2C+significator%2C+and+timing+evidence&handoffMode=room_safe&prompt=Help+me+ask+one+clear+KP+event+question+and+read+the+timing+evidence.&school=KP",
-        "/dashboard/report",
-        "/ask?sourceScreen=KP+Predicta&carriedContextLabel=Career+and+job&evidenceSourceLabel=KP+cusp%2C+sub-lord%2C+significator%2C+and+timing+evidence&handoffMode=room_safe&prompt=Using+KP+only%2C+answer+this+practical+user+question+in+plain+language%3A+Should+I+seriously+prepare+for+a+job+change+in+the+next+six+months%3F.+Using+KP+only%2C+judge+career+and+job+movement+from+houses+2%2C+6%2C+10%2C+11%2C+cusp+sub+lords%2C+significators%2C+ruling+planets%2C+and+dasha+support.&school=KP&selectedSection=Career+and+job&eventOracleHandoff=true",
-        "#kp-judgement",
-        "#kp-cusps",
-        "#kp-significators",
-        "/dashboard/report",
-        "/ask?sourceScreen=KP+Predicta&carriedContextLabel=Career+and+job&evidenceSourceLabel=KP+cusp%2C+sub-lord%2C+significator%2C+and+timing+evidence&handoffMode=room_safe&prompt=Using+KP+only%2C+answer+this+practical+user+question+in+plain+language%3A+Should+I+seriously+prepare+for+a+job+change+in+the+next+six+months%3F.+Using+KP+only%2C+judge+career+and+job+movement+from+houses+2%2C+6%2C+10%2C+11%2C+cusp+sub+lords%2C+significators%2C+ruling+planets%2C+and+dasha+support.&school=KP&selectedSection=Career+and+job&eventOracleHandoff=true",
-        "/dashboard/report#report-lane-kp",
-        "/ask?sourceScreen=KP+Predicta&carriedContextLabel=Career+and+job&evidenceSourceLabel=KP+cusp%2C+sub-lord%2C+significator%2C+and+timing+evidence&handoffMode=room_safe&prompt=Using+KP+only%2C+answer+this+practical+user+question+in+plain+language%3A+Should+I+seriously+prepare+for+a+job+change+in+the+next+six+months%3F.+Using+KP+only%2C+judge+career+and+job+movement+from+houses+2%2C+6%2C+10%2C+11%2C+cusp+sub+lords%2C+significators%2C+ruling+planets%2C+and+dasha+support.&school=KP&selectedSection=Career+and+job&eventOracleHandoff=true",
-        "/ask?sourceScreen=KP+Predicta&carriedContextLabel=Career+and+job&evidenceSourceLabel=KP+cusp%2C+sub-lord%2C+significator%2C+and+timing+evidence&handoffMode=room_safe&prompt=Using+KP+only%2C+answer+this+practical+user+question+in+plain+language%3A+Should+I+seriously+prepare+for+a+job+change+in+the+next+six+months%3F.+Using+KP+only%2C+judge+career+and+job+movement+from+houses+2%2C+6%2C+10%2C+11%2C+cusp+sub+lords%2C+significators%2C+ruling+planets%2C+and+dasha+support.&school=KP&selectedSection=Career+and+job&eventOracleHandoff=true",
-        "/pricing",
         "/",
         "/accuracy-method",
         "/safety",
@@ -361,7 +350,7 @@
           "text": "Signature Evidence"
         }
       ],
-      "anchorCount": 21,
+      "anchorCount": 16,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -375,11 +364,6 @@
         "/dashboard",
         "/dashboard/account",
         "/ask?sourceScreen=Signature+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=SIGNATURE",
-        "/ask?sourceScreen=Signature+Evidence+Room&evidenceSourceLabel=Confirmed+signature+traits+and+reflective+expression+evidence&handoffMode=room_safe&prompt=Read+my+confirmed+signature+traits+safely+and+explain+what+they+reflect.&school=SIGNATURE",
-        "#signature-input",
-        "#signature-traits",
-        "#signature-preview",
-        "/dashboard/report",
         "/",
         "/accuracy-method",
         "/safety",
@@ -538,147 +522,147 @@
   ],
   "routeResults": [
     {
-      "elapsedMs": 12,
+      "elapsedMs": 50,
       "location": null,
       "route": "/",
       "status": 200,
       "url": "http://127.0.0.1:3009/"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 15,
       "location": null,
       "route": "/ask",
       "status": 200,
       "url": "http://127.0.0.1:3009/ask"
     },
     {
-      "elapsedMs": 9,
+      "elapsedMs": 26,
       "location": "/ask?legacyChatSmoke=1&prompt=Will+my+job+improve%3F&sourceScreen=Legacy+Dashboard+Chat",
       "route": "/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F"
     },
     {
-      "elapsedMs": 8,
+      "elapsedMs": 20,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Vedic+Predicta&school=PARASHARI&prompt=Read+my+Vedic+chart+using+D1%2C+varga+support%2C+dasha%2C+gochar%2C+remedies%2C+and+current+life+timing.&handoffMode=room_safe",
       "route": "/dashboard/vedic/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/vedic/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 6,
+      "elapsedMs": 12,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=KP+Predicta&school=KP&prompt=Use+KP+Predicta+for+my+question.+Keep+the+answer+grounded+in+cusps%2C+star+lords%2C+sub+lords%2C+significators%2C+ruling+planets%2C+and+KP+timing.&handoffMode=room_safe",
       "route": "/dashboard/kp/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/kp/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 14,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Jaimini+Predicta&school=JAIMINI&prompt=Read+my+destiny+direction%2C+soul+role%2C+and+current+Jaimini+life+chapter.&handoffMode=room_safe",
       "route": "/dashboard/jaimini/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/jaimini/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 8,
+      "elapsedMs": 21,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Jaimini+Predicta&school=JAIMINI&prompt=Read+my+destiny+direction%2C+soul+role%2C+and+current+Jaimini+life+chapter.&handoffMode=room_safe",
       "route": "/dashboard/nadi/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/nadi/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 7,
+      "elapsedMs": 21,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Numerology+Predicta&school=NUMEROLOGY&prompt=Read+my+numerology+profile+from+name+number%2C+birth+number%2C+destiny+number%2C+personal+timing%2C+and+name+rhythm.&handoffMode=room_safe",
       "route": "/dashboard/numerology/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/numerology/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 9,
+      "elapsedMs": 19,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Signature+Predicta&school=SIGNATURE&prompt=Open+Signature+Predicta.+Explain+confirmed+visible+signature+traits+safely+and+reflectively.&handoffMode=room_safe",
       "route": "/dashboard/signature/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/signature/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 5,
       "location": null,
       "route": "/pricing",
       "status": 200,
       "url": "http://127.0.0.1:3009/pricing"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 5,
       "location": null,
       "route": "/checkout?productId=pridicta_10_questions",
       "status": 200,
       "url": "http://127.0.0.1:3009/checkout?productId=pridicta_10_questions"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/accuracy-method",
       "status": 200,
       "url": "http://127.0.0.1:3009/accuracy-method"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 4,
       "location": null,
       "route": "/safety",
       "status": 200,
       "url": "http://127.0.0.1:3009/safety"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 4,
       "location": null,
       "route": "/legal",
       "status": 200,
       "url": "http://127.0.0.1:3009/legal"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 3,
       "location": null,
       "route": "/feedback",
       "status": 200,
       "url": "http://127.0.0.1:3009/feedback"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/kundli",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/kundli"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/vedic",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/vedic"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/kp",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/kp"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/jaimini",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/jaimini"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/numerology",
       "status": 200,
@@ -692,14 +676,14 @@
       "url": "http://127.0.0.1:3009/dashboard/signature"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/report",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/report"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 4,
       "location": null,
       "route": "/dashboard/redeem-pass",
       "status": 200,
@@ -713,21 +697,21 @@
       "url": "http://127.0.0.1:3009/dashboard/saved-kundlis"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/family",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/family"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 4,
       "location": null,
       "route": "/dashboard/settings",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/settings"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/account",
       "status": 200,

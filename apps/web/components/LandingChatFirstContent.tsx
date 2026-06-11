@@ -59,7 +59,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
           </label>
 
           <div className="landing-question-chips" aria-label={landing.suggestedQuestionLabel}>
-            {landing.suggestedQuestions.map(item => (
+            {landing.suggestedQuestions.slice(0, 4).map(item => (
               <button
                 key={item}
                 onClick={() => {
@@ -89,7 +89,6 @@ export function LandingChatFirstContent(): React.JSX.Element {
             <span>{landing.noKundliHint}</span>
             <span>{landing.existingKundliHint}</span>
           </div>
-          <p className="landing-voice-note">{landing.voiceHint}</p>
         </form>
       </section>
 

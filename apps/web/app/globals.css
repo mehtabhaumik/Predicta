@@ -23709,7 +23709,7 @@ select::-ms-expand {
   }
 
   .landing-ask-copy {
-    text-align: center;
+    display: none;
   }
 
   .landing-ask-copy h1 {
@@ -23759,9 +23759,9 @@ select::-ms-expand {
     display: grid;
     gap: 10px;
     grid-template-columns: 1fr;
-    max-height: 184px;
-    overflow-y: auto;
-    padding-right: 2px;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
   }
 
   .landing-question-chips button {
@@ -23769,6 +23769,10 @@ select::-ms-expand {
     min-height: 48px;
     white-space: normal;
     width: 100%;
+  }
+
+  .landing-question-chips button:nth-child(n + 4) {
+    display: none;
   }
 
   .landing-ask-actions {
@@ -23849,6 +23853,10 @@ select::-ms-expand {
 
   .ask-light-copy {
     order: 3;
+  }
+
+  .ask-predicta-page .ask-light-copy {
+    display: none;
   }
 
   .ask-light-chips {

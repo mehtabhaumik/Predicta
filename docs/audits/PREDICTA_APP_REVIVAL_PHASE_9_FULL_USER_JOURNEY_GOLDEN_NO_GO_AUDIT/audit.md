@@ -64,3 +64,26 @@ Green. The app now preserves Ask Predicta context through the chat-first
 journey, the Petlad autocomplete regression remains fixed in the current
 production build and deployed domain, and the broad navigation, translation,
 overflow, spacing, and mobile gates are green.
+
+## Supplemental Mobile Chat Doorway Reaudit
+
+Date: 2026-06-11
+
+After the direct `/ask` and landing mobile density pass, Phase 9 was rerun
+against the local production build to confirm the new visitor, legacy redirect,
+language, redeem-pass, zero-credit, specialist handoff, and report-composer
+journeys still work from the simplified chat-first entry.
+
+### Evidence
+
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, 15 scenarios and screenshots regenerated. The runner printed the pass manifest and then required manual process cleanup after writing evidence.
+- `full-user-journey-manifest.json`: regenerated at `2026-06-11T16:21:28.332Z` with zero failed scenarios.
+- `mobile-390-new-visitor-direct-ask.png`: direct ask path opens on the compact input-first surface.
+- `mobile-390-new-visitor-asks-question.png`: selected prompt remains in the textarea before chat/auth handoff.
+- `mobile-390-legacy-dashboard-chat-redirects-to-ask.png`: legacy dashboard chat still redirects to the `/ask` doorway with the user question preserved.
+
+### Verdict
+
+Green. The simplified mobile doorway did not break the chat-first journey,
+legacy handoffs, language checks, redeem-pass lock, zero-credit deterministic
+help, specialist evidence links, or report-composer access.
