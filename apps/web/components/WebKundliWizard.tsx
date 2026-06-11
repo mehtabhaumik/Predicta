@@ -206,9 +206,9 @@ export function WebKundliWizard(): React.JSX.Element {
     resetFlow();
     const optionLabel = getBirthPlaceLabel(option);
     acceptedBirthPlaceQueryRef.current = normalizeBirthPlaceLabel(optionLabel);
-    closeBirthPlaceSuggestions();
     setSelectedPlace(option);
     setBirthPlaceQuery(optionLabel);
+    closeBirthPlaceSuggestions();
   }
 
   useEffect(() => {
@@ -417,6 +417,7 @@ export function WebKundliWizard(): React.JSX.Element {
   function requestGeneration() {
     setError(undefined);
     setShowStorageNudge(false);
+    closeBirthPlaceSuggestions();
 
     if (!name.trim() || !date || !time) {
       setError('Please fill name, birth date, and birth time first.');
@@ -628,10 +629,20 @@ export function WebKundliWizard(): React.JSX.Element {
                 autoComplete="off"
                 onChange={event => {
                   resetFlow();
-                  setBirthPlaceQuery(event.target.value);
+                  const nextQuery = event.target.value;
+                  const normalizedNextQuery =
+                    normalizeBirthPlaceLabel(nextQuery);
+                  setBirthPlaceQuery(nextQuery);
                   setSelectedPlace(undefined);
+                  if (
+                    acceptedBirthPlaceQueryRef.current &&
+                    acceptedBirthPlaceQueryRef.current === normalizedNextQuery
+                  ) {
+                    closeBirthPlaceSuggestions();
+                    return;
+                  }
                   acceptedBirthPlaceQueryRef.current = '';
-                  setIsPlaceSuggestionsOpen(true);
+                  setIsPlaceSuggestionsOpen(normalizedNextQuery.length >= 2);
                 }}
                 onFocus={() => {
                   if (
@@ -659,7 +670,21 @@ export function WebKundliWizard(): React.JSX.Element {
 
                   if (isSelectedPlaceCurrent) {
                     closeBirthPlaceSuggestions();
+                    return;
                   }
+
+                  window.setTimeout(() => {
+                    const activeElement = document.activeElement;
+
+                    if (
+                      activeElement instanceof Node &&
+                      birthPlaceSearchRef.current?.contains(activeElement)
+                    ) {
+                      return;
+                    }
+
+                    closeBirthPlaceSuggestions();
+                  }, 80);
                 }}
                 placeholder="Start typing city, state, country"
                 value={birthPlaceQuery}
@@ -685,6 +710,9 @@ export function WebKundliWizard(): React.JSX.Element {
                             : false
                         }
                         key={`${option.place}-${option.latitude}-${option.longitude}`}
+                        onMouseDown={event => {
+                          event.preventDefault();
+                        }}
                         onClick={() => selectBirthPlace(option)}
                         role="option"
                         type="button"
