@@ -1,15 +1,13 @@
 'use client';
 
-import { getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
-import { PredictaWorldFrame } from '../../../components/PredictaWorldFrame';
 import { WebEvidenceRoomEntry } from '../../../components/WebEvidenceRoomEntry';
-import { WebVedicIntelligencePanel } from '../../../components/WebVedicIntelligencePanel';
+import { WebVedicIntelligencePanelLoader } from '../../../components/WebVedicIntelligencePanelLoader';
 import { buildPredictaChatHref } from '../../../lib/predicta-chat-cta';
-import { demoAccess } from '../../../lib/demo-state';
 import { useLanguagePreference } from '../../../lib/language-preference';
-import { useWebKundliLibrary } from '../../../lib/use-web-kundli-library';
+import { useLightweightKundliSnapshot } from '../../../lib/use-lightweight-kundli-snapshot';
+import { getNativeCopy } from '../../../../../packages/config/src/nativeCopy';
 
 type VedicWorldCopy = {
   actions: {
@@ -103,19 +101,16 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
       },
     ],
     hero: {
-      body:
-        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.19648f7ce7"),
+      body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.19648f7ce7"),
       eyebrow: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.4433fb4239"),
       title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.861a634c9e"),
     },
     note: {
-      body:
-        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.9fea2d66c9"),
+      body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.9fea2d66c9"),
       title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.dc31b7a777"),
     },
     report: {
-      body:
-        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.73516f089d"),
+      body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.73516f089d"),
       cta: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a11279c170"),
       title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.df38e07305"),
     },
@@ -143,19 +138,16 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
       },
     ],
     hero: {
-      body:
-        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.49e6c07c4c"),
+      body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.49e6c07c4c"),
       eyebrow: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.eee556bafa"),
       title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.9daf86316e"),
     },
     note: {
-      body:
-        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.c8fff2bb92"),
+      body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.c8fff2bb92"),
       title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.16901fb4aa"),
     },
     report: {
-      body:
-        getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.bf62cc104e"),
+      body: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.bf62cc104e"),
       cta: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.224efad342"),
       title: getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.bfeb531ede"),
     },
@@ -164,262 +156,228 @@ const VEDIC_WORLD_COPY: Record<SupportedLanguage, VedicWorldCopy> = {
 
 export default function VedicPredictaPage(): React.JSX.Element {
   const { language } = useLanguagePreference();
-  const { activeKundli } = useWebKundliLibrary();
+  const { activeKundli } = useLightweightKundliSnapshot();
   const copy = VEDIC_WORLD_COPY[language] ?? VEDIC_WORLD_COPY.en;
   const chatHref = buildPredictaChatHref({
-    kundli: activeKundli,
     kundliId: activeKundli?.id,
     prompt:
       'Read my Vedic chart using D1, varga support, dasha, gochar, remedies, and current life timing.',
     school: 'PARASHARI',
     sourceScreen: 'Vedic Predicta',
   });
+  const focusCharts = [
+    ['D1', getFocusChartCopy(language, 'd1')],
+    [getMoonLabel(language), getFocusChartCopy(language, 'moon')],
+    ['D9', getFocusChartCopy(language, 'd9')],
+    ['D10', getFocusChartCopy(language, 'd10')],
+    ['Chalit', getFocusChartCopy(language, 'chalit')],
+  ];
 
   return (
     <section className="dashboard-page">
+      <WebEvidenceRoomEntry askHref={chatHref} room="vedic" />
       <div className="predicta-world-page predicta-world-page--vedic">
-        <WebEvidenceRoomEntry askHref={chatHref} room="vedic" />
-        <PredictaWorldFrame
-          badge={copy.hero.eyebrow}
-          body={copy.hero.body}
-          chatHref={chatHref}
-          chatLabel={copy.actions.chat}
-          eyebrow={copy.hero.eyebrow}
-          heroInteraction={
+        <section className="predicta-world-frame predicta-world--vedic">
+          <div className="predicta-world-hero glass-panel">
+            <div className="predicta-world-hero-copy">
+              <p className="section-title">{copy.hero.eyebrow}</p>
+              <h1 className="gradient-text">{copy.hero.title}</h1>
+              <p>{copy.hero.body}</p>
+              <div
+                className="predicta-world-primary-guidance"
+                data-competitor-response-phase4-primary-guidance="vedic"
+              >
+                <span>START HERE</span>
+                <strong>
+                  {activeKundli
+                    ? 'Read the answer first; open chart proof only when you want it.'
+                    : 'Your Vedic prediction appears after a Kundli is active.'}
+                </strong>
+                <p>
+                  {activeKundli
+                    ? 'The useful reading appears here; the PDF remains the full dossier.'
+                    : 'Create or select a Kundli first. Predicta will lead with the real reading instead of making you study tables.'}
+                </p>
+              </div>
+              <div className="predicta-world-actions">
+                <Link className="button primary" href={chatHref}>
+                  {copy.actions.chat}
+                </Link>
+                <Link className="button secondary" href="/dashboard/report">
+                  {copy.report.cta}
+                </Link>
+              </div>
+            </div>
             <div
               className="specialist-hero-interaction vedic-chart-first"
               data-audit1-phase6-hero-interaction="vedic"
             >
-              {[
-                [
-                  'D1',
-                  language === 'hi'
-                    ? getNativeCopy('audit1.phase6.vedic.d1.hi')
-                    : language === 'gu'
-                      ? getNativeCopy('audit1.phase6.vedic.d1.gu')
-                      : 'Lagna first',
-                ],
-                [
-                  language === 'hi'
-                    ? getNativeCopy('audit1.phase6.vedic.moon.label.hi')
-                    : language === 'gu'
-                      ? getNativeCopy('audit1.phase6.vedic.moon.label.gu')
-                      : 'Moon',
-                  language === 'hi'
-                    ? getNativeCopy('audit1.phase6.vedic.moon.hi')
-                    : language === 'gu'
-                      ? getNativeCopy('audit1.phase6.vedic.moon.gu')
-                      : 'Mind and lived feeling',
-                ],
-                [
-                  'D9',
-                  language === 'hi'
-                    ? getNativeCopy('audit1.phase6.vedic.d9.hi')
-                    : language === 'gu'
-                      ? getNativeCopy('audit1.phase6.vedic.d9.gu')
-                      : 'Dharma and marriage depth',
-                ],
-                [
-                  'D10',
-                  language === 'hi'
-                    ? getNativeCopy('audit1.phase6.vedic.d10.hi')
-                    : language === 'gu'
-                      ? getNativeCopy('audit1.phase6.vedic.d10.gu')
-                      : 'Career delivery',
-                ],
-                [
-                  'Chalit',
-                  language === 'hi'
-                    ? getNativeCopy('audit1.phase6.vedic.chalit.hi')
-                    : language === 'gu'
-                      ? getNativeCopy('audit1.phase6.vedic.chalit.gu')
-                      : 'House-level reality',
-                ],
-              ].map(([label, body]) => (
+              {focusCharts.map(([label, body]) => (
                 <span key={label}>
                   <strong>{label}</strong>
                   <small>{body}</small>
                 </span>
               ))}
             </div>
-          }
-          localActions={[
-            {
-              href: '/dashboard/charts',
-              label: copy.actions.charts,
-              note:
-                language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.7afa44a32b")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.8fe0ca1d9c")
-                    : 'Open D1, Chalit, and varga charts inside the same Vedic flow.',
-            },
-            {
-              href: '/dashboard/remedies',
-              label:
-                language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a05042b6ab")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.d701b81bf4")
-                    : 'Remedies',
-              note:
-                language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.9cc2d93136")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.4d227d1381")
-                    : 'Keep remedies, Purushartha balance, and practical next steps here.',
-            },
-            {
-              href: '/dashboard/birth-time',
-              label: copy.actions.birthTime,
-              note:
-                language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.8f16c0ec72")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.0cb5af4e58")
-                    : 'Resolve time uncertainty before going deeper into the main chart.',
-            },
-            {
-              href: '/dashboard/report',
-              label: copy.report.cta,
-              note:
-                language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.27aeb2c1ff")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.2f4f66b64a")
-                    : 'Move into a polished Vedic report when the reading needs structure.',
-            },
-          ]}
-          primaryGuidance={{
-            body: activeKundli
-              ? 'Your Vedic reading should begin with the direct life signal, then use D1, Moon, D9, D10, Chalit, Mahadasha, Gochar, and Kundli Karma as proof. The app gives the useful version here; the PDF becomes the full dossier.'
-              : 'Create or select a Kundli first. Once the chart is active, Predicta will lead with the real reading instead of making you study tables.',
-            eyebrow: 'START HERE',
-            title: activeKundli
-              ? 'Read the answer first; open chart proof only when you want it.'
-              : 'Your Vedic prediction appears after a Kundli is active.',
-          }}
-          localEyebrow={
-            language === 'hi'
-              ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.632a8980f0")
-              : language === 'gu'
-                ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.859c796ba9")
-                : 'World structure'
-          }
-          localTitle={copy.note.title}
-          pillars={[
-            {
-              label:
-                language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a1f243119f")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.18192a2e16")
-                    : 'Chart root',
-              value: 'D1 + Varga',
-            },
-            {
-              label:
-                language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.7457c45e9e")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.82e44a590f")
-                    : 'Timing',
-              value:
-                language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.2b210d2200")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.16a08b64b2")
-                    : 'Dasha + Gochar',
-            },
-            {
-              label:
-                language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.0d095ae4b3")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.1410444e8b")
-                    : 'Guidance',
-              value:
-                language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.1b21812771")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.3cc7fb68e7")
-                    : 'Remedies + balance',
-            },
-          ]}
-          proofCards={copy.cards}
-          proofLabel={
-            language === 'hi'
-              ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a571b7b906")
-              : language === 'gu'
-                ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.b63b0a3dab")
-                : 'Vedic proof'
-          }
-          reportLabel={copy.report.cta}
-          reportNote={copy.report.body}
-          theme="vedic"
-          title={copy.hero.title}
-        />
+          </div>
 
-        <section className="glass-panel predicta-world-focus-panel">
-          <div className="predicta-world-focus-copy">
-            <p className="section-title">{copy.report.title}</p>
-            <h2>{copy.report.title}</h2>
-            <p>{copy.note.body}</p>
+          <div className="predicta-world-local glass-panel">
+            <div className="predicta-world-local-copy">
+              <p className="section-title">{getWorldStructureLabel(language)}</p>
+              <h2>{copy.note.title}</h2>
+              <p>{copy.note.body}</p>
+            </div>
+            <div className="predicta-world-local-actions">
+              <Link href="/dashboard/charts">
+                <strong>{copy.actions.charts}</strong>
+                <span>{getLocalActionNote(language, 'charts')}</span>
+              </Link>
+              <Link href="/dashboard/remedies">
+                <strong>{getRemediesLabel(language)}</strong>
+                <span>{getLocalActionNote(language, 'remedies')}</span>
+              </Link>
+              <Link href="/dashboard/birth-time">
+                <strong>{copy.actions.birthTime}</strong>
+                <span>{getLocalActionNote(language, 'birthTime')}</span>
+              </Link>
+              <Link href="/dashboard/report">
+                <strong>{copy.report.cta}</strong>
+                <span>{copy.report.body}</span>
+              </Link>
+            </div>
           </div>
-          <div className="predicta-world-focus-grid">
-            <article>
-              <span>{copy.actions.create}</span>
-              <strong>
-                {language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.2d2e8499b0")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.5bf245ba8a")
-                    : 'Keep the root chart ready from Kundli.'}
-              </strong>
-            </article>
-            <article>
-              <span>{copy.actions.charts}</span>
-              <strong>
-                {language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.2740516bfe")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.e21d98254c")
-                    : 'Read every answer with chart evidence when needed.'}
-              </strong>
-            </article>
-            <article>
-              <span>{copy.actions.reports}</span>
-              <strong>
-                {language === 'hi'
-                  ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.076fe71e40")
-                  : language === 'gu'
-                    ? getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.85ad1af2de")
-                    : 'Build the report when timing, remedies, or a decision summary is needed.'}
-              </strong>
-            </article>
-          </div>
-          <div className="action-row">
-            <Link className="button secondary" href="/dashboard/kundli">
-              {copy.actions.create}
-            </Link>
-            <Link className="button secondary" href="/dashboard/charts">
-              {copy.actions.charts}
-            </Link>
-            <Link className="button secondary" href="/dashboard/birth-time">
-              {copy.actions.birthTime}
-            </Link>
-            <Link className="button primary" href="/dashboard/report">
-              {copy.report.cta}
-            </Link>
-          </div>
+
+          <section className="glass-panel predicta-world-focus-panel">
+            <div className="predicta-world-focus-copy">
+              <p className="section-title">{copy.report.title}</p>
+              <h2>{copy.report.title}</h2>
+              <p>{copy.note.body}</p>
+            </div>
+            <div className="predicta-world-focus-grid">
+              {copy.cards.map(card => (
+                <article key={card.title}>
+                  <span>{card.title}</span>
+                  <strong>{card.body}</strong>
+                </article>
+              ))}
+            </div>
+            <div className="action-row">
+              <Link className="button secondary" href="/dashboard/kundli">
+                {copy.actions.create}
+              </Link>
+              <Link className="button secondary" href="/dashboard/charts">
+                {copy.actions.charts}
+              </Link>
+              <Link className="button secondary" href="/dashboard/birth-time">
+                {copy.actions.birthTime}
+              </Link>
+              <Link className="button primary" href="/dashboard/report">
+                {copy.report.cta}
+              </Link>
+            </div>
+          </section>
         </section>
 
-        <WebVedicIntelligencePanel
-          hasPremiumAccess={demoAccess.hasPremiumAccess}
-          kundli={activeKundli}
-          language={language}
-        />
+        <WebVedicIntelligencePanelLoader />
       </div>
     </section>
   );
+}
+
+function getWorldStructureLabel(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.632a8980f0");
+  }
+
+  if (language === 'gu') {
+    return getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.859c796ba9");
+  }
+
+  return 'World structure';
+}
+
+function getRemediesLabel(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.a05042b6ab");
+  }
+
+  if (language === 'gu') {
+    return getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.d701b81bf4");
+  }
+
+  return 'Remedies';
+}
+
+function getLocalActionNote(
+  language: SupportedLanguage,
+  action: 'birthTime' | 'charts' | 'remedies',
+): string {
+  if (action === 'charts') {
+    if (language === 'hi') {
+      return getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.7afa44a32b");
+    }
+
+    if (language === 'gu') {
+      return getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.8fe0ca1d9c");
+    }
+
+    return 'D1, Moon, D9, D10, Chalit, and varga charts';
+  }
+
+  if (action === 'remedies') {
+    if (language === 'hi') {
+      return getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.9cc2d93136");
+    }
+
+    if (language === 'gu') {
+      return getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.4d227d1381");
+    }
+
+    return 'Practical balance and dharma-based next steps';
+  }
+
+  if (language === 'hi') {
+    return getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.8f16c0ec72");
+  }
+
+  if (language === 'gu') {
+    return getNativeCopy("native.apps.web.app.dashboard.vedic.page.tsx.0cb5af4e58");
+  }
+
+  return 'Resolve time uncertainty before deeper timing';
+}
+
+function getMoonLabel(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return getNativeCopy('audit1.phase6.vedic.moon.label.hi');
+  }
+
+  if (language === 'gu') {
+    return getNativeCopy('audit1.phase6.vedic.moon.label.gu');
+  }
+
+  return 'Moon';
+}
+
+function getFocusChartCopy(
+  language: SupportedLanguage,
+  chart: 'chalit' | 'd1' | 'd10' | 'd9' | 'moon',
+): string {
+  if (language === 'hi') {
+    return getNativeCopy(`audit1.phase6.vedic.${chart}.hi`);
+  }
+
+  if (language === 'gu') {
+    return getNativeCopy(`audit1.phase6.vedic.${chart}.gu`);
+  }
+
+  const en: Record<typeof chart, string> = {
+    chalit: 'House-level reality',
+    d1: 'Lagna first',
+    d10: 'Career delivery',
+    d9: 'Dharma and marriage depth',
+    moon: 'Mind and lived feeling',
+  };
+
+  return en[chart];
 }

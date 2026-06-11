@@ -112,3 +112,46 @@ Supplemental verification:
 - `corepack pnpm test:app-revival-phase-8`: PASS.
 - Browser smoke on `/dashboard`: desktop Ask Predicta, language selector,
   footer, and mobile drawer all rendered with no horizontal overflow.
+
+## Supplemental Specialist Room Deferred Runtime Rebuild
+
+Date: 2026-06-11
+
+After the public, Ask Predicta, and Library shells were lightened, the
+specialist worlds still behaved like control-panel payloads. The room entry
+surfaces now render quickly while the expensive evidence engines hydrate as
+deferred runtime chunks.
+
+Implementation lock:
+
+- Deferred KP, Jaimini, Numerology, Signature, Kundli, and Vedic intelligence
+  runtimes behind route-local dynamic loaders.
+- Kept each specialist route's Ask Predicta handoff and evidence-room entry
+  visible before the heavy analysis panel loads.
+- Kept the Kundli wizard behavior intact while moving it out of first-load JS.
+- Replaced the Vedic page's eager full Kundli library and Vedic intelligence
+  imports with a lightweight shell plus deferred Vedic intelligence runtime.
+- Extended `test:app-revival-phase-6` to include specialist route budgets and
+  prevent reintroducing eager panel imports.
+
+Performance evidence from `corepack pnpm build:web`:
+
+- `/dashboard/kundli`: `849 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/kp`: `843 kB` before this pass -> `248 kB` First Load JS.
+- `/dashboard/jaimini`: `835 kB` before this pass -> `248 kB` First Load JS.
+- `/dashboard/numerology`: `832 kB` before this pass -> `248 kB` First Load JS.
+- `/dashboard/signature`: `707 kB` before this pass -> `248 kB` First Load JS.
+- `/dashboard/vedic`: `849 kB` before this pass -> `400 kB` First Load JS.
+
+Supplemental verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS with specialist budgets.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/kundli corepack pnpm test:ui-text-overflow`: PASS.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS.
+- `node scripts/run-birth-place-autocomplete-gate.mjs`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `git diff --check`: PASS.

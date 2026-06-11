@@ -1,9 +1,9 @@
-import { WebKundliWizard } from '../../../components/WebKundliWizard';
+import { WebKundliWizardLoader } from '../../../components/WebKundliWizardLoader';
 
 export default function KundliPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
-      <WebKundliWizard />
+      <WebKundliWizardLoader />
     </section>
   );
 }

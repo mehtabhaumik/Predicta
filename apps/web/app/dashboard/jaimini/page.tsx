@@ -1,5 +1,5 @@
 import { WebEvidenceRoomEntry } from '../../../components/WebEvidenceRoomEntry';
-import { WebJaiminiPredictaPanel } from '../../../components/WebJaiminiPredictaPanel';
+import { WebJaiminiPredictaLoader } from '../../../components/WebJaiminiPredictaLoader';
 import { buildPredictaChatHref } from '../../../lib/predicta-chat-cta';
 
 export default function JaiminiPredictaPage(): React.JSX.Element {
@@ -15,7 +15,7 @@ export default function JaiminiPredictaPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <WebEvidenceRoomEntry askHref={askHref} room="jaimini" />
-      <WebJaiminiPredictaPanel />
+      <WebJaiminiPredictaLoader />
     </section>
   );
 }

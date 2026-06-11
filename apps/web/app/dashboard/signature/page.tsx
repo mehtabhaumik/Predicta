@@ -1,5 +1,5 @@
 import { WebEvidenceRoomEntry } from '../../../components/WebEvidenceRoomEntry';
-import { WebSignatureAnalysisInputFlow } from '../../../components/WebSignatureAnalysisInputFlow';
+import { WebSignatureAnalysisLoader } from '../../../components/WebSignatureAnalysisLoader';
 import { buildPredictaChatHref } from '../../../lib/predicta-chat-cta';
 
 export default function SignaturePredictaPage(): React.JSX.Element {
@@ -14,7 +14,7 @@ export default function SignaturePredictaPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <WebEvidenceRoomEntry askHref={askHref} room="signature" />
-      <WebSignatureAnalysisInputFlow />
+      <WebSignatureAnalysisLoader />
     </section>
   );
 }

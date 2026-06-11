@@ -5,6 +5,14 @@ const root = 'apps/web/.next';
 const landingBudgetKb = 250;
 const askBudgetKb = 400;
 const dashboardBudgetKb = 180;
+const specialistBudgets = [
+  { budgetKb: 1800, route: '/dashboard/vedic/page' },
+  { budgetKb: 600, route: '/dashboard/kp/page' },
+  { budgetKb: 600, route: '/dashboard/jaimini/page' },
+  { budgetKb: 600, route: '/dashboard/numerology/page' },
+  { budgetKb: 600, route: '/dashboard/signature/page' },
+  { budgetKb: 20, route: '/dashboard/kundli/page' },
+];
 const sourceFiles = [
   'apps/web/app/page.tsx',
   'apps/web/app/dashboard/page.tsx',
@@ -17,6 +25,18 @@ const sourceFiles = [
   'apps/web/components/AskPredictaLightShell.tsx',
   'apps/web/lib/lightweight-public-copy.ts',
   'apps/web/lib/use-lightweight-language-preference.ts',
+  'apps/web/app/dashboard/vedic/page.tsx',
+  'apps/web/app/dashboard/kp/page.tsx',
+  'apps/web/app/dashboard/jaimini/page.tsx',
+  'apps/web/app/dashboard/numerology/page.tsx',
+  'apps/web/app/dashboard/signature/page.tsx',
+  'apps/web/app/dashboard/kundli/page.tsx',
+  'apps/web/components/WebKpPredictaLoader.tsx',
+  'apps/web/components/WebJaiminiPredictaLoader.tsx',
+  'apps/web/components/WebNumerologyPredictaLoader.tsx',
+  'apps/web/components/WebSignatureAnalysisLoader.tsx',
+  'apps/web/components/WebKundliWizardLoader.tsx',
+  'apps/web/components/WebVedicIntelligencePanelLoader.tsx',
 ];
 
 if (!existsSync(manifestPath)) {
@@ -37,6 +57,10 @@ baseline.pageSpecificKb = 0;
 const landing = measureRoute('/page');
 const ask = measureRoute('/ask/page');
 const dashboard = measureRoute('/dashboard/page');
+const specialistRoutes = specialistBudgets.map(item => ({
+  ...item,
+  measurement: measureRoute(item.route),
+}));
 const failures = [];
 
 if (landing.pageSpecificKb > landingBudgetKb) {
@@ -57,6 +81,14 @@ if (dashboard.pageSpecificKb > dashboardBudgetKb) {
   );
 }
 
+for (const specialistRoute of specialistRoutes) {
+  if (specialistRoute.measurement.pageSpecificKb > specialistRoute.budgetKb) {
+    failures.push(
+      `${specialistRoute.route} page-specific JS is ${specialistRoute.measurement.pageSpecificKb} KB, above ${specialistRoute.budgetKb} KB.`,
+    );
+  }
+}
+
 for (const sourceFile of sourceFiles) {
   const text = readFileSync(sourceFile, 'utf8');
 
@@ -66,6 +98,12 @@ for (const sourceFile of sourceFiles) {
     sourceFile.includes('DashboardShell') ||
     sourceFile.includes('SidebarNav') ||
     sourceFile.endsWith('/dashboard/page.tsx') ||
+    sourceFile.endsWith('/dashboard/vedic/page.tsx') ||
+    sourceFile.endsWith('/dashboard/kp/page.tsx') ||
+    sourceFile.endsWith('/dashboard/jaimini/page.tsx') ||
+    sourceFile.endsWith('/dashboard/numerology/page.tsx') ||
+    sourceFile.endsWith('/dashboard/signature/page.tsx') ||
+    sourceFile.endsWith('/dashboard/kundli/page.tsx') ||
     sourceFile.endsWith('/page.tsx')
   ) {
     for (const forbidden of [
@@ -79,6 +117,13 @@ for (const sourceFile of sourceFiles) {
       'framer-motion',
       'useWebKundliLibrary',
       'WebPridictaChat',
+      "from '../../../components/WebVedicIntelligencePanel'",
+      "from '../../../components/WebKpPredictaPanel'",
+      "from '../../../components/WebJaiminiPredictaPanel'",
+      "from '../../../components/WebNumerologyPredictaPanel'",
+      "from '../../../components/WebSignatureAnalysisInputFlow'",
+      "from '../../../components/WebKundliWizard'",
+      'generateKundliFromWeb',
     ]) {
       if (text.includes(forbidden) && !text.includes('dynamic(')) {
         failures.push(`${sourceFile} eagerly imports ${forbidden}.`);
@@ -124,9 +169,11 @@ console.log(
         askBudgetKb,
         dashboardBudgetKb,
         landingBudgetKb,
+        specialistBudgets,
       },
       dashboard,
       landing,
+      specialistRoutes: specialistRoutes.map(item => item.measurement),
       sourceFilesChecked: sourceFiles.length,
     },
     null,
