@@ -10,6 +10,7 @@ const WebFamilyPairComparison = dynamic(
     })),
   {
     loading: () => <SpecialistRoomPanelFallback />,
+    ssr: false,
   },
 );
 

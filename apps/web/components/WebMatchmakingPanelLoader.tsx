@@ -10,6 +10,7 @@ const WebMatchmakingPanel = dynamic(
     })),
   {
     loading: () => <SpecialistRoomPanelFallback />,
+    ssr: false,
   },
 );
 

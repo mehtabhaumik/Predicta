@@ -156,6 +156,62 @@ Supplemental verification:
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
 - `git diff --check`: PASS.
 
+## Supplemental Family, Matchmaking, And Redeem Runtime Split
+
+Date: 2026-06-11
+
+Family Vault, pair comparison, family karma map, matchmaking, and redeem pass
+still behaved like slow dashboard panels because their route boundaries pulled
+auth, Kundli library, product bank, relationship, and matching runtimes into
+first-load JS. These routes now use lightweight page loaders first and defer the
+heavier interactive panels until after first paint.
+
+Implementation lock:
+
+- Moved Family Vault, Pair Comparison, Family Karma Map, Matchmaking, and Redeem
+  Pass route bodies into deferred component-level page runtimes.
+- Added route-level loaders with `SpecialistRoomPanelFallback` and `ssr: false`
+  for the heavy relationship and pass redemption surfaces.
+- Removed eager `demoAccess` imports from family comparison and matchmaking
+  route shells so access/monetization code does not inflate navigation.
+- Added Family, Pair Comparison, Family Karma Map, Matchmaking, and Redeem Pass
+  to the Phase 6 route-budget gate at `80 KB`.
+- Replaced Family Vault Hindi/Gujarati fallback strings for assignment, auth,
+  Family Bank, balance, profile summary, and ARIA copy with dedicated native
+  translation JSON entries.
+
+Performance evidence from `corepack pnpm build:web`:
+
+- `/dashboard/family`: heavy first-load route before this pass -> `104 kB` First Load JS.
+- `/dashboard/family/compare`: `593 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/family/karma-map`: `593 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/matchmaking`: `467 kB` before this pass -> `104 kB` First Load JS.
+- `/dashboard/redeem-pass`: heavy first-load route before this pass -> `104 kB` First Load JS.
+
+Updated Phase 6 gate evidence:
+
+- `/dashboard/family` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/family/compare` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/family/karma-map` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/matchmaking` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/redeem-pass` page-specific JS: `4 KB` against `80 KB` budget.
+
+Supplemental verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS with Family/Matchmaking/Redeem budgets.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/family,/dashboard/family/compare,/dashboard/family/karma-map,/dashboard/matchmaking,/dashboard/redeem-pass corepack pnpm test:ui-text-overflow`: PASS.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- In-app browser hydration check on the fresh local production build: Family,
+  Pair Comparison, and Family Karma Map rendered account-required prompts;
+  Matchmaking and Redeem Pass hydrated their content; no horizontal overflow was
+  present on the inspected routes.
+- `git diff --check`: PASS.
+
 ## Supplemental Secondary Dashboard Deferred Runtime Rebuild
 
 Date: 2026-06-11

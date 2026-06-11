@@ -10,6 +10,7 @@ const WebFamilyKarmaMap = dynamic(
     })),
   {
     loading: () => <SpecialistRoomPanelFallback />,
+    ssr: false,
   },
 );
 

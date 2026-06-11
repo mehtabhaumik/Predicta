@@ -829,6 +829,142 @@
       "kind": "text",
       "value": "વાસ્તવિક પરિવાર તુલનાની અપેક્ષા કરતા પહેલાં કુંડળી લાઇબ્રેરીમાં ઓછામાં ઓછી બે પ્રોફાઇલ સાચવો."
     },
+    "native.apps.web.components.WebFamilyVault.assignAria.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        "ને પરિવાર વોલ્ટમાં સોંપો"
+      ]
+    },
+    "native.apps.web.components.WebFamilyVault.assignAria.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " को परिवार वॉल्ट में असाइन करें"
+      ]
+    },
+    "native.apps.web.components.WebFamilyVault.assignmentBody.gu": {
+      "kind": "text",
+      "value": "અહીં સાચવેલી કુંડળીઓને પરિવારની ભૂમિકાઓમાં સોંપો. પરિવાર વોલ્ટ આ લેબલનો ઉપયોગ તુલનાના સંદર્ભ માટે કરે છે, જ્યારે કુંડળી લાઇબ્રેરી સત્યનો મુખ્ય સ્ત્રોત રહે છે."
+    },
+    "native.apps.web.components.WebFamilyVault.assignmentBody.hi": {
+      "kind": "text",
+      "value": "यहां सेव कुंडलियों को पारिवारिक भूमिकाओं में असाइन करें. परिवार वॉल्ट इन लेबलों का उपयोग तुलना संदर्भ के लिए करता है, जबकि कुंडली लाइब्रेरी सत्य का मुख्य स्रोत रहती है."
+    },
+    "native.apps.web.components.WebFamilyVault.assignmentTitle.gu": {
+      "kind": "text",
+      "value": "સાચવેલી કુંડળીઓ સોંપો"
+    },
+    "native.apps.web.components.WebFamilyVault.assignmentTitle.hi": {
+      "kind": "text",
+      "value": "सेव कुंडलियां असाइन करें"
+    },
+    "native.apps.web.components.WebFamilyVault.authBody.gu": {
+      "kind": "text",
+      "value": "પરિવાર વોલ્ટ ખોલતા પહેલાં સાઇન ઇન કરો, જેથી સાચવેલી કુંડળીઓ, સંબંધો અને તુલનાઓ તમારા ખાનગી એકાઉન્ટ સાથે જોડાયેલી રહે."
+    },
+    "native.apps.web.components.WebFamilyVault.authBody.hi": {
+      "kind": "text",
+      "value": "परिवार वॉल्ट खोलने से पहले साइन इन करें, ताकि सेव कुंडलियां, रिश्ते और तुलनाएं आपके निजी खाते से जुड़ी रहें."
+    },
+    "native.apps.web.components.WebFamilyVault.authTitle.gu": {
+      "kind": "text",
+      "value": "પરિવાર વોલ્ટ માટે સાઇન ઇન કરો."
+    },
+    "native.apps.web.components.WebFamilyVault.authTitle.hi": {
+      "kind": "text",
+      "value": "परिवार वॉल्ट इस्तेमाल करने के लिए साइन इन करें."
+    },
+    "native.apps.web.components.WebFamilyVault.bankBalance.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " AI · ",
+        " રિપોર્ટ"
+      ]
+    },
+    "native.apps.web.components.WebFamilyVault.bankBalance.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " AI · ",
+        " रिपोर्ट"
+      ]
+    },
+    "native.apps.web.components.WebFamilyVault.bankBody.gu": {
+      "kind": "text",
+      "value": "શેરિંગ માલિકની સ્પષ્ટ મંજૂરીથી જ થાય છે અને પાછું ખેંચી શકાય છે. પરિવાર બેંક ક્રેડિટ જોડાયેલા સભ્યો વાપરી શકે છે, પરંતુ ખાનગી ચેટ, રિપોર્ટ અને વ્યક્તિગત ઇતિહાસ ક્યારેય આપમેળે શેર થતા નથી."
+    },
+    "native.apps.web.components.WebFamilyVault.bankBody.hi": {
+      "kind": "text",
+      "value": "शेयरिंग केवल मालिक की स्पष्ट अनुमति से होती है और वापस ली जा सकती है. परिवार बैंक क्रेडिट जुड़े सदस्य इस्तेमाल कर सकते हैं, लेकिन निजी चैट, रिपोर्ट और व्यक्तिगत इतिहास अपने आप साझा नहीं होते."
+    },
+    "native.apps.web.components.WebFamilyVault.bankChecking.gu": {
+      "kind": "text",
+      "value": "ચકાસી રહ્યા છીએ"
+    },
+    "native.apps.web.components.WebFamilyVault.bankChecking.hi": {
+      "kind": "text",
+      "value": "जांच रहे हैं"
+    },
+    "native.apps.web.components.WebFamilyVault.bankTitle.gu": {
+      "kind": "text",
+      "value": "પરિવાર બેંક"
+    },
+    "native.apps.web.components.WebFamilyVault.bankTitle.hi": {
+      "kind": "text",
+      "value": "परिवार बैंक"
+    },
+    "native.apps.web.components.WebFamilyVault.profileSummary.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " લગ્ન · ",
+        " ચંદ્ર · ",
+        ""
+      ]
+    },
+    "native.apps.web.components.WebFamilyVault.profileSummary.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " लग्न · ",
+        " चंद्र · ",
+        ""
+      ]
+    },
+    "native.apps.web.components.WebFamilyPairComparisonPage.authBody.gu": {
+      "kind": "text",
+      "value": "બે કુંડળીઓની તુલના કરતા પહેલાં સાઇન ઇન કરો, જેથી સંબંધની સમજ ખાનગી રહે અને તમારા એકાઉન્ટ સાથે જોડાયેલી રહે."
+    },
+    "native.apps.web.components.WebFamilyPairComparisonPage.authBody.hi": {
+      "kind": "text",
+      "value": "दो कुंडलियों की तुलना करने से पहले साइन इन करें, ताकि संबंध की समझ निजी रहे और आपके खाते से जुड़ी रहे."
+    },
+    "native.apps.web.components.WebFamilyPairComparisonPage.authTitle.gu": {
+      "kind": "text",
+      "value": "જોડી તુલના માટે સાઇન ઇન કરો."
+    },
+    "native.apps.web.components.WebFamilyPairComparisonPage.authTitle.hi": {
+      "kind": "text",
+      "value": "जोड़ेदार तुलना चलाने के लिए साइन इन करें."
+    },
+    "native.apps.web.components.WebFamilyKarmaMapPage.authBody.gu": {
+      "kind": "text",
+      "value": "પરિવારની તુલના શરૂ કરતા પહેલાં સાઇન ઇન કરો, જેથી પરિવાર વોલ્ટ માત્ર તમારી સાચવેલી ખાનગી કુંડળીઓનો ઉપયોગ કરે."
+    },
+    "native.apps.web.components.WebFamilyKarmaMapPage.authBody.hi": {
+      "kind": "text",
+      "value": "घर-परिवार की तुलना चलाने से पहले साइन इन करें, ताकि परिवार वॉल्ट केवल आपकी सेव निजी कुंडलियों का उपयोग करे."
+    },
+    "native.apps.web.components.WebFamilyKarmaMapPage.authTitle.gu": {
+      "kind": "text",
+      "value": "પરિવાર કર્મ નકશો ખોલવા માટે સાઇન ઇન કરો."
+    },
+    "native.apps.web.components.WebFamilyKarmaMapPage.authTitle.hi": {
+      "kind": "text",
+      "value": "परिवार कर्म नक्शा खोलने के लिए साइन इन करें."
+    },
     "native.apps.web.app.dashboard.matchmaking.page.tsx.153866cc64": {
       "kind": "text",
       "value": "એક છોકરા અને એક છોકરીની કુંડળી પસંદ કરો અને સ્કોર, મજબૂત પક્ષ, સાવચેતી ક્ષેત્રો અને પ્રાયોગિક નિષ્કર્ષ સાથે સમર્પિત વૈદિક લગ્ન વાંચન મેળવો."

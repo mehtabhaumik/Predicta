@@ -17,7 +17,12 @@ const secondaryDashboardBudgets = [
   { budgetKb: 80, route: '/dashboard/birth-time/page' },
   { budgetKb: 80, route: '/dashboard/charts/page' },
   { budgetKb: 80, route: '/dashboard/decision/page' },
+  { budgetKb: 80, route: '/dashboard/family/compare/page' },
+  { budgetKb: 80, route: '/dashboard/family/karma-map/page' },
+  { budgetKb: 80, route: '/dashboard/family/page' },
   { budgetKb: 80, route: '/dashboard/holistic/page' },
+  { budgetKb: 80, route: '/dashboard/matchmaking/page' },
+  { budgetKb: 80, route: '/dashboard/redeem-pass/page' },
   { budgetKb: 80, route: '/dashboard/saved-kundlis/page' },
   { budgetKb: 80, route: '/dashboard/account/page' },
   { budgetKb: 80, route: '/dashboard/settings/page' },
@@ -55,7 +60,12 @@ const sourceFiles = [
   'apps/web/app/dashboard/birth-time/page.tsx',
   'apps/web/app/dashboard/charts/page.tsx',
   'apps/web/app/dashboard/decision/page.tsx',
+  'apps/web/app/dashboard/family/compare/page.tsx',
+  'apps/web/app/dashboard/family/karma-map/page.tsx',
+  'apps/web/app/dashboard/family/page.tsx',
   'apps/web/app/dashboard/holistic/page.tsx',
+  'apps/web/app/dashboard/matchmaking/page.tsx',
+  'apps/web/app/dashboard/redeem-pass/page.tsx',
   'apps/web/app/dashboard/remedies/page.tsx',
   'apps/web/app/dashboard/saved-kundlis/page.tsx',
   'apps/web/app/dashboard/account/page.tsx',
@@ -66,7 +76,12 @@ const sourceFiles = [
   'apps/web/components/WebChartsExplorerLoader.tsx',
   'apps/web/components/WebDecisionOracleLoader.tsx',
   'apps/web/components/WebHolisticRoomsLoader.tsx',
+  'apps/web/components/WebFamilyVaultLoader.tsx',
+  'apps/web/components/WebFamilyPairComparisonPageLoader.tsx',
+  'apps/web/components/WebFamilyKarmaMapPageLoader.tsx',
   'apps/web/components/WebLifeTimelineLoader.tsx',
+  'apps/web/components/WebMatchmakingPageLoader.tsx',
+  'apps/web/components/WebRedeemPassPageLoader.tsx',
   'apps/web/components/WebPredictaWrappedLoader.tsx',
   'apps/web/components/WebRemedyCoachLoader.tsx',
   'apps/web/components/WebSavedKundlisLoader.tsx',
@@ -186,7 +201,12 @@ for (const sourceFile of sourceFiles) {
     sourceFile.endsWith('/dashboard/birth-time/page.tsx') ||
     sourceFile.endsWith('/dashboard/charts/page.tsx') ||
     sourceFile.endsWith('/dashboard/decision/page.tsx') ||
+    sourceFile.endsWith('/dashboard/family/compare/page.tsx') ||
+    sourceFile.endsWith('/dashboard/family/karma-map/page.tsx') ||
+    sourceFile.endsWith('/dashboard/family/page.tsx') ||
     sourceFile.endsWith('/dashboard/holistic/page.tsx') ||
+    sourceFile.endsWith('/dashboard/matchmaking/page.tsx') ||
+    sourceFile.endsWith('/dashboard/redeem-pass/page.tsx') ||
     sourceFile.endsWith('/dashboard/remedies/page.tsx') ||
     sourceFile.endsWith('/dashboard/saved-kundlis/page.tsx') ||
     sourceFile.endsWith('/dashboard/account/page.tsx') ||
