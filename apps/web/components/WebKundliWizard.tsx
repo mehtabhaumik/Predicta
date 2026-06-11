@@ -94,6 +94,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const [error, setError] = useState<string | undefined>();
   const [showStorageNudge, setShowStorageNudge] = useState(false);
   const [showCreationReveal, setShowCreationReveal] = useState(false);
+  const birthPlaceInputRef = useRef<HTMLInputElement | null>(null);
   const birthPlaceSearchRef = useRef<HTMLDivElement | null>(null);
   const placeSearchRequestRef = useRef(0);
   const acceptedBirthPlaceQueryRef = useRef('');
@@ -223,6 +224,7 @@ export function WebKundliWizard(): React.JSX.Element {
   function selectBirthPlace(option: WebBirthPlace) {
     resetFlow();
     settleBirthPlaceSelection(option);
+    birthPlaceInputRef.current?.blur();
   }
 
   useEffect(() => {
@@ -515,13 +517,15 @@ export function WebKundliWizard(): React.JSX.Element {
   }
 
   const shouldShowReadyFirst = Boolean(kundli && !editingKundliId);
-  const visibleBirthPlaceSuggestions = isBirthPlaceSearchSettled
+  const visibleBirthPlaceSuggestions = selectedPlace || isBirthPlaceSearchSettled
     ? []
     : placeSuggestions.slice(0, 6);
   const shouldShowBirthPlaceSuggestions =
+    !selectedPlace &&
     isPlaceSuggestionsOpen &&
     visibleBirthPlaceSuggestions.length > 0;
   const shouldShowBirthPlaceSearchStatus =
+    !selectedPlace &&
     isPlaceSuggestionsOpen &&
     !isBirthPlaceSearchSettled &&
     isSearchingPlaces &&
@@ -618,6 +622,7 @@ export function WebKundliWizard(): React.JSX.Element {
               <input
                 aria-describedby="birth-place-help"
                 autoComplete="off"
+                ref={birthPlaceInputRef}
                 onChange={event => {
                   resetFlow();
                   const nextQuery = event.target.value;

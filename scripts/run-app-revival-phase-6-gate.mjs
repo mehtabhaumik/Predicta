@@ -6,11 +6,11 @@ const landingBudgetKb = 250;
 const askBudgetKb = 400;
 const dashboardBudgetKb = 180;
 const specialistBudgets = [
-  { budgetKb: 1800, route: '/dashboard/vedic/page' },
-  { budgetKb: 600, route: '/dashboard/kp/page' },
-  { budgetKb: 600, route: '/dashboard/jaimini/page' },
-  { budgetKb: 600, route: '/dashboard/numerology/page' },
-  { budgetKb: 600, route: '/dashboard/signature/page' },
+  { budgetKb: 80, route: '/dashboard/vedic/page' },
+  { budgetKb: 80, route: '/dashboard/kp/page' },
+  { budgetKb: 80, route: '/dashboard/jaimini/page' },
+  { budgetKb: 80, route: '/dashboard/numerology/page' },
+  { budgetKb: 80, route: '/dashboard/signature/page' },
   { budgetKb: 20, route: '/dashboard/kundli/page' },
 ];
 const secondaryDashboardBudgets = [
@@ -22,13 +22,15 @@ const secondaryDashboardBudgets = [
   { budgetKb: 80, route: '/dashboard/family/page' },
   { budgetKb: 80, route: '/dashboard/holistic/page' },
   { budgetKb: 80, route: '/dashboard/matchmaking/page' },
+  { budgetKb: 80, route: '/dashboard/premium/page' },
   { budgetKb: 80, route: '/dashboard/redeem-pass/page' },
+  { budgetKb: 80, route: '/dashboard/report/page' },
   { budgetKb: 80, route: '/dashboard/saved-kundlis/page' },
   { budgetKb: 80, route: '/dashboard/account/page' },
   { budgetKb: 80, route: '/dashboard/settings/page' },
   { budgetKb: 80, route: '/dashboard/timeline/page' },
   { budgetKb: 80, route: '/dashboard/wrapped/page' },
-  { budgetKb: 600, route: '/dashboard/remedies/page' },
+  { budgetKb: 80, route: '/dashboard/remedies/page' },
 ];
 const publicRouteBudgets = [
   { budgetKb: 140, route: '/accuracy-method/page' },
@@ -55,7 +57,9 @@ const sourceFiles = [
   'apps/web/app/dashboard/kp/page.tsx',
   'apps/web/app/dashboard/jaimini/page.tsx',
   'apps/web/app/dashboard/numerology/page.tsx',
+  'apps/web/app/dashboard/premium/page.tsx',
   'apps/web/app/dashboard/signature/page.tsx',
+  'apps/web/app/dashboard/report/page.tsx',
   'apps/web/app/dashboard/kundli/page.tsx',
   'apps/web/app/dashboard/birth-time/page.tsx',
   'apps/web/app/dashboard/charts/page.tsx',
@@ -79,10 +83,17 @@ const sourceFiles = [
   'apps/web/components/WebFamilyVaultLoader.tsx',
   'apps/web/components/WebFamilyPairComparisonPageLoader.tsx',
   'apps/web/components/WebFamilyKarmaMapPageLoader.tsx',
+  'apps/web/components/WebJaiminiPageLoader.tsx',
+  'apps/web/components/WebKpPageLoader.tsx',
   'apps/web/components/WebLifeTimelineLoader.tsx',
   'apps/web/components/WebMatchmakingPageLoader.tsx',
+  'apps/web/components/WebNumerologyPageLoader.tsx',
+  'apps/web/components/WebPremiumPageLoader.tsx',
   'apps/web/components/WebRedeemPassPageLoader.tsx',
+  'apps/web/components/WebRemediesPageLoader.tsx',
+  'apps/web/components/WebReportPageLoader.tsx',
   'apps/web/components/WebPredictaWrappedLoader.tsx',
+  'apps/web/components/WebSignaturePageLoader.tsx',
   'apps/web/components/WebRemedyCoachLoader.tsx',
   'apps/web/components/WebSavedKundlisLoader.tsx',
   'apps/web/components/WebProfileSettingsLoader.tsx',
@@ -92,6 +103,7 @@ const sourceFiles = [
   'apps/web/components/WebSignatureAnalysisLoader.tsx',
   'apps/web/components/WebKundliWizardLoader.tsx',
   'apps/web/components/WebVedicIntelligencePanelLoader.tsx',
+  'apps/web/components/WebVedicWorldPageLoader.tsx',
   'apps/web/app/accuracy-method/page.tsx',
   'apps/web/app/checkout/page.tsx',
   'apps/web/app/checkout/CheckoutPageLoader.tsx',
@@ -196,6 +208,8 @@ for (const sourceFile of sourceFiles) {
     sourceFile.endsWith('/dashboard/kp/page.tsx') ||
     sourceFile.endsWith('/dashboard/jaimini/page.tsx') ||
     sourceFile.endsWith('/dashboard/numerology/page.tsx') ||
+    sourceFile.endsWith('/dashboard/premium/page.tsx') ||
+    sourceFile.endsWith('/dashboard/report/page.tsx') ||
     sourceFile.endsWith('/dashboard/signature/page.tsx') ||
     sourceFile.endsWith('/dashboard/kundli/page.tsx') ||
     sourceFile.endsWith('/dashboard/birth-time/page.tsx') ||
@@ -207,6 +221,7 @@ for (const sourceFile of sourceFiles) {
     sourceFile.endsWith('/dashboard/holistic/page.tsx') ||
     sourceFile.endsWith('/dashboard/matchmaking/page.tsx') ||
     sourceFile.endsWith('/dashboard/redeem-pass/page.tsx') ||
+    sourceFile.endsWith('/dashboard/report/page.tsx') ||
     sourceFile.endsWith('/dashboard/remedies/page.tsx') ||
     sourceFile.endsWith('/dashboard/saved-kundlis/page.tsx') ||
     sourceFile.endsWith('/dashboard/account/page.tsx') ||

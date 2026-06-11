@@ -368,3 +368,60 @@ Supplemental verification:
 - `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
 - `git diff --check`: PASS.
+
+## Supplemental Report, Premium, World, And Birth-Place Overlay Lock
+
+Date: 2026-06-11
+
+Report, Premium, Vedic, KP, Jaimini, Numerology, Signature, and Remedies still
+carried expensive report/pricing/specialist runtimes at the route boundary. The
+birth-place selector also had a race where a selected city could leave the
+suggestion/status overlay visible in front of the form.
+
+Implementation lock:
+
+- Moved Report, Premium, Vedic, KP, Jaimini, Numerology, Signature, and Remedies
+  route bodies into deferred component-level page runtimes.
+- Updated each route entry to render a lightweight page loader with
+  `SpecialistRoomPanelFallback` and `ssr: false` for the heavy runtime surface.
+- Tightened Phase 6 budgets for Report, Premium, Vedic, KP, Jaimini,
+  Numerology, Signature, and Remedies to prevent these routes from silently
+  regressing.
+- Made a selected birth place authoritative in `WebKundliWizard`: once a place
+  is accepted, suggestions/status cannot render until the user edits the field,
+  and the input blurs after selection.
+
+Performance evidence from `corepack pnpm build:web`:
+
+- `/dashboard/report`: old heavy report route -> `104 kB` First Load JS.
+- `/dashboard/premium`: old heavy premium route -> `104 kB` First Load JS.
+- `/dashboard/vedic`: old heavy Vedic route -> `104 kB` First Load JS.
+- `/dashboard/kp`: old heavy KP route -> `104 kB` First Load JS.
+- `/dashboard/jaimini`: old heavy Jaimini route -> `104 kB` First Load JS.
+- `/dashboard/numerology`: old heavy Numerology route -> `104 kB` First Load JS.
+- `/dashboard/signature`: old heavy Signature route -> `104 kB` First Load JS.
+- `/dashboard/remedies`: old heavy Remedies route -> `104 kB` First Load JS.
+
+Updated Phase 6 gate evidence:
+
+- `/dashboard/report` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/premium` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/vedic` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/kp` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/jaimini` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/numerology` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/signature` page-specific JS: `4 KB` against `80 KB` budget.
+- `/dashboard/remedies` page-specific JS: `4 KB` against `80 KB` budget.
+
+Supplemental verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `PREDICTA_BIRTH_PLACE_AUTOCOMPLETE_BASE_URL=http://127.0.0.1:3009 node scripts/run-birth-place-autocomplete-gate.mjs`: PASS; Petlad resolves to `Petlad, Gujarat, India`, suggestions unmount, `Searching places...` is absent, refocus stays closed.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/report,/dashboard/premium,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/remedies,/dashboard/kundli corepack pnpm test:ui-text-overflow`: PASS, 36 route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS, 56 route and viewport checks.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `git diff --check`: PASS.
