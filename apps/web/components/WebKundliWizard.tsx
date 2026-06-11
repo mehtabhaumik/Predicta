@@ -74,6 +74,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const [birthPlaceQuery, setBirthPlaceQuery] = useState('');
   const [placeSuggestions, setPlaceSuggestions] = useState<WebBirthPlace[]>([]);
   const [isPlaceSuggestionsOpen, setIsPlaceSuggestionsOpen] = useState(false);
+  const [isBirthPlaceInputFocused, setIsBirthPlaceInputFocused] = useState(false);
   const [isSearchingPlaces, setIsSearchingPlaces] = useState(false);
   const [acceptedBirthPlaceQuery, setAcceptedBirthPlaceQuery] = useState('');
   const [editingKundliId, setEditingKundliId] = useState<string | undefined>();
@@ -244,6 +245,7 @@ export function WebKundliWizard(): React.JSX.Element {
     setAcceptedBirthPlaceQuery(normalizeBirthPlaceLabel(optionLabel));
     setSelectedPlace(option);
     setBirthPlaceQuery(optionLabel);
+    setIsBirthPlaceInputFocused(false);
     resetBirthPlaceSearchUi();
   }
 
@@ -315,7 +317,7 @@ export function WebKundliWizard(): React.JSX.Element {
       return;
     }
 
-    if (!isPlaceSuggestionsOpen) {
+    if (!isPlaceSuggestionsOpen || !isBirthPlaceInputFocused) {
       setIsSearchingPlaces(false);
       return;
     }
@@ -387,6 +389,7 @@ export function WebKundliWizard(): React.JSX.Element {
   }, [
     birthPlaceQuery,
     acceptedBirthPlaceQuery,
+    isBirthPlaceInputFocused,
     isPlaceSuggestionsOpen,
     normalizedBirthPlaceQuery,
     selectedPlace,
@@ -418,6 +421,7 @@ export function WebKundliWizard(): React.JSX.Element {
       }
 
       closeBirthPlaceSuggestions();
+      setIsBirthPlaceInputFocused(false);
     }
 
     document.addEventListener('pointerdown', closeBirthPlaceSuggestionsOnOutsidePress);
@@ -579,10 +583,12 @@ export function WebKundliWizard(): React.JSX.Element {
     : placeSuggestions.slice(0, 6);
   const shouldShowBirthPlaceSuggestions =
     !shouldSuppressBirthPlaceOverlay &&
+    isBirthPlaceInputFocused &&
     isPlaceSuggestionsOpen &&
     visibleBirthPlaceSuggestions.length > 0;
   const shouldShowBirthPlaceSearchStatus =
     !shouldSuppressBirthPlaceOverlay &&
+    isBirthPlaceInputFocused &&
     isPlaceSuggestionsOpen &&
     isSearchingPlaces &&
     visibleBirthPlaceSuggestions.length === 0;
@@ -687,6 +693,7 @@ export function WebKundliWizard(): React.JSX.Element {
                   const nextQuery = event.target.value;
                   const normalizedNextQuery =
                     normalizeBirthPlaceLabel(nextQuery);
+                  setIsBirthPlaceInputFocused(true);
                   setBirthPlaceQuery(nextQuery);
                   setSelectedPlace(undefined);
                   if (
@@ -700,6 +707,7 @@ export function WebKundliWizard(): React.JSX.Element {
                   setIsPlaceSuggestionsOpen(normalizedNextQuery.length >= 2);
                 }}
                 onFocus={() => {
+                  setIsBirthPlaceInputFocused(true);
                   if (
                     birthPlaceQuery.trim().length >= 2 &&
                     !isBirthPlaceSearchSettled
@@ -724,6 +732,7 @@ export function WebKundliWizard(): React.JSX.Element {
                   }
 
                   if (isBirthPlaceSearchSettled || settleBirthPlaceQueryIfPossible()) {
+                    setIsBirthPlaceInputFocused(false);
                     closeBirthPlaceSuggestions();
                     return;
                   }
@@ -738,6 +747,7 @@ export function WebKundliWizard(): React.JSX.Element {
                       return;
                     }
 
+                    setIsBirthPlaceInputFocused(false);
                     closeBirthPlaceSuggestions();
                   }, 80);
                 }}
