@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:3009",
-  "generatedAt": "2026-06-11T16:41:50.415Z",
+  "generatedAt": "2026-06-11T17:02:14.869Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -908,19 +908,19 @@
     },
     {
       "askTextarea": {
-        "bottom": 370,
+        "bottom": 309,
         "height": 119,
         "left": 27,
         "right": 741,
-        "top": 251,
+        "top": 190,
         "width": 714
       },
       "chipStrip": {
-        "bottom": 500,
+        "bottom": 439,
         "height": 98,
         "left": 27,
         "right": 741,
-        "top": 402,
+        "top": 341,
         "width": 714
       },
       "documentWidth": 768,
@@ -940,11 +940,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 581,
+        "bottom": 521,
         "height": 50,
         "left": 182,
         "right": 336,
-        "top": 532,
+        "top": 471,
         "width": 154
       },
       "windowHeight": 1024,
@@ -1193,19 +1193,19 @@
     },
     {
       "askTextarea": {
-        "bottom": 375,
+        "bottom": 315,
         "height": 119,
         "left": 29,
         "right": 805,
-        "top": 256,
+        "top": 196,
         "width": 775
       },
       "chipStrip": {
-        "bottom": 505,
+        "bottom": 445,
         "height": 98,
         "left": 29,
         "right": 805,
-        "top": 407,
+        "top": 347,
         "width": 775
       },
       "documentWidth": 834,
@@ -1225,11 +1225,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 587,
+        "bottom": 526,
         "height": 50,
         "left": 184,
         "right": 338,
-        "top": 537,
+        "top": 477,
         "width": 154
       },
       "windowHeight": 1112,
@@ -1478,19 +1478,19 @@
     },
     {
       "askTextarea": {
-        "bottom": 397,
+        "bottom": 332,
         "height": 119,
         "left": 87,
         "right": 937,
-        "top": 278,
+        "top": 213,
         "width": 850
       },
       "chipStrip": {
-        "bottom": 529,
+        "bottom": 464,
         "height": 98,
         "left": 87,
         "right": 937,
-        "top": 431,
+        "top": 366,
         "width": 850
       },
       "documentWidth": 1024,
@@ -1510,11 +1510,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 613,
+        "bottom": 548,
         "height": 50,
         "left": 242,
         "right": 396,
-        "top": 563,
+        "top": 498,
         "width": 154
       },
       "windowHeight": 900,
@@ -1763,19 +1763,19 @@
     },
     {
       "askTextarea": {
-        "bottom": 517,
+        "bottom": 417,
         "height": 119,
         "left": 135,
         "right": 985,
-        "top": 398,
+        "top": 298,
         "width": 850
       },
       "chipStrip": {
-        "bottom": 655,
+        "bottom": 555,
         "height": 98,
         "left": 135,
         "right": 985,
-        "top": 557,
+        "top": 457,
         "width": 850
       },
       "documentWidth": 1440,
@@ -1795,11 +1795,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 744,
+        "bottom": 644,
         "height": 50,
         "left": 290,
         "right": 444,
-        "top": 695,
+        "top": 595,
         "width": 154
       },
       "windowHeight": 940,

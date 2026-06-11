@@ -111,7 +111,6 @@ export function AskPredictaLightShell(): React.JSX.Element {
         <div className="ask-light-copy">
           <div className="section-title">{landing.askEyebrow}</div>
           <h1>{landing.askTitle}</h1>
-          <p>{landing.askBody}</p>
         </div>
 
         <label className="ask-light-field">
@@ -148,6 +147,8 @@ export function AskPredictaLightShell(): React.JSX.Element {
             {landing.voiceLabel}
           </button>
         </div>
+
+        <p className="ask-light-support-copy">{landing.askBody}</p>
 
         <div className="ask-light-hints">
           <span>{landing.noKundliHint}</span>

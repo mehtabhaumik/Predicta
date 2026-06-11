@@ -20665,7 +20665,7 @@ select::-ms-expand {
   font-size: clamp(28px, 3.6vw, 44px);
 }
 
-.ask-light-copy p {
+.ask-light-support-copy {
   color: var(--muted);
   font-size: clamp(16px, 1.7vw, 19px);
   line-height: 1.58;
@@ -23872,7 +23872,7 @@ select::-ms-expand {
     line-height: 0.98;
   }
 
-  .ask-light-copy p {
+  .ask-light-support-copy {
     font-size: 14px;
     line-height: 1.48;
   }
@@ -23900,12 +23900,17 @@ select::-ms-expand {
     display: none;
   }
 
+  .ask-predicta-page .ask-light-support-copy {
+    display: none;
+  }
+
   .ask-light-chips {
     order: 1;
   }
 
   .ask-light-hints,
-  .ask-light-voice-note {
+  .ask-light-voice-note,
+  .ask-light-support-copy {
     order: 2;
   }
 
