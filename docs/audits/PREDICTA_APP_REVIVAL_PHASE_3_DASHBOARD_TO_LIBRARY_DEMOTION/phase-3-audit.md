@@ -94,3 +94,37 @@ Date: 2026-06-12
 
 Green. The remaining `Library` terms are internal code symbols or legitimate
 chart-library labels, not visible navigation/control-panel language.
+
+## Supplemental Birth-Place Overlay Race Lock
+
+Date: 2026-06-12
+
+### Implemented
+
+- Split birth-place dropdown closing into a non-invalidating UI reset and an
+  explicit close that invalidates pending searches.
+- Treated a selected or accepted birth place as a hard overlay-suppression
+  state, so suggestions and `Searching places...` cannot render after a valid
+  selection.
+- Removed duplicate mouse/click selection handlers from suggestion buttons and
+  kept one pointer path plus keyboard selection to avoid repeated selection
+  events fighting the focus/blur lifecycle.
+
+### Supplemental Verification
+
+- Focused production-server Chrome smoke on `/dashboard/kundli`: typed `Pet`,
+  selected `Petlad`, and verified `inputValue` became
+  `Petlad, Gujarat, India`, `statusText` was `null`, `suggestionsText` was
+  `null`, and `listboxCount` was `0`.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS after production
+  build completed. The earlier parallel typecheck collided with `.next/types`
+  generation while build was running and was rerun successfully.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3032 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/kundli corepack pnpm test:ui-text-overflow`: PASS, `4` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3032 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard/kundli corepack pnpm test:ui-personal-space`: PASS.
+- `git diff --check`: PASS.
+
+### Supplemental Result
+
+Green. Birth-place autocomplete now closes cleanly after a valid place is
+selected and does not leave the search receipt or suggestion list on screen.

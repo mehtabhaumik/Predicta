@@ -202,11 +202,15 @@ export function WebKundliWizard(): React.JSX.Element {
           mode: 'entered',
         };
 
-  function closeBirthPlaceSuggestions() {
-    placeSearchRequestRef.current += 1;
+  function resetBirthPlaceSearchUi() {
     setPlaceSuggestions([]);
     setIsSearchingPlaces(false);
     setIsPlaceSuggestionsOpen(false);
+  }
+
+  function closeBirthPlaceSuggestions() {
+    placeSearchRequestRef.current += 1;
+    resetBirthPlaceSearchUi();
   }
 
   function settleBirthPlaceSelection(option: WebBirthPlace) {
@@ -216,9 +220,7 @@ export function WebKundliWizard(): React.JSX.Element {
     setAcceptedBirthPlaceQuery(normalizeBirthPlaceLabel(optionLabel));
     setSelectedPlace(option);
     setBirthPlaceQuery(optionLabel);
-    setPlaceSuggestions([]);
-    setIsSearchingPlaces(false);
-    setIsPlaceSuggestionsOpen(false);
+    resetBirthPlaceSearchUi();
   }
 
   function selectBirthPlace(option: WebBirthPlace) {
@@ -276,7 +278,7 @@ export function WebKundliWizard(): React.JSX.Element {
 
     if (query.length < 2) {
       setAcceptedBirthPlaceQuery('');
-      closeBirthPlaceSuggestions();
+      resetBirthPlaceSearchUi();
       return;
     }
 
@@ -285,7 +287,7 @@ export function WebKundliWizard(): React.JSX.Element {
       (acceptedBirthPlaceQuery &&
         acceptedBirthPlaceQuery === normalizedBirthPlaceQuery)
     ) {
-      closeBirthPlaceSuggestions();
+      resetBirthPlaceSearchUi();
       return;
     }
 
@@ -371,7 +373,7 @@ export function WebKundliWizard(): React.JSX.Element {
       isBirthPlaceSearchSettled &&
       (isPlaceSuggestionsOpen || isSearchingPlaces || placeSuggestions.length > 0)
     ) {
-      closeBirthPlaceSuggestions();
+      resetBirthPlaceSearchUi();
     }
   }, [
     isPlaceSuggestionsOpen,
@@ -546,17 +548,18 @@ export function WebKundliWizard(): React.JSX.Element {
   }
 
   const shouldShowReadyFirst = Boolean(kundli && !editingKundliId);
-  const visibleBirthPlaceSuggestions = selectedPlace || isBirthPlaceSearchSettled
+  const shouldSuppressBirthPlaceOverlay =
+    Boolean(selectedPlace) || isBirthPlaceSearchSettled;
+  const visibleBirthPlaceSuggestions = shouldSuppressBirthPlaceOverlay
     ? []
     : placeSuggestions.slice(0, 6);
   const shouldShowBirthPlaceSuggestions =
-    !selectedPlace &&
+    !shouldSuppressBirthPlaceOverlay &&
     isPlaceSuggestionsOpen &&
     visibleBirthPlaceSuggestions.length > 0;
   const shouldShowBirthPlaceSearchStatus =
-    !selectedPlace &&
+    !shouldSuppressBirthPlaceOverlay &&
     isPlaceSuggestionsOpen &&
-    !isBirthPlaceSearchSettled &&
     isSearchingPlaces &&
     visibleBirthPlaceSuggestions.length === 0;
   const readyFlow = kundli ? (
@@ -735,15 +738,7 @@ export function WebKundliWizard(): React.JSX.Element {
                             : false
                         }
                         key={`${option.place}-${option.latitude}-${option.longitude}`}
-                        onMouseDown={event => {
-                          event.preventDefault();
-                          selectBirthPlace(option);
-                        }}
                         onPointerDown={event => {
-                          event.preventDefault();
-                          selectBirthPlace(option);
-                        }}
-                        onClick={event => {
                           event.preventDefault();
                           selectBirthPlace(option);
                         }}
