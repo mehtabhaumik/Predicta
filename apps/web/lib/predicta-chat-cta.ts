@@ -133,6 +133,9 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   return `${getPredictaChatPath()}?${params.toString()}`;
 }
 
+const MAX_LIST_PARAM_ITEMS = 6;
+const MAX_LIST_PARAM_ITEM_LENGTH = 48;
+
 function getPredictaChatPath(): string {
   return '/ask';
 }
@@ -154,11 +157,30 @@ function setListParam(
   key: string,
   value: string[] | undefined,
 ): void {
-  const cleanValue = value?.map(item => item.trim()).filter(Boolean);
+  const cleanValue = value
+    ?.map(item => compactListParamItem(item))
+    .filter(Boolean);
 
   if (!cleanValue?.length) {
     return;
   }
 
-  params.set(key, cleanValue.join('||'));
+  const visibleValue = cleanValue.slice(0, MAX_LIST_PARAM_ITEMS);
+  const remainingCount = cleanValue.length - visibleValue.length;
+
+  if (remainingCount > 0) {
+    visibleValue.push(`+${remainingCount} more sections`);
+  }
+
+  params.set(key, visibleValue.join('||'));
+}
+
+function compactListParamItem(item: string): string {
+  const cleanItem = item.trim().replace(/\s+/g, ' ');
+
+  if (cleanItem.length <= MAX_LIST_PARAM_ITEM_LENGTH) {
+    return cleanItem;
+  }
+
+  return `${cleanItem.slice(0, MAX_LIST_PARAM_ITEM_LENGTH - 1).trim()}…`;
 }

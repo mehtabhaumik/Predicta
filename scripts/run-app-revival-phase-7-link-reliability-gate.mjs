@@ -12,6 +12,7 @@ const baseUrl = (
 const auditDir = `docs/audits/${phaseName}`;
 const manifestPath = `${auditDir}/link-reliability-manifest.json`;
 const maxClickMs = Number(process.env.PREDICTA_LINK_CLICK_BUDGET_MS ?? 1_800);
+const maxHrefLength = Number(process.env.PREDICTA_LINK_MAX_HREF_LENGTH ?? 1_800);
 const chromePath =
   process.env.CHROME_PATH ??
   [
@@ -253,6 +254,7 @@ const manifest = {
   clickBudgetMs: maxClickMs,
   clickResults,
   generatedAt: new Date().toISOString(),
+  hrefLengthBudget: maxHrefLength,
   pageResults,
   routeResults,
 };
@@ -325,6 +327,12 @@ async function auditPageLinks(cdp, check) {
           .replace(/\\s+/g, ' ')
           .trim(),
       }));
+      const oversizedHrefs = anchors
+        .filter(anchor => anchor.href.length > ${maxHrefLength})
+        .map(anchor => ({
+          hrefLength: anchor.href.length,
+          text: anchor.text,
+        }));
       const missing = requiredLinks.filter(required =>
         !hrefs.some(href => href === required || href.startsWith(required + '?') || href.startsWith(required + '#'))
       );
@@ -336,6 +344,7 @@ async function auditPageLinks(cdp, check) {
         hrefs,
         missing,
         nestedInteractive,
+        oversizedHrefs,
       };
     })()`,
     returnByValue: true,
@@ -357,6 +366,12 @@ async function auditPageLinks(cdp, check) {
   for (const item of result.nestedInteractive ?? []) {
     pageFailures.push(
       `${check.route}: nested interactive element detected near "${item.text}".`,
+    );
+  }
+
+  for (const item of result.oversizedHrefs ?? []) {
+    pageFailures.push(
+      `${check.route}: oversized navigation href (${item.hrefLength} chars) near "${item.text}".`,
     );
   }
 

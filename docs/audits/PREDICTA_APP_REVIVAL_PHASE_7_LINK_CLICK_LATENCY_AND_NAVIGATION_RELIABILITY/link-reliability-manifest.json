@@ -1,12 +1,12 @@
 {
-  "baseUrl": "https://predicta.rudraix.com",
+  "baseUrl": "http://127.0.0.1:3009",
   "clickBudgetMs": 1800,
   "clickResults": [
     {
       "clicked": true,
       "href": "/ask?sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly.",
       "text": "Ask Predicta",
-      "elapsedMs": 236,
+      "elapsedMs": 104,
       "from": "/",
       "name": "landing primary ask entry",
       "url": "/ask?sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly."
@@ -15,7 +15,7 @@
       "clicked": true,
       "href": "/dashboard",
       "text": "Library",
-      "elapsedMs": 109,
+      "elapsedMs": 107,
       "from": "/ask",
       "name": "ask header dashboard link",
       "url": "/dashboard"
@@ -24,7 +24,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Library&prompt=Help+me+from+my+selected+Kundli.",
       "text": "Ask Predicta",
-      "elapsedMs": 266,
+      "elapsedMs": 105,
       "from": "/dashboard",
       "name": "dashboard ask predicta link",
       "url": "/ask?sourceScreen=Library&prompt=Help+me+from+my+selected+Kundli."
@@ -33,7 +33,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI",
       "text": "Ask Predicta",
-      "elapsedMs": 445,
+      "elapsedMs": 103,
       "from": "/dashboard/vedic",
       "name": "vedic evidence room ask link",
       "url": "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI"
@@ -42,13 +42,14 @@
       "clicked": true,
       "href": "/checkout?productId=pridicta_day_pass_24h",
       "text": "Try Day Pass",
-      "elapsedMs": 407,
+      "elapsedMs": 102,
       "from": "/pricing",
       "name": "pricing checkout link",
       "url": "/checkout?productId=pridicta_day_pass_24h"
     }
   ],
-  "generatedAt": "2026-06-11T10:10:44.457Z",
+  "generatedAt": "2026-06-11T10:40:59.073Z",
+  "hrefLengthBudget": 1800,
   "pageResults": [
     {
       "activeLinks": [],
@@ -77,6 +78,7 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/"
     },
@@ -93,6 +95,7 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/ask"
     },
@@ -144,6 +147,7 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/dashboard"
     },
@@ -205,6 +209,7 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/dashboard/vedic"
     },
@@ -252,6 +257,7 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/dashboard/kp"
     },
@@ -291,6 +297,7 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/dashboard/jaimini"
     },
@@ -341,6 +348,7 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/dashboard/numerology"
     },
@@ -381,6 +389,7 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/dashboard/signature"
     },
@@ -409,9 +418,9 @@
         "/dashboard/account",
         "/dashboard/premium",
         "/ask?sourceScreen=Library&prompt=Help+me+from+my+selected+Kundli.",
-        "/ask?sourceScreen=Report&carriedContextLabel=Kundli+Report&evidenceSourceLabel=Report+section+memory+and+generated+report+context&handoffMode=main_synthesis&prompt=Create+a+complete+Kundli+report+preview+with+useful+insights+first%2C+then+show+what+a+detailed+premium+PDF+would+add.&school=PARASHARI&selectedSection=Kundli+Report&reportFocus=KUNDLI&reportMode=FREE&reportSchoolLane=VEDIC&reportSectionPrompt=Create+a+complete+Kundli+report+preview+with+useful+insights+first%2C+then+show+what+a+detailed+premium+PDF+would+add.&reportSectionTitle=Kundli+Report&reportType=Kundli+Report&reportAvailableSections=Birth+details+and+calculation%7C%7CD1+and+all+divisional+charts%7C%7CParashari+Chalit+refinement%7C%7CKP+cusp+and+sub-lord+foundation%7C%7CJaimini+destiny+preview%7C%7CNumerology+name+and+birth+numbers%7C%7CSignature+Predicta+and+improvement+plan%7C%7CMahadasha%2C+Antardasha%2C+timing%7C%7CGochar+and+Sade+Sati%7C%7CYearly+horoscope+and+Varshaphal%7C%7CPlanet+strength+and+yogas%7C%7CAshtakavarga+summary%7C%7CCareer+and+D10%7C%7CMarriage%2C+D9%2C+compatibility%7C%7CWealth%2C+D2%2C+money+timing%7C%7CHealth+caution+and+emotional+care%7C%7CKarma-based+remedies%7C%7CLimits%2C+confidence%2C+safety+notes&reportSelectedSections=Birth+details+and+calculation%7C%7CD1+and+all+divisional+charts%7C%7CParashari+Chalit+refinement%7C%7CKP+cusp+and+sub-lord+foundation%7C%7CJaimini+destiny+preview%7C%7CNumerology+name+and+birth+numbers%7C%7CSignature+Predicta+and+improvement+plan%7C%7CMahadasha%2C+Antardasha%2C+timing%7C%7CGochar+and+Sade+Sati%7C%7CYearly+horoscope+and+Varshaphal%7C%7CPlanet+strength+and+yogas%7C%7CAshtakavarga+summary%7C%7CCareer+and+D10%7C%7CMarriage%2C+D9%2C+compatibility%7C%7CWealth%2C+D2%2C+money+timing%7C%7CHealth+caution+and+emotional+care%7C%7CKarma-based+remedies%7C%7CLimits%2C+confidence%2C+safety+notes&eventOracleHandoff=true",
+        "/ask?sourceScreen=Report&carriedContextLabel=Kundli+Report&evidenceSourceLabel=Report+section+memory+and+generated+report+context&handoffMode=main_synthesis&prompt=Create+a+complete+Kundli+report+preview+with+useful+insights+first%2C+then+show+what+a+detailed+premium+PDF+would+add.&school=PARASHARI&selectedSection=Kundli+Report&reportFocus=KUNDLI&reportMode=FREE&reportSchoolLane=VEDIC&reportSectionPrompt=Create+a+complete+Kundli+report+preview+with+useful+insights+first%2C+then+show+what+a+detailed+premium+PDF+would+add.&reportSectionTitle=Kundli+Report&reportType=Kundli+Report&reportAvailableSections=Birth+details+and+calculation%7C%7CD1+and+all+divisional+charts%7C%7CParashari+Chalit+refinement%7C%7CKP+cusp+and+sub-lord+foundation%7C%7CJaimini+destiny+preview%7C%7CNumerology+name+and+birth+numbers%7C%7C%2B12+more+sections&reportSelectedSections=Birth+details+and+calculation%7C%7CD1+and+all+divisional+charts%7C%7CParashari+Chalit+refinement%7C%7CKP+cusp+and+sub-lord+foundation%7C%7CJaimini+destiny+preview%7C%7CNumerology+name+and+birth+numbers%7C%7C%2B12+more+sections&eventOracleHandoff=true",
         "/dashboard/kundli",
-        "/ask?sourceScreen=Report&carriedContextLabel=Kundli+Report&evidenceSourceLabel=Report+section+memory+and+generated+report+context&handoffMode=main_synthesis&prompt=Create+a+complete+Kundli+report+preview+with+useful+insights+first%2C+then+show+what+a+detailed+premium+PDF+would+add.&school=PARASHARI&selectedSection=Kundli+Report&reportFocus=KUNDLI&reportMode=FREE&reportSchoolLane=VEDIC&reportSectionPrompt=Create+a+complete+Kundli+report+preview+with+useful+insights+first%2C+then+show+what+a+detailed+premium+PDF+would+add.&reportSectionTitle=Kundli+Report&reportType=Kundli+Report&reportAvailableSections=Birth+details+and+calculation%7C%7CD1+and+all+divisional+charts%7C%7CParashari+Chalit+refinement%7C%7CKP+cusp+and+sub-lord+foundation%7C%7CJaimini+destiny+preview%7C%7CNumerology+name+and+birth+numbers%7C%7CSignature+Predicta+and+improvement+plan%7C%7CMahadasha%2C+Antardasha%2C+timing%7C%7CGochar+and+Sade+Sati%7C%7CYearly+horoscope+and+Varshaphal%7C%7CPlanet+strength+and+yogas%7C%7CAshtakavarga+summary%7C%7CCareer+and+D10%7C%7CMarriage%2C+D9%2C+compatibility%7C%7CWealth%2C+D2%2C+money+timing%7C%7CHealth+caution+and+emotional+care%7C%7CKarma-based+remedies%7C%7CLimits%2C+confidence%2C+safety+notes&reportSelectedSections=Birth+details+and+calculation%7C%7CD1+and+all+divisional+charts%7C%7CParashari+Chalit+refinement%7C%7CKP+cusp+and+sub-lord+foundation%7C%7CJaimini+destiny+preview%7C%7CNumerology+name+and+birth+numbers%7C%7CSignature+Predicta+and+improvement+plan%7C%7CMahadasha%2C+Antardasha%2C+timing%7C%7CGochar+and+Sade+Sati%7C%7CYearly+horoscope+and+Varshaphal%7C%7CPlanet+strength+and+yogas%7C%7CAshtakavarga+summary%7C%7CCareer+and+D10%7C%7CMarriage%2C+D9%2C+compatibility%7C%7CWealth%2C+D2%2C+money+timing%7C%7CHealth+caution+and+emotional+care%7C%7CKarma-based+remedies%7C%7CLimits%2C+confidence%2C+safety+notes&eventOracleHandoff=true",
+        "/ask?sourceScreen=Report&carriedContextLabel=Kundli+Report&evidenceSourceLabel=Report+section+memory+and+generated+report+context&handoffMode=main_synthesis&prompt=Create+a+complete+Kundli+report+preview+with+useful+insights+first%2C+then+show+what+a+detailed+premium+PDF+would+add.&school=PARASHARI&selectedSection=Kundli+Report&reportFocus=KUNDLI&reportMode=FREE&reportSchoolLane=VEDIC&reportSectionPrompt=Create+a+complete+Kundli+report+preview+with+useful+insights+first%2C+then+show+what+a+detailed+premium+PDF+would+add.&reportSectionTitle=Kundli+Report&reportType=Kundli+Report&reportAvailableSections=Birth+details+and+calculation%7C%7CD1+and+all+divisional+charts%7C%7CParashari+Chalit+refinement%7C%7CKP+cusp+and+sub-lord+foundation%7C%7CJaimini+destiny+preview%7C%7CNumerology+name+and+birth+numbers%7C%7C%2B12+more+sections&reportSelectedSections=Birth+details+and+calculation%7C%7CD1+and+all+divisional+charts%7C%7CParashari+Chalit+refinement%7C%7CKP+cusp+and+sub-lord+foundation%7C%7CJaimini+destiny+preview%7C%7CNumerology+name+and+birth+numbers%7C%7C%2B12+more+sections&eventOracleHandoff=true",
         "/dashboard/kundli",
         "/",
         "/accuracy-method",
@@ -421,6 +430,7 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/dashboard/report"
     },
@@ -491,6 +501,7 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/pricing"
     },
@@ -536,136 +547,137 @@
       ],
       "missing": [],
       "nestedInteractive": [],
+      "oversizedHrefs": [],
       "failures": [],
       "route": "/dashboard/redeem-pass"
     }
   ],
   "routeResults": [
     {
-      "elapsedMs": 1834,
+      "elapsedMs": 66,
       "route": "/",
       "status": 200,
-      "url": "https://predicta.rudraix.com/"
+      "url": "http://127.0.0.1:3009/"
     },
     {
-      "elapsedMs": 412,
+      "elapsedMs": 17,
       "route": "/ask",
       "status": 200,
-      "url": "https://predicta.rudraix.com/ask"
+      "url": "http://127.0.0.1:3009/ask"
     },
     {
-      "elapsedMs": 168,
+      "elapsedMs": 7,
       "route": "/pricing",
       "status": 200,
-      "url": "https://predicta.rudraix.com/pricing"
+      "url": "http://127.0.0.1:3009/pricing"
     },
     {
-      "elapsedMs": 185,
+      "elapsedMs": 4,
       "route": "/checkout?productId=pridicta_10_questions",
       "status": 200,
-      "url": "https://predicta.rudraix.com/checkout?productId=pridicta_10_questions"
+      "url": "http://127.0.0.1:3009/checkout?productId=pridicta_10_questions"
     },
     {
-      "elapsedMs": 182,
+      "elapsedMs": 4,
       "route": "/accuracy-method",
       "status": 200,
-      "url": "https://predicta.rudraix.com/accuracy-method"
+      "url": "http://127.0.0.1:3009/accuracy-method"
     },
     {
-      "elapsedMs": 182,
+      "elapsedMs": 4,
       "route": "/safety",
       "status": 200,
-      "url": "https://predicta.rudraix.com/safety"
+      "url": "http://127.0.0.1:3009/safety"
     },
     {
-      "elapsedMs": 190,
+      "elapsedMs": 6,
       "route": "/legal",
       "status": 200,
-      "url": "https://predicta.rudraix.com/legal"
+      "url": "http://127.0.0.1:3009/legal"
     },
     {
-      "elapsedMs": 260,
+      "elapsedMs": 3,
       "route": "/feedback",
       "status": 200,
-      "url": "https://predicta.rudraix.com/feedback"
+      "url": "http://127.0.0.1:3009/feedback"
     },
     {
-      "elapsedMs": 315,
+      "elapsedMs": 5,
       "route": "/dashboard",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard"
+      "url": "http://127.0.0.1:3009/dashboard"
     },
     {
-      "elapsedMs": 179,
+      "elapsedMs": 5,
       "route": "/dashboard/kundli",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/kundli"
+      "url": "http://127.0.0.1:3009/dashboard/kundli"
     },
     {
-      "elapsedMs": 170,
+      "elapsedMs": 3,
       "route": "/dashboard/vedic",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/vedic"
+      "url": "http://127.0.0.1:3009/dashboard/vedic"
     },
     {
-      "elapsedMs": 212,
+      "elapsedMs": 4,
       "route": "/dashboard/kp",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/kp"
+      "url": "http://127.0.0.1:3009/dashboard/kp"
     },
     {
-      "elapsedMs": 182,
+      "elapsedMs": 3,
       "route": "/dashboard/jaimini",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/jaimini"
+      "url": "http://127.0.0.1:3009/dashboard/jaimini"
     },
     {
-      "elapsedMs": 198,
+      "elapsedMs": 4,
       "route": "/dashboard/numerology",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/numerology"
+      "url": "http://127.0.0.1:3009/dashboard/numerology"
     },
     {
-      "elapsedMs": 200,
+      "elapsedMs": 3,
       "route": "/dashboard/signature",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/signature"
+      "url": "http://127.0.0.1:3009/dashboard/signature"
     },
     {
-      "elapsedMs": 171,
+      "elapsedMs": 4,
       "route": "/dashboard/report",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/report"
+      "url": "http://127.0.0.1:3009/dashboard/report"
     },
     {
-      "elapsedMs": 168,
+      "elapsedMs": 4,
       "route": "/dashboard/redeem-pass",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/redeem-pass"
+      "url": "http://127.0.0.1:3009/dashboard/redeem-pass"
     },
     {
-      "elapsedMs": 305,
+      "elapsedMs": 3,
       "route": "/dashboard/saved-kundlis",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/saved-kundlis"
+      "url": "http://127.0.0.1:3009/dashboard/saved-kundlis"
     },
     {
-      "elapsedMs": 161,
+      "elapsedMs": 3,
       "route": "/dashboard/family",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/family"
+      "url": "http://127.0.0.1:3009/dashboard/family"
     },
     {
-      "elapsedMs": 181,
+      "elapsedMs": 3,
       "route": "/dashboard/settings",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/settings"
+      "url": "http://127.0.0.1:3009/dashboard/settings"
     },
     {
-      "elapsedMs": 165,
+      "elapsedMs": 3,
       "route": "/dashboard/account",
       "status": 200,
-      "url": "https://predicta.rudraix.com/dashboard/account"
+      "url": "http://127.0.0.1:3009/dashboard/account"
     }
   ]
 }
