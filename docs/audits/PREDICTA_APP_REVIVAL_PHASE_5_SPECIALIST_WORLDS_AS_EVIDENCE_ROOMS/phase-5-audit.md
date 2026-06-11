@@ -102,3 +102,52 @@ Date: 2026-06-12
 Green. Vedic now behaves like the calmer specialist evidence rooms: answer/chat
 first, local tools only when intentionally opened, and proof only when the user
 asks for it.
+
+## Supplemental Specialist Detailed-Room Deferral
+
+Date: 2026-06-12
+
+### Implemented
+
+- Added one shared translated `Open detailed room` disclosure for Vedic, KP,
+  Jaimini, Numerology, and Signature.
+- Deferred each specialist room's heavier chart, proof, report, and tool panels
+  until the user opens the detailed-room disclosure.
+- Preserved all specialist capabilities. Nothing was deleted; the default room
+  view is now answer-first and depth-on-demand.
+- Corrected the Vedic outlier by placing the custom Vedic world frame and the
+  Vedic intelligence panel behind the same detailed-room disclosure.
+- Added dedicated English, Hindi, and Gujarati translation keys for the shared
+  detailed-room copy and the touched Vedic fallback guidance.
+
+### Supplemental Verification
+
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS. Specialist route
+  page-specific bundles are now about `4 KB`; `/dashboard/vedic`,
+  `/dashboard/kp`, `/dashboard/jaimini`, `/dashboard/numerology`, and
+  `/dashboard/signature` all stayed within budget.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard,/ask corepack pnpm test:ui-text-overflow`: PASS, `28` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard,/ask corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `PREDICTA_MOBILE_APP_FEEL_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-8`: PASS, `63` screenshot-backed checks.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, `15` scenarios.
+- Visual audit of `mobile-390-dashboard-vedic.png`,
+  `mobile-390-dashboard-kp.png`, `mobile-390-dashboard-jaimini.png`,
+  `mobile-390-dashboard-numerology.png`, and
+  `mobile-390-dashboard-signature.png`: PASS. Each room shows one calm Ask
+  Predicta entry, one evidence-room card, and one detailed-room drawer without
+  specialist panel clutter on the first screen.
+- In-app browser check on `http://127.0.0.1:3009/dashboard/vedic`: PASS. The
+  Vedic detailed-room drawer exists, is closed by default, the old Vedic world
+  panel text is not visible before opening depth, and horizontal overflow is
+  `0px`.
+- `git diff --check`: PASS.
+
+### Supplemental Result
+
+Green. The specialist worlds now act as focused evidence rooms behind the main
+Predicta experience: first screen gives the answer path, the proof path stays
+available, and deeper specialist machinery waits until the user asks for it.

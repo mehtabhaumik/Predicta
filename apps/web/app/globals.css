@@ -3785,6 +3785,56 @@ button:disabled,
   padding: 0 16px 16px;
 }
 
+.evidence-room-detail-loader {
+  background:
+    linear-gradient(135deg, rgba(77, 175, 255, 0.1), rgba(239, 80, 175, 0.07)),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 24px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.2);
+  margin-top: clamp(16px, 2.4vw, 24px);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.evidence-room-detail-loader summary {
+  align-items: center;
+  cursor: pointer;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(0, 1fr);
+  list-style: none;
+  min-height: 76px;
+  padding: clamp(18px, 2.6vw, 24px);
+}
+
+.evidence-room-detail-loader summary::-webkit-details-marker {
+  display: none;
+}
+
+.evidence-room-detail-loader summary span {
+  color: var(--text);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.evidence-room-detail-loader summary strong {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 760;
+  line-height: 1.45;
+  max-width: 760px;
+}
+
+.evidence-room-detail-loader-body {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  gap: clamp(18px, 2.4vw, 28px);
+  min-width: 0;
+  padding: clamp(18px, 2.6vw, 28px);
+}
+
 @media (max-width: 1180px) {
   .library-action-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3839,8 +3889,13 @@ button:disabled,
   }
 
   .evidence-room-entry-actions,
-  .evidence-room-proof-drawer summary {
+  .evidence-room-proof-drawer summary,
+  .evidence-room-detail-loader summary {
     gap: 10px;
+  }
+
+  .evidence-room-detail-loader {
+    border-radius: 20px;
   }
 }
 

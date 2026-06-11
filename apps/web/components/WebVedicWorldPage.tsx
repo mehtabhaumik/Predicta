@@ -4,6 +4,7 @@ import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { getNativeCopy } from '@pridicta/config';
 import { translateUiText } from '@pridicta/config/uiTranslations';
+import { WebEvidenceRoomDeferredSection } from './WebEvidenceRoomDeferredSection';
 import { WebEvidenceRoomEntry } from './WebEvidenceRoomEntry';
 import { WebVedicIntelligencePanelLoader } from './WebVedicIntelligencePanelLoader';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
@@ -179,95 +180,103 @@ export function WebVedicWorldPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <WebEvidenceRoomEntry askHref={chatHref} room="vedic" />
-      <div className="predicta-world-page predicta-world-page--vedic">
-        <section className="predicta-world-frame predicta-world--vedic">
-          <div className="predicta-world-hero glass-panel">
-            <div className="predicta-world-hero-copy">
-              <p className="section-title">{copy.hero.eyebrow}</p>
-              <h1 className="gradient-text">{copy.hero.title}</h1>
-              <p>{copy.hero.body}</p>
-              <div
-                className="predicta-world-primary-guidance"
-                data-competitor-response-phase4-primary-guidance="vedic"
-              >
-                <span>START HERE</span>
-                <strong>
-                  {activeKundli
-                    ? 'Read the answer first; open chart proof only when you want it.'
-                    : 'Your Vedic prediction appears after a Kundli is active.'}
-                </strong>
-                <p>
-                  {activeKundli
-                    ? 'The useful reading appears here; the PDF remains the full dossier.'
-                    : 'Create or select a Kundli first. Predicta will lead with the real reading instead of making you study tables.'}
-                </p>
+      <WebEvidenceRoomDeferredSection room="vedic">
+        <div className="predicta-world-page predicta-world-page--vedic">
+          <section className="predicta-world-frame predicta-world--vedic">
+            <div className="predicta-world-hero glass-panel">
+              <div className="predicta-world-hero-copy">
+                <p className="section-title">{copy.hero.eyebrow}</p>
+                <h1 className="gradient-text">{copy.hero.title}</h1>
+                <p>{copy.hero.body}</p>
+                <div
+                  className="predicta-world-primary-guidance"
+                  data-competitor-response-phase4-primary-guidance="vedic"
+                >
+                  <span>{translateUiText('START HERE', language)}</span>
+                  <strong>
+                    {translateUiText(
+                      activeKundli
+                        ? 'Read the answer first; open chart proof only when you want it.'
+                        : 'Your Vedic prediction appears after a Kundli is active.',
+                      language,
+                    )}
+                  </strong>
+                  <p>
+                    {translateUiText(
+                      activeKundli
+                        ? 'The useful reading appears here; the PDF remains the full dossier.'
+                        : 'Create or select a Kundli first. Predicta will lead with the real reading instead of making you study tables.',
+                      language,
+                    )}
+                  </p>
+                </div>
+                <div className="predicta-world-actions">
+                  <Link className="button primary" href={chatHref}>
+                    {copy.actions.chat}
+                  </Link>
+                </div>
               </div>
-              <div className="predicta-world-actions">
-                <Link className="button primary" href={chatHref}>
-                  {copy.actions.chat}
+              <div
+                className="specialist-hero-interaction vedic-chart-first"
+                data-audit1-phase6-hero-interaction="vedic"
+              >
+                {focusCharts.map(([label, body]) => (
+                  <span key={label}>
+                    <strong>{label}</strong>
+                    <small>{body}</small>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <details className="predicta-world-local-map glass-panel">
+              <summary className="predicta-world-disclosure-summary">
+                <div>
+                  <p className="section-title">{getWorldStructureLabel(language)}</p>
+                  <h2>{copy.note.title}</h2>
+                  <p>{copy.note.body}</p>
+                </div>
+                <strong>{translateUiText('Open', language)}</strong>
+              </summary>
+              <div className="predicta-world-local-grid">
+                <Link className="predicta-world-local-card" href="/dashboard/charts">
+                  <strong>{copy.actions.charts}</strong>
+                  <p>{getLocalActionNote(language, 'charts')}</p>
+                </Link>
+                <Link className="predicta-world-local-card" href="/dashboard/remedies">
+                  <strong>{getRemediesLabel(language)}</strong>
+                  <p>{getLocalActionNote(language, 'remedies')}</p>
+                </Link>
+                <Link className="predicta-world-local-card" href="/dashboard/birth-time">
+                  <strong>{copy.actions.birthTime}</strong>
+                  <p>{getLocalActionNote(language, 'birthTime')}</p>
+                </Link>
+                <Link className="predicta-world-local-card" href="/dashboard/report">
+                  <strong>{copy.report.cta}</strong>
+                  <p>{copy.report.body}</p>
                 </Link>
               </div>
-            </div>
-            <div
-              className="specialist-hero-interaction vedic-chart-first"
-              data-audit1-phase6-hero-interaction="vedic"
-            >
-              {focusCharts.map(([label, body]) => (
-                <span key={label}>
-                  <strong>{label}</strong>
-                  <small>{body}</small>
-                </span>
-              ))}
-            </div>
-          </div>
+            </details>
 
-          <details className="predicta-world-local-map glass-panel">
-            <summary className="predicta-world-disclosure-summary">
-              <div>
-                <p className="section-title">{getWorldStructureLabel(language)}</p>
-                <h2>{copy.note.title}</h2>
-                <p>{copy.note.body}</p>
+            <details className="predicta-world-proof-disclosure glass-panel vedic-world-proof-drawer">
+              <summary>
+                <span>{copy.report.title}</span>
+                <strong>{translateUiText('Open evidence', language)}</strong>
+              </summary>
+              <div className="predicta-world-proof-grid">
+                {copy.cards.map(card => (
+                  <article className="predicta-world-proof-card" key={card.title}>
+                    <span>{card.title}</span>
+                    <strong>{card.body}</strong>
+                  </article>
+                ))}
               </div>
-              <strong>{translateUiText('Open', language)}</strong>
-            </summary>
-            <div className="predicta-world-local-grid">
-              <Link className="predicta-world-local-card" href="/dashboard/charts">
-                <strong>{copy.actions.charts}</strong>
-                <p>{getLocalActionNote(language, 'charts')}</p>
-              </Link>
-              <Link className="predicta-world-local-card" href="/dashboard/remedies">
-                <strong>{getRemediesLabel(language)}</strong>
-                <p>{getLocalActionNote(language, 'remedies')}</p>
-              </Link>
-              <Link className="predicta-world-local-card" href="/dashboard/birth-time">
-                <strong>{copy.actions.birthTime}</strong>
-                <p>{getLocalActionNote(language, 'birthTime')}</p>
-              </Link>
-              <Link className="predicta-world-local-card" href="/dashboard/report">
-                <strong>{copy.report.cta}</strong>
-                <p>{copy.report.body}</p>
-              </Link>
-            </div>
-          </details>
+            </details>
+          </section>
 
-          <details className="predicta-world-proof-disclosure glass-panel vedic-world-proof-drawer">
-            <summary>
-              <span>{copy.report.title}</span>
-              <strong>{translateUiText('Open evidence', language)}</strong>
-            </summary>
-            <div className="predicta-world-proof-grid">
-              {copy.cards.map(card => (
-                <article className="predicta-world-proof-card" key={card.title}>
-                  <span>{card.title}</span>
-                  <strong>{card.body}</strong>
-                </article>
-              ))}
-            </div>
-          </details>
-        </section>
-
-        <WebVedicIntelligencePanelLoader />
-      </div>
+          <WebVedicIntelligencePanelLoader />
+        </div>
+      </WebEvidenceRoomDeferredSection>
     </section>
   );
 }

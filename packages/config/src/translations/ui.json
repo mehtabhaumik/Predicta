@@ -151,6 +151,16 @@
       "hi": "जब प्रमाण चाहिए, विस्तृत कक्ष नीचे उपलब्ध है।",
       "gu": "પુરાવો જોઈએ ત્યારે વિગતવાર રૂમ નીચે રહે છે."
     },
+    "ui.evidenceRoom.generic.openDetailedRoom": {
+      "en": "Open detailed room",
+      "hi": "विस्तृत कक्ष खोलें",
+      "gu": "વિગતવાર રૂમ ખોલો"
+    },
+    "ui.evidenceRoom.generic.openDetailedRoomHint": {
+      "en": "Charts, proof, reports, and specialist tools stay here when you want depth.",
+      "hi": "जब गहराई चाहिए, चार्ट, प्रमाण, रिपोर्ट और विशेषज्ञ टूल यहीं रहते हैं।",
+      "gu": "જ્યારે ઊંડાણ જોઈએ, ત્યારે ચાર્ટ, પુરાવો, રિપોર્ટ અને વિશેષજ્ઞ ટૂલ્સ અહીં રહે છે."
+    },
     "ui.evidenceRoom.vedic.title": {
       "en": "Vedic shows the main life signal.",
       "hi": "वैदिक मुख्य जीवन संकेत दिखाता है।",
@@ -9165,6 +9175,21 @@
       "en": "Read the answer first; open chart proof only when you want it.",
       "hi": "पहले उत्तर पढ़ें; चार्ट आधार केवल तब खोलें जब आपको चाहिए।",
       "gu": "પહેલા જવાબ વાંચો; ચાર્ટ આધાર ફક્ત જરૂર હોય ત્યારે ખોલો."
+    },
+    "ui.global.vedic.prediction.after.kundli.audit.worlds": {
+      "en": "Your Vedic prediction appears after a Kundli is active.",
+      "hi": "कुंडली सक्रिय होने के बाद आपका वैदिक पूर्वानुमान दिखाई देगा।",
+      "gu": "કુંડળી સક્રિય થયા પછી તમારું વૈદિક અનુમાન દેખાશે."
+    },
+    "ui.global.useful.reading.pdf.dossier.audit.worlds": {
+      "en": "The useful reading appears here; the PDF remains the full dossier.",
+      "hi": "उपयोगी वाचन यहाँ दिखता है; पूरा डॉसियर PDF में रहता है।",
+      "gu": "ઉપયોગી વાચન અહીં દેખાય છે; સંપૂર્ણ ડોઝિયર PDFમાં રહે છે."
+    },
+    "ui.global.create.select.kundli.first.no.tables.audit.worlds": {
+      "en": "Create or select a Kundli first. Predicta will lead with the real reading instead of making you study tables.",
+      "hi": "पहले कुंडली बनाएं या चुनें। प्रेडिक्टा आपको तालिकाएँ पढ़ाने के बजाय वास्तविक वाचन से शुरू करेगी।",
+      "gu": "પહેલા કુંડળી બનાવો અથવા પસંદ કરો. પ્રેડિક્ટા તમને કોષ્ટકો ભણાવવાને બદલે સાચા વાચનથી શરૂઆત કરશે."
     },
     "ui.global.vedic.reading.direct.life.signal.audit.worlds": {
       "en": "Your Vedic reading should begin with the direct life signal, then use D1, Moon, D9, D10, Chalit, Mahadasha, Gochar, and Kundli Karma as proof. The app gives the useful version here; the PDF becomes the full dossier.",

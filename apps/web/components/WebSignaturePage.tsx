@@ -1,4 +1,5 @@
 import { WebEvidenceRoomEntry } from './WebEvidenceRoomEntry';
+import { WebEvidenceRoomDeferredSection } from './WebEvidenceRoomDeferredSection';
 import { WebSignatureAnalysisLoader } from './WebSignatureAnalysisLoader';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
@@ -14,7 +15,9 @@ export function WebSignaturePage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <WebEvidenceRoomEntry askHref={askHref} room="signature" />
-      <WebSignatureAnalysisLoader />
+      <WebEvidenceRoomDeferredSection room="signature">
+        <WebSignatureAnalysisLoader />
+      </WebEvidenceRoomDeferredSection>
     </section>
   );
 }
