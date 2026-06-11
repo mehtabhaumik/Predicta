@@ -309,7 +309,19 @@ export function WebKundliWizard(): React.JSX.Element {
       return;
     }
 
+    let remoteSearchTimeout: number | undefined;
     const timer = window.setTimeout(() => {
+      remoteSearchTimeout = window.setTimeout(() => {
+        if (cancelled || requestId !== placeSearchRequestRef.current) {
+          return;
+        }
+
+        const fallbackMatches = searchLocalWebBirthPlaces(query).slice(0, 6);
+        setPlaceSuggestions(fallbackMatches);
+        setIsSearchingPlaces(false);
+        setIsPlaceSuggestionsOpen(fallbackMatches.length > 0);
+      }, 4000);
+
       void searchWebBirthPlaces(query).then(places => {
         if (cancelled || requestId !== placeSearchRequestRef.current) {
           return;
@@ -323,12 +335,28 @@ export function WebKundliWizard(): React.JSX.Element {
 
         setPlaceSuggestions(places);
         setIsSearchingPlaces(false);
+      }).catch(() => {
+        if (cancelled || requestId !== placeSearchRequestRef.current) {
+          return;
+        }
+
+        const fallbackMatches = searchLocalWebBirthPlaces(query).slice(0, 6);
+        setPlaceSuggestions(fallbackMatches);
+        setIsSearchingPlaces(false);
+        setIsPlaceSuggestionsOpen(fallbackMatches.length > 0);
+      }).finally(() => {
+        if (remoteSearchTimeout) {
+          window.clearTimeout(remoteSearchTimeout);
+        }
       });
     }, 220);
 
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
+      if (remoteSearchTimeout) {
+        window.clearTimeout(remoteSearchTimeout);
+      }
     };
   }, [
     birthPlaceQuery,
@@ -713,7 +741,9 @@ export function WebKundliWizard(): React.JSX.Element {
                           event.preventDefault();
                           selectBirthPlace(option);
                         }}
-                        onClick={() => selectBirthPlace(option)}
+                        onClick={event => {
+                          event.preventDefault();
+                        }}
                         role="option"
                         type="button"
                       >
