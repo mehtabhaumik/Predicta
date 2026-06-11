@@ -114,6 +114,34 @@ export default function DashboardPage(): React.JSX.Element {
         </section>
       ) : null}
 
+      {hasSavedKundli ? (
+        <DashboardLibrarySections copy={copy} labels={labels} />
+      ) : (
+        <details className="library-secondary-drawer glass-panel">
+          <summary>
+            <span>{copy.librarySavedWorkEyebrow}</span>
+            <strong>{copy.librarySecondaryDrawerTitle}</strong>
+            <small>{copy.librarySecondaryDrawerCta}</small>
+          </summary>
+          <p>{copy.librarySecondaryDrawerBody}</p>
+          <div className="library-secondary-stack">
+            <DashboardLibrarySections copy={copy} labels={labels} />
+          </div>
+        </details>
+      )}
+    </section>
+  );
+}
+
+function DashboardLibrarySections({
+  copy,
+  labels,
+}: {
+  copy: ReturnType<typeof getLightweightCompetitorResponseCopy>['dashboard'];
+  labels: ReturnType<typeof getLightweightAppShellLabels>;
+}): React.JSX.Element {
+  return (
+    <>
       <LibrarySection
         body={copy.librarySavedWorkBody}
         eyebrow={copy.librarySavedWorkEyebrow}
@@ -179,7 +207,7 @@ export default function DashboardPage(): React.JSX.Element {
         ]}
         title={copy.libraryEvidenceRoomsTitle}
       />
-    </section>
+    </>
   );
 }
 

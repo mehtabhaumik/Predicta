@@ -163,3 +163,47 @@ Date: 2026-06-12
 Green. Empty `/dashboard` now behaves like a chat-first saved-work surface
 instead of a dashboard KPI page, while returning-user Kundli status remains
 available when it has real content.
+
+## Supplemental Empty Dashboard Secondary Tools Drawer Lock
+
+Date: 2026-06-12
+
+### Implemented
+
+- Wrapped saved-work and specialist-room tool grids in a closed secondary drawer
+  for brand-new users with no active or saved Kundli.
+- Kept all saved Kundli, report, Family Vault, pass, account, Vedic, KP,
+  Jaimini, Numerology, and Signature links in the DOM for discoverability and
+  link reliability, while making the first visible dashboard action stay
+  `Ask Predicta` / `Create Kundli`.
+- Preserved expanded management sections for returning users once a Kundli
+  exists, because those users actually need the saved-work controls.
+- Added English, Hindi, and Gujarati drawer copy through
+  `competitorResponse.json`; no dashboard copy was hardcoded in the component.
+- Added explicit closed-details CSS so the drawer truly hides nested tool
+  sections when closed instead of merely looking collapsed.
+
+### Supplemental Verification
+
+- Browser DOM verification on `http://127.0.0.1:3009/dashboard`: PASS.
+  Empty dashboard had `Ask Predicta`, `Create Kundli`, `.library-status-panel`
+  count `0`, `.library-secondary-drawer` present and closed, `visibleLibrarySections`
+  `0`, and no horizontal overflow.
+- Translation JSON parse for `competitorResponse.json`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS. Dashboard page-specific
+  bundle stayed within budget.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, `15` scenarios.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard,/ask,/dashboard/kundli,/dashboard/report,/pricing corepack pnpm test:ui-text-overflow`: PASS, `20` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard,/ask,/dashboard/kundli,/dashboard/report,/pricing corepack pnpm test:ui-personal-space`: PASS after rerun, `56` route/viewport checks. The first run hit a browser `Runtime.evaluate` timeout and produced no spacing finding.
+- `git diff --check`: PASS.
+
+### Supplemental Result
+
+Green. First-time `/dashboard` no longer exposes a wall of management cards
+before the user has even created a Kundli. Predicta remains the main path, the
+birth-details path stays obvious, and deeper tools are available only when the
+user intentionally opens them.
