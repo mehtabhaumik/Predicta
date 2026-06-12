@@ -279,9 +279,13 @@ export function DashboardShell({
   const shellLabels = getLightweightAppShellLabels(language);
   const { commonGroups, sections } = buildDashboardNavModel(shellLabels);
   const activeSection = getActiveDashboardSection(pathname, sections);
+  const isPrimaryWorldRoute =
+    DASHBOARD_WORLD_SECTION_IDS.has(activeSection.id) &&
+    pathname === activeSection.href;
   const showAskDock =
     !isChatRoute &&
     !isDashboardHomeRoute &&
+    !isPrimaryWorldRoute &&
     !pathname.startsWith('/dashboard/admin');
   const primarySections = sections.filter(section =>
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
@@ -357,6 +361,7 @@ export function DashboardShell({
     isChatRoute ? 'chat-route' : undefined,
     !isChatRoute && showAskDock ? 'has-ask-dock' : undefined,
     !isChatRoute && isDashboardHomeRoute ? 'dashboard-home-route' : undefined,
+    !isChatRoute && isPrimaryWorldRoute ? 'dashboard-primary-world-route' : undefined,
   ]
     .filter(Boolean)
     .join(' ');
@@ -387,7 +392,7 @@ export function DashboardShell({
           </div>
           <div className="dashboard-topbar-actions">
             <LightweightLanguageSelector compact hideCompactLabel />
-            {!isDashboardHomeRoute ? (
+            {!isDashboardHomeRoute && !isPrimaryWorldRoute ? (
               <Link
                 className="button"
                 href={askPredictaHref}
