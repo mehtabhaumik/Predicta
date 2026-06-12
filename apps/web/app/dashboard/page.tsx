@@ -155,21 +155,17 @@ export default function DashboardPage(): React.JSX.Element {
         </section>
       ) : null}
 
-      {hasSavedKundli ? (
-        <DashboardLibrarySections copy={copy} labels={labels} />
-      ) : (
-        <details className="library-secondary-drawer glass-panel">
-          <summary>
-            <span>{copy.librarySavedWorkEyebrow}</span>
-            <strong>{copy.librarySecondaryDrawerTitle}</strong>
-            <small>{copy.librarySecondaryDrawerCta}</small>
-          </summary>
-          <p>{copy.librarySecondaryDrawerBody}</p>
-          <div className="library-secondary-stack">
-            <DashboardLibrarySections copy={copy} labels={labels} />
-          </div>
-        </details>
-      )}
+      <details className="library-secondary-drawer glass-panel">
+        <summary>
+          <span>{copy.librarySavedWorkEyebrow}</span>
+          <strong>{copy.librarySecondaryDrawerTitle}</strong>
+          <small>{copy.librarySecondaryDrawerCta}</small>
+        </summary>
+        <p>{copy.librarySecondaryDrawerBody}</p>
+        <div className="library-secondary-stack">
+          <DashboardLibrarySections copy={copy} labels={labels} />
+        </div>
+      </details>
     </section>
   );
 }

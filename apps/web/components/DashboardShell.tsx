@@ -358,7 +358,7 @@ export function DashboardShell({
             <strong>{activeSection.label}</strong>
           </div>
           <div className="dashboard-topbar-actions">
-            <LightweightLanguageSelector compact />
+            <LightweightLanguageSelector compact hideCompactLabel />
             <Link
               className="button"
               href={askPredictaHref}
