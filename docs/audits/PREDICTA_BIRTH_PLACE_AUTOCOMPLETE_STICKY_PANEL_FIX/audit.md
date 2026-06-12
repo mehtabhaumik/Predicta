@@ -168,3 +168,29 @@ Date: 2026-06-12
 Green. Known local birth places now settle before the user can see a half-open
 search state, and browser profile/autofill UI is more aggressively discouraged
 from colliding with Predicta's custom place picker.
+
+## Human Typing Sticky-Panel Reaudit
+
+Date: 2026-06-12
+
+### Additional Fix
+
+- Strengthened `scripts/run-birth-place-autocomplete-gate.mjs` with a
+  character-by-character human typing scenario.
+- The gate now reloads the Kundli page, focuses the birth-place input, types
+  `Petlad` through Chrome input events, and fails if the suggestion panel,
+  `Searching places...`, or the mixed option/searching state remains visible.
+- This protects the exact screenshot failure mode where a Petlad suggestion and
+  stale searching receipt could appear together.
+
+### Supplemental Evidence
+
+- `node --check scripts/run-birth-place-autocomplete-gate.mjs`: PASS.
+- `PREDICTA_AUTOCOMPLETE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:birth-place-autocomplete`: PASS. Human typing settles to `Petlad, Gujarat, India`; suggestions are unmounted; `Searching places...` is absent; no mixed option/searching state remains.
+- `PREDICTA_AUTOCOMPLETE_BASE_URL=https://predicta.rudraix.com corepack pnpm test:birth-place-autocomplete`: PASS with the same human typing proof on the deployed app.
+
+### Supplemental Result
+
+Green. The current local and deployed builds do not reproduce the sticky
+Petlad autocomplete panel. The regression gate now covers both scripted input
+and real character-by-character typing so the issue cannot silently return.

@@ -58,6 +58,9 @@ try {
   await navigateAndWait(cdp, `${baseUrl}/dashboard/kundli`);
 
   const result = await runAutocompleteScenario(cdp);
+  await navigateAndWait(cdp, `${baseUrl}/dashboard/kundli`);
+  const humanTypingResult = await runHumanTypingAutocompleteScenario(cdp);
+  result.humanTyping = humanTypingResult;
 
   console.log(JSON.stringify(result, null, 2));
 
@@ -104,6 +107,26 @@ try {
     throw new Error('Birth-place suggestions reopened after focusing the selected place.');
   }
 
+  if (!humanTypingResult.inputFound) {
+    throw new Error('Birth-place input was not found during the human typing scenario.');
+  }
+
+  if (humanTypingResult.inputValue !== 'Petlad, Gujarat, India') {
+    throw new Error(
+      `Human typing did not settle Petlad to "Petlad, Gujarat, India"; received "${humanTypingResult.inputValue}".`,
+    );
+  }
+
+  if (
+    humanTypingResult.suggestionsMounted ||
+    humanTypingResult.hasSearchingPlaces ||
+    humanTypingResult.hasMixedOptionAndSearching
+  ) {
+    throw new Error(
+      'Human typing left the birth-place autocomplete panel, Searching places status, or mixed option/searching state visible.',
+    );
+  }
+
   console.log('Birth-place autocomplete gate passed.');
 } finally {
   cdp?.close();
@@ -117,6 +140,56 @@ try {
     maxRetries: 5,
     recursive: true,
     retryDelay: 200,
+  });
+}
+
+async function runHumanTypingAutocompleteScenario(cdp) {
+  await waitForBirthPlaceInput(cdp);
+
+  const focusResponse = await cdp.send('Runtime.evaluate', {
+    expression: `(() => {
+      const input = document.querySelector('input[placeholder="Start typing city, state, country"]');
+
+      if (!input) {
+        return false;
+      }
+
+      input.focus();
+      input.value = '';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    })()`,
+    returnByValue: true,
+  });
+
+  if (!focusResponse.result?.value) {
+    return { inputFound: false };
+  }
+
+  for (const character of 'Petlad') {
+    await cdp.send('Input.insertText', { text: character });
+    await delay(45);
+  }
+
+  await delay(180);
+
+  const immediateState = await collectAutocompleteState(cdp, {
+    optionPattern: /Petlad/i,
+  });
+
+  if (
+    immediateState.inputValue === 'Petlad, Gujarat, India' &&
+    !immediateState.suggestionsMounted &&
+    !immediateState.hasSearchingPlaces
+  ) {
+    return immediateState;
+  }
+
+  await delay(900);
+
+  return collectAutocompleteState(cdp, {
+    optionPattern: /Petlad/i,
   });
 }
 
