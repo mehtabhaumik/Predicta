@@ -1542,6 +1542,29 @@ button:disabled,
   width: 100%;
 }
 
+.mobile-menu-actions .language-selector.compact {
+  align-items: stretch;
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+
+.mobile-menu-actions .language-selector-copy span {
+  display: block;
+  line-height: 1.35;
+}
+
+.mobile-menu-actions .language-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+}
+
+.mobile-menu-actions .language-options button {
+  min-width: 0;
+  padding-inline: 10px;
+}
+
 .web-footer {
   border-top: 1px solid var(--border-quiet);
   margin: 0 auto;
