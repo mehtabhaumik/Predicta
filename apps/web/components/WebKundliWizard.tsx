@@ -297,8 +297,11 @@ export function WebKundliWizard(): React.JSX.Element {
     const requestId = ++placeSearchRequestRef.current;
     const query = birthPlaceQuery.trim();
     const selectedPlaceIsExact = isExactBirthPlaceSelection(selectedPlace, query);
+    const selectedPlaceMatchesQuery =
+      selectedPlaceIsExact ||
+      Boolean(selectedPlace && doesBirthPlaceMatchQuery(selectedPlace, query));
 
-    if (selectedPlace && !selectedPlaceIsExact) {
+    if (selectedPlace && !selectedPlaceMatchesQuery) {
       setSelectedPlace(undefined);
     }
 
@@ -309,7 +312,7 @@ export function WebKundliWizard(): React.JSX.Element {
     }
 
     if (
-      selectedPlaceIsExact ||
+      selectedPlaceMatchesQuery ||
       (acceptedBirthPlaceQuery &&
         acceptedBirthPlaceQuery === normalizedBirthPlaceQuery)
     ) {
