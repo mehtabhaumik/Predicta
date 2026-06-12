@@ -135,14 +135,6 @@ export default function DashboardPage(): React.JSX.Element {
         </div>
       </section>
 
-      <div className="page-heading library-dashboard-heading">
-        <div className="section-title">{copy.libraryEyebrow}</div>
-        <h1 className="gradient-text">
-          {activeKundli ? copy.libraryReadyTitle : copy.libraryEmptyTitle}
-        </h1>
-        <p>{activeKundli ? copy.libraryReadyBody : copy.libraryEmptyBody}</p>
-      </div>
-
       <section className="library-outcome-panel glass-panel">
         <div className="library-outcome-head">
           <div>
@@ -179,6 +171,25 @@ export default function DashboardPage(): React.JSX.Element {
               </Link>
             );
           })}
+        </div>
+      </section>
+
+      <section className="library-quick-strip glass-panel">
+        <div>
+          <div className="section-title">{copy.libraryEyebrow}</div>
+          <h2>{activeKundli ? copy.libraryReadyTitle : copy.libraryEmptyTitle}</h2>
+          <p>{activeKundli ? copy.libraryReadyBody : copy.libraryEmptyBody}</p>
+        </div>
+        <div className="library-quick-strip-actions">
+          <Link
+            className="button secondary"
+            href={activeKundli ? '/dashboard/saved-kundlis' : '/dashboard/kundli'}
+          >
+            {activeKundli ? copy.libraryOpenSavedWork : copy.libraryCreateKundli}
+          </Link>
+          <Link className="button secondary" href="/dashboard/report">
+            {labels.nav.reports}
+          </Link>
         </div>
       </section>
 
