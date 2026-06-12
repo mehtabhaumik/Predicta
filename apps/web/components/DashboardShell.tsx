@@ -55,6 +55,12 @@ const DASHBOARD_WORLD_SECTION_IDS = new Set([
   'numerology',
   'signature',
 ]);
+const DASHBOARD_TASK_FLOW_ROUTES = new Set([
+  '/dashboard/family/compare',
+  '/dashboard/kundli',
+  '/dashboard/redeem-pass',
+  '/dashboard/report',
+]);
 function buildDashboardNavModel(
   labels: LightweightAppShellLabels,
 ): DashboardNavModel {
@@ -282,10 +288,12 @@ export function DashboardShell({
   const isPrimaryWorldRoute =
     DASHBOARD_WORLD_SECTION_IDS.has(activeSection.id) &&
     pathname === activeSection.href;
+  const isTaskFlowRoute = DASHBOARD_TASK_FLOW_ROUTES.has(pathname);
   const showAskDock =
     !isChatRoute &&
     !isDashboardHomeRoute &&
     !isPrimaryWorldRoute &&
+    !isTaskFlowRoute &&
     !pathname.startsWith('/dashboard/admin');
   const primarySections = sections.filter(section =>
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
