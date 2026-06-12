@@ -45,6 +45,10 @@ export async function redirectLegacyChatToAsk({
     params.set('prompt', defaults.prompt);
   }
 
+  if (params.has('prompt') && !params.has('autoSend')) {
+    params.set('autoSend', 'true');
+  }
+
   if (defaults.school && !params.has('handoffMode')) {
     params.set('handoffMode', 'room_safe');
   }
