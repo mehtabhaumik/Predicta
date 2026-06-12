@@ -223,16 +223,18 @@ function assertNativeLocalizedString({ location, pattern, value }) {
     return;
   }
 
-  if (!LATIN.test(value)) {
+  const valueWithoutPlaceholders = value.replace(/\{[^}]+\}/g, '');
+
+  if (!LATIN.test(valueWithoutPlaceholders)) {
     return;
   }
 
-  const latinTerms = value.match(/[A-Za-z][A-Za-z0-9+.-]*/g) ?? [];
+  const latinTerms = valueWithoutPlaceholders.match(/[A-Za-z][A-Za-z0-9+.-]*/g) ?? [];
   const unexpectedTerms = latinTerms.filter(
     term => !allowedLatinTerms.has(term) && !/^D\d+$/.test(term),
   );
 
-  if (unexpectedTerms.length > 0 || !pattern.test(value)) {
+  if (unexpectedTerms.length > 0 || !pattern.test(valueWithoutPlaceholders)) {
     failures.push(
       `${location}: localized value has untranslated Latin terms: ${unexpectedTerms.join(', ') || value}`,
     );

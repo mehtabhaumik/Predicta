@@ -59,6 +59,27 @@ export function LightweightLanguageSelector({
     }
   }
 
+  if (compact && hideCompactLabel) {
+    return (
+      <label className="language-selector compact compact-hide-label compact-language-select">
+        <span className="sr-only">{labels.language}</span>
+        <select
+          aria-label={labels.language}
+          onChange={event => {
+            setLanguage(event.target.value as typeof language);
+          }}
+          value={language}
+        >
+          {LIGHTWEIGHT_LANGUAGE_OPTIONS.map(option => (
+            <option key={option.code} value={option.code}>
+              {option.nativeName}
+            </option>
+          ))}
+        </select>
+      </label>
+    );
+  }
+
   return (
     <div
       className={[
@@ -104,4 +125,3 @@ export function LightweightLanguageSelector({
     </div>
   );
 }
-

@@ -269,7 +269,7 @@
       "passBanner": {
         "active": "निजी पास सक्रिय",
         "aiRemainingLabel": "AI",
-        "bodyCareful": "{label} में {included} शामिल हैं. {remaining}. AI बैलेंस कम होने पर भी प्रेडिक्टा deterministic charts और reports से मदद कर सकती है.",
+        "bodyCareful": "{label} में {included} शामिल हैं. {remaining}. AI बैलेंस कम होने पर भी प्रेडिक्टा नियम-आधारित ज्योतिष गणना और रिपोर्ट से मदद कर सकती है.",
         "bodySteady": "{label} में {included} शामिल हैं. {remaining}.",
         "deepReadingsLabel": "डीप रीडिंग",
         "manage": "पास संभालें",
@@ -364,7 +364,7 @@
       "passBanner": {
         "active": "ખાનગી પાસ સક્રિય",
         "aiRemainingLabel": "AI",
-        "bodyCareful": "{label} માં {included} સામેલ છે. {remaining}. AI બેલેન્સ ઓછું થાય તો પણ પ્રેડિક્ટા deterministic charts અને reports થી મદદ કરી શકે છે.",
+        "bodyCareful": "{label} માં {included} સામેલ છે. {remaining}. AI બેલેન્સ ઓછું થાય તો પણ પ્રેડિક્ટા નિયમ-આધારિત જ્યોતિષ ગણતરીઓ અને રિપોર્ટથી મદદ કરી શકે છે.",
         "bodySteady": "{label} માં {included} સામેલ છે. {remaining}.",
         "deepReadingsLabel": "ડીપ રીડિંગ",
         "manage": "પાસ સંભાળો",
