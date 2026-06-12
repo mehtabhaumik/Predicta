@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState, type FormEvent } from 'react';
 import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
@@ -17,6 +18,7 @@ type LibraryLink = {
 };
 
 export default function DashboardPage(): React.JSX.Element {
+  const router = useRouter();
   const { language } = useLightweightLanguagePreference();
   const copy = getLightweightCompetitorResponseCopy(language).dashboard;
   const labels = getLightweightAppShellLabels(language);
@@ -30,6 +32,25 @@ export default function DashboardPage(): React.JSX.Element {
       : copy.libraryAskNewPrompt,
     sourceScreen: 'My Kundlis',
   });
+
+  function handleQuestionSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const rawQuestion = data.get('question');
+    const prompt =
+      typeof rawQuestion === 'string' && rawQuestion.trim()
+        ? rawQuestion.trim()
+        : activeKundli
+          ? copy.libraryAskActivePrompt
+          : copy.libraryAskNewPrompt;
+    router.push(
+      buildPredictaChatHref({
+        kundliId: activeKundli?.id,
+        prompt,
+        sourceScreen: 'My Kundlis',
+      }),
+    );
+  }
 
   useEffect(() => {
     setIsFamilyFriendsVisit(
@@ -52,18 +73,38 @@ export default function DashboardPage(): React.JSX.Element {
         <p>{activeKundli ? copy.libraryReadyBody : copy.libraryEmptyBody}</p>
       </div>
 
-      <section className="primary-predicta-panel library-predicta-panel glass-panel">
+      <form
+        className="primary-predicta-panel library-predicta-panel glass-panel"
+        onSubmit={handleQuestionSubmit}
+      >
         <div className="primary-predicta-copy">
           <div className="section-title">
             {copy.primaryPredictaEyebrow}
           </div>
           <h2>{copy.primaryPredictaTitle}</h2>
-          <p>{copy.primaryPredictaBody}</p>
-          <span>{copy.primaryPredictaProof}</span>
+          <label className="library-question-composer">
+            <span>{copy.libraryQuestionLabel}</span>
+            <textarea
+              name="question"
+              placeholder={copy.libraryQuestionPlaceholder}
+              rows={3}
+            />
+          </label>
+          <details className="library-proof-drawer">
+            <summary>
+              <span>{copy.libraryProofDrawerTitle}</span>
+              <strong>{copy.libraryProofDrawerCta}</strong>
+            </summary>
+            <p>{copy.primaryPredictaBody}</p>
+            <p>{copy.primaryPredictaProof}</p>
+          </details>
         </div>
         <div className="primary-predicta-actions">
-          <Link className="button" href={askHref}>
+          <button className="button" type="submit">
             {copy.primaryPredictaPrimary}
+          </button>
+          <Link className="button secondary" href={askHref}>
+            {copy.libraryAskHelpCta}
           </Link>
           {!activeKundli ? (
             <Link className="button secondary" href="/dashboard/kundli">
@@ -75,7 +116,7 @@ export default function DashboardPage(): React.JSX.Element {
             </Link>
           )}
         </div>
-      </section>
+      </form>
 
       {hasSavedKundli ? (
         <section className="library-status-panel glass-panel">

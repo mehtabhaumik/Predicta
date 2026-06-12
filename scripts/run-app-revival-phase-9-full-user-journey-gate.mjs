@@ -353,6 +353,63 @@ try {
     return { audit, failures: localFailures };
   });
 
+  await runScenario('dashboard-question-composer-handoff', mobileViewport, async cdp => {
+    const question = 'Will I get a better job opportunity soon?';
+    await navigateAndWait(cdp, `${baseUrl}/dashboard`);
+    await waitForCondition(cdp, `Boolean(document.querySelector('.library-question-composer textarea'))`, 8_000);
+    const before = await evaluate(cdp, `(() => {
+      const textarea = document.querySelector('.library-question-composer textarea');
+      const button = document.querySelector('.primary-predicta-actions button.button[type="submit"]');
+      return {
+        hasComposer: Boolean(textarea),
+        hasPrimaryAsk: Boolean(button),
+        horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+      };
+    })()`);
+    await evaluate(cdp, `(() => {
+      const textarea = document.querySelector('.library-question-composer textarea');
+      const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
+      setter?.call(textarea, ${JSON.stringify(question)});
+      textarea?.dispatchEvent(new Event('input', { bubbles: true }));
+      return true;
+    })()`);
+    const carried = await evaluate(cdp, `(() => ({
+      value: document.querySelector('.library-question-composer textarea')?.value || '',
+    }))()`);
+    await click(cdp, '.primary-predicta-actions button.button[type="submit"]');
+    await waitForCondition(cdp, `location.pathname === '/ask'`, 8_000);
+    const after = await evaluate(cdp, `(() => ({
+      hasAskShell: Boolean(document.querySelector('.ask-light-shell')),
+      horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+      path: location.pathname,
+      search: location.search,
+      textareaValue: document.querySelector('.ask-light-field textarea')?.value || '',
+      url: location.href,
+    }))()`);
+    const localFailures = [];
+    if (!before.hasComposer || !before.hasPrimaryAsk) {
+      localFailures.push('dashboard does not expose a direct question composer and primary Ask Predicta CTA');
+    }
+    if (before.horizontalOverflow || after.horizontalOverflow) {
+      localFailures.push('dashboard question composer handoff has horizontal overflow');
+    }
+    if (carried.value !== question) {
+      localFailures.push('dashboard question composer did not preserve the typed question before submit');
+    }
+    const preservedSearchPrompt = new URLSearchParams(
+      after.search.startsWith('?') ? after.search.slice(1) : after.search,
+    ).get('prompt');
+    if (
+      after.path !== '/ask' ||
+      !after.hasAskShell ||
+      preservedSearchPrompt !== question ||
+      after.textareaValue !== question
+    ) {
+      localFailures.push('dashboard question composer did not open /ask with the typed question preserved');
+    }
+    return { audit: { after, before, carried }, failures: localFailures };
+  });
+
   await runScenario('mobile-navigation-primary-links', mobileViewport, async cdp => {
     await navigateAndWait(cdp, `${baseUrl}/`);
     await click(cdp, '.mobile-menu-button');
