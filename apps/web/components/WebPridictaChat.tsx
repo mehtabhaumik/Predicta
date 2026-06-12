@@ -3786,11 +3786,10 @@ function buildPostKundliCreatedSuggestions(
           'Meri Kundli se ek useful free report preview banao aur batao premium report mein kya deeper milega.',
       },
       {
-        href: '/dashboard',
         id: 'my-kundlis-after-kundli',
         label: 'Meri Kundli dekho',
-        prompt: 'Open My Kundlis',
-        targetScreen: 'My Kundlis',
+        prompt:
+          'Meri newly created Kundli ka short summary dikhao aur batao main next kya pooch sakta hoon.',
       },
     ];
   }
@@ -3822,11 +3821,10 @@ function buildPostKundliCreatedSuggestions(
           'Mari Kundli thi ek useful free report preview banao ane premium report ma shu deeper male te kaho.',
       },
       {
-        href: '/dashboard',
         id: 'my-kundlis-after-kundli',
         label: 'Mari Kundli juo',
-        prompt: 'Open My Kundlis',
-        targetScreen: 'My Kundlis',
+        prompt:
+          'Mari newly created Kundli no short summary batao ane next hu shu poochi shaku te kaho.',
       },
     ];
   }
@@ -3857,11 +3855,10 @@ function buildPostKundliCreatedSuggestions(
         'Create a useful free report preview from my Kundli and explain what Premium would add.',
     },
     {
-      href: '/dashboard',
       id: 'my-kundlis-after-kundli',
       label: 'Open My Kundlis',
-      prompt: 'Open My Kundlis',
-      targetScreen: 'My Kundlis',
+      prompt:
+        'Show a short summary of my newly created Kundli and tell me what I can ask next.',
     },
   ];
 }
@@ -3891,11 +3888,10 @@ function buildFreeAiUpsellSuggestions(
         'Create my Kundli from chat without using an AI credit. Ask me for birth date, birth time, and birth place one by one.',
     },
     {
-      href: '/dashboard/charts',
       id: 'free-ai-zero-credit-charts',
       label: 'Open charts',
-      prompt: 'Open charts without AI credit.',
-      targetScreen: 'Charts',
+      prompt:
+        'Show my chart snapshot and key deterministic chart facts without using an AI credit.',
     },
     {
       href: '/dashboard/report',
@@ -4259,11 +4255,10 @@ function buildSmartMonetizationSuggestions(
           },
       timingFocused
         ? {
-            href: '/dashboard/timeline',
             id: 'smart-calendar',
             label: 'Life Calendar',
-            prompt: 'Open life calendar',
-            targetScreen: 'Timeline',
+            prompt:
+              'Meri Life Calendar style timing summary chat mein do: current phase, next 90 days, caution, and best action.',
           }
         : {
             href: '/checkout?productId=pridicta_day_pass_24h',
@@ -4307,11 +4302,10 @@ function buildSmartMonetizationSuggestions(
           },
       timingFocused
         ? {
-            href: '/dashboard/timeline',
             id: 'smart-calendar',
             label: 'Life Calendar',
-            prompt: 'Open life calendar',
-            targetScreen: 'Timeline',
+            prompt:
+              'Mari Life Calendar style timing summary chat ma aapo: current phase, next 90 days, caution, ane best action.',
           }
         : {
             href: '/checkout?productId=pridicta_day_pass_24h',
@@ -4354,11 +4348,10 @@ function buildSmartMonetizationSuggestions(
         },
     timingFocused
       ? {
-          href: '/dashboard/timeline',
           id: 'smart-calendar',
           label: 'Open Life Calendar',
-          prompt: 'Open life calendar',
-          targetScreen: 'Timeline',
+          prompt:
+            'Give me a Life Calendar style timing summary in chat: current phase, next 90 days, caution, and best action.',
         }
       : {
           href: '/checkout?productId=pridicta_day_pass_24h',
@@ -4395,18 +4388,16 @@ function buildWowRadarSuggestions(
           'Is Radar pattern ko current Gochar ke saath compare karo aur batao aaj kya useful hai.',
       },
       {
-        href: '/dashboard/charts',
         id: 'radar-open-charts',
         label: 'Charts kholo',
-        prompt: 'Open charts',
-        targetScreen: 'Charts',
+        prompt:
+          'Is Radar pattern ke liye chart snapshot chat mein dikhao: strongest support, pressure, timing, and proof.',
       },
       {
-        href: '/dashboard/report',
         id: 'radar-create-report',
         label: 'Report banao',
-        prompt: 'Create report',
-        targetScreen: 'Report',
+        prompt:
+          'Is Radar pattern se useful report preview chat mein banao aur batao paid report mein kya deeper milega.',
       },
     ];
   }
@@ -4426,18 +4417,16 @@ function buildWowRadarSuggestions(
           'Aa Radar pattern ne current Gochar sathe compare karo ane aaje shu useful chhe te kaho.',
       },
       {
-        href: '/dashboard/charts',
         id: 'radar-open-charts',
         label: 'Charts kholo',
-        prompt: 'Open charts',
-        targetScreen: 'Charts',
+        prompt:
+          'Aa Radar pattern mate chart snapshot chat ma batao: strongest support, pressure, timing, ane proof.',
       },
       {
-        href: '/dashboard/report',
         id: 'radar-create-report',
         label: 'Report banao',
-        prompt: 'Create report',
-        targetScreen: 'Report',
+        prompt:
+          'Aa Radar pattern thi useful report preview chat ma banao ane paid report ma shu deeper male te kaho.',
       },
     ];
   }
@@ -4456,18 +4445,16 @@ function buildWowRadarSuggestions(
         'Compare this Radar pattern with current Gochar and tell me what is useful today.',
     },
     {
-      href: '/dashboard/charts',
       id: 'radar-open-charts',
       label: 'Open charts',
-      prompt: 'Open charts',
-      targetScreen: 'Charts',
+      prompt:
+        'Show the chart snapshot for this Radar pattern in chat: strongest support, pressure, timing, and proof.',
     },
     {
-      href: '/dashboard/report',
       id: 'radar-create-report',
       label: 'Create report',
-      prompt: 'Create report',
-      targetScreen: 'Report',
+      prompt:
+        'Create a useful report preview from this Radar pattern in chat and tell me what the paid report would add.',
     },
   ];
 }
