@@ -7,17 +7,12 @@ import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
 } from '../lib/lightweight-public-copy';
+import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 
 const DEFAULT_ASK_PROMPT =
   'Help me create my Kundli first, then answer my astrology question clearly.';
-
-let predictaChatRuntimePreload: Promise<unknown> | undefined;
-
-function preloadAskPredictaRuntime(): void {
-  predictaChatRuntimePreload ??= import('./WebPridictaChat');
-}
 
 function buildAskPredictaHref(prompt: string, mode: 'text' | 'voice' = 'text'): string {
   const resolvedPrompt = prompt.trim() || DEFAULT_ASK_PROMPT;

@@ -2,8 +2,11 @@
 
 import { translateUiKey } from '@pridicta/config/uiTranslations';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
+import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 
 type EvidenceRoomId =
   | 'jaimini'
@@ -22,12 +25,23 @@ export function WebEvidenceRoomEntry({
   askHref,
   room,
 }: WebEvidenceRoomEntryProps): React.JSX.Element {
+  const router = useRouter();
   const { language } = useLanguagePreference();
   const t = (key: string) => translateUiKey(key, language);
   const title = getRoomCopy(room, 'title', language);
   const body = getRoomCopy(room, 'body', language);
   const action = getRoomCopy(room, 'action', language);
   const evidence = getRoomCopy(room, 'evidence', language);
+
+  function prewarmAsk(): void {
+    preloadAskPredictaRuntime();
+    router.prefetch(askHref);
+  }
+
+  useEffect(() => {
+    router.prefetch('/ask');
+    router.prefetch(askHref);
+  }, [askHref, router]);
 
   return (
     <section
@@ -45,7 +59,13 @@ export function WebEvidenceRoomEntry({
       </div>
 
       <div className="evidence-room-entry-actions">
-        <Link className="button" href={askHref}>
+        <Link
+          className="button"
+          href={askHref}
+          onFocus={prewarmAsk}
+          onPointerEnter={prewarmAsk}
+          onTouchStart={prewarmAsk}
+        >
           {t('ui.evidenceRoom.generic.askPredicta')}
         </Link>
         <details className="evidence-room-proof-drawer">

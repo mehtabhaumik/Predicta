@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { canSeeAdminRoute } from '@pridicta/access';
 import { translateUiText } from '@pridicta/config/uiTranslations';
@@ -11,6 +11,7 @@ import type {
   ResolvedAccess,
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import {
   getLightweightAppShellLabels,
   type LightweightAppShellLabels,
@@ -276,6 +277,7 @@ export function DashboardShell({
   children: ReactNode;
 }): React.JSX.Element {
   const pathname = usePathname();
+  const router = useRouter();
   const isChatRoute =
     pathname === '/dashboard/chat' ||
     (pathname.startsWith('/dashboard/') && pathname.endsWith('/chat'));
@@ -317,6 +319,20 @@ export function DashboardShell({
     school: getTopbarPredictaSchool(activeSection.id),
     sourceScreen: getTopbarPredictaSourceScreen(activeSection),
   });
+
+  function prewarmAskPredicta(href: string): void {
+    preloadAskPredictaRuntime();
+    router.prefetch(href);
+  }
+
+  useEffect(() => {
+    router.prefetch('/ask');
+    router.prefetch(askPredictaHref);
+
+    if (showAskDock) {
+      router.prefetch(askFromPageHref);
+    }
+  }, [askFromPageHref, askPredictaHref, router, showAskDock]);
   const activeSectionMenuItems = activeSection.items.filter(
     (item, index) =>
       !(
@@ -371,6 +387,9 @@ export function DashboardShell({
             <Link
               className="button"
               href={askPredictaHref}
+              onFocus={() => prewarmAskPredicta(askPredictaHref)}
+              onPointerEnter={() => prewarmAskPredicta(askPredictaHref)}
+              onTouchStart={() => prewarmAskPredicta(askPredictaHref)}
             >
               {shellLabels.actions.askPredicta}
             </Link>
@@ -430,6 +449,9 @@ export function DashboardShell({
                 <Link
                   className="dashboard-mobile-primary-ask"
                   href={askPredictaHref}
+                  onFocus={() => prewarmAskPredicta(askPredictaHref)}
+                  onPointerEnter={() => prewarmAskPredicta(askPredictaHref)}
+                  onTouchStart={() => prewarmAskPredicta(askPredictaHref)}
                   onClick={() => setMenuOpen(false)}
                 >
                   {shellLabels.actions.askPredicta}
@@ -577,7 +599,13 @@ export function DashboardShell({
               <strong>{shellLabels.actions.askDockTitle}</strong>
               <small>{shellLabels.actions.askDockBody}</small>
             </div>
-            <Link className="button" href={askFromPageHref}>
+            <Link
+              className="button"
+              href={askFromPageHref}
+              onFocus={() => prewarmAskPredicta(askFromPageHref)}
+              onPointerEnter={() => prewarmAskPredicta(askFromPageHref)}
+              onTouchStart={() => prewarmAskPredicta(askFromPageHref)}
+            >
               {shellLabels.actions.askDockCta}
             </Link>
           </aside>
