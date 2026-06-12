@@ -73,6 +73,18 @@ export default function DashboardPage(): React.JSX.Element {
       new URLSearchParams(window.location.search).get('source') ===
         'family-friends',
     );
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(preloadAskPredictaRuntime, {
+        timeout: 2200,
+      });
+
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timerId = globalThis.setTimeout(preloadAskPredictaRuntime, 1400);
+
+    return () => globalThis.clearTimeout(timerId);
   }, [askHref]);
 
   return (

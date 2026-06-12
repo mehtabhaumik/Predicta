@@ -68,6 +68,18 @@ export function LandingChatFirstContent(): React.JSX.Element {
 
   useEffect(() => {
     router.prefetch('/ask');
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(preloadAskPredictaRuntime, {
+        timeout: 2200,
+      });
+
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timerId = globalThis.setTimeout(preloadAskPredictaRuntime, 1400);
+
+    return () => globalThis.clearTimeout(timerId);
   }, [router]);
 
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {

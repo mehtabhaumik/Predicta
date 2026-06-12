@@ -3329,6 +3329,29 @@ button:disabled,
   padding-bottom: 132px;
 }
 
+.dashboard-home-route .main-workspace {
+  padding-top: 20px;
+}
+
+.dashboard-home-route .dashboard-topbar {
+  margin-left: auto;
+  padding: 8px 10px;
+  width: max-content;
+}
+
+.dashboard-home-route .dashboard-topbar-context {
+  display: none;
+}
+
+.dashboard-home-route .dashboard-topbar-actions {
+  flex: 0 0 auto;
+}
+
+.dashboard-home-route .dashboard-topbar-actions .button {
+  min-height: 40px;
+  padding: 0 15px;
+}
+
 .dashboard-topbar {
   align-items: center;
   border-radius: 18px;
@@ -18255,6 +18278,22 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
 
   .dashboard-topbar-actions > .language-selector.compact {
     display: none;
+  }
+
+  .dashboard-home-route .dashboard-topbar {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    padding: 8px 10px;
+    width: max-content;
+  }
+
+  .dashboard-home-route .dashboard-topbar-actions {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 10px;
+    width: auto;
   }
 
   .dashboard-pass-banner {
