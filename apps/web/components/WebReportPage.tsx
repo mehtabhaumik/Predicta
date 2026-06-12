@@ -3,9 +3,11 @@
 import { getCompetitorResponseCopy } from '@pridicta/config';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 
 const WebDossierPreview = dynamic(
   () =>
@@ -19,6 +21,7 @@ const WebDossierPreview = dynamic(
 );
 
 export function WebReportPage(): React.JSX.Element {
+  const router = useRouter();
   const { language } = useLanguagePreference();
   const copy = getCompetitorResponseCopy(language).reportPage;
   const [reportQuestion, setReportQuestion] = useState(
@@ -29,6 +32,16 @@ export function WebReportPage(): React.JSX.Element {
     reportFocus: 'report_selection',
     sourceScreen: 'Reports',
   });
+
+  function prewarmReportAsk(href = askReportHref) {
+    preloadAskPredictaRuntime();
+    router.prefetch('/ask');
+    router.prefetch(href);
+  }
+
+  useEffect(() => {
+    prewarmReportAsk();
+  }, [askReportHref]);
 
   return (
     <section className="dashboard-page">
@@ -45,13 +58,24 @@ export function WebReportPage(): React.JSX.Element {
           <Link className="button" href="/dashboard/kundli">
             {copy.createKundliCta}
           </Link>
-          <Link className="button secondary" href="/ask">
+          <Link
+            className="button secondary"
+            href={askReportHref}
+            onFocus={() => prewarmReportAsk(askReportHref)}
+            onPointerEnter={() => prewarmReportAsk(askReportHref)}
+            onTouchStart={() => prewarmReportAsk(askReportHref)}
+          >
             {copy.askPredictaCta}
           </Link>
         </div>
       </div>
 
-      <section className="report-question-panel glass-panel">
+      <section
+        className="report-question-panel glass-panel"
+        onFocus={() => prewarmReportAsk()}
+        onPointerEnter={() => prewarmReportAsk()}
+        onTouchStart={() => prewarmReportAsk()}
+      >
         <div className="report-question-copy">
           <div className="section-title">{copy.questionEyebrow}</div>
           <h2>{copy.questionTitle}</h2>
@@ -81,7 +105,13 @@ export function WebReportPage(): React.JSX.Element {
             ))}
           </div>
           <div className="landing-ask-actions">
-            <Link className="button" href={askReportHref}>
+            <Link
+              className="button"
+              href={askReportHref}
+              onFocus={() => prewarmReportAsk(askReportHref)}
+              onPointerEnter={() => prewarmReportAsk(askReportHref)}
+              onTouchStart={() => prewarmReportAsk(askReportHref)}
+            >
               {copy.askReportCta}
             </Link>
             <Link className="button secondary" href="#report-builder">
