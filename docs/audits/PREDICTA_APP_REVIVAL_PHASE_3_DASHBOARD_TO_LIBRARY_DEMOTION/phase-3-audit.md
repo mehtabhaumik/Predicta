@@ -164,6 +164,40 @@ Green. Empty `/dashboard` now behaves like a chat-first saved-work surface
 instead of a dashboard KPI page, while returning-user Kundli status remains
 available when it has real content.
 
+## Supplemental Permanent Sidebar Demotion Lock
+
+Date: 2026-06-12
+
+### Implemented
+
+- Removed the always-visible desktop dashboard sidebar so Predicta no longer
+  opens like a SaaS control panel with a permanent left rail.
+- Kept every specialist room, report, Kundli, Family Vault, account, and pass
+  route reachable through the on-demand menu drawer.
+- Kept `Ask Predicta` as the first action in the drawer and the primary action
+  in the sticky top bar.
+- Re-aligned the sticky Ask dock to the full content width so it no longer
+  reserves dead sidebar space on desktop.
+
+### Supplemental Verification
+
+- Browser DOM smoke on `http://127.0.0.1:3009/dashboard`: `.sidebar`
+  computed to `display: none`, menu button computed to `display: flex`, drawer
+  opened from the visible menu button, `Ask Predicta` was visible as the first
+  drawer action, and horizontal overflow was `0`.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/report,/ask corepack pnpm test:ui-text-overflow`: PASS, `32` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/report,/ask corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, `15` scenarios.
+
+### Supplemental Result
+
+Green. The authenticated shell now behaves more like a calm astrology app with
+Ask Predicta upfront and tools behind a menu, rather than a permanent
+control-panel navigation rail.
+
 ## Supplemental Empty Dashboard Secondary Tools Drawer Lock
 
 Date: 2026-06-12

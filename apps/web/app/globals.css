@@ -2800,8 +2800,7 @@ button:disabled,
 }
 
 .dashboard-shell {
-  display: grid;
-  grid-template-columns: 300px minmax(0, 1fr);
+  display: block;
   min-height: 100vh;
 }
 
@@ -2816,6 +2815,7 @@ button:disabled,
 
 .sidebar {
   border-right: 1px solid var(--border-quiet);
+  display: none;
   padding: 30px 24px 42px;
   scrollbar-width: thin;
 }
@@ -3021,17 +3021,16 @@ button:disabled,
   flex-wrap: wrap;
   gap: 14px;
   justify-content: space-between;
-  left: calc(300px + 32px);
   margin: 0;
   padding: 18px 20px;
-  position: fixed;
-  right: 32px;
+  position: sticky;
   top: 16px;
   z-index: var(--predicta-z-sticky);
 }
 
 .dashboard-topbar-spacer {
-  height: 112px;
+  display: none;
+  height: 0;
 }
 
 .dashboard-topbar p {
@@ -3139,7 +3138,7 @@ button:disabled,
   padding: 14px 16px;
   position: fixed;
   right: 32px;
-  width: min(860px, calc(100vw - 364px));
+  width: min(860px, calc(100vw - 64px));
   z-index: var(--predicta-z-sticky);
 }
 
@@ -3183,7 +3182,7 @@ button:disabled,
   border-radius: 12px;
   color: var(--text);
   cursor: pointer;
-  display: none;
+  display: flex;
   flex: 0 0 auto;
   flex-direction: column;
   gap: 5px;
@@ -3203,7 +3202,7 @@ button:disabled,
 
 .dashboard-mobile-menu {
   background: rgba(2, 2, 7, 0.64);
-  display: none;
+  display: block;
   inset: 0;
   position: fixed;
   z-index: var(--predicta-z-overlay);
