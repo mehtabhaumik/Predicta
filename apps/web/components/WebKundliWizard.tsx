@@ -801,20 +801,24 @@ export function WebKundliWizard(): React.JSX.Element {
         ? localBirthPlaceMatches
         : placeSuggestions
       ).slice(0, 6);
+  const hasVisibleBirthPlaceSuggestions = visibleBirthPlaceSuggestions.length > 0;
+  const canShowBirthPlaceSearchStatus =
+    canShowBirthPlaceOverlay &&
+    isPlaceSuggestionsOpen &&
+    isSearchingPlaces &&
+    !hasVisibleBirthPlaceSuggestions &&
+    localBirthPlaceMatches.length === 0 &&
+    placeSuggestions.length === 0;
   const birthPlaceOverlayMode: 'closed' | 'searching' | 'suggestions' =
     !canShowBirthPlaceOverlay || !isPlaceSuggestionsOpen
       ? 'closed'
-      : visibleBirthPlaceSuggestions.length > 0
+      : hasVisibleBirthPlaceSuggestions
         ? 'suggestions'
-        : isSearchingPlaces &&
-            localBirthPlaceMatches.length === 0 &&
-            placeSuggestions.length === 0
+        : canShowBirthPlaceSearchStatus
           ? 'searching'
           : 'closed';
   const shouldShowBirthPlaceSuggestions = birthPlaceOverlayMode === 'suggestions';
-  const shouldShowBirthPlaceSearchStatus =
-    birthPlaceOverlayMode === 'searching' &&
-    visibleBirthPlaceSuggestions.length === 0;
+  const shouldShowBirthPlaceSearchStatus = birthPlaceOverlayMode === 'searching';
   const shouldShowBirthPlaceOverlay = birthPlaceOverlayMode !== 'closed';
   const readyFlow = kundli ? (
     <KundliReadyFlow
