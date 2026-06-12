@@ -712,21 +712,19 @@ export function WebKundliWizard(): React.JSX.Element {
         ? localBirthPlaceMatches
         : placeSuggestions
       ).slice(0, 6);
-  const shouldShowBirthPlaceSuggestions =
-    canShowBirthPlaceOverlay &&
-    isPlaceSuggestionsOpen &&
-    visibleBirthPlaceSuggestions.length > 0;
-  const shouldShowBirthPlaceSearchStatus =
-    canShowBirthPlaceOverlay &&
-    !shouldShowBirthPlaceSuggestions &&
-    isPlaceSuggestionsOpen &&
-    isSearchingPlaces &&
-    visibleBirthPlaceSuggestions.length === 0 &&
-    localBirthPlaceMatches.length === 0 &&
-    placeSuggestions.length === 0;
-  const shouldShowBirthPlaceOverlay =
-    canShowBirthPlaceOverlay &&
-    (shouldShowBirthPlaceSuggestions || shouldShowBirthPlaceSearchStatus);
+  const birthPlaceOverlayMode: 'closed' | 'searching' | 'suggestions' =
+    !canShowBirthPlaceOverlay || !isPlaceSuggestionsOpen
+      ? 'closed'
+      : visibleBirthPlaceSuggestions.length > 0
+        ? 'suggestions'
+        : isSearchingPlaces &&
+            localBirthPlaceMatches.length === 0 &&
+            placeSuggestions.length === 0
+          ? 'searching'
+          : 'closed';
+  const shouldShowBirthPlaceSuggestions = birthPlaceOverlayMode === 'suggestions';
+  const shouldShowBirthPlaceSearchStatus = birthPlaceOverlayMode === 'searching';
+  const shouldShowBirthPlaceOverlay = birthPlaceOverlayMode !== 'closed';
   const readyFlow = kundli ? (
     <KundliReadyFlow
       creationNote={lastCreationNote}

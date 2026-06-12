@@ -76,6 +76,10 @@ try {
     throw new Error('Birth-place autocomplete showed a place option and Searching places at the same time.');
   }
 
+  if (result.partialHasMixedOptionAndSearchingText) {
+    throw new Error('Birth-place autocomplete rendered place and searching text inside the same overlay.');
+  }
+
   if (result.exactImmediateHasSearchingPlaces || result.exactImmediateHasMixedOptionAndSearching) {
     throw new Error('Exact known birth place briefly showed a stale autocomplete panel.');
   }
@@ -130,6 +134,7 @@ try {
   if (
     humanTypingResult.partialHasSearchingPlaces ||
     humanTypingResult.partialHasMixedOptionAndSearching ||
+    humanTypingResult.partialHasMixedOptionAndSearchingText ||
     humanTypingResult.exactImmediateHasSearchingPlaces ||
     humanTypingResult.exactImmediateHasMixedOptionAndSearching
   ) {
@@ -215,6 +220,8 @@ async function runHumanTypingAutocompleteScenario(cdp) {
       exactImmediateSuggestionsMounted: exactImmediateState.suggestionsMounted,
       exactImmediateSuggestionsText: exactImmediateState.suggestionsText,
       partialHasMixedOptionAndSearching: partialState.hasMixedOptionAndSearching,
+      partialHasMixedOptionAndSearchingText:
+        partialState.hasMixedOptionAndSearchingText,
       partialHasSearchingPlaces: partialState.hasSearchingPlaces,
       partialOptionFound: partialState.optionFound,
       partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -230,6 +237,8 @@ async function runHumanTypingAutocompleteScenario(cdp) {
     exactImmediateSuggestionsMounted: exactImmediateState.suggestionsMounted,
     exactImmediateSuggestionsText: exactImmediateState.suggestionsText,
     partialHasMixedOptionAndSearching: partialState.hasMixedOptionAndSearching,
+    partialHasMixedOptionAndSearchingText:
+      partialState.hasMixedOptionAndSearchingText,
     partialHasSearchingPlaces: partialState.hasSearchingPlaces,
     partialOptionFound: partialState.optionFound,
     partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -316,6 +325,9 @@ async function runAutocompleteScenario(cdp) {
       exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
       exactTypedSettledClosed: true,
       exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
+      partialHasMixedOptionAndSearching: partialState.hasMixedOptionAndSearching,
+      partialHasMixedOptionAndSearchingText:
+        partialState.hasMixedOptionAndSearchingText,
       partialHasSearchingPlaces: partialState.hasSearchingPlaces,
       partialOptionFound: partialState.optionFound,
       partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -340,6 +352,11 @@ async function runAutocompleteScenario(cdp) {
             hasMixedOptionAndSearching:
               Boolean(suggestions?.textContent?.includes('Petlad')) &&
               Boolean(document.querySelector('.birth-place-search-status')),
+            hasMixedOptionAndSearchingText:
+              Boolean(suggestions?.textContent?.includes('Petlad')) &&
+              /Searching places|Searching|શોધ|खोज/i.test(
+                suggestions?.textContent || '',
+              ),
             horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
             inputFound: true,
             inputValue: input?.value || '',
@@ -381,6 +398,10 @@ async function runAutocompleteScenario(cdp) {
         exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
         exactTypedSettledClosed: false,
         exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
+        partialHasMixedOptionAndSearching:
+          partialState.hasMixedOptionAndSearching,
+        partialHasMixedOptionAndSearchingText:
+          partialState.hasMixedOptionAndSearchingText,
         partialHasSearchingPlaces: partialState.hasSearchingPlaces,
         partialOptionFound: partialState.optionFound,
         partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -399,6 +420,10 @@ async function runAutocompleteScenario(cdp) {
       exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
       exactTypedSettledClosed: false,
       exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
+      partialHasMixedOptionAndSearching:
+        partialState.hasMixedOptionAndSearching,
+      partialHasMixedOptionAndSearchingText:
+        partialState.hasMixedOptionAndSearchingText,
       partialHasSearchingPlaces: partialState.hasSearchingPlaces,
       partialOptionFound: partialState.optionFound,
       partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -422,6 +447,11 @@ async function runAutocompleteScenario(cdp) {
         hasMixedOptionAndSearching:
           options.some(item => /Petlad/i.test(item.textContent || '')) &&
           Boolean(document.querySelector('.birth-place-search-status')),
+        hasMixedOptionAndSearchingText:
+          options.some(item => /Petlad/i.test(item.textContent || '')) &&
+          /Searching places|Searching|શોધ|खोज/i.test(
+            suggestions?.textContent || '',
+          ),
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         inputFound: Boolean(input),
         inputValue: input?.value || '',
@@ -445,6 +475,9 @@ async function runAutocompleteScenario(cdp) {
     exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
     exactTypedSettledClosed: false,
     exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
+    partialHasMixedOptionAndSearching: partialState.hasMixedOptionAndSearching,
+    partialHasMixedOptionAndSearchingText:
+      partialState.hasMixedOptionAndSearchingText,
     partialHasSearchingPlaces: partialState.hasSearchingPlaces,
     partialOptionFound: partialState.optionFound,
     partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -495,6 +528,11 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
         hasMixedOptionAndSearching:
           options.some(item => ${optionPattern}.test(item.textContent || '')) &&
           Boolean(document.querySelector('.birth-place-search-status')),
+        hasMixedOptionAndSearchingText:
+          options.some(item => ${optionPattern}.test(item.textContent || '')) &&
+          /Searching places|Searching|શોધ|खोज/i.test(
+            suggestions?.textContent || '',
+          ),
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         inputFound: Boolean(input),
         inputValue: input?.value || '',
