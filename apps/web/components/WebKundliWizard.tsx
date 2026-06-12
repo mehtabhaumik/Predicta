@@ -77,6 +77,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const [isBirthPlaceInputFocused, setIsBirthPlaceInputFocused] = useState(false);
   const [isSearchingPlaces, setIsSearchingPlaces] = useState(false);
   const [acceptedBirthPlaceQuery, setAcceptedBirthPlaceQuery] = useState('');
+  const [settledBirthPlaceQuery, setSettledBirthPlaceQuery] = useState('');
   const [isBirthPlaceSelectionLocked, setIsBirthPlaceSelectionLocked] =
     useState(false);
   const [editingKundliId, setEditingKundliId] = useState<string | undefined>();
@@ -139,8 +140,11 @@ export function WebKundliWizard(): React.JSX.Element {
   const isBirthPlaceQueryAccepted =
     Boolean(normalizedBirthPlaceQuery) &&
     acceptedBirthPlaceQuery === normalizedBirthPlaceQuery;
+  const isBirthPlaceQuerySettled =
+    Boolean(normalizedBirthPlaceQuery) &&
+    settledBirthPlaceQuery === normalizedBirthPlaceQuery;
   const isBirthPlaceSearchSettled =
-    isSelectedPlaceCurrent || isBirthPlaceQueryAccepted;
+    isSelectedPlaceCurrent || isBirthPlaceQueryAccepted || isBirthPlaceQuerySettled;
   const details = useMemo<BirthDetails | undefined>(
     () => {
       if (!selectedPlace) {
@@ -231,6 +235,7 @@ export function WebKundliWizard(): React.JSX.Element {
   function closeSettledBirthPlaceSearch(optionLabel: string) {
     placeSearchRequestRef.current += 1;
     markBirthPlaceSearchSettled(optionLabel);
+    setSettledBirthPlaceQuery(normalizeBirthPlaceLabel(optionLabel));
     setIsBirthPlaceInputFocused(false);
     resetBirthPlaceSearchUi();
   }
@@ -253,6 +258,10 @@ export function WebKundliWizard(): React.JSX.Element {
     }
 
     if (acceptedBirthPlaceQuery === normalizedQuery) {
+      return true;
+    }
+
+    if (settledBirthPlaceQuery === normalizedQuery) {
       return true;
     }
 
@@ -409,6 +418,7 @@ export function WebKundliWizard(): React.JSX.Element {
     if (query.length < 2) {
       markBirthPlaceSearchUnsettled(query);
       setAcceptedBirthPlaceQuery('');
+      setSettledBirthPlaceQuery('');
       setIsBirthPlaceSelectionLocked(false);
       resetBirthPlaceSearchUi();
       return;
@@ -416,6 +426,8 @@ export function WebKundliWizard(): React.JSX.Element {
 
     if (
       selectedPlaceMatchesQuery ||
+      (settledBirthPlaceQuery &&
+        settledBirthPlaceQuery === normalizedBirthPlaceQuery) ||
       (acceptedBirthPlaceQuery &&
         acceptedBirthPlaceQuery === normalizedBirthPlaceQuery)
     ) {
@@ -505,6 +517,7 @@ export function WebKundliWizard(): React.JSX.Element {
     isBirthPlaceSelectionLocked,
     normalizedBirthPlaceQuery,
     selectedPlace,
+    settledBirthPlaceQuery,
   ]);
 
   useEffect(() => {
@@ -727,6 +740,7 @@ export function WebKundliWizard(): React.JSX.Element {
     isResolvedBirthPlaceQuery(birthPlaceQuery);
   const shouldSuppressBirthPlaceOverlay =
     isBirthPlaceSelectionLocked ||
+    isBirthPlaceQuerySettled ||
     Boolean(selectedPlace && isSelectedPlaceCurrent) ||
     isBirthPlaceSearchSettled ||
     Boolean(immediatelySettledBirthPlace) ||
@@ -867,6 +881,12 @@ export function WebKundliWizard(): React.JSX.Element {
                   setIsBirthPlaceInputFocused(true);
                   setBirthPlaceQuery(nextQuery);
                   if (
+                    settledBirthPlaceQuery &&
+                    settledBirthPlaceQuery !== normalizedNextQuery
+                  ) {
+                    setSettledBirthPlaceQuery('');
+                  }
+                  if (
                     !acceptedBirthPlaceQuery ||
                     acceptedBirthPlaceQuery !== normalizedNextQuery
                   ) {
@@ -882,8 +902,10 @@ export function WebKundliWizard(): React.JSX.Element {
                     return;
                   }
                   if (
-                    acceptedBirthPlaceQuery &&
-                    acceptedBirthPlaceQuery === normalizedNextQuery
+                    (settledBirthPlaceQuery &&
+                      settledBirthPlaceQuery === normalizedNextQuery) ||
+                    (acceptedBirthPlaceQuery &&
+                      acceptedBirthPlaceQuery === normalizedNextQuery)
                   ) {
                     markBirthPlaceSearchSettled(nextQuery);
                     closeBirthPlaceSuggestions();
