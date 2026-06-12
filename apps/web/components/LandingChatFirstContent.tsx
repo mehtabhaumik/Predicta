@@ -18,6 +18,7 @@ function buildAskPredictaHref(
 ): string {
   const resolvedPrompt = prompt.trim() || fallbackPrompt;
   const params = new URLSearchParams({
+    autoSend: 'true',
     sourceScreen: 'Landing',
     prompt: resolvedPrompt,
   });
