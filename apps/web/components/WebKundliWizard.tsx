@@ -228,6 +228,13 @@ export function WebKundliWizard(): React.JSX.Element {
     setIsPlaceSuggestionsOpen(false);
   }
 
+  function closeSettledBirthPlaceSearch(optionLabel: string) {
+    placeSearchRequestRef.current += 1;
+    markBirthPlaceSearchSettled(optionLabel);
+    setIsBirthPlaceInputFocused(false);
+    resetBirthPlaceSearchUi();
+  }
+
   function markBirthPlaceSearchSettled(query: string) {
     latestBirthPlaceSearchQueryRef.current = normalizeBirthPlaceLabel(query);
     birthPlaceSearchSettledRef.current = true;
@@ -285,14 +292,11 @@ export function WebKundliWizard(): React.JSX.Element {
   function settleBirthPlaceSelection(option: WebBirthPlace) {
     const optionLabel = getBirthPlaceLabel(option);
 
-    placeSearchRequestRef.current += 1;
-    markBirthPlaceSearchSettled(optionLabel);
+    closeSettledBirthPlaceSearch(optionLabel);
     setAcceptedBirthPlaceQuery(normalizeBirthPlaceLabel(optionLabel));
     setSelectedPlace(option);
     setBirthPlaceQuery(optionLabel);
-    setIsBirthPlaceInputFocused(false);
     setIsBirthPlaceSelectionLocked(true);
-    resetBirthPlaceSearchUi();
 
     window.requestAnimationFrame(() => {
       const activeElement = document.activeElement;
@@ -306,6 +310,15 @@ export function WebKundliWizard(): React.JSX.Element {
         input.blur();
       }
     });
+
+    window.setTimeout(() => {
+      if (
+        normalizeBirthPlaceLabel(birthPlaceInputRef.current?.value) ===
+        normalizeBirthPlaceLabel(optionLabel)
+      ) {
+        closeSettledBirthPlaceSearch(optionLabel);
+      }
+    }, 120);
   }
 
   function selectBirthPlace(option: WebBirthPlace) {
@@ -484,6 +497,40 @@ export function WebKundliWizard(): React.JSX.Element {
   ]);
 
   useEffect(() => {
+    if (
+      !isBirthPlaceInputFocused &&
+      (isPlaceSuggestionsOpen || isSearchingPlaces || placeSuggestions.length > 0)
+    ) {
+      resetBirthPlaceSearchUi();
+    }
+  }, [
+    isBirthPlaceInputFocused,
+    isPlaceSuggestionsOpen,
+    isSearchingPlaces,
+    placeSuggestions.length,
+  ]);
+
+  useEffect(() => {
+    if (
+      isSelectedPlaceCurrent &&
+      (isBirthPlaceInputFocused ||
+        isPlaceSuggestionsOpen ||
+        isSearchingPlaces ||
+        placeSuggestions.length > 0)
+    ) {
+      birthPlaceInputRef.current?.blur();
+      setIsBirthPlaceInputFocused(false);
+      resetBirthPlaceSearchUi();
+    }
+  }, [
+    isBirthPlaceInputFocused,
+    isPlaceSuggestionsOpen,
+    isSearchingPlaces,
+    isSelectedPlaceCurrent,
+    placeSuggestions.length,
+  ]);
+
+  useEffect(() => {
     function closeBirthPlaceSuggestionsOnOutsidePress(event: PointerEvent) {
       const target = event.target;
 
@@ -655,29 +702,30 @@ export function WebKundliWizard(): React.JSX.Element {
     Boolean(selectedPlace) ||
     isBirthPlaceSearchSettled ||
     Boolean(immediatelySettledBirthPlace);
-  const visibleBirthPlaceSuggestions = shouldSuppressBirthPlaceOverlay
+  const canShowBirthPlaceOverlay =
+    isBirthPlaceInputFocused &&
+    !shouldSuppressBirthPlaceOverlay &&
+    normalizedBirthPlaceQuery.length >= 2;
+  const visibleBirthPlaceSuggestions = !canShowBirthPlaceOverlay
     ? []
     : (localBirthPlaceMatches.length > 0
         ? localBirthPlaceMatches
         : placeSuggestions
       ).slice(0, 6);
   const shouldShowBirthPlaceSuggestions =
-    !shouldSuppressBirthPlaceOverlay &&
-    isBirthPlaceInputFocused &&
+    canShowBirthPlaceOverlay &&
     isPlaceSuggestionsOpen &&
     visibleBirthPlaceSuggestions.length > 0;
   const shouldShowBirthPlaceSearchStatus =
-    !shouldSuppressBirthPlaceOverlay &&
+    canShowBirthPlaceOverlay &&
     !shouldShowBirthPlaceSuggestions &&
-    isBirthPlaceInputFocused &&
     isPlaceSuggestionsOpen &&
     isSearchingPlaces &&
     visibleBirthPlaceSuggestions.length === 0 &&
     localBirthPlaceMatches.length === 0 &&
     placeSuggestions.length === 0;
   const shouldShowBirthPlaceOverlay =
-    isBirthPlaceInputFocused &&
-    !shouldSuppressBirthPlaceOverlay &&
+    canShowBirthPlaceOverlay &&
     (shouldShowBirthPlaceSuggestions || shouldShowBirthPlaceSearchStatus);
   const readyFlow = kundli ? (
     <KundliReadyFlow
