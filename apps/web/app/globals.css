@@ -3247,18 +3247,27 @@ button:disabled,
 }
 
 .dashboard-topbar {
-  align-items: flex-start;
-  border-radius: 22px;
+  align-items: center;
+  border-radius: 18px;
   backdrop-filter: blur(18px) saturate(130%);
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
   justify-content: space-between;
   margin: 0;
-  padding: 18px 20px;
+  padding: 11px 12px 11px 16px;
   position: sticky;
   top: 16px;
   z-index: var(--predicta-z-sticky);
+}
+
+.dashboard-topbar.glass-panel {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+    rgba(8, 8, 14, 0.64);
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.22),
+    0 0 24px rgba(77, 175, 255, 0.055);
 }
 
 .dashboard-topbar-spacer {
@@ -3273,22 +3282,25 @@ button:disabled,
 .dashboard-topbar-context {
   display: grid;
   flex: 1 1 auto;
-  gap: 4px;
+  gap: 2px;
   min-width: 0;
 }
 
 .dashboard-topbar-context span {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .dashboard-topbar-context strong {
-  color: var(--text);
-  font-size: clamp(20px, 2vw, 26px);
-  line-height: 1.05;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(14px, 1.35vw, 17px);
+  line-height: 1.15;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dashboard-topbar-context p {
@@ -3302,8 +3314,13 @@ button:disabled,
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
   justify-content: flex-end;
+}
+
+.dashboard-topbar-actions .button {
+  min-height: 44px;
+  padding: 0 18px;
 }
 
 .dashboard-pass-banner {
@@ -24914,22 +24931,40 @@ select::-ms-expand {
   }
 
   .dashboard-shell.has-ask-dock .main-workspace {
-    padding-bottom: 148px;
+    padding-bottom: 104px;
   }
 
   .dashboard-ask-dock {
-    align-items: stretch;
+    align-items: center;
     display: grid;
     gap: 10px;
-    padding: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 10px;
   }
 
   .dashboard-ask-dock small {
     display: none;
   }
 
+  .dashboard-ask-dock > div {
+    gap: 2px;
+  }
+
+  .dashboard-ask-dock span {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+
+  .dashboard-ask-dock strong {
+    font-size: 13px;
+    line-height: 1.15;
+  }
+
   .dashboard-ask-dock .button {
-    width: 100%;
+    min-height: 48px;
+    min-width: 126px;
+    padding: 0 14px;
+    width: auto;
   }
 
   .ask-light-console {
