@@ -11,6 +11,7 @@ export function AskPredictaLeanHeader(): React.JSX.Element {
   const { language } = useLightweightLanguagePreference();
   const labels = getLightweightAppShellLabels(language);
   const responseCopy = getLightweightCompetitorResponseCopy(language);
+  const landingCopy = responseCopy.landing;
 
   return (
     <header className="ask-lean-header">
@@ -22,9 +23,9 @@ export function AskPredictaLeanHeader(): React.JSX.Element {
         </span>
       </Link>
 
-      <nav aria-label={labels.groups.sections} className="ask-lean-nav ask-lean-nav-minimal">
-        <Link href="/dashboard">{labels.nav.library}</Link>
-      </nav>
+      <div aria-label={labels.groups.sections} className="ask-lean-status">
+        <span>{landingCopy.askHeaderNote}</span>
+      </div>
     </header>
   );
 }

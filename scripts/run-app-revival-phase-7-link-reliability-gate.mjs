@@ -76,7 +76,7 @@ const requiredLinksByRoute = [
   },
   {
     route: '/ask',
-    links: ['/', '/dashboard'],
+    links: ['/'],
   },
   {
     route: '/dashboard',
@@ -123,12 +123,6 @@ const clickChecks = [
     selector:
       'a[href="/ask"], a[href^="/ask?sourceScreen=Landing"], form button[type="submit"]',
     targetIncludes: '/ask',
-  },
-  {
-    from: '/ask',
-    name: 'ask header dashboard link',
-    selector: 'a[href="/dashboard"]',
-    targetIncludes: '/dashboard',
   },
   {
     from: '/dashboard',
@@ -328,11 +322,15 @@ async function auditPageLinks(cdp, check) {
     awaitPromise: true,
     expression: `(() => {
       const requiredLinks = ${JSON.stringify(check.links)};
+      const isAskRoute = ${JSON.stringify(check.route === '/ask')};
       const anchors = [...document.querySelectorAll('a[href]')].map(anchor => ({
         ariaCurrent: anchor.getAttribute('aria-current') || '',
         ariaDisabled: anchor.getAttribute('aria-disabled') || '',
         className: String(anchor.className || ''),
         href: anchor.getAttribute('href') || '',
+        inAskHeader:
+          isAskRoute &&
+          /\\bask-lean-header\\b/u.test(anchor.closest('header')?.className || ''),
         text: (anchor.textContent || '').replace(/\\s+/g, ' ').trim(),
       }));
       const hrefs = anchors.map(anchor => anchor.href);
@@ -357,9 +355,13 @@ async function auditPageLinks(cdp, check) {
       const missing = requiredLinks.filter(required =>
         !hrefs.some(href => href === required || href.startsWith(required + '?') || href.startsWith(required + '#'))
       );
+      const askHeaderDashboardLinks = anchors.filter(
+        anchor => anchor.inAskHeader && anchor.href === '/dashboard'
+      );
 
       return {
         activeLinks: anchors.filter(anchor => anchor.ariaCurrent),
+        askHeaderDashboardLinks,
         anchorCount: anchors.length,
         disabledActive,
         hrefs,
@@ -393,6 +395,12 @@ async function auditPageLinks(cdp, check) {
   for (const item of result.oversizedHrefs ?? []) {
     pageFailures.push(
       `${check.route}: oversized navigation href (${item.hrefLength} chars) near "${item.text}".`,
+    );
+  }
+
+  for (const item of result.askHeaderDashboardLinks ?? []) {
+    pageFailures.push(
+      `${check.route}: Ask header exposes dashboard/library exit "${item.text || item.href}".`,
     );
   }
 

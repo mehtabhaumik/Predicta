@@ -6,25 +6,16 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Landing&prompt=Will+I+get+a+better+job+opportunity+soon%3F",
       "text": "Will I get a better job opportunity soon?",
-      "elapsedMs": 106,
+      "elapsedMs": 103,
       "from": "/",
       "name": "landing primary ask entry",
       "url": "/ask?sourceScreen=Landing&prompt=Will+I+get+a+better+job+opportunity+soon%3F"
     },
     {
       "clicked": true,
-      "href": "/dashboard",
-      "text": "My Kundlis",
-      "elapsedMs": 104,
-      "from": "/ask",
-      "name": "ask header dashboard link",
-      "url": "/dashboard"
-    },
-    {
-      "clicked": true,
       "href": "/ask?sourceScreen=My+Kundlis&prompt=Help+me+from+my+selected+Kundli.",
       "text": "Ask Predicta",
-      "elapsedMs": 104,
+      "elapsedMs": 103,
       "from": "/dashboard",
       "name": "dashboard ask predicta link",
       "url": "/ask?sourceScreen=My+Kundlis&prompt=Help+me+from+my+selected+Kundli."
@@ -42,17 +33,18 @@
       "clicked": true,
       "href": "/checkout?productId=pridicta_10_questions",
       "text": "Choose 10 AI Questions",
-      "elapsedMs": 103,
+      "elapsedMs": 102,
       "from": "/pricing",
       "name": "pricing checkout link",
       "url": "/checkout?productId=pridicta_10_questions"
     }
   ],
-  "generatedAt": "2026-06-12T04:26:29.107Z",
+  "generatedAt": "2026-06-12T04:59:05.727Z",
   "hrefLengthBudget": 900,
   "pageResults": [
     {
       "activeLinks": [],
+      "askHeaderDashboardLinks": [],
       "anchorCount": 24,
       "disabledActive": [],
       "hrefs": [
@@ -89,11 +81,11 @@
     },
     {
       "activeLinks": [],
-      "anchorCount": 6,
+      "askHeaderDashboardLinks": [],
+      "anchorCount": 5,
       "disabledActive": [],
       "hrefs": [
         "/",
-        "/dashboard",
         "/ask?prompt=Will+I+get+a+better+job+opportunity+soon%3F&sourceScreen=Ask+Predicta&autoSend=true",
         "/ask?prompt=When+is+marriage+timing+getting+stronger%3F&sourceScreen=Ask+Predicta&autoSend=true",
         "/ask?prompt=Is+foreign+travel+or+relocation+active+for+me%3F&sourceScreen=Ask+Predicta&autoSend=true",
@@ -112,9 +104,11 @@
           "ariaDisabled": "",
           "className": "nav-link active",
           "href": "/dashboard",
+          "inAskHeader": false,
           "text": "My Kundlis"
         }
       ],
+      "askHeaderDashboardLinks": [],
       "anchorCount": 32,
       "disabledActive": [],
       "hrefs": [
@@ -164,9 +158,11 @@
           "ariaDisabled": "",
           "className": "nav-link nav-link-compact active",
           "href": "/dashboard/vedic",
+          "inAskHeader": false,
           "text": "Vedic Room"
         }
       ],
+      "askHeaderDashboardLinks": [],
       "anchorCount": 24,
       "disabledActive": [],
       "hrefs": [
@@ -208,9 +204,11 @@
           "ariaDisabled": "",
           "className": "nav-link nav-link-compact active",
           "href": "/dashboard/kp",
+          "inAskHeader": false,
           "text": "KP Room"
         }
       ],
+      "askHeaderDashboardLinks": [],
       "anchorCount": 17,
       "disabledActive": [],
       "hrefs": [
@@ -245,9 +243,11 @@
           "ariaDisabled": "",
           "className": "nav-link nav-link-compact active",
           "href": "/dashboard/jaimini",
+          "inAskHeader": false,
           "text": "Jaimini Room"
         }
       ],
+      "askHeaderDashboardLinks": [],
       "anchorCount": 17,
       "disabledActive": [],
       "hrefs": [
@@ -282,9 +282,11 @@
           "ariaDisabled": "",
           "className": "nav-link nav-link-compact active",
           "href": "/dashboard/numerology",
+          "inAskHeader": false,
           "text": "Numerology Room"
         }
       ],
+      "askHeaderDashboardLinks": [],
       "anchorCount": 17,
       "disabledActive": [],
       "hrefs": [
@@ -319,9 +321,11 @@
           "ariaDisabled": "",
           "className": "nav-link nav-link-compact active",
           "href": "/dashboard/signature",
+          "inAskHeader": false,
           "text": "Signature Room"
         }
       ],
+      "askHeaderDashboardLinks": [],
       "anchorCount": 17,
       "disabledActive": [],
       "hrefs": [
@@ -356,9 +360,11 @@
           "ariaDisabled": "",
           "className": "nav-link active",
           "href": "/dashboard/report",
+          "inAskHeader": false,
           "text": "Reports"
         }
       ],
+      "askHeaderDashboardLinks": [],
       "anchorCount": 25,
       "disabledActive": [],
       "hrefs": [
@@ -401,9 +407,11 @@
           "ariaDisabled": "",
           "className": "active",
           "href": "/pricing",
+          "inAskHeader": false,
           "text": "Premium"
         }
       ],
+      "askHeaderDashboardLinks": [],
       "anchorCount": 33,
       "disabledActive": [],
       "hrefs": [
@@ -454,6 +462,7 @@
           "ariaDisabled": "",
           "className": "nav-link active",
           "href": "/dashboard/account",
+          "inAskHeader": false,
           "text": "Account"
         },
         {
@@ -461,9 +470,11 @@
           "ariaDisabled": "",
           "className": "nav-link active",
           "href": "/dashboard/redeem-pass",
+          "inAskHeader": false,
           "text": "Redeem Pass"
         }
       ],
+      "askHeaderDashboardLinks": [],
       "anchorCount": 19,
       "disabledActive": [],
       "hrefs": [
@@ -496,196 +507,196 @@
   ],
   "routeResults": [
     {
-      "elapsedMs": 24,
+      "elapsedMs": 11,
       "location": null,
       "route": "/",
       "status": 200,
       "url": "http://127.0.0.1:3009/"
     },
     {
-      "elapsedMs": 7,
+      "elapsedMs": 3,
       "location": null,
       "route": "/ask",
       "status": 200,
       "url": "http://127.0.0.1:3009/ask"
     },
     {
-      "elapsedMs": 32,
+      "elapsedMs": 6,
       "location": "/ask?legacyChatSmoke=1&prompt=Will+my+job+improve%3F&sourceScreen=Legacy+Dashboard+Chat",
       "route": "/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F"
     },
     {
-      "elapsedMs": 10,
+      "elapsedMs": 6,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Vedic+Predicta&school=PARASHARI&prompt=Read+my+Vedic+chart+and+tell+me+what+it+means+for+my+life+right+now.&handoffMode=room_safe",
       "route": "/dashboard/vedic/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/vedic/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 8,
+      "elapsedMs": 5,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=KP+Predicta&school=KP&prompt=Answer+my+KP+question+clearly+with+timing%2C+likely+trigger%2C+and+what+I+should+do+next.&handoffMode=room_safe",
       "route": "/dashboard/kp/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/kp/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 7,
+      "elapsedMs": 5,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Jaimini+Predicta&school=JAIMINI&prompt=Read+my+current+Jaimini+destiny+chapter+and+tell+me+what+it+means+for+my+life+now.&handoffMode=room_safe",
       "route": "/dashboard/jaimini/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/jaimini/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 6,
+      "elapsedMs": 9,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Jaimini+Predicta&school=JAIMINI&prompt=Read+my+current+Jaimini+destiny+chapter+and+tell+me+what+it+means+for+my+life+now.&handoffMode=room_safe",
       "route": "/dashboard/nadi/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/nadi/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 7,
+      "elapsedMs": 4,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Numerology+Predicta&school=NUMEROLOGY&prompt=Read+my+number+pattern+and+tell+me+what+it+means+for+my+life+right+now.&handoffMode=room_safe",
       "route": "/dashboard/numerology/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/numerology/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 4,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Signature+Predicta&school=SIGNATURE&prompt=Read+my+confirmed+signature+traits+safely+and+tell+me+what+they+reflect.&handoffMode=room_safe",
       "route": "/dashboard/signature/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/signature/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 6,
+      "elapsedMs": 1,
       "location": null,
       "route": "/pricing",
       "status": 200,
       "url": "http://127.0.0.1:3009/pricing"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 1,
       "location": null,
       "route": "/checkout?productId=pridicta_10_questions",
       "status": 200,
       "url": "http://127.0.0.1:3009/checkout?productId=pridicta_10_questions"
     },
     {
-      "elapsedMs": 8,
+      "elapsedMs": 2,
       "location": null,
       "route": "/accuracy-method",
       "status": 200,
       "url": "http://127.0.0.1:3009/accuracy-method"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 1,
       "location": null,
       "route": "/safety",
       "status": 200,
       "url": "http://127.0.0.1:3009/safety"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 1,
       "location": null,
       "route": "/legal",
       "status": 200,
       "url": "http://127.0.0.1:3009/legal"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 1,
       "location": null,
       "route": "/feedback",
       "status": 200,
       "url": "http://127.0.0.1:3009/feedback"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/kundli",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/kundli"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/vedic",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/vedic"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/kp",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/kp"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/jaimini",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/jaimini"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/numerology",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/numerology"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/signature",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/signature"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/report",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/report"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 0,
       "location": null,
       "route": "/dashboard/redeem-pass",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/redeem-pass"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/saved-kundlis",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/saved-kundlis"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/family",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/family"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/settings",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/settings"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/account",
       "status": 200,

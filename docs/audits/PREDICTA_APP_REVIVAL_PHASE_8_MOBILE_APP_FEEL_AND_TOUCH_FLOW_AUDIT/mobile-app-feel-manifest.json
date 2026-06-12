@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:3009",
-  "generatedAt": "2026-06-12T04:28:49.107Z",
+  "generatedAt": "2026-06-12T04:57:20.436Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -53,28 +53,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 269,
+        "bottom": 285,
         "height": 102,
         "left": 17,
         "right": 343,
-        "top": 167,
+        "top": 183,
         "width": 326
       },
       "chipStrip": {
-        "bottom": 557,
+        "bottom": 573,
         "height": 182,
         "left": 17,
         "right": 343,
-        "top": 375,
+        "top": 391,
         "width": 326
       },
       "documentWidth": 360,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 111,
+          "bottom": 127,
           "className": "ask-lean-header",
-          "height": 111,
+          "height": 127,
           "tag": "header",
           "top": 0
         }
@@ -85,11 +85,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 347,
+        "bottom": 363,
         "height": 50,
         "left": 186,
         "right": 343,
-        "top": 297,
+        "top": 313,
         "width": 157
       },
       "windowHeight": 780,
@@ -338,28 +338,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 269,
+        "bottom": 285,
         "height": 102,
         "left": 17,
         "right": 373,
-        "top": 167,
+        "top": 183,
         "width": 356
       },
       "chipStrip": {
-        "bottom": 539,
+        "bottom": 555,
         "height": 164,
         "left": 17,
         "right": 373,
-        "top": 375,
+        "top": 391,
         "width": 356
       },
       "documentWidth": 390,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 111,
+          "bottom": 127,
           "className": "ask-lean-header",
-          "height": 111,
+          "height": 127,
           "tag": "header",
           "top": 0
         }
@@ -370,11 +370,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 347,
+        "bottom": 363,
         "height": 50,
         "left": 201,
         "right": 373,
-        "top": 297,
+        "top": 313,
         "width": 172
       },
       "windowHeight": 844,
@@ -908,28 +908,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 309,
+        "bottom": 318,
         "height": 119,
         "left": 27,
         "right": 741,
-        "top": 190,
+        "top": 199,
         "width": 714
       },
       "chipStrip": {
-        "bottom": 435,
+        "bottom": 444,
         "height": 94,
         "left": 27,
         "right": 741,
-        "top": 341,
+        "top": 350,
         "width": 714
       },
       "documentWidth": 768,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 45,
+          "bottom": 53,
           "className": "ask-lean-header",
-          "height": 45,
+          "height": 53,
           "tag": "header",
           "top": 0
         }
@@ -940,11 +940,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 517,
+        "bottom": 525,
         "height": 50,
         "left": 182,
         "right": 336,
-        "top": 467,
+        "top": 476,
         "width": 154
       },
       "windowHeight": 1024,
@@ -1193,28 +1193,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 315,
+        "bottom": 323,
         "height": 119,
         "left": 29,
         "right": 805,
-        "top": 196,
+        "top": 204,
         "width": 775
       },
       "chipStrip": {
-        "bottom": 441,
+        "bottom": 449,
         "height": 94,
         "left": 29,
         "right": 805,
-        "top": 347,
+        "top": 355,
         "width": 775
       },
       "documentWidth": 834,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 45,
+          "bottom": 53,
           "className": "ask-lean-header",
-          "height": 45,
+          "height": 53,
           "tag": "header",
           "top": 0
         }
@@ -1225,11 +1225,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 522,
+        "bottom": 530,
         "height": 50,
         "left": 184,
         "right": 338,
-        "top": 473,
+        "top": 481,
         "width": 154
       },
       "windowHeight": 1112,
@@ -1478,28 +1478,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 332,
+        "bottom": 340,
         "height": 119,
         "left": 87,
         "right": 937,
-        "top": 213,
+        "top": 221,
         "width": 850
       },
       "chipStrip": {
-        "bottom": 460,
+        "bottom": 468,
         "height": 94,
         "left": 87,
         "right": 937,
-        "top": 366,
+        "top": 374,
         "width": 850
       },
       "documentWidth": 1024,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 45,
+          "bottom": 53,
           "className": "ask-lean-header",
-          "height": 45,
+          "height": 53,
           "tag": "header",
           "top": 0
         }
@@ -1510,11 +1510,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 544,
+        "bottom": 552,
         "height": 50,
         "left": 242,
         "right": 396,
-        "top": 494,
+        "top": 503,
         "width": 154
       },
       "windowHeight": 900,
@@ -1763,28 +1763,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 417,
+        "bottom": 425,
         "height": 119,
         "left": 135,
         "right": 985,
-        "top": 298,
+        "top": 306,
         "width": 850
       },
       "chipStrip": {
-        "bottom": 551,
+        "bottom": 559,
         "height": 94,
         "left": 135,
         "right": 985,
-        "top": 457,
+        "top": 465,
         "width": 850
       },
       "documentWidth": 1440,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 45,
+          "bottom": 53,
           "className": "ask-lean-header",
-          "height": 45,
+          "height": 53,
           "tag": "header",
           "top": 0
         }
@@ -1795,11 +1795,11 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 640,
+        "bottom": 649,
         "height": 50,
         "left": 290,
         "right": 444,
-        "top": 591,
+        "top": 599,
         "width": 154
       },
       "windowHeight": 940,
