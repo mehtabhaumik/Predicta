@@ -1061,6 +1061,16 @@
       "hi": "जन्म समय खोज",
       "gu": "જન્મ સમય શોધ"
     },
+    "ui.recheckMyTime.0p9jwq": {
+      "en": "Re-check my time",
+      "hi": "समय फिर जांचें",
+      "gu": "સમય ફરી તપાસો"
+    },
+    "ui.myBirthTimeIsDoubtfulStartBirthTimeDetectiveInChat.8r2yxc": {
+      "en": "My birth time is doubtful. Start Birth Time Detective in chat and ask me simple life-event questions one by one.",
+      "hi": "मेरा जन्म समय संदिग्ध है. चैट में जन्म समय खोज शुरू करें और जीवन-घटना के सरल प्रश्न एक-एक करके पूछें.",
+      "gu": "મારો જન્મ સમય શંકાસ્પદ છે. ચેટમાં જન્મ સમય શોધ શરૂ કરો અને જીવન-ઘટનાના સરળ પ્રશ્નો એક-એક કરીને પૂછો."
+    },
     "ui.bringYourChartIntoACalmerWorkspace.1lkzicv": {
       "en": "Bring your chart into a calmer workspace.",
       "hi": "अपने चार्ट को शांत जगह पर लाएं.",
@@ -1796,6 +1806,16 @@
       "hi": "मुफ्त रिपोर्ट झलक",
       "gu": "મફત રિપોર્ટ ઝલક"
     },
+    "ui.reportPreview.8rc2vv": {
+      "en": "Report preview",
+      "hi": "रिपोर्ट झलक",
+      "gu": "રિપોર્ટ ઝલક"
+    },
+    "ui.createUsefulFreeReportPreviewInChatWithoutAiCredit.9r5mkg": {
+      "en": "Create a useful free report preview in chat without using an AI credit and tell me what a paid report would add.",
+      "hi": "एआई क्रेडिट खर्च किए बिना चैट में उपयोगी मुफ्त रिपोर्ट झलक बनाएं और बताएं कि पेड रिपोर्ट क्या जोड़ेगी.",
+      "gu": "એઆઈ ક્રેડિટ ખર્ચ્યા વિના ચેટમાં ઉપયોગી મફત રિપોર્ટ ઝલક બનાવો અને પેઇડ રિપોર્ટ શું ઉમેરશે તે કહો."
+    },
     "ui.freeReportsIncludeEveryAvailableChartWithUsefulSimpleInsight.1rzkuob": {
       "en": "Free reports include every available chart with useful, simple insight.",
       "hi": "मुफ्त रिपोर्ट में हर उपलब्ध चार्ट उपयोगी और सरल संकेतों के साथ शामिल है.",
@@ -2120,6 +2140,11 @@
       "en": "Kundli summary",
       "hi": "कुंडली सार",
       "gu": "કુંડળી સાર"
+    },
+    "ui.showShortSummaryOfNewlyCreatedKundli.6z0xqy": {
+      "en": "Show a short summary of my newly created Kundli and tell me what I can ask next.",
+      "hi": "मेरी अभी बनी कुंडली का छोटा सार दिखाएं और बताएं कि मैं आगे क्या पूछ सकता हूं.",
+      "gu": "મારી હમણાં બનેલી કુંડળીનો ટૂંકો સાર બતાવો અને આગળ હું શું પૂછી શકું તે કહો."
     },
     "ui.kundliAllVisibleChartsAndUsefulChartSignals.litv4v": {
       "en": "Kundli, all visible charts, and useful chart signals.",
@@ -9557,9 +9582,9 @@
       "gu": "એઆઈ ક્રેડિટ ખર્ચ્યા વિના પણ પ્રેડિક્ટા મદદ કરી શકે છે."
     },
     "ui.global.create.kundli.open.chart.proof.redeem.pass.or.review.pricing.auth.bridge": {
-      "en": "Create Kundli, open chart proof, redeem a pass, or review pricing while your private AI chat waits for sign-in.",
-      "hi": "जब आपकी निजी एआई चैट साइन-इन की प्रतीक्षा कर रही हो, तब कुंडली बनाएं, चार्ट प्रमाण खोलें, पास रिडीम करें या प्राइसिंग देखें।",
-      "gu": "તમારી ખાનગી એઆઈ ચેટ સાઇન-ઇનની રાહ જોતી હોય ત્યારે કુંડળી બનાવો, ચાર્ટ પુરાવો ખોલો, પાસ રિડીમ કરો અથવા પ્રાઇસિંગ જુઓ."
+      "en": "Start your Kundli in chat or review pricing while your private AI chat waits for sign-in.",
+      "hi": "जब आपकी निजी एआई चैट साइन-इन की प्रतीक्षा कर रही हो, तब चैट में कुंडली शुरू करें या प्राइसिंग देखें।",
+      "gu": "તમારી ખાનગી એઆઈ ચેટ સાઇન-ઇનની રાહ જોતી હોય ત્યારે ચેટમાં કુંડળી શરૂ કરો અથવા પ્રાઇસિંગ જુઓ."
     },
     "ui.global.predicta.next.steps.auth.bridge": {
       "en": "Predicta next steps",

@@ -1108,6 +1108,7 @@ export function WebPridictaChat({
     if (response.freeAiUpsell?.blocked) {
       passCostSuggestionsRef.current = buildFreeAiUpsellSuggestions(
         response.freeAiUpsell.purchaseOptions,
+        responseLanguage,
       );
     }
     responseSafetyRef.current = detectChatSafetyMeta(
@@ -1784,18 +1785,12 @@ export function WebPridictaChat({
           <strong>{t('Predicta can still help without spending AI credits.')}</strong>
           <p>
             {t(
-              'Create Kundli, open chart proof, redeem a pass, or review pricing while your private AI chat waits for sign-in.',
+              'Start your Kundli in chat or review pricing while your private AI chat waits for sign-in.',
             )}
           </p>
           <div className="auth-next-actions" aria-label={t('Predicta next steps')}>
             <Link className="button secondary" href={buildChatLedKundliHref()}>
               {t('Ask Predicta to Create')}
-            </Link>
-            <Link className="button secondary" href="/dashboard/kundli">
-              {t('Create Kundli')}
-            </Link>
-            <Link className="button secondary" href="/dashboard/redeem-pass">
-              {t('Redeem pass')}
             </Link>
             <Link className="button secondary" href="/pricing">
               {t('See pricing')}
@@ -3787,9 +3782,12 @@ function buildPostKundliCreatedSuggestions(
       },
       {
         id: 'my-kundlis-after-kundli',
-        label: 'Meri Kundli dekho',
+        label: translateUiText('Kundli summary', language),
         prompt:
-          'Meri newly created Kundli ka short summary dikhao aur batao main next kya pooch sakta hoon.',
+          translateUiText(
+            'Show a short summary of my newly created Kundli and tell me what I can ask next.',
+            language,
+          ),
       },
     ];
   }
@@ -3822,9 +3820,12 @@ function buildPostKundliCreatedSuggestions(
       },
       {
         id: 'my-kundlis-after-kundli',
-        label: 'Mari Kundli juo',
+        label: translateUiText('Kundli summary', language),
         prompt:
-          'Mari newly created Kundli no short summary batao ane next hu shu poochi shaku te kaho.',
+          translateUiText(
+            'Show a short summary of my newly created Kundli and tell me what I can ask next.',
+            language,
+          ),
       },
     ];
   }
@@ -3856,15 +3857,19 @@ function buildPostKundliCreatedSuggestions(
     },
     {
       id: 'my-kundlis-after-kundli',
-      label: 'Open My Kundlis',
+      label: 'Kundli summary',
       prompt:
-        'Show a short summary of my newly created Kundli and tell me what I can ask next.',
+        translateUiText(
+          'Show a short summary of my newly created Kundli and tell me what I can ask next.',
+          language,
+        ),
     },
   ];
 }
 
 function buildFreeAiUpsellSuggestions(
   purchaseOptions: Array<'10 questions' | '25 questions' | '100 questions' | 'Premium'>,
+  language: SupportedLanguage,
 ): ChatSuggestedCta[] {
   const checkoutHref: Record<string, string> = {
     '10 questions': '/pricing?focus=ai-questions-10',
@@ -3894,11 +3899,13 @@ function buildFreeAiUpsellSuggestions(
         'Show my chart snapshot and key deterministic chart facts without using an AI credit.',
     },
     {
-      href: '/dashboard/report',
       id: 'free-ai-zero-credit-report',
-      label: 'Free report',
-      prompt: 'Generate free report without AI credit.',
-      targetScreen: 'Reports',
+      label: translateUiText('Report preview', language),
+      prompt:
+        translateUiText(
+          'Create a useful free report preview in chat without using an AI credit and tell me what a paid report would add.',
+          language,
+        ),
     },
     {
       href: '/dashboard/redeem-pass',
@@ -4148,16 +4155,18 @@ function buildBirthDetailConfidenceSuggestions(
       },
       {
         id: 'birth-confidence-rectify',
-        label: 'Time re-check karo',
+        label: translateUiText('Re-check my time', language),
         prompt:
           getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.7e96dc5da7"),
       },
       {
-        href: '/dashboard/birth-time',
         id: 'birth-confidence-detective',
-        label: 'Birth Time Detective',
-        prompt: 'Open Birth Time Detective',
-        targetScreen: 'Birth Time',
+        label: translateUiText('Birth Time Detective', language),
+        prompt:
+          translateUiText(
+            'My birth time is doubtful. Start Birth Time Detective in chat and ask me simple life-event questions one by one.',
+            language,
+          ),
       },
     ];
   }
@@ -4172,16 +4181,18 @@ function buildBirthDetailConfidenceSuggestions(
       },
       {
         id: 'birth-confidence-rectify',
-        label: 'Time re-check karo',
+        label: translateUiText('Re-check my time', language),
         prompt:
           getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.ec48b89375"),
       },
       {
-        href: '/dashboard/birth-time',
         id: 'birth-confidence-detective',
-        label: 'Birth Time Detective',
-        prompt: 'Open Birth Time Detective',
-        targetScreen: 'Birth Time',
+        label: translateUiText('Birth Time Detective', language),
+        prompt:
+          translateUiText(
+            'My birth time is doubtful. Start Birth Time Detective in chat and ask me simple life-event questions one by one.',
+            language,
+          ),
       },
     ];
   }
@@ -4200,11 +4211,13 @@ function buildBirthDetailConfidenceSuggestions(
         'My birth time is doubtful. Ask me simple life-event questions and estimate a probable corrected birth time.',
     },
     {
-      href: '/dashboard/birth-time',
       id: 'birth-confidence-detective',
-      label: 'Birth Time Detective',
-      prompt: 'Open Birth Time Detective',
-      targetScreen: 'Birth Time',
+      label: translateUiText('Birth Time Detective', language),
+      prompt:
+        translateUiText(
+          'My birth time is doubtful. Start Birth Time Detective in chat and ask me simple life-event questions one by one.',
+          language,
+        ),
     },
   ];
 }

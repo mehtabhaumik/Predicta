@@ -289,13 +289,26 @@ try {
     const audit = await evaluate(cdp, `(() => {
       const text = document.body.textContent || '';
       const hrefs = [...document.querySelectorAll('a[href]')].map(link => link.getAttribute('href'));
+      const hasAccountRequired = Boolean(document.querySelector('.auth-required-panel'));
+      const hasChatLedKundli = hrefs.some(href =>
+        typeof href === 'string' &&
+        href.startsWith('/ask?') &&
+        href.includes('Create+my+Kundli+from+chat')
+      );
+      const hasRedeemPass = hrefs.some(href => href === '/dashboard/redeem-pass');
+      const hasPricing = hrefs.some(href => href === '/pricing');
       return {
-        hasAccountRequired: Boolean(document.querySelector('.auth-required-panel')),
+        hasAccountRequired,
+        hasChatLedKundli,
         hasDeterministicCopy: /free AI questions are used|without AI|deterministic|Kundli|charts|reports/i.test(text),
+        hasPricing,
         hasPreservedQuestionBridge: /Your question is ready|question ready after sign-in|do not have to start again/i.test(text),
-        hasFallbackLinks: hrefs.some(href => href === '/dashboard/kundli') &&
-          hrefs.some(href => href === '/dashboard/redeem-pass') &&
-          hrefs.some(href => href === '/pricing'),
+        hasRedeemPass,
+        hasFallbackLinks: hasAccountRequired
+          ? hasChatLedKundli && hasPricing && !hasRedeemPass
+          : hrefs.some(href => href === '/dashboard/kundli') &&
+            hasRedeemPass &&
+            hasPricing,
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         text: text.slice(0, 2400),
         url: location.href,
@@ -309,7 +322,7 @@ try {
       localFailures.push('signed-out zero-credit state did not preserve the user question before sign-in');
     }
     if (!audit.hasFallbackLinks) {
-      localFailures.push('zero-credit state did not show deterministic/redeem/pricing next steps');
+      localFailures.push('zero-credit state did not show the correct deterministic/pricing next steps for its auth state');
     }
     if (audit.horizontalOverflow) {
       localFailures.push('zero-credit journey has horizontal overflow');
