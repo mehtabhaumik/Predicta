@@ -4,7 +4,7 @@ import { getCompetitorResponseCopy } from '@pridicta/config';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
@@ -24,11 +24,8 @@ export function WebReportPage(): React.JSX.Element {
   const router = useRouter();
   const { language } = useLanguagePreference();
   const copy = getCompetitorResponseCopy(language).reportPage;
-  const [reportQuestion, setReportQuestion] = useState(
-    copy.suggestedQuestions[0] ?? '',
-  );
   const askReportHref = buildPredictaChatHref({
-    prompt: reportQuestion.trim() || copy.questionPlaceholder,
+    prompt: copy.questionPlaceholder,
     reportFocus: 'report_selection',
     sourceScreen: 'Reports',
   });
@@ -45,7 +42,7 @@ export function WebReportPage(): React.JSX.Element {
 
   return (
     <section className="dashboard-page">
-      <div className="page-heading compact">
+      <div className="page-heading compact report-page-heading">
         <h1 className="gradient-text">{copy.title}</h1>
         <details className="info-drawer">
           <summary>
@@ -69,57 +66,6 @@ export function WebReportPage(): React.JSX.Element {
           </Link>
         </div>
       </div>
-
-      <section
-        className="report-question-panel glass-panel"
-        onFocus={() => prewarmReportAsk()}
-        onPointerEnter={() => prewarmReportAsk()}
-        onTouchStart={() => prewarmReportAsk()}
-      >
-        <div className="report-question-copy">
-          <div className="section-title">{copy.questionEyebrow}</div>
-          <h2>{copy.questionTitle}</h2>
-          <p>{copy.questionBody}</p>
-        </div>
-        <div className="report-question-console">
-          <label className="landing-ask-field">
-            <span>{copy.questionLabel}</span>
-            <textarea
-              onChange={event => setReportQuestion(event.target.value)}
-              placeholder={copy.questionPlaceholder}
-              value={reportQuestion}
-            />
-          </label>
-          <div
-            aria-label={copy.suggestedQuestionLabel}
-            className="landing-question-chips"
-          >
-            {copy.suggestedQuestions.map(item => (
-              <button
-                key={item}
-                onClick={() => setReportQuestion(item)}
-                type="button"
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-          <div className="landing-ask-actions">
-            <Link
-              className="button"
-              href={askReportHref}
-              onFocus={() => prewarmReportAsk(askReportHref)}
-              onPointerEnter={() => prewarmReportAsk(askReportHref)}
-              onTouchStart={() => prewarmReportAsk(askReportHref)}
-            >
-              {copy.askReportCta}
-            </Link>
-            <Link className="button secondary" href="#report-builder">
-              {copy.openBuilderCta}
-            </Link>
-          </div>
-        </div>
-      </section>
 
       <div id="report-builder">
         <WebDossierPreview />

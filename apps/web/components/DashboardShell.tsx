@@ -291,6 +291,7 @@ export function DashboardShell({
     !isChatRoute &&
     !isWorldHomeRoute &&
     pathname !== '/dashboard' &&
+    pathname !== '/dashboard/report' &&
     !pathname.startsWith('/dashboard/admin');
   const primarySections = sections.filter(section =>
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),

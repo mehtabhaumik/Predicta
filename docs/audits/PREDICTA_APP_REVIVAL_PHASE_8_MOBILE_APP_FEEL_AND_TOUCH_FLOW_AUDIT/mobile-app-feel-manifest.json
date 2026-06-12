@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:3009",
-  "generatedAt": "2026-06-12T11:51:09.807Z",
+  "generatedAt": "2026-06-12T13:03:50.650Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -273,13 +273,6 @@
           "height": 145,
           "tag": "div",
           "top": 18
-        },
-        {
-          "bottom": 766,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 80,
-          "tag": "aside",
-          "top": 686
         }
       ],
       "horizontalOverflow": false,
@@ -565,13 +558,6 @@
           "height": 145,
           "tag": "div",
           "top": 18
-        },
-        {
-          "bottom": 830,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 80,
-          "tag": "aside",
-          "top": 750
         }
       ],
       "horizontalOverflow": false,
@@ -857,13 +843,6 @@
           "height": 145,
           "tag": "div",
           "top": 18
-        },
-        {
-          "bottom": 918,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 80,
-          "tag": "aside",
-          "top": 838
         }
       ],
       "horizontalOverflow": false,
@@ -1149,13 +1128,6 @@
           "height": 145,
           "tag": "div",
           "top": 18
-        },
-        {
-          "bottom": 1010,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 94,
-          "tag": "aside",
-          "top": 916
         }
       ],
       "horizontalOverflow": false,
@@ -1441,13 +1413,6 @@
           "height": 92,
           "tag": "div",
           "top": 24
-        },
-        {
-          "bottom": 1098,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 94,
-          "tag": "aside",
-          "top": 1004
         }
       ],
       "horizontalOverflow": false,
@@ -1733,13 +1698,6 @@
           "height": 94,
           "tag": "div",
           "top": 24
-        },
-        {
-          "bottom": 886,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 96,
-          "tag": "aside",
-          "top": 790
         }
       ],
       "horizontalOverflow": false,
@@ -2025,13 +1983,6 @@
           "height": 90,
           "tag": "div",
           "top": 32
-        },
-        {
-          "bottom": 920,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 102,
-          "tag": "aside",
-          "top": 818
         }
       ],
       "horizontalOverflow": false,

@@ -248,7 +248,7 @@ try {
 
   await runScenario('dashboard-ask-accessible-handoff', mobileViewport, async cdp => {
     const checkedRoutes = [
-      { route: '/dashboard/report', type: 'dock' },
+      { route: '/dashboard/report', type: 'report-page' },
       { route: '/dashboard/kp', type: 'room-primary' },
       { route: '/dashboard/jaimini', type: 'room-primary' },
       { route: '/dashboard/numerology', type: 'room-primary' },
@@ -262,18 +262,26 @@ try {
         cdp,
         type === 'dock'
           ? `Boolean(document.querySelector('.dashboard-ask-dock a[href^="/ask"]'))`
+          : type === 'report-page'
+            ? `Boolean(document.querySelector('.report-page-heading a[href^="/ask"], .report-inline-actions a[href^="/ask"]'))`
           : `Boolean(document.querySelector('.evidence-room-entry a[href^="/ask"], .predicta-world-primary-actions a[href^="/ask"], .jaimini-room-cta-row a[href^="/ask"]'))`,
         8_000,
       ).catch(() => undefined);
       const audit = await evaluate(cdp, `(() => {
         const dock = document.querySelector('.dashboard-ask-dock');
+        const reportLink = document.querySelector('.report-page-heading a[href^="/ask"], .report-inline-actions a[href^="/ask"]');
         const roomLink = document.querySelector('.evidence-room-entry a[href^="/ask"], .predicta-world-primary-actions a[href^="/ask"], .jaimini-room-cta-row a[href^="/ask"]');
-        const link = ${JSON.stringify(type)} === 'dock'
+        const type = ${JSON.stringify(type)};
+        const link = type === 'dock'
           ? dock?.querySelector('a[href^="/ask"]')
-          : roomLink;
-        const rect = (${JSON.stringify(type)} === 'dock' ? dock : roomLink)?.getBoundingClientRect();
+          : type === 'report-page'
+            ? reportLink
+            : roomLink;
+        const surface = type === 'dock' ? dock : link;
+        const rect = surface?.getBoundingClientRect();
         return {
           dockVisible: Boolean(dock),
+          reportPageActionVisible: Boolean(reportLink),
           roomPrimaryVisible: Boolean(roomLink),
           href: link?.getAttribute('href') || '',
           horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
@@ -283,8 +291,8 @@ try {
             top: Math.round(rect.top),
             width: Math.round(rect.width),
           } : null,
-          text: ((${JSON.stringify(type)} === 'dock' ? dock : roomLink)?.textContent || '').replace(/\\s+/g, ' ').trim(),
-          type: ${JSON.stringify(type)},
+          text: (surface?.textContent || '').replace(/\\s+/g, ' ').trim(),
+          type,
         };
       })()`);
       routeAudits.push({ audit, route });
@@ -292,6 +300,8 @@ try {
         localFailures.push(
           type === 'dock'
             ? `${route} does not show the contextual Ask Predicta dock`
+            : type === 'report-page'
+              ? `${route} does not show a page-owned Ask Predicta action`
             : `${route} does not show a primary room Ask Predicta action`,
         );
       }

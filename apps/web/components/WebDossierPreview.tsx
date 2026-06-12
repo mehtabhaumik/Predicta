@@ -616,14 +616,27 @@ export function WebDossierPreview(): React.JSX.Element {
   useEffect(() => {
     const node = inlineComposerRef.current;
 
-    if (!node || typeof IntersectionObserver === 'undefined') {
+    if (
+      !node ||
+      typeof IntersectionObserver === 'undefined' ||
+      typeof window === 'undefined'
+    ) {
+      setShowStickyReportBar(false);
+      return;
+    }
+
+    const compactViewportQuery = window.matchMedia('(max-width: 640px)');
+
+    if (compactViewportQuery.matches) {
       setShowStickyReportBar(false);
       return;
     }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setShowStickyReportBar(!entry.isIntersecting && window.scrollY > 160);
+        setShowStickyReportBar(
+          !compactViewportQuery.matches && !entry.isIntersecting && window.scrollY > 160,
+        );
       },
       { threshold: 0.12 },
     );
