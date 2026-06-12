@@ -213,6 +213,13 @@ export function WebKundliWizard(): React.JSX.Element {
     setIsPlaceSuggestionsOpen(false);
   }
 
+  function setBirthPlaceSuggestionResults(nextSuggestions: WebBirthPlace[]) {
+    setPlaceSuggestions(nextSuggestions);
+    if (nextSuggestions.length > 0) {
+      setIsSearchingPlaces(false);
+    }
+  }
+
   function closeBirthPlaceSuggestions() {
     placeSearchRequestRef.current += 1;
     resetBirthPlaceSearchUi();
@@ -333,7 +340,7 @@ export function WebKundliWizard(): React.JSX.Element {
       return;
     }
 
-    setPlaceSuggestions(localMatches);
+    setBirthPlaceSuggestionResults(localMatches);
     setIsSearchingPlaces(localMatches.length === 0);
 
     if (localMatches.length > 0) {
@@ -348,7 +355,7 @@ export function WebKundliWizard(): React.JSX.Element {
         }
 
         const fallbackMatches = searchLocalWebBirthPlaces(query).slice(0, 6);
-        setPlaceSuggestions(fallbackMatches);
+        setBirthPlaceSuggestionResults(fallbackMatches);
         setIsSearchingPlaces(false);
         setIsPlaceSuggestionsOpen(fallbackMatches.length > 0);
       }, 4000);
@@ -364,7 +371,7 @@ export function WebKundliWizard(): React.JSX.Element {
           return;
         }
 
-        setPlaceSuggestions(places);
+        setBirthPlaceSuggestionResults(places);
         setIsSearchingPlaces(false);
       }).catch(() => {
         if (cancelled || requestId !== placeSearchRequestRef.current) {
@@ -372,7 +379,7 @@ export function WebKundliWizard(): React.JSX.Element {
         }
 
         const fallbackMatches = searchLocalWebBirthPlaces(query).slice(0, 6);
-        setPlaceSuggestions(fallbackMatches);
+        setBirthPlaceSuggestionResults(fallbackMatches);
         setIsSearchingPlaces(false);
         setIsPlaceSuggestionsOpen(fallbackMatches.length > 0);
       }).finally(() => {
@@ -591,10 +598,11 @@ export function WebKundliWizard(): React.JSX.Element {
     visibleBirthPlaceSuggestions.length > 0;
   const shouldShowBirthPlaceSearchStatus =
     !shouldSuppressBirthPlaceOverlay &&
+    !shouldShowBirthPlaceSuggestions &&
     isBirthPlaceInputFocused &&
     isPlaceSuggestionsOpen &&
     isSearchingPlaces &&
-    placeSuggestions.length === 0;
+    visibleBirthPlaceSuggestions.length === 0;
   const shouldShowBirthPlaceOverlay =
     shouldShowBirthPlaceSuggestions || shouldShowBirthPlaceSearchStatus;
   const readyFlow = kundli ? (
@@ -689,8 +697,11 @@ export function WebKundliWizard(): React.JSX.Element {
             <div className="birth-place-search" ref={birthPlaceSearchRef}>
               <input
                 aria-describedby="birth-place-help"
-                autoComplete="off"
+                autoComplete="new-password"
+                autoCorrect="off"
+                name="predicta-birth-place-search"
                 ref={birthPlaceInputRef}
+                spellCheck={false}
                 onChange={event => {
                   resetFlow();
                   const nextQuery = event.target.value;

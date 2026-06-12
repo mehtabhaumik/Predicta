@@ -102,3 +102,36 @@ Date: 2026-06-12
 Green. The exact auto-populate path now behaves like a completed action, not a
 half-open search state: once Predicta recognizes the birth place, the field is
 committed and the dropdown is gone.
+
+## Mixed Option And Searching-State Reaudit
+
+Date: 2026-06-12
+
+### Additional Fix
+
+- Made birth-place suggestion results authoritative: when selectable results are
+  present, the loading state is cleared immediately.
+- Made the `Searching places...` overlay mutually exclusive with visible
+  suggestions, even if a stale async search result tries to update late.
+- Strengthened browser-native autofill resistance on the place input with a
+  dedicated field name, `new-password` autocomplete, autocorrect off, and
+  spellcheck off.
+- Extended the regression gate to fail if a Petlad option and
+  `Searching places...` appear at the same time.
+
+### Supplemental Evidence
+
+- `node --check scripts/run-birth-place-autocomplete-gate.mjs`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_AUTOCOMPLETE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:birth-place-autocomplete`: PASS. `hasMixedOptionAndSearching` is `false`; exact `Petlad` resolves to `Petlad, Gujarat, India`; suggestions are unmounted; `Searching places...` is absent; refocus stays closed; no horizontal overflow.
+- `PREDICTA_BIRTH_PLACE_AUTOCOMPLETE_BASE_URL=http://127.0.0.1:3009 node scripts/run-birth-place-autocomplete-gate.mjs`: PASS with the same mixed-state guard.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/kundli corepack pnpm test:ui-text-overflow`: PASS, `4` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard/kundli corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `corepack pnpm test:app-revival-phase-6`: PASS.
+
+### Supplemental Result
+
+Green. The birth-place autocomplete now treats `Petlad` as a closed, committed
+selection and forbids the trust-breaking state where a selectable place and
+`Searching places...` are visible together.

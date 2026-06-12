@@ -69,6 +69,10 @@ try {
     throw new Error('Known local place suggestions showed a stale Searching places status.');
   }
 
+  if (result.partialHasMixedOptionAndSearching) {
+    throw new Error('Birth-place autocomplete showed a place option and Searching places at the same time.');
+  }
+
   if (!result.exactTypedSettledClosed) {
     throw new Error('Exact birth-place auto-populate did not dismiss the suggestions without an extra click.');
   }
@@ -199,6 +203,9 @@ async function runAutocompleteScenario(cdp) {
           const text = document.body.textContent || '';
           return {
             hasSearchingPlaces: text.includes('Searching places...'),
+            hasMixedOptionAndSearching:
+              Boolean(suggestions?.textContent?.includes('Petlad')) &&
+              text.includes('Searching places...'),
             horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
             inputFound: true,
             inputValue: input?.value || '',
@@ -261,10 +268,14 @@ async function runAutocompleteScenario(cdp) {
     expression: `(() => {
       const suggestions = document.querySelector('.birth-place-suggestions');
       const input = document.querySelector('input[placeholder="Start typing city, state, country"]');
+      const options = [...document.querySelectorAll('.birth-place-suggestions button')];
       const text = document.body.textContent || '';
 
       return {
         hasSearchingPlaces: text.includes('Searching places...'),
+        hasMixedOptionAndSearching:
+          options.some(item => /Petlad/i.test(item.textContent || '')) &&
+          text.includes('Searching places...'),
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         inputFound: Boolean(input),
         inputValue: input?.value || '',
@@ -328,6 +339,9 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
 
       return {
         hasSearchingPlaces: text.includes('Searching places...'),
+        hasMixedOptionAndSearching:
+          options.some(item => ${optionPattern}.test(item.textContent || '')) &&
+          text.includes('Searching places...'),
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         inputFound: Boolean(input),
         inputValue: input?.value || '',
