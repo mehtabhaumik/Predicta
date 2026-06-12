@@ -3345,6 +3345,7 @@ button:disabled,
 
 .dashboard-home-route .dashboard-topbar-actions {
   flex: 0 0 auto;
+  justify-content: flex-end;
 }
 
 .dashboard-home-route .dashboard-topbar-actions .button {
@@ -18304,6 +18305,7 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
     display: flex;
     flex: 0 0 auto;
     gap: 10px;
+    justify-content: flex-end;
     width: auto;
   }
 
@@ -18651,8 +18653,10 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
 
   .dashboard-home-route .dashboard-topbar {
     align-items: center;
+    display: flex;
     gap: 10px;
     padding: 10px;
+    width: max-content;
   }
 
   .dashboard-home-route .dashboard-topbar-context {
@@ -18660,7 +18664,9 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   }
 
   .dashboard-home-route .dashboard-topbar-actions {
-    grid-template-columns: minmax(0, 1fr) var(--predicta-touch-target);
+    grid-template-columns: var(--predicta-touch-target);
+    justify-content: flex-end;
+    width: auto;
   }
 
   .dashboard-home-route .dashboard-topbar-actions .button {

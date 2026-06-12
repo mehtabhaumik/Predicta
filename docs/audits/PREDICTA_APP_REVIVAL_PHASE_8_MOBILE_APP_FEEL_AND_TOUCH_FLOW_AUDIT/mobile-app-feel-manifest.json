@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:3017",
-  "generatedAt": "2026-06-12T22:10:00.098Z",
+  "generatedAt": "2026-06-12T22:20:22.735Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -106,18 +106,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 154,
+          "bottom": 100,
           "className": "dashboard-topbar glass-panel",
-          "height": 134,
+          "height": 80,
           "tag": "div",
           "top": 20
-        },
-        {
-          "bottom": 766,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 80,
-          "tag": "aside",
-          "top": 686
         }
       ],
       "horizontalOverflow": false,
@@ -440,18 +433,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 154,
+          "bottom": 100,
           "className": "dashboard-topbar glass-panel",
-          "height": 134,
+          "height": 80,
           "tag": "div",
           "top": 20
-        },
-        {
-          "bottom": 830,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 80,
-          "tag": "aside",
-          "top": 750
         }
       ],
       "horizontalOverflow": false,
@@ -661,7 +647,7 @@
       "horizontalOverflow": false,
       "landingTextarea": null,
       "localGridColumns": "",
-      "reportActionColumns": "",
+      "reportActionColumns": "290px",
       "touchIssueCount": 0,
       "voiceButton": null,
       "windowHeight": 844,
@@ -774,18 +760,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 154,
+          "bottom": 100,
           "className": "dashboard-topbar glass-panel",
-          "height": 134,
+          "height": 80,
           "tag": "div",
           "top": 20
-        },
-        {
-          "bottom": 918,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 80,
-          "tag": "aside",
-          "top": 838
         }
       ],
       "horizontalOverflow": false,
@@ -995,7 +974,7 @@
       "horizontalOverflow": false,
       "landingTextarea": null,
       "localGridColumns": "",
-      "reportActionColumns": "",
+      "reportActionColumns": "330px",
       "touchIssueCount": 0,
       "voiceButton": null,
       "windowHeight": 932,
@@ -1108,18 +1087,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 154,
+          "bottom": 100,
           "className": "dashboard-topbar glass-panel",
-          "height": 134,
+          "height": 80,
           "tag": "div",
           "top": 20
-        },
-        {
-          "bottom": 1010,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 94,
-          "tag": "aside",
-          "top": 916
         }
       ],
       "horizontalOverflow": false,
@@ -1447,13 +1419,6 @@
           "height": 76,
           "tag": "div",
           "top": 20
-        },
-        {
-          "bottom": 1098,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 94,
-          "tag": "aside",
-          "top": 1004
         }
       ],
       "horizontalOverflow": false,
@@ -1663,7 +1628,7 @@
       "horizontalOverflow": false,
       "landingTextarea": null,
       "localGridColumns": "",
-      "reportActionColumns": "none",
+      "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
       "windowHeight": 1112,
@@ -1781,13 +1746,6 @@
           "height": 78,
           "tag": "div",
           "top": 20
-        },
-        {
-          "bottom": 886,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 96,
-          "tag": "aside",
-          "top": 790
         }
       ],
       "horizontalOverflow": false,
@@ -2115,13 +2073,6 @@
           "height": 84,
           "tag": "div",
           "top": 20
-        },
-        {
-          "bottom": 920,
-          "className": "dashboard-ask-dock glass-panel",
-          "height": 102,
-          "tag": "aside",
-          "top": 818
         }
       ],
       "horizontalOverflow": false,

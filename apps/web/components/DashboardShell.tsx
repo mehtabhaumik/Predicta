@@ -281,6 +281,7 @@ export function DashboardShell({
   const activeSection = getActiveDashboardSection(pathname, sections);
   const showAskDock =
     !isChatRoute &&
+    !isDashboardHomeRoute &&
     !pathname.startsWith('/dashboard/admin');
   const primarySections = sections.filter(section =>
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
@@ -386,15 +387,17 @@ export function DashboardShell({
           </div>
           <div className="dashboard-topbar-actions">
             <LightweightLanguageSelector compact hideCompactLabel />
-            <Link
-              className="button"
-              href={askPredictaHref}
-              onFocus={() => prewarmAskPredicta(askPredictaHref)}
-              onPointerEnter={() => prewarmAskPredicta(askPredictaHref)}
-              onTouchStart={() => prewarmAskPredicta(askPredictaHref)}
-            >
-              {shellLabels.actions.askPredicta}
-            </Link>
+            {!isDashboardHomeRoute ? (
+              <Link
+                className="button"
+                href={askPredictaHref}
+                onFocus={() => prewarmAskPredicta(askPredictaHref)}
+                onPointerEnter={() => prewarmAskPredicta(askPredictaHref)}
+                onTouchStart={() => prewarmAskPredicta(askPredictaHref)}
+              >
+                {shellLabels.actions.askPredicta}
+              </Link>
+            ) : null}
             <button
               aria-expanded={menuOpen}
               aria-label={
