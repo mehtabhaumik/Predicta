@@ -286,3 +286,33 @@ instead of the default app doorway.
 Green. The Gujarati public header no longer crowds the logo with a long list of
 specialist room links, while the full world list remains available through the
 worlds anchor, landing strip, dashboard navigation, and mobile drawer.
+
+## Supplemental Public Header Hitbox Lock
+
+Date: 2026-06-12
+
+The public header brand link was visually compact but its actual click target
+could stretch across the header grid at compact desktop/tablet widths. That made
+nearby navigation feel unreliable because the logo/home link occupied far more
+space than the visible logo and tagline.
+
+### Changes
+
+- Constrained `.brand-lockup` to a real content-sized hitbox instead of letting
+  the grid item stretch across the header.
+- Kept the brand text truncated safely on mobile without allowing the home link
+  to overlap the menu button.
+
+### Evidence
+
+- Browser DOM audit on `http://127.0.0.1:3009/` at `1280px`: brand hitbox is
+  `340px`, menu hitbox is `44px`, `brandOverlapsMenu=false`, horizontal overflow
+  is `0`.
+- Browser DOM audit on `http://127.0.0.1:3009/` at `390px`: brand hitbox is
+  `260px`, menu hitbox is `44px`, `brandOverlapsMenu=false`, horizontal overflow
+  is `0`.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard corepack pnpm test:ui-text-overflow`: PASS, `12` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.

@@ -1230,6 +1230,12 @@ button:disabled,
   min-width: 340px;
 }
 
+.brand-lockup {
+  justify-self: start;
+  max-width: min(100%, 340px);
+  width: fit-content;
+}
+
 .brand-logo,
 .dashboard-logo {
   border-radius: 18px;
@@ -18563,6 +18569,7 @@ button:disabled,
     gap: 10px;
     min-width: 0;
     overflow: hidden;
+    width: min(100%, 260px);
   }
 
   .brand-lockup .brand-logo {

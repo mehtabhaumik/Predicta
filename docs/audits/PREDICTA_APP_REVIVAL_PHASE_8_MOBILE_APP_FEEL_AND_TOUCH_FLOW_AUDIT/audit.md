@@ -274,3 +274,26 @@ Predicta, then enter specialist worlds only when needed.
   menu action without overflow.
 - `/tmp/predicta-mobile-dashboard-drawer-grouped.png`: manual CDP screenshot
   confirmed the mobile drawer grouping, spacing, and no text leakage.
+
+## Supplemental Header Touch Target Lock
+
+Date: 2026-06-12
+
+The public header brand link could stretch across the compact header row even
+though the visible logo/tagline looked small. This created a hidden touch/click
+target that made adjacent navigation feel less predictable.
+
+### Changes
+
+- Public brand link now stays content-sized at desktop/tablet compact widths.
+- Mobile brand link now keeps a bounded `260px` width and does not overlap the
+  menu button.
+
+### Evidence
+
+- Browser DOM proof at `1280px`: brand `340px`, menu `44px`, no overlap, no
+  horizontal overflow.
+- Browser DOM proof at `390px`: brand `260px`, menu `44px`, no overlap, no
+  horizontal overflow.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard corepack pnpm test:ui-text-overflow`: PASS.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard corepack pnpm test:ui-personal-space`: PASS.
