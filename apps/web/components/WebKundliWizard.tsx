@@ -245,16 +245,41 @@ export function WebKundliWizard(): React.JSX.Element {
     birthPlaceSearchSettledRef.current = false;
   }
 
+  function isResolvedBirthPlaceQuery(query: string) {
+    const normalizedQuery = normalizeBirthPlaceLabel(query);
+
+    if (!normalizedQuery) {
+      return false;
+    }
+
+    if (acceptedBirthPlaceQuery === normalizedQuery) {
+      return true;
+    }
+
+    return Boolean(
+      selectedPlace &&
+        (isExactBirthPlaceSelection(selectedPlace, query) ||
+          doesBirthPlaceMatchQuery(selectedPlace, query)),
+    );
+  }
+
   function canApplyBirthPlaceSearchResult(requestId: number, query: string) {
     return (
       requestId === placeSearchRequestRef.current &&
       !birthPlaceSearchSettledRef.current &&
-      latestBirthPlaceSearchQueryRef.current === normalizeBirthPlaceLabel(query)
+      latestBirthPlaceSearchQueryRef.current === normalizeBirthPlaceLabel(query) &&
+      !isResolvedBirthPlaceQuery(query)
     );
   }
 
-  function setBirthPlaceSuggestionResults(nextSuggestions: WebBirthPlace[]) {
-    if (birthPlaceSearchSettledRef.current) {
+  function setBirthPlaceSuggestionResults(
+    nextSuggestions: WebBirthPlace[],
+    query = birthPlaceQuery,
+  ) {
+    if (
+      birthPlaceSearchSettledRef.current ||
+      isResolvedBirthPlaceQuery(query)
+    ) {
       resetBirthPlaceSearchUi();
       return;
     }
@@ -416,7 +441,7 @@ export function WebKundliWizard(): React.JSX.Element {
       return;
     }
 
-    setBirthPlaceSuggestionResults(localMatches);
+    setBirthPlaceSuggestionResults(localMatches, query);
     setIsSearchingPlaces(localMatches.length === 0);
 
     if (localMatches.length > 0) {
@@ -431,7 +456,7 @@ export function WebKundliWizard(): React.JSX.Element {
         }
 
         const fallbackMatches = searchLocalWebBirthPlaces(query).slice(0, 6);
-        setBirthPlaceSuggestionResults(fallbackMatches);
+        setBirthPlaceSuggestionResults(fallbackMatches, query);
         setIsSearchingPlaces(false);
         setIsPlaceSuggestionsOpen(fallbackMatches.length > 0);
       }, 4000);
@@ -447,7 +472,7 @@ export function WebKundliWizard(): React.JSX.Element {
           return;
         }
 
-        setBirthPlaceSuggestionResults(places);
+        setBirthPlaceSuggestionResults(places, query);
         setIsSearchingPlaces(false);
       }).catch(() => {
         if (cancelled || !canApplyBirthPlaceSearchResult(requestId, query)) {
@@ -455,7 +480,7 @@ export function WebKundliWizard(): React.JSX.Element {
         }
 
         const fallbackMatches = searchLocalWebBirthPlaces(query).slice(0, 6);
-        setBirthPlaceSuggestionResults(fallbackMatches);
+        setBirthPlaceSuggestionResults(fallbackMatches, query);
         setIsSearchingPlaces(false);
         setIsPlaceSuggestionsOpen(fallbackMatches.length > 0);
       }).finally(() => {
@@ -697,11 +722,15 @@ export function WebKundliWizard(): React.JSX.Element {
   }
 
   const shouldShowReadyFirst = Boolean(kundli && !editingKundliId);
+  const isBirthPlaceOverlayResolved =
+    normalizedBirthPlaceQuery.length >= 2 &&
+    isResolvedBirthPlaceQuery(birthPlaceQuery);
   const shouldSuppressBirthPlaceOverlay =
     isBirthPlaceSelectionLocked ||
     Boolean(selectedPlace && isSelectedPlaceCurrent) ||
     isBirthPlaceSearchSettled ||
-    Boolean(immediatelySettledBirthPlace);
+    Boolean(immediatelySettledBirthPlace) ||
+    isBirthPlaceOverlayResolved;
   const canShowBirthPlaceOverlay =
     isBirthPlaceInputFocused &&
     !shouldSuppressBirthPlaceOverlay &&
@@ -867,7 +896,7 @@ export function WebKundliWizard(): React.JSX.Element {
                   );
 
                   if (nextLocalMatches.length > 0) {
-                    setBirthPlaceSuggestionResults(nextLocalMatches);
+                    setBirthPlaceSuggestionResults(nextLocalMatches, nextQuery);
                     setIsPlaceSuggestionsOpen(true);
                     return;
                   }
