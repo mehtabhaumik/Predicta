@@ -415,3 +415,43 @@ chat-first trust contract.
 Green. Empty Ask actions now stay in the user's selected language while route
 budgets, link latency, overflow, spacing, mobile feel, and full user journey
 gates remain green.
+
+## Supplemental Context-Aware Auto-Send Lock
+
+Date: 2026-06-12
+
+Auto-send Ask links could carry the right room/report/chart context in the URL
+but send the first message before that context was synchronized into the chat
+pipeline. That made some direct handoffs risk feeling like generic prompts
+instead of Predicta knowing exactly which evidence room the user came from.
+
+### Changes
+
+- Reordered `/ask?...&autoSend=true` query handling so incoming CTA context is
+  synchronized and persisted before the first prompt is sent.
+- Added explicit context and Kundli overrides to `sendMessage`, `resolveSmartReply`,
+  `resolveChatChartReply`, `resolveChartContextForQuestion`, and `askWithProof`
+  so React state timing cannot make the first auto-sent answer forget the
+  source room.
+- Preserved the plain prompt-only auto-send fallback for simple Ask URLs without
+  room/report/chart metadata.
+
+### Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- Static regression assertion verified that the context-aware auto-send branch
+  calls `sendMessage(prompt, { context: nextContext, kundli: ... })` and the
+  generic fallback branch remains present.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/report corepack pnpm test:ui-text-overflow`: PASS, `36` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/report corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `git diff --check`: PASS.
+
+### Verdict
+
+Green. Ask links from specialist rooms, reports, charts, and landing prompts now
+reach Predicta as immediate chat actions without losing the evidence-room
+context that makes the answer feel intelligent.

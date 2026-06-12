@@ -631,10 +631,11 @@ export function WebPridictaChat({
 
   function recoverActiveKundli(
     context = activeChartContext,
+    preferredKundli = kundli,
   ): KundliData | undefined {
     const shared = resolveSharedWebKundliContext(
       normalizeContextForRoom(context),
-      kundli,
+      preferredKundli,
     );
     const recovered = shared.kundli;
     const syncedContext = hydrateWebSpecialistContextSync(
@@ -797,12 +798,6 @@ export function WebPridictaChat({
 
     if (prompt || ctaContext) {
       loadedQueryPromptRef.current = queryString;
-      if (shouldAutoSend && prompt) {
-        setInput('');
-        void sendMessage(prompt);
-        return;
-      }
-
       if (ctaContext) {
         const selectedSection =
           prompt ||
@@ -834,6 +829,18 @@ export function WebPridictaChat({
         setChatLanguage(entryLanguage);
         persistPredictaReplyLanguage(entryLanguage);
 
+        if (shouldAutoSend && prompt) {
+          setActiveChartContext(nextContext);
+          saveWebActiveChartContext(nextContext);
+          saveWebSpecialistPredictaContext(nextContext, contextKundli);
+          setInput('');
+          void sendMessage(prompt, {
+            context: nextContext,
+            kundli: contextKundli ?? kundli,
+          });
+          return;
+        }
+
         const contextReply = createPridictaReply(
           nextContext.predictaSchool
             ? buildSchoolContextIntro(nextContext, entryLanguage)
@@ -857,6 +864,12 @@ export function WebPridictaChat({
             ? [contextReply]
             : [...current, contextReply],
         );
+        return;
+      }
+
+      if (shouldAutoSend && prompt) {
+        setInput('');
+        void sendMessage(prompt);
         return;
       }
 
@@ -890,8 +903,19 @@ export function WebPridictaChat({
     }
   }, [activeChartContext, kundli, language, queryString]);
 
-  async function sendMessage(overrideText?: string) {
+  async function sendMessage(
+    overrideText?: string,
+    options: {
+      context?: ChartContext;
+      kundli?: KundliData;
+    } = {},
+  ) {
     const text = (overrideText ?? input).trim();
+    const messageContext = options.context ?? activeChartContext;
+    const messageKundli = options.kundli ?? kundli;
+    const recoverMessageKundli = (
+      context: ChartContext | undefined = messageContext,
+    ) => recoverActiveKundli(context, messageKundli);
 
     if (!text || isSending) {
       return;
@@ -930,8 +954,8 @@ export function WebPridictaChat({
             getCrisisSupportReply(languageContext.responseLanguage),
             languageContext.responseLanguage,
             {
-              context: activeChartContext,
-              kundli,
+              context: messageContext,
+              kundli: messageKundli,
               lastText: text,
               safety: localSafety,
             },
@@ -948,8 +972,8 @@ export function WebPridictaChat({
         setMessages(current => [
           ...current,
           createPridictaReply(commandReply, languageContext.responseLanguage, {
-            context: activeChartContext,
-            kundli: recoverActiveKundli(),
+            context: messageContext,
+            kundli: recoverMessageKundli(),
             lastText: text,
           }),
         ]);
@@ -969,8 +993,8 @@ export function WebPridictaChat({
             labelDeterministicChatReply(kundliCommandReply),
             languageContext.responseLanguage,
             {
-              context: activeChartContext,
-              kundli: recoverActiveKundli(),
+              context: messageContext,
+              kundli: recoverMessageKundli(),
               lastText: text,
             },
           ),
@@ -978,11 +1002,11 @@ export function WebPridictaChat({
         return;
       }
 
-      const chartIntentKundli = recoverActiveKundli();
+      const chartIntentKundli = recoverMessageKundli();
       const hasKundliKarmaContext = Boolean(
-        activeChartContext?.selectedKundliKarmaItemId ||
-          activeChartContext?.selectedKundliKarmaRuleId ||
-          activeChartContext?.selectedKundliKarmaModule,
+        messageContext?.selectedKundliKarmaItemId ||
+          messageContext?.selectedKundliKarmaRuleId ||
+          messageContext?.selectedKundliKarmaModule,
       );
       const wantsDeepChartAnswer =
         !hasKundliKarmaContext && shouldBypassLocalChartShortcuts(text);
@@ -1000,7 +1024,7 @@ export function WebPridictaChat({
             ),
             languageContext.responseLanguage,
             {
-              context: activeChartContext,
+              context: messageContext,
               kundli: chartIntentKundli,
               lastText: text,
               suggestions: buildBirthDetailConfidenceSuggestions(
@@ -1017,6 +1041,10 @@ export function WebPridictaChat({
         : resolveChatChartReply(
             text,
             languageContext.responseLanguage,
+            {
+              context: messageContext,
+              kundli: messageKundli,
+            },
           );
 
       if (chartReply) {
@@ -1027,8 +1055,11 @@ export function WebPridictaChat({
 
       responseSafetyRef.current = undefined;
       pendingRichBlocksRef.current = undefined;
-      const summary = await resolveSmartReply(text);
-      const recoveredKundli = recoverActiveKundli();
+      const summary = await resolveSmartReply(text, {
+        context: messageContext,
+        kundli: messageKundli,
+      });
+      const recoveredKundli = recoverMessageKundli();
       const safeSummary =
         recoveredKundli && hasHighStakesLanguage(text)
           ? `${getSafetyBoundaryCopy(
@@ -1044,7 +1075,7 @@ export function WebPridictaChat({
         ...current,
           createPridictaReply(safeSummary, languageContext.responseLanguage, {
             blocks: richBlocks,
-            context: activeChartContext,
+            context: messageContext,
             kundli: recoveredKundli,
             lastText: safeSummary,
             suggestions: passCostSuggestions,
@@ -1060,8 +1091,8 @@ export function WebPridictaChat({
       setMessages(current => [
         ...current,
           createPridictaReply(fallbackText, chatLanguage, {
-            context: activeChartContext,
-            kundli,
+            context: messageContext,
+            kundli: messageKundli,
             lastText: text,
           }),
         ]);
@@ -1075,8 +1106,13 @@ export function WebPridictaChat({
     activeKundli: KundliData,
     responseLanguage: SupportedLanguage,
     acknowledgement?: string,
+    preferredContext = activeChartContext,
   ) {
-    const baseQuestionChartContext = resolveChartContextForQuestion(text);
+    const baseQuestionChartContext = resolveChartContextForQuestion(
+      text,
+      preferredContext,
+      activeKundli,
+    );
     const synced = syncSpecialistContext(
       baseQuestionChartContext,
       activeKundli,
@@ -1092,7 +1128,7 @@ export function WebPridictaChat({
       responseLanguage,
     );
     setPredictaMemory(nextMemory);
-    if (questionChartContext && questionChartContext !== activeChartContext) {
+    if (questionChartContext && questionChartContext !== preferredContext) {
       persistActiveChatContext(questionChartContext, activeKundli);
     }
     const response = await askPridictaFromWeb({
@@ -1137,29 +1173,41 @@ export function WebPridictaChat({
       .join('\n\n');
   }
 
-  function resolveChartContextForQuestion(text: string): ChartContext | undefined {
+  function resolveChartContextForQuestion(
+    text: string,
+    preferredContext = activeChartContext,
+    preferredKundli = kundli,
+  ): ChartContext | undefined {
     const explicitHouses = extractHouseNumbersFromText(text);
-    const activeKundli = recoverActiveKundli();
+    const activeKundli = recoverActiveKundli(preferredContext, preferredKundli);
 
     if (!explicitHouses.length) {
       return resolveSharedWebKundliContext(
-        activeChartContext,
+        preferredContext,
         activeKundli,
       ).chartContext;
     }
 
     const nextContext: ChartContext = {
-      ...(activeChartContext ?? { sourceScreen: 'Predicta chat' }),
-      kundliId: activeKundli?.id ?? activeChartContext?.kundliId,
+      ...(preferredContext ?? { sourceScreen: 'Predicta chat' }),
+      kundliId: activeKundli?.id ?? preferredContext?.kundliId,
       selectedHouse: explicitHouses.length === 1 ? explicitHouses[0] : undefined,
       selectedSection: text,
-      sourceScreen: activeChartContext?.sourceScreen ?? 'Predicta chat',
+      sourceScreen: preferredContext?.sourceScreen ?? 'Predicta chat',
     };
 
     return resolveSharedWebKundliContext(nextContext, activeKundli).chartContext;
   }
 
-  async function resolveSmartReply(text: string): Promise<string> {
+  async function resolveSmartReply(
+    text: string,
+    options: {
+      context?: ChartContext;
+      kundli?: KundliData;
+    } = {},
+  ): Promise<string> {
+    const messageContext = options.context ?? activeChartContext;
+    const messageKundli = options.kundli ?? kundli;
     const languageContext = preparePredictaLanguageContext({
       memory: predictaMemory,
       selectedLanguage: chatLanguage,
@@ -1174,7 +1222,7 @@ export function WebPridictaChat({
         getFriendlyGreetingReply(responseLanguage),
         buildPredictaLearningSuggestion({
           hasPremiumAccess: false,
-          kundli,
+          kundli: messageKundli,
           language: responseLanguage,
           memory: predictaMemory,
           savedKundlis,
@@ -1184,11 +1232,11 @@ export function WebPridictaChat({
         .join('\n\n');
     }
 
-    const activeKundli = recoverActiveKundli();
+    const activeKundli = recoverActiveKundli(messageContext, messageKundli);
     const hasKundliKarmaContext = Boolean(
-      activeChartContext?.selectedKundliKarmaItemId ||
-        activeChartContext?.selectedKundliKarmaRuleId ||
-        activeChartContext?.selectedKundliKarmaModule,
+      messageContext?.selectedKundliKarmaItemId ||
+        messageContext?.selectedKundliKarmaRuleId ||
+        messageContext?.selectedKundliKarmaModule,
     );
     const wantsDeepChartAnswer =
       !hasKundliKarmaContext && shouldBypassLocalChartShortcuts(text);
@@ -1228,16 +1276,17 @@ export function WebPridictaChat({
         activeKundli,
         responseLanguage,
         languageContext.acknowledgement,
+        messageContext,
       );
     }
 
     const actionReply = buildPredictaActionReply({
-      chartContext: activeChartContext,
+      chartContext: messageContext,
       hasPremiumAccess: false,
       kundli: activeKundli,
       language: responseLanguage,
       memory: predictaMemory,
-      predictaSchool: activeChartContext?.predictaSchool,
+      predictaSchool: messageContext?.predictaSchool,
       savedKundlis,
       text,
     });
@@ -1274,14 +1323,23 @@ export function WebPridictaChat({
       activeKundli,
       responseLanguage,
       languageContext.acknowledgement,
+      messageContext,
     );
   }
 
   function resolveChatChartReply(
     text: string,
     responseLanguage: SupportedLanguage,
+    options: {
+      context?: ChartContext;
+      kundli?: KundliData;
+    } = {},
   ): { message: WebMessage } | undefined {
-    const activeKundli = recoverActiveKundli();
+    const messageContext = options.context ?? activeChartContext;
+    const activeKundli = recoverActiveKundli(
+      messageContext,
+      options.kundli ?? kundli,
+    );
 
     if (!activeKundli) {
       return undefined;
