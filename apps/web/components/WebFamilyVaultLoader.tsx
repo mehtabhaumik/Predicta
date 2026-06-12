@@ -9,7 +9,7 @@ const WebFamilyVault = dynamic(
       default: module.WebFamilyVault,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="family" />,
     ssr: false,
   },
 );

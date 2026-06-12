@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { SpecialistRoomPanelFallback } from './SpecialistRoomPanelFallback';
+import { TinyPanelSkeletonFallback } from './TinyPanelSkeletonFallback';
 
 const WebKundliWizard = dynamic(
   () =>
@@ -9,7 +9,7 @@ const WebKundliWizard = dynamic(
       default: module.WebKundliWizard,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <TinyPanelSkeletonFallback />,
   },
 );
 

@@ -9,7 +9,7 @@ const WebSavedKundlis = dynamic(
       default: module.WebSavedKundlis,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="library" />,
   },
 );
 

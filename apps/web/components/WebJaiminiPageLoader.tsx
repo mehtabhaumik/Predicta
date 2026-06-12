@@ -9,7 +9,7 @@ const WebJaiminiPage = dynamic(
       default: module.WebJaiminiPage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="jaimini" />,
     ssr: false,
   },
 );

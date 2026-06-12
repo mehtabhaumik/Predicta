@@ -5834,7 +5834,71 @@ button:disabled,
   padding: clamp(18px, 4vw, 28px);
 }
 
-.specialist-room-panel-fallback span {
+.predicta-i18n,
+.predicta-i18n-link {
+  display: none;
+}
+
+html[data-predicta-language="en"] .predicta-i18n-en,
+html:not([data-predicta-language]) .predicta-i18n-en,
+html[data-predicta-language="hi"] .predicta-i18n-hi,
+html[data-predicta-language="gu"] .predicta-i18n-gu {
+  display: contents;
+}
+
+html[data-predicta-language="en"] .predicta-i18n-link-en,
+html:not([data-predicta-language]) .predicta-i18n-link-en,
+html[data-predicta-language="hi"] .predicta-i18n-link-hi,
+html[data-predicta-language="gu"] .predicta-i18n-link-gu {
+  display: inline-flex;
+}
+
+.specialist-room-panel-fallback h1 {
+  font-size: clamp(26px, 5vw, 42px);
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  margin: 0;
+  max-width: 760px;
+}
+
+.specialist-room-panel-fallback p {
+  color: var(--muted);
+  font-size: clamp(15px, 2vw, 18px);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 760px;
+}
+
+.specialist-room-fallback-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.specialist-room-fallback-status {
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: var(--muted);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  min-height: 44px;
+  padding: 10px 16px;
+  text-transform: uppercase;
+}
+
+.specialist-room-fallback-skeleton {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+  max-width: 680px;
+}
+
+.specialist-room-fallback-skeleton span {
   animation: predicta-panel-skeleton 1.4s ease-in-out infinite;
   background:
     linear-gradient(
@@ -5849,15 +5913,15 @@ button:disabled,
   height: 14px;
 }
 
-.specialist-room-panel-fallback span:first-child {
+.specialist-room-fallback-skeleton span:first-child {
   max-width: 340px;
 }
 
-.specialist-room-panel-fallback span:nth-child(2) {
+.specialist-room-fallback-skeleton span:nth-child(2) {
   max-width: 86%;
 }
 
-.specialist-room-panel-fallback span:nth-child(3) {
+.specialist-room-fallback-skeleton span:nth-child(3) {
   max-width: 64%;
 }
 
@@ -5872,8 +5936,16 @@ button:disabled,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .specialist-room-panel-fallback span {
+  .specialist-room-fallback-skeleton span {
     animation: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .specialist-room-fallback-actions .button,
+  .specialist-room-fallback-status {
+    justify-content: center;
+    width: 100%;
   }
 }
 

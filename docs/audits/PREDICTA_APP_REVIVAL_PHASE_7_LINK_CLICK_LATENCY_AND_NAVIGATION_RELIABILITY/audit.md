@@ -168,6 +168,30 @@ Green. The public landing and direct `/ask` doorway now expose suggested
 questions as real links instead of fragile button-only JavaScript handoffs,
 which directly reduces the "link click is not working / opens late" feeling.
 
+## Supplemental Deferred Room Fallback Link Reaudit
+
+Date: 2026-06-12
+
+After specialist/report/secondary dashboard routes gained useful localized
+loading fallbacks, Phase 7 was rerun against `http://127.0.0.1:3009`.
+
+### Evidence
+
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- Landing primary Ask click completed in `46ms`.
+- Dashboard Ask click completed in `107ms`.
+- Vedic evidence room Ask click completed in `114ms`.
+- Pricing checkout click completed in `131ms`.
+- Legacy Vedic, KP, Jaimini, Nadi, Numerology, and Signature chat URLs still
+  redirect into `/ask` with room-safe prompts.
+- No required route links, school Ask links, nested interactive elements,
+  disabled active links, or oversized hrefs failed the gate.
+
+### Verdict
+
+Green. The new useful fallbacks did not reintroduce slow or broken navigation,
+and the primary Predicta handoff remains the fastest path.
+
 ## Supplemental Report And Pricing Direct Action Lock
 
 - Added always-visible report-page actions for `Create Kundli` and

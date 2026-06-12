@@ -9,7 +9,7 @@ const WebNumerologyPage = dynamic(
       default: module.WebNumerologyPage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="numerology" />,
     ssr: false,
   },
 );

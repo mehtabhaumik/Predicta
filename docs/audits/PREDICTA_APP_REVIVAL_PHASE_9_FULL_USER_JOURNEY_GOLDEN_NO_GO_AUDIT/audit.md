@@ -152,3 +152,28 @@ the main Predicta chat doorway focused without weakening the report journey.
 Green. The Ask doorway can stay minimal while the full report, specialist
 handoff, language, redeem-pass, zero-credit, and legacy redirect journeys remain
 covered.
+
+## Supplemental Deferred Room Fallback Journey Reaudit
+
+Date: 2026-06-12
+
+After adding useful localized first-paint fallbacks to deferred specialist,
+report, premium, redeem, family, chart, and remedy routes, Phase 9 was rerun
+against the local production server on `http://127.0.0.1:3009`.
+
+### Evidence
+
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `full-user-journey-manifest.json`: regenerated with `17` scenarios and zero
+  failed scenarios.
+- The journey still covers new visitor entry, selected prompt preservation,
+  legacy room redirects, Hindi/Gujarati navigation labels, redeem-pass lock,
+  zero-credit deterministic help, specialist evidence links, and report
+  composer access.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/report,/dashboard/premium,/dashboard/redeem-pass,/dashboard/charts,/dashboard/remedies,/dashboard/family corepack pnpm test:ui-text-overflow`: PASS, `56` route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/report,/dashboard/premium,/dashboard/redeem-pass,/dashboard/charts,/dashboard/remedies,/dashboard/family corepack pnpm test:ui-personal-space`: PASS, `56` route and viewport checks.
+
+### Verdict
+
+Green. The useful deferred-room fallbacks did not break the golden user journey,
+mobile/narrow-mobile layout integrity, or the chat-first route handoffs.

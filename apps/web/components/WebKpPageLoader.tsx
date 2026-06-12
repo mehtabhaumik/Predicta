@@ -9,7 +9,7 @@ const WebKpPage = dynamic(
       default: module.WebKpPage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="kp" />,
     ssr: false,
   },
 );

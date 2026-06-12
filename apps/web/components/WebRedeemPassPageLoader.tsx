@@ -9,7 +9,7 @@ const WebRedeemPassPage = dynamic(
       default: module.WebRedeemPassPage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="redeem" />,
     ssr: false,
   },
 );

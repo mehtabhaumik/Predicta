@@ -9,7 +9,7 @@ const WebLifeTimelineRuntime = dynamic(
       default: module.WebLifeTimelineRuntime,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="vedic" />,
   },
 );
 

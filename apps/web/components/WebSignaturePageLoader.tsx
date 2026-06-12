@@ -9,7 +9,7 @@ const WebSignaturePage = dynamic(
       default: module.WebSignaturePage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="signature" />,
     ssr: false,
   },
 );

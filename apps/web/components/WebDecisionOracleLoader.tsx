@@ -9,7 +9,7 @@ const WebDecisionOracle = dynamic(
       default: module.WebDecisionOracle,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="generic" />,
   },
 );
 

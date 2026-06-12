@@ -9,7 +9,7 @@ const WebReportPage = dynamic(
       default: module.WebReportPage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="report" />,
     ssr: false,
   },
 );

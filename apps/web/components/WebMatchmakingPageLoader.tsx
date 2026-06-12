@@ -9,7 +9,7 @@ const WebMatchmakingPage = dynamic(
       default: module.WebMatchmakingPage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="family" />,
     ssr: false,
   },
 );

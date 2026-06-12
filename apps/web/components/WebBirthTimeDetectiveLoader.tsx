@@ -9,7 +9,7 @@ const WebBirthTimeDetective = dynamic(
       default: module.WebBirthTimeDetective,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="kundli" />,
   },
 );
 

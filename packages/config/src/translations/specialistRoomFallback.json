@@ -1,0 +1,334 @@
+{
+  "copy": {
+    "en": {
+      "loadingLabel": "Opening room",
+      "askCta": "Ask Predicta now",
+      "openingCta": "Opening the room",
+      "rooms": {
+        "generic": {
+          "eyebrow": "Predicta is opening this room",
+          "title": "Your astrology room is loading.",
+          "body": "You can ask Predicta directly now, or wait a moment for the deeper evidence surface to finish loading.",
+          "sourceScreen": "Predicta Room",
+          "prompt": "Help me from this astrology room and answer my question directly."
+        },
+        "vedic": {
+          "eyebrow": "Vedic evidence room",
+          "title": "Vedic is opening with chart evidence.",
+          "body": "Ask Predicta for the direct meaning first, then use this room for charts, dasha, yog, Dosh, Shrap, and Lal Kitab proof.",
+          "sourceScreen": "Vedic Predicta",
+          "prompt": "Use my Vedic evidence and tell me what my chart is saying about my life right now.",
+          "school": "PARASHARI"
+        },
+        "kp": {
+          "eyebrow": "KP event room",
+          "title": "KP is opening for precise timing.",
+          "body": "Ask Predicta one life event first. KP proof can follow with cusps, sub-lords, significators, and timing triggers.",
+          "sourceScreen": "KP Predicta",
+          "prompt": "Help me ask one clear KP event question and give the direct answer first.",
+          "school": "KP"
+        },
+        "jaimini": {
+          "eyebrow": "Jaimini destiny room",
+          "title": "Jaimini is opening for destiny direction.",
+          "body": "Ask Predicta for the life-direction answer first. Jaimini evidence can follow through karakas, Arudha, Karakamsha, and timing.",
+          "sourceScreen": "Jaimini Predicta",
+          "prompt": "Use Jaimini evidence to explain my destiny direction and what life is asking from me now.",
+          "school": "JAIMINI"
+        },
+        "numerology": {
+          "eyebrow": "Numerology room",
+          "title": "Numerology is opening with number rhythm.",
+          "body": "Ask Predicta for the direct number message first, then use this room for name, birth, destiny, and current cycle evidence.",
+          "sourceScreen": "Numerology Predicta",
+          "prompt": "Use Numerology to tell me what my name, date, and current cycle are saying now.",
+          "school": "NUMEROLOGY"
+        },
+        "signature": {
+          "eyebrow": "Signature room",
+          "title": "Signature Predicta is opening safely.",
+          "body": "Ask Predicta only when signature traits are available. This room stays reflective and never guesses from an empty signature.",
+          "sourceScreen": "Signature Predicta",
+          "prompt": "Use Signature Predicta only if my signature traits are available; otherwise tell me how to add them.",
+          "school": "SIGNATURE"
+        },
+        "report": {
+          "eyebrow": "Report composer",
+          "title": "Predicta is opening the report builder.",
+          "body": "Ask what report you need first, or wait a moment for the download composer to open with the right report lane.",
+          "sourceScreen": "Report Composer",
+          "prompt": "Help me choose the right Predicta report and tell me what I should download."
+        },
+        "premium": {
+          "eyebrow": "Premium access",
+          "title": "Premium options are opening.",
+          "body": "Ask Predicta what you actually need before buying, or wait for the pass and pack options to finish loading.",
+          "sourceScreen": "Premium",
+          "prompt": "Help me choose the right Predicta pass or pack based on what I want to ask."
+        },
+        "redeem": {
+          "eyebrow": "Redeem pass",
+          "title": "Pass redemption is opening.",
+          "body": "Sign in keeps the pass attached to your account. The redemption form is loading separately so the page stays fast.",
+          "sourceScreen": "Redeem Pass",
+          "prompt": "Help me understand what my Predicta pass includes before I redeem it."
+        },
+        "kundli": {
+          "eyebrow": "Kundli creation",
+          "title": "Kundli creation is opening.",
+          "body": "You can ask Predicta to collect birth details conversationally, or wait for the full Kundli form to load.",
+          "sourceScreen": "Kundli Creation",
+          "prompt": "Help me create my Kundli step by step."
+        },
+        "library": {
+          "eyebrow": "My Kundlis",
+          "title": "Your saved work is opening.",
+          "body": "Ask Predicta first if you need guidance. Use this surface to switch Kundlis, reports, family profiles, and account items.",
+          "sourceScreen": "My Kundlis",
+          "prompt": "Help me from my saved Kundlis."
+        },
+        "family": {
+          "eyebrow": "Family Vault",
+          "title": "Family tools are opening.",
+          "body": "Ask Predicta what you want to compare first, or wait for the Family Vault tools to finish loading.",
+          "sourceScreen": "Family Vault",
+          "prompt": "Help me understand which family Kundlis I should compare and why."
+        },
+        "charts": {
+          "eyebrow": "Charts",
+          "title": "Chart tools are opening.",
+          "body": "Ask Predicta for the meaning first, then use this room when you want to inspect the chart evidence directly.",
+          "sourceScreen": "Charts",
+          "prompt": "Tell me what my chart is saying first, then show which chart evidence matters."
+        },
+        "remedies": {
+          "eyebrow": "Remedies",
+          "title": "Remedy guidance is opening.",
+          "body": "Ask Predicta for one safe next action first. The deeper remedy planner is loading with the evidence.",
+          "sourceScreen": "Remedies",
+          "prompt": "Give me one safe, practical remedy or action based on my current chart evidence."
+        }
+      }
+    },
+    "hi": {
+      "loadingLabel": "कक्ष खुल रहा है",
+      "askCta": "अभी प्रेडिक्टा से पूछें",
+      "openingCta": "कक्ष खुल रहा है",
+      "rooms": {
+        "generic": {
+          "eyebrow": "प्रेडिक्टा यह कक्ष खोल रही है",
+          "title": "आपका ज्योतिष कक्ष लोड हो रहा है.",
+          "body": "आप अभी सीधे प्रेडिक्टा से पूछ सकते हैं, या गहरे प्रमाण वाला कक्ष खुलने तक एक क्षण प्रतीक्षा कर सकते हैं.",
+          "sourceScreen": "Predicta Room",
+          "prompt": "इस ज्योतिष कक्ष से मेरी मदद करें और मेरे प्रश्न का सीधा उत्तर दें."
+        },
+        "vedic": {
+          "eyebrow": "वैदिक प्रमाण कक्ष",
+          "title": "वैदिक कक्ष चार्ट प्रमाण के साथ खुल रहा है.",
+          "body": "पहले प्रेडिक्टा से सीधा अर्थ पूछें, फिर चार्ट, दशा, योग, दोष, श्राप और लाल किताब प्रमाण देखें.",
+          "sourceScreen": "Vedic Predicta",
+          "prompt": "मेरे वैदिक प्रमाण से बताएं कि अभी मेरी कुंडली मेरे जीवन के बारे में क्या कह रही है.",
+          "school": "PARASHARI"
+        },
+        "kp": {
+          "eyebrow": "KP घटना कक्ष",
+          "title": "KP सटीक समय के लिए खुल रहा है.",
+          "body": "पहले प्रेडिक्टा से एक जीवन घटना पूछें. उसके बाद कस्प, सब-लॉर्ड, सिग्निफिकेटर और टाइमिंग प्रमाण आ सकते हैं.",
+          "sourceScreen": "KP Predicta",
+          "prompt": "मुझे एक स्पष्ट KP घटना-प्रश्न पूछने में मदद करें और पहले सीधा उत्तर दें.",
+          "school": "KP"
+        },
+        "jaimini": {
+          "eyebrow": "जैमिनी भाग्य कक्ष",
+          "title": "जैमिनी भाग्य-दिशा के लिए खुल रहा है.",
+          "body": "पहले प्रेडिक्टा से जीवन-दिशा का उत्तर पूछें. जैमिनी प्रमाण कारक, आरूढ़, कारकांश और समय से आगे आएगा.",
+          "sourceScreen": "Jaimini Predicta",
+          "prompt": "जैमिनी प्रमाण से मेरी भाग्य-दिशा और अभी जीवन मुझसे क्या मांग रहा है यह बताएं.",
+          "school": "JAIMINI"
+        },
+        "numerology": {
+          "eyebrow": "अंक ज्योतिष कक्ष",
+          "title": "अंक ज्योतिष संख्या-लय के साथ खुल रहा है.",
+          "body": "पहले प्रेडिक्टा से सीधा नंबर संदेश पूछें, फिर नाम, जन्म, भाग्य और वर्तमान चक्र प्रमाण देखें.",
+          "sourceScreen": "Numerology Predicta",
+          "prompt": "अंक ज्योतिष से बताएं कि मेरा नाम, जन्म तारीख और वर्तमान चक्र अभी क्या कह रहे हैं.",
+          "school": "NUMEROLOGY"
+        },
+        "signature": {
+          "eyebrow": "हस्ताक्षर कक्ष",
+          "title": "सिग्नेचर प्रेडिक्टा सुरक्षित रूप से खुल रही है.",
+          "body": "हस्ताक्षर-लक्षण उपलब्ध हों तभी पूछें. यह कक्ष खाली हस्ताक्षर से अनुमान नहीं लगाता.",
+          "sourceScreen": "Signature Predicta",
+          "prompt": "हस्ताक्षर प्रेडिक्टा तभी उपयोग करें जब मेरे हस्ताक्षर-लक्षण उपलब्ध हों; नहीं तो उन्हें जोड़ने का तरीका बताएं.",
+          "school": "SIGNATURE"
+        },
+        "report": {
+          "eyebrow": "रिपोर्ट कंपोज़र",
+          "title": "प्रेडिक्टा रिपोर्ट बिल्डर खोल रही है.",
+          "body": "पहले पूछें कि कौनसी रिपोर्ट चाहिए, या सही रिपोर्ट मार्ग खुलने तक एक क्षण प्रतीक्षा करें.",
+          "sourceScreen": "Report Composer",
+          "prompt": "मुझे सही प्रेडिक्टा रिपोर्ट चुनने में मदद करें और बताएं कि मुझे क्या डाउनलोड करना चाहिए."
+        },
+        "premium": {
+          "eyebrow": "प्रीमियम एक्सेस",
+          "title": "प्रीमियम विकल्प खुल रहे हैं.",
+          "body": "खरीदने से पहले प्रेडिक्टा से पूछें कि आपको सच में क्या चाहिए, या पास और पैक विकल्प खुलने दें.",
+          "sourceScreen": "Premium",
+          "prompt": "मैं क्या पूछना चाहता हूं उसके आधार पर सही प्रेडिक्टा पास या पैक चुनने में मदद करें."
+        },
+        "redeem": {
+          "eyebrow": "पास रिडीम",
+          "title": "पास रिडेम्पशन खुल रहा है.",
+          "body": "साइन इन करने से पास आपके खाते से जुड़ा रहेगा. रिडेम्पशन फॉर्म अलग से लोड हो रहा है.",
+          "sourceScreen": "Redeem Pass",
+          "prompt": "रिडीम करने से पहले मुझे समझाएं कि मेरे प्रेडिक्टा पास में क्या शामिल है."
+        },
+        "kundli": {
+          "eyebrow": "कुंडली निर्माण",
+          "title": "कुंडली निर्माण खुल रहा है.",
+          "body": "आप प्रेडिक्टा से जन्म विवरण बातचीत में ले सकते हैं, या पूरा कुंडली फॉर्म खुलने दें.",
+          "sourceScreen": "Kundli Creation",
+          "prompt": "मेरी कुंडली चरण-दर-चरण बनाने में मदद करें."
+        },
+        "library": {
+          "eyebrow": "मेरी कुंडलियां",
+          "title": "आपका सेव किया हुआ काम खुल रहा है.",
+          "body": "मार्गदर्शन चाहिए तो पहले प्रेडिक्टा से पूछें. यहां कुंडली, रिपोर्ट, परिवार प्रोफाइल और खाता चीजें संभालें.",
+          "sourceScreen": "My Kundlis",
+          "prompt": "मेरी सेव की हुई कुंडलियों से मेरी मदद करें."
+        },
+        "family": {
+          "eyebrow": "फैमिली वॉल्ट",
+          "title": "परिवार टूल खुल रहे हैं.",
+          "body": "पहले प्रेडिक्टा से पूछें कि आप क्या तुलना करना चाहते हैं, या फैमिली वॉल्ट टूल खुलने दें.",
+          "sourceScreen": "Family Vault",
+          "prompt": "मुझे समझाएं कि कौनसी परिवार कुंडलियों की तुलना करनी चाहिए और क्यों."
+        },
+        "charts": {
+          "eyebrow": "चार्ट",
+          "title": "चार्ट टूल खुल रहे हैं.",
+          "body": "पहले प्रेडिक्टा से अर्थ पूछें, फिर जब प्रमाण देखना हो तब चार्ट कक्ष खोलें.",
+          "sourceScreen": "Charts",
+          "prompt": "पहले बताएं मेरी कुंडली क्या कह रही है, फिर कौनसा चार्ट प्रमाण महत्वपूर्ण है."
+        },
+        "remedies": {
+          "eyebrow": "उपाय",
+          "title": "उपाय मार्गदर्शन खुल रहा है.",
+          "body": "पहले प्रेडिक्टा से एक सुरक्षित अगला कदम पूछें. गहरा उपाय प्लान प्रमाण के साथ लोड हो रहा है.",
+          "sourceScreen": "Remedies",
+          "prompt": "मेरे वर्तमान चार्ट प्रमाण के आधार पर एक सुरक्षित और व्यावहारिक उपाय या कर्म बताएं."
+        }
+      }
+    },
+    "gu": {
+      "loadingLabel": "કક્ષ ખુલી રહ્યો છે",
+      "askCta": "હમણાં પ્રેડિક્ટાને પૂછો",
+      "openingCta": "કક્ષ ખુલી રહ્યો છે",
+      "rooms": {
+        "generic": {
+          "eyebrow": "પ્રેડિક્ટા આ કક્ષ ખોલી રહી છે",
+          "title": "તમારો જ્યોતિષ કક્ષ લોડ થઈ રહ્યો છે.",
+          "body": "તમે હમણાં સીધું પ્રેડિક્ટાને પૂછી શકો છો, અથવા ઊંડા પુરાવાવાળો કક્ષ ખુલવા માટે થોડું રાહ જોઈ શકો છો.",
+          "sourceScreen": "Predicta Room",
+          "prompt": "આ જ્યોતિષ કક્ષથી મારી મદદ કરો અને મારા પ્રશ્નનો સીધો જવાબ આપો."
+        },
+        "vedic": {
+          "eyebrow": "વેદિક પુરાવા કક્ષ",
+          "title": "વેદિક કક્ષ ચાર્ટ પુરાવા સાથે ખુલી રહ્યો છે.",
+          "body": "પહેલા પ્રેડિક્ટાથી સીધો અર્થ પૂછો, પછી ચાર્ટ, દશા, યોગ, દોષ, શ્રાપ અને લાલ કિતાબ પુરાવા જુઓ.",
+          "sourceScreen": "Vedic Predicta",
+          "prompt": "મારા વેદિક પુરાવાથી કહો કે હાલમાં મારી કુંડળી મારા જીવન વિશે શું કહી રહી છે.",
+          "school": "PARASHARI"
+        },
+        "kp": {
+          "eyebrow": "KP ઘટના કક્ષ",
+          "title": "KP ચોક્કસ સમય માટે ખુલી રહ્યો છે.",
+          "body": "પહેલા પ્રેડિક્ટાને એક જીવન ઘટના પૂછો. પછી કસ્પ, સબ-લોર્ડ, સૂચક અને સમય ટ્રિગર પુરાવા આવી શકે છે.",
+          "sourceScreen": "KP Predicta",
+          "prompt": "મને એક સ્પષ્ટ KP ઘટના-પ્રશ્ન પૂછવામાં મદદ કરો અને પહેલા સીધો જવાબ આપો.",
+          "school": "KP"
+        },
+        "jaimini": {
+          "eyebrow": "જૈમિની ભાગ્ય કક્ષ",
+          "title": "જૈમિની ભાગ્ય-દિશા માટે ખુલી રહ્યો છે.",
+          "body": "પહેલા પ્રેડિક્ટાથી જીવન-દિશાનો જવાબ પૂછો. જૈમિની પુરાવા કારક, આરુઢ, કારકાંશ અને સમયથી આગળ આવશે.",
+          "sourceScreen": "Jaimini Predicta",
+          "prompt": "જૈમિની પુરાવાથી મારી ભાગ્ય-દિશા અને હાલમાં જીવન મારી પાસેથી શું માંગે છે તે કહો.",
+          "school": "JAIMINI"
+        },
+        "numerology": {
+          "eyebrow": "અંક જ્યોતિષ કક્ષ",
+          "title": "અંક જ્યોતિષ નંબર લય સાથે ખુલી રહ્યો છે.",
+          "body": "પહેલા પ્રેડિક્ટાથી સીધો નંબર સંદેશ પૂછો, પછી નામ, જન્મ, ભાગ્ય અને હાલનો ચક્ર પુરાવા જુઓ.",
+          "sourceScreen": "Numerology Predicta",
+          "prompt": "અંક જ્યોતિષથી કહો કે મારું નામ, જન્મ તારીખ અને હાલનો ચક્ર હાલમાં શું કહી રહ્યા છે.",
+          "school": "NUMEROLOGY"
+        },
+        "signature": {
+          "eyebrow": "હસ્તાક્ષર કક્ષ",
+          "title": "સિગ્નેચર પ્રેડિક્ટા સુરક્ષિત રીતે ખુલી રહી છે.",
+          "body": "હસ્તાક્ષર-લક્ષણ ઉપલબ્ધ હોય ત્યારે જ પૂછો. આ કક્ષ ખાલી હસ્તાક્ષર પરથી અંદાજ નથી લગાવતો.",
+          "sourceScreen": "Signature Predicta",
+          "prompt": "હસ્તાક્ષર પ્રેડિક્ટા ફક્ત ત્યારે ઉપયોગ કરો જ્યારે મારા હસ્તાક્ષર-લક્ષણ ઉપલબ્ધ હોય; નહીં તો તેને કેવી રીતે ઉમેરવું તે કહો.",
+          "school": "SIGNATURE"
+        },
+        "report": {
+          "eyebrow": "રિપોર્ટ કમ્પોઝર",
+          "title": "પ્રેડિક્ટા રિપોર્ટ બિલ્ડર ખોલી રહી છે.",
+          "body": "પહેલા કયો રિપોર્ટ જોઈએ તે પૂછો, અથવા સાચો રિપોર્ટ માર્ગ ખુલે ત્યાં સુધી થોડું રાહ જુઓ.",
+          "sourceScreen": "Report Composer",
+          "prompt": "મને યોગ્ય પ્રેડિક્ટા રિપોર્ટ પસંદ કરવામાં મદદ કરો અને શું ડાઉનલોડ કરવું તે કહો."
+        },
+        "premium": {
+          "eyebrow": "પ્રીમિયમ ઍક્સેસ",
+          "title": "પ્રીમિયમ વિકલ્પો ખુલી રહ્યા છે.",
+          "body": "ખરીદતા પહેલા પ્રેડિક્ટાને પૂછો કે તમને ખરેખર શું જોઈએ છે, અથવા પાસ અને પૅક વિકલ્પો ખુલવા દો.",
+          "sourceScreen": "Premium",
+          "prompt": "હું શું પૂછવા માંગું છું તેના આધાર પર યોગ્ય પ્રેડિક્ટા પાસ અથવા પૅક પસંદ કરવામાં મદદ કરો."
+        },
+        "redeem": {
+          "eyebrow": "પાસ રીડીમ",
+          "title": "પાસ રિડેમ્પશન ખુલી રહ્યું છે.",
+          "body": "સાઇન ઇન કરવાથી પાસ તમારા ખાતા સાથે જોડાયેલો રહે છે. રિડેમ્પશન ફોર્મ અલગથી લોડ થઈ રહ્યું છે.",
+          "sourceScreen": "Redeem Pass",
+          "prompt": "રીડીમ કરું તે પહેલાં મારા પ્રેડિક્ટા પાસમાં શું શામેલ છે તે સમજાવો."
+        },
+        "kundli": {
+          "eyebrow": "કુંડળી બનાવો",
+          "title": "કુંડળી બનાવવાની પ્રક્રિયા ખુલી રહી છે.",
+          "body": "તમે પ્રેડિક્ટાથી જન્મ વિગતો વાતચીતમાં લેવડાવી શકો છો, અથવા સંપૂર્ણ કુંડળી ફોર્મ ખુલવા દો.",
+          "sourceScreen": "Kundli Creation",
+          "prompt": "મારી કુંડળી પગલું-દર-પગલું બનાવવામાં મદદ કરો."
+        },
+        "library": {
+          "eyebrow": "મારી કુંડળીઓ",
+          "title": "તમારું સેવ કરેલું કામ ખુલી રહ્યું છે.",
+          "body": "માર્ગદર્શન જોઈએ તો પહેલા પ્રેડિક્ટાને પૂછો. અહીં કુંડળી, રિપોર્ટ, પરિવાર પ્રોફાઇલ અને ખાતાની વસ્તુઓ સંભાળો.",
+          "sourceScreen": "My Kundlis",
+          "prompt": "મારી સેવ કરેલી કુંડળીઓથી મારી મદદ કરો."
+        },
+        "family": {
+          "eyebrow": "ફેમિલી વૉલ્ટ",
+          "title": "પરિવાર ટૂલ્સ ખુલી રહ્યા છે.",
+          "body": "પહેલા પ્રેડિક્ટાને પૂછો કે શું સરખાવવું છે, અથવા ફેમિલી વૉલ્ટ ટૂલ્સ ખુલવા દો.",
+          "sourceScreen": "Family Vault",
+          "prompt": "કઈ પરિવાર કુંડળીઓની સરખામણી કરવી અને કેમ તે સમજવામાં મદદ કરો."
+        },
+        "charts": {
+          "eyebrow": "ચાર્ટ્સ",
+          "title": "ચાર્ટ ટૂલ્સ ખુલી રહ્યા છે.",
+          "body": "પહેલા પ્રેડિક્ટાથી અર્થ પૂછો, પછી સીધો ચાર્ટ પુરાવો જોવો હોય ત્યારે આ કક્ષ વાપરો.",
+          "sourceScreen": "Charts",
+          "prompt": "પહેલા કહો મારી કુંડળી શું કહી રહી છે, પછી કયો ચાર્ટ પુરાવો મહત્વનો છે તે બતાવો."
+        },
+        "remedies": {
+          "eyebrow": "ઉપાય",
+          "title": "ઉપાય માર્ગદર્શન ખુલી રહ્યું છે.",
+          "body": "પહેલા પ્રેડિક્ટાથી એક સુરક્ષિત આગળનું પગલું પૂછો. ઊંડો ઉપાય પ્લાન પુરાવા સાથે લોડ થઈ રહ્યો છે.",
+          "sourceScreen": "Remedies",
+          "prompt": "મારા હાલના ચાર્ટ પુરાવાના આધાર પર એક સુરક્ષિત અને વ્યવહારુ ઉપાય અથવા કર્મ કહો."
+        }
+      }
+    }
+  }
+}

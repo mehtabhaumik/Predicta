@@ -259,6 +259,67 @@ Green. Selecting or auto-resolving a birth place now closes the autocomplete
 surface cleanly, and the UI cannot show a place suggestion together with stale
 searching copy.
 
+## Supplemental Useful Deferred Room Fallback Budget Lock
+
+Date: 2026-06-12
+
+After the specialist, report, family, chart, and remedy routes were deferred,
+their earliest route paint could look like an anonymous skeleton/footer shell
+while the heavy runtime chunk loaded. That protected bundle size, but it was not
+good enough for a premium app: a user must immediately understand where they
+landed and what action to take.
+
+Implementation lock:
+
+- Added a dedicated `specialistRoomFallback.json` translation source for
+  English, Hindi, and Gujarati fallback copy.
+- Added a lightweight web adapter so the fallback can read only this copy
+  without importing broad config helpers.
+- Rebuilt `SpecialistRoomPanelFallback` as a server-safe, hookless, plain-anchor
+  fallback with room-specific title, body, localized Ask Predicta CTA, and
+  opening status.
+- Applied the useful fallback to deferred specialist/report/premium/redeem/
+  family/chart/remedy/library routes.
+- Kept `/dashboard/kundli` on a tiny skeleton fallback because that route has a
+  strict `20 KB` Phase 6 budget.
+- Added CSS language selection through the existing `html[data-predicta-language]`
+  marker so inactive translations do not appear or create layout pressure.
+
+Failed attempt, not green:
+
+- The first implementation used a client fallback with `next/link` and language
+  hooks. It passed typecheck/build, but `test:app-revival-phase-6` failed because
+  specialist and secondary dashboard routes carried about `134 KB` of
+  page-specific JS.
+- After removing the hook/link dependency, only `/dashboard/kundli` still failed
+  at `28 KB` against its special `20 KB` budget.
+- The gate was not widened. The Kundli route was moved back to a tiny skeleton
+  while every other deferred room kept the useful localized fallback.
+
+Verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS. Specialist/report/secondary
+  deferred routes measured `28 KB` page-specific JS against `80 KB` budgets, and
+  `/dashboard/kundli` measured `4 KB` against its `20 KB` budget.
+- Server HTML smoke on `http://127.0.0.1:3009/dashboard/vedic`: PASS. The
+  localized fallback is present before hydration with Vedic-specific copy and a
+  direct Ask Predicta handoff.
+- Browser sweep on `http://127.0.0.1:3009`: PASS. Deferred pages loaded without
+  horizontal overflow at mobile `390px` and desktop `1440px`.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, `17` scenarios.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/report,/dashboard/premium,/dashboard/redeem-pass,/dashboard/charts,/dashboard/remedies,/dashboard/family corepack pnpm test:ui-text-overflow`: PASS, `56` route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/dashboard/report,/dashboard/premium,/dashboard/redeem-pass,/dashboard/charts,/dashboard/remedies,/dashboard/family corepack pnpm test:ui-personal-space`: PASS, `56` route and viewport checks.
+
+Result:
+
+Green. Deferred rooms now stay lightweight without first-painting as empty
+control-panel shells. The useful fallback is localized, action-first, and
+route-specific, while the strict route budgets remain intact.
+
 ## Supplemental Accuracy Method Public Route Budget Repair
 
 Date: 2026-06-12

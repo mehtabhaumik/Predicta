@@ -9,7 +9,7 @@ const WebFamilyKarmaMap = dynamic(
       default: module.WebFamilyKarmaMap,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="family" />,
     ssr: false,
   },
 );

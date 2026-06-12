@@ -9,7 +9,7 @@ const WebVedicWorldPage = dynamic(
       default: module.WebVedicWorldPage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="vedic" />,
     ssr: false,
   },
 );

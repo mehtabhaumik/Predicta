@@ -9,7 +9,7 @@ const WebProfileSettings = dynamic(
       default: module.WebProfileSettings,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="library" />,
     ssr: false,
   },
 );

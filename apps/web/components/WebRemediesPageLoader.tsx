@@ -9,7 +9,7 @@ const WebRemediesPage = dynamic(
       default: module.WebRemediesPage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="remedies" />,
     ssr: false,
   },
 );

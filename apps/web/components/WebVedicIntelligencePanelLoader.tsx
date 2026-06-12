@@ -9,7 +9,7 @@ const WebVedicIntelligencePanelRuntime = dynamic(
       default: module.WebVedicIntelligencePanelRuntime,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="vedic" />,
   },
 );
 

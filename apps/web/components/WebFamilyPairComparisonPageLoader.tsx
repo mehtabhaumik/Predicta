@@ -9,7 +9,7 @@ const WebFamilyPairComparisonPage = dynamic(
       default: module.WebFamilyPairComparisonPage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="family" />,
     ssr: false,
   },
 );

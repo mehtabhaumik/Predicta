@@ -9,7 +9,7 @@ const WebPredictaWrappedRuntime = dynamic(
       default: module.WebPredictaWrappedRuntime,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="library" />,
   },
 );
 

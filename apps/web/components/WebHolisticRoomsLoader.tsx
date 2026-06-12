@@ -9,7 +9,7 @@ const WebHolisticRoomsRuntime = dynamic(
       default: module.WebHolisticRoomsRuntime,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="generic" />,
   },
 );
 

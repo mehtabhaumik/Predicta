@@ -9,7 +9,7 @@ const WebPremiumPage = dynamic(
       default: module.WebPremiumPage,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="premium" />,
     ssr: false,
   },
 );

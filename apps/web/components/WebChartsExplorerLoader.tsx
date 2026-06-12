@@ -9,7 +9,7 @@ const WebChartsExplorer = dynamic(
       default: module.WebChartsExplorer,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="charts" />,
   },
 );
 

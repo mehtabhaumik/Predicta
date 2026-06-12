@@ -9,7 +9,7 @@ const WebRemedyCoach = dynamic(
       default: module.WebRemedyCoach,
     })),
   {
-    loading: () => <SpecialistRoomPanelFallback />,
+    loading: () => <SpecialistRoomPanelFallback room="remedies" />,
   },
 );
 
