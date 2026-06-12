@@ -3,7 +3,9 @@
 import { getCompetitorResponseCopy } from '@pridicta/config';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useLanguagePreference } from '../lib/language-preference';
+import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
 const WebDossierPreview = dynamic(
   () =>
@@ -19,6 +21,14 @@ const WebDossierPreview = dynamic(
 export function WebReportPage(): React.JSX.Element {
   const { language } = useLanguagePreference();
   const copy = getCompetitorResponseCopy(language).reportPage;
+  const [reportQuestion, setReportQuestion] = useState(
+    copy.suggestedQuestions[0] ?? '',
+  );
+  const askReportHref = buildPredictaChatHref({
+    prompt: reportQuestion.trim() || copy.questionPlaceholder,
+    reportFocus: 'report_selection',
+    sourceScreen: 'Reports',
+  });
 
   return (
     <section className="dashboard-page">
@@ -41,7 +51,49 @@ export function WebReportPage(): React.JSX.Element {
         </div>
       </div>
 
-      <WebDossierPreview />
+      <section className="report-question-panel glass-panel">
+        <div className="report-question-copy">
+          <div className="section-title">{copy.questionEyebrow}</div>
+          <h2>{copy.questionTitle}</h2>
+          <p>{copy.questionBody}</p>
+        </div>
+        <div className="report-question-console">
+          <label className="landing-ask-field">
+            <span>{copy.questionLabel}</span>
+            <textarea
+              onChange={event => setReportQuestion(event.target.value)}
+              placeholder={copy.questionPlaceholder}
+              value={reportQuestion}
+            />
+          </label>
+          <div
+            aria-label={copy.suggestedQuestionLabel}
+            className="landing-question-chips"
+          >
+            {copy.suggestedQuestions.map(item => (
+              <button
+                key={item}
+                onClick={() => setReportQuestion(item)}
+                type="button"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+          <div className="landing-ask-actions">
+            <Link className="button" href={askReportHref}>
+              {copy.askReportCta}
+            </Link>
+            <Link className="button secondary" href="#report-builder">
+              {copy.openBuilderCta}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <div id="report-builder">
+        <WebDossierPreview />
+      </div>
     </section>
   );
 }

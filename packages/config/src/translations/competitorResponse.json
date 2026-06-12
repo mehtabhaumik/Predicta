@@ -205,6 +205,20 @@
         "body": "Choose the school or Life Atlas lane first. Predicta keeps Vedic, KP, Jaimini, Numerology, and Signature separate, then gives prediction, evidence, timing, and guidance without turning the report into a lesson.",
         "createKundliCta": "Create Kundli",
         "askPredictaCta": "Ask Predicta",
+        "questionEyebrow": "Ask before downloading",
+        "questionTitle": "Tell Predicta what you want the report to answer.",
+        "questionBody": "If you are unsure which report lane fits, ask in plain language first. Predicta will suggest the right report and keep the full builder below for direct downloads.",
+        "questionLabel": "Your report question",
+        "questionPlaceholder": "Which report should I download for career, marriage, money, family, timing, or life direction?",
+        "suggestedQuestionLabel": "Suggested report questions",
+        "suggestedQuestions": [
+          "Which report should I download for career timing?",
+          "I want a report about marriage and relationship timing.",
+          "Which report explains my life direction best?",
+          "I want a practical report for money, work, and remedies."
+        ],
+        "askReportCta": "Ask which report fits",
+        "openBuilderCta": "Open report builder",
         "loadingEyebrow": "Preparing your report composer",
         "loadingTitle": "Predicta is opening the right report lane.",
         "loadingBody": "The page is ready. The builder is loading separately so navigation stays quick and calm."
@@ -414,6 +428,20 @@
         "body": "पहले विधि या जीवन एटलस मार्ग चुनें. प्रेडिक्टा वैदिक, कृष्णमूर्ति पद्धति, जैमिनी, अंक ज्योतिष और हस्ताक्षर को अलग रखती है, फिर भविष्यवाणी, प्रमाण, समय और मार्गदर्शन देती है; रिपोर्ट को पाठ नहीं बनाती.",
         "createKundliCta": "कुंडली बनाएं",
         "askPredictaCta": "प्रेडिक्टा से पूछें",
+        "questionEyebrow": "डाउनलोड से पहले पूछें",
+        "questionTitle": "प्रेडिक्टा को बताएं कि रिपोर्ट से आपको क्या उत्तर चाहिए.",
+        "questionBody": "अगर समझ न आए कि कौन सा रिपोर्ट मार्ग सही है, तो पहले सरल भाषा में पूछें. प्रेडिक्टा सही रिपोर्ट सुझाएगी और सीधा डाउनलोड करने के लिए पूरा बिल्डर नीचे रहेगा.",
+        "questionLabel": "आपका रिपोर्ट प्रश्न",
+        "questionPlaceholder": "करियर, विवाह, धन, परिवार, समय या जीवन दिशा के लिए कौन सी रिपोर्ट डाउनलोड करूं?",
+        "suggestedQuestionLabel": "सुझाए गए रिपोर्ट प्रश्न",
+        "suggestedQuestions": [
+          "करियर टाइमिंग के लिए मुझे कौन सी रिपोर्ट डाउनलोड करनी चाहिए?",
+          "मुझे विवाह और रिश्ते के समय पर रिपोर्ट चाहिए.",
+          "मेरी जीवन दिशा सबसे अच्छी कौन सी रिपोर्ट समझाएगी?",
+          "मुझे धन, काम और उपायों के लिए व्यावहारिक रिपोर्ट चाहिए."
+        ],
+        "askReportCta": "पूछें कौन सी रिपोर्ट सही है",
+        "openBuilderCta": "रिपोर्ट बिल्डर खोलें",
         "loadingEyebrow": "आपका रिपोर्ट कंपोज़र तैयार हो रहा है",
         "loadingTitle": "प्रेडिक्टा सही रिपोर्ट मार्ग खोल रही है.",
         "loadingBody": "पेज तैयार है. बिल्डर अलग से लोड हो रहा है ताकि नेविगेशन तेज और शांत रहे."
@@ -623,6 +651,20 @@
         "body": "પહેલા પદ્ધતિ અથવા જીવન એટલસ માર્ગ પસંદ કરો. પ્રેડિક્ટા વેદિક, કૃષ્ણમૂર્તિ પદ્ધતિ, જૈમિની, અંક જ્યોતિષ અને હસ્તાક્ષરને અલગ રાખે છે, પછી આગાહી, પુરાવો, સમય અને માર્ગદર્શન આપે છે; રિપોર્ટને પાઠ બનાવતું નથી.",
         "createKundliCta": "કુંડળી બનાવો",
         "askPredictaCta": "પ્રેડિક્ટાને પૂછો",
+        "questionEyebrow": "ડાઉનલોડ પહેલાં પૂછો",
+        "questionTitle": "પ્રેડિક્ટાને કહો કે રિપોર્ટમાંથી તમને શું જવાબ જોઈએ છે.",
+        "questionBody": "કયો રિપોર્ટ માર્ગ યોગ્ય છે તેની ખાતરી ન હોય તો પહેલા સરળ ભાષામાં પૂછો. પ્રેડિક્ટા યોગ્ય રિપોર્ટ સૂચવશે અને સીધા ડાઉનલોડ માટે આખો બિલ્ડર નીચે રહેશે.",
+        "questionLabel": "તમારો રિપોર્ટ પ્રશ્ન",
+        "questionPlaceholder": "કરિયર, લગ્ન, પૈસા, પરિવાર, સમય અથવા જીવન દિશા માટે કયો રિપોર્ટ ડાઉનલોડ કરું?",
+        "suggestedQuestionLabel": "સૂચવાયેલા રિપોર્ટ પ્રશ્નો",
+        "suggestedQuestions": [
+          "કરિયર ટાઇમિંગ માટે મારે કયો રિપોર્ટ ડાઉનલોડ કરવો?",
+          "મને લગ્ન અને સંબંધના સમય વિશે રિપોર્ટ જોઈએ છે.",
+          "મારી જીવન દિશા કયો રિપોર્ટ સૌથી સારી રીતે સમજાવશે?",
+          "મારે પૈસા, કામ અને ઉપાયો માટે વ્યવહારુ રિપોર્ટ જોઈએ છે."
+        ],
+        "askReportCta": "કયો રિપોર્ટ યોગ્ય છે તે પૂછો",
+        "openBuilderCta": "રિપોર્ટ બિલ્ડર ખોલો",
         "loadingEyebrow": "તમારો રિપોર્ટ કમ્પોઝર તૈયાર થઈ રહ્યો છે",
         "loadingTitle": "પ્રેડિક્ટા યોગ્ય રિપોર્ટ માર્ગ ખોલી રહી છે.",
         "loadingBody": "પેજ તૈયાર છે. બિલ્ડર અલગથી લોડ થઈ રહ્યો છે જેથી નેવિગેશન ઝડપી અને શાંત રહે."

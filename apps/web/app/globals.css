@@ -16729,6 +16729,69 @@ button:disabled,
   margin-top: 22px;
 }
 
+.report-question-panel {
+  align-items: stretch;
+  display: grid;
+  gap: clamp(18px, 3vw, 32px);
+  grid-template-columns: minmax(0, 0.74fr) minmax(360px, 0.76fr);
+  margin: 0 auto 28px;
+  max-width: var(--max);
+  overflow: hidden;
+  padding: clamp(18px, 3vw, 30px);
+  position: relative;
+}
+
+.report-question-panel::before {
+  background:
+    radial-gradient(circle at 15% 18%, rgba(77, 175, 255, 0.18), transparent 30%),
+    radial-gradient(circle at 86% 10%, rgba(255, 77, 166, 0.13), transparent 26%),
+    radial-gradient(circle at 78% 82%, rgba(66, 255, 191, 0.1), transparent 32%);
+  content: '';
+  filter: blur(24px);
+  inset: -60px;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.report-question-copy {
+  align-content: center;
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.report-question-copy h2 {
+  font-size: clamp(32px, 4vw, 58px);
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  margin: 0;
+  max-width: 720px;
+}
+
+.report-question-copy p {
+  color: var(--muted);
+  font-size: clamp(16px, 1.4vw, 19px);
+  line-height: 1.55;
+  margin: 0;
+  max-width: 680px;
+}
+
+.report-question-console {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-quiet);
+  border-radius: 24px;
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  padding: clamp(14px, 2vw, 20px);
+}
+
+.report-question-console .landing-ask-field textarea {
+  min-height: 116px;
+  resize: vertical;
+}
+
 .pricing-grid,
 .one-time-grid {
   display: grid;
@@ -17308,6 +17371,7 @@ button:disabled,
   .holistic-guardrails,
   .cockpit-grid,
   .dashboard-feature-grid,
+  .report-question-panel,
   .report-dashboard-layout,
   .intelligence-panel,
   .report-preview,
