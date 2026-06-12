@@ -22,10 +22,8 @@ export function AskPredictaLeanHeader(): React.JSX.Element {
         </span>
       </Link>
 
-      <nav aria-label={labels.groups.sections} className="ask-lean-nav">
+      <nav aria-label={labels.groups.sections} className="ask-lean-nav ask-lean-nav-minimal">
         <Link href="/dashboard">{labels.nav.library}</Link>
-        <Link href="/dashboard/report">{labels.nav.reports}</Link>
-        <Link href="/pricing">{labels.nav.premium}</Link>
       </nav>
     </header>
   );

@@ -249,8 +249,8 @@ try {
   await runScenario('chat-driven-report-composer', desktopViewport, async cdp => {
     const prompt = encodeURIComponent('Create a Vedic report for my current career and timing question.');
     await navigateAndWait(cdp, `${baseUrl}/ask?prompt=${prompt}&autoSend=true&reportFocus=VEDIC&sourceScreen=Report+Chat+Journey`);
-    await waitForCondition(cdp, `Boolean(document.querySelector('.ask-lean-nav a[href="/dashboard/report"]'))`, 6_000);
-    await click(cdp, '.ask-lean-nav a[href="/dashboard/report"]');
+    await waitForCondition(cdp, `Boolean(document.querySelector('.ask-light-shell-started, .auth-required-panel, .chat-workspace, .chat-panel, .predicta-chat-loading'))`, 8_000);
+    await navigateAndWait(cdp, `${baseUrl}/dashboard/report`);
     await waitForCondition(cdp, `location.pathname === '/dashboard/report' && Boolean(document.querySelector('.report-inline-composer, .report-selected-choice, .report-download-stage, .report-product-card'))`, 20_000).catch(() => undefined);
     const audit = await evaluate(cdp, `(() => ({
       hasComposer: Boolean(document.querySelector('.report-inline-composer, .report-selected-choice, .report-download-stage')),

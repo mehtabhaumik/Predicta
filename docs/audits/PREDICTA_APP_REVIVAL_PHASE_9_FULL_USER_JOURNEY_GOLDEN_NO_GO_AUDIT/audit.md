@@ -130,3 +130,25 @@ server on `http://127.0.0.1:3027`.
 Green. The chat-first journey no longer depends on hydrated chip button
 handlers for the first prompt selection, and the signed-out Ask flow still
 preserves the user's question before account sign-in.
+
+## Supplemental Ask Header Minimal Route Reaudit
+
+Date: 2026-06-12
+
+After removing `Reports` and `Premium` from the `/ask` header, the report
+composer journey was updated to verify that `/ask` starts cleanly and then
+navigates directly to `/dashboard/report` as its own product route. This keeps
+the main Predicta chat doorway focused without weakening the report journey.
+
+### Evidence
+
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, `15` scenarios and screenshots regenerated.
+- `full-user-journey-manifest.json`: regenerated with zero failed scenarios.
+- Report-composer smoke no longer depends on a permanent Reports link inside
+  the Ask header.
+
+### Verdict
+
+Green. The Ask doorway can stay minimal while the full report, specialist
+handoff, language, redeem-pass, zero-credit, and legacy redirect journeys remain
+covered.

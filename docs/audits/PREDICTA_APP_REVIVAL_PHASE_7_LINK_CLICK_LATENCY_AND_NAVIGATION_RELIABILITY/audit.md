@@ -339,3 +339,35 @@ instead of opening the primary Ask Predicta experience.
 - `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
 - `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/founder,/feedback,/pricing corepack pnpm test:ui-text-overflow`: PASS, `16` route/viewport checks.
 - `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/founder,/feedback,/pricing corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+
+## Supplemental Ask Header Distraction Removal Lock
+
+Date: 2026-06-12
+
+The primary Ask Predicta doorway still exposed `Reports` and `Premium` as
+header links. That made the chat-first route feel like a product navigation
+surface instead of the focused place where the user asks Predicta a question.
+
+### Changes
+
+- Kept `My Kundlis` as the only quiet escape hatch in the `/ask` header.
+- Removed `Reports` and `Premium` from the `/ask` header while preserving those
+  routes through the dashboard, pricing surfaces, and report composer.
+- Updated the Phase 7 link contract so `/ask` requires only the brand home link
+  and `My Kundlis`.
+
+### Evidence
+
+- Browser DOM audit on `http://127.0.0.1:3009/ask`: `navLinkCount=1`, header
+  links are `/` and `/dashboard`, and horizontal overflow is `0`.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/ask,/ corepack pnpm test:ui-text-overflow`: PASS, `8` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/ask,/ corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+
+### Verdict
+
+Green. `/ask` now stays focused on the Ask Predicta action without turning the
+top bar into a marketplace/menu, and the separate report/pricing routes remain
+reachable through their proper surfaces.

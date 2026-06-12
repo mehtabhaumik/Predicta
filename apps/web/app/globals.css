@@ -21128,6 +21128,10 @@ select::-ms-expand {
   min-width: 0;
 }
 
+.ask-lean-nav-minimal {
+  flex: 0 0 auto;
+}
+
 .ask-lean-nav a {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 999px;
@@ -24541,11 +24545,9 @@ select::-ms-expand {
     display: flex;
     flex-wrap: nowrap;
     gap: 8px;
-    margin-inline: calc(var(--page-gutter) * -1);
-    overflow-x: auto;
-    padding: 0 var(--page-gutter) 2px;
+    justify-content: flex-start;
     scrollbar-width: none;
-    width: calc(100% + calc(var(--page-gutter) * 2));
+    width: auto;
   }
 
   .ask-lean-nav::-webkit-scrollbar {
