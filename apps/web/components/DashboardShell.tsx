@@ -53,6 +53,15 @@ const DASHBOARD_WORLD_SECTION_IDS = new Set([
   'numerology',
   'signature',
 ]);
+const DASHBOARD_ASK_DOCK_PATHS = new Set([
+  '/dashboard/birth-time',
+  '/dashboard/charts',
+  '/dashboard/decision',
+  '/dashboard/holistic',
+  '/dashboard/kundli',
+  '/dashboard/remedies',
+  '/dashboard/timeline',
+]);
 
 function buildDashboardNavModel(
   labels: LightweightAppShellLabels,
@@ -276,8 +285,7 @@ export function DashboardShell({
   const shellLabels = getLightweightAppShellLabels(language);
   const { commonGroups, sections } = buildDashboardNavModel(shellLabels);
   const activeSection = getActiveDashboardSection(pathname, sections);
-  const showAskDock =
-    !isChatRoute && DASHBOARD_WORLD_SECTION_IDS.has(activeSection.id);
+  const showAskDock = !isChatRoute && DASHBOARD_ASK_DOCK_PATHS.has(pathname);
   const primarySections = sections.filter(section =>
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
   );
