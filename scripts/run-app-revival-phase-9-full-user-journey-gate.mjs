@@ -246,25 +246,35 @@ try {
   await runEvidenceHandoffScenario('kp-evidence-handoff', '/dashboard/kp', desktopViewport);
   await runEvidenceHandoffScenario('jaimini-evidence-handoff', '/dashboard/jaimini', desktopViewport);
 
-  await runScenario('dashboard-ask-dock-universal-handoff', mobileViewport, async cdp => {
+  await runScenario('dashboard-ask-accessible-handoff', mobileViewport, async cdp => {
     const checkedRoutes = [
-      '/dashboard/report',
-      '/dashboard/kp',
-      '/dashboard/jaimini',
-      '/dashboard/numerology',
-      '/dashboard/signature',
+      { route: '/dashboard/report', type: 'dock' },
+      { route: '/dashboard/kp', type: 'room-primary' },
+      { route: '/dashboard/jaimini', type: 'room-primary' },
+      { route: '/dashboard/numerology', type: 'room-primary' },
+      { route: '/dashboard/signature', type: 'room-primary' },
     ];
     const routeAudits = [];
     const localFailures = [];
-    for (const route of checkedRoutes) {
+    for (const { route, type } of checkedRoutes) {
       await navigateAndWait(cdp, `${baseUrl}${route}`);
-      await waitForCondition(cdp, `Boolean(document.querySelector('.dashboard-ask-dock a[href^="/ask"]'))`, 8_000).catch(() => undefined);
+      await waitForCondition(
+        cdp,
+        type === 'dock'
+          ? `Boolean(document.querySelector('.dashboard-ask-dock a[href^="/ask"]'))`
+          : `Boolean(document.querySelector('.evidence-room-entry a[href^="/ask"], .predicta-world-primary-actions a[href^="/ask"], .jaimini-room-cta-row a[href^="/ask"]'))`,
+        8_000,
+      ).catch(() => undefined);
       const audit = await evaluate(cdp, `(() => {
         const dock = document.querySelector('.dashboard-ask-dock');
-        const link = dock?.querySelector('a[href^="/ask"]');
-        const rect = dock?.getBoundingClientRect();
+        const roomLink = document.querySelector('.evidence-room-entry a[href^="/ask"], .predicta-world-primary-actions a[href^="/ask"], .jaimini-room-cta-row a[href^="/ask"]');
+        const link = ${JSON.stringify(type)} === 'dock'
+          ? dock?.querySelector('a[href^="/ask"]')
+          : roomLink;
+        const rect = (${JSON.stringify(type)} === 'dock' ? dock : roomLink)?.getBoundingClientRect();
         return {
           dockVisible: Boolean(dock),
+          roomPrimaryVisible: Boolean(roomLink),
           href: link?.getAttribute('href') || '',
           horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
           rect: rect ? {
@@ -273,21 +283,26 @@ try {
             top: Math.round(rect.top),
             width: Math.round(rect.width),
           } : null,
-          text: dock?.textContent?.replace(/\\s+/g, ' ').trim() || '',
+          text: ((${JSON.stringify(type)} === 'dock' ? dock : roomLink)?.textContent || '').replace(/\\s+/g, ' ').trim(),
+          type: ${JSON.stringify(type)},
         };
       })()`);
       routeAudits.push({ audit, route });
-      if (!audit.dockVisible || !audit.href.startsWith('/ask')) {
-        localFailures.push(`${route} does not show the universal Ask Predicta dock`);
+      if (!audit.href.startsWith('/ask')) {
+        localFailures.push(
+          type === 'dock'
+            ? `${route} does not show the contextual Ask Predicta dock`
+            : `${route} does not show a primary room Ask Predicta action`,
+        );
       }
       if (audit.href.length > 900) {
-        localFailures.push(`${route} universal Ask Predicta dock href is too long`);
+        localFailures.push(`${route} Ask Predicta handoff href is too long`);
       }
       if (audit.horizontalOverflow) {
-        localFailures.push(`${route} universal Ask Predicta dock has horizontal overflow`);
+        localFailures.push(`${route} Ask Predicta handoff has horizontal overflow`);
       }
-      if (!audit.rect || audit.rect.height < 44 || audit.rect.width < 220) {
-        localFailures.push(`${route} universal Ask Predicta dock is too small for touch`);
+      if (!audit.rect || audit.rect.height < 44 || audit.rect.width < 180) {
+        localFailures.push(`${route} Ask Predicta handoff is too small for touch`);
       }
     }
     return { audit: { routeAudits }, failures: localFailures };

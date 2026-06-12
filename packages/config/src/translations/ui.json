@@ -127,9 +127,9 @@
       "gu": "પુષ્ટિ થયેલા સહી લક્ષણો અને સ્વ-અભિવ્યક્તિનો પુરાવો"
     },
     "ui.evidenceRoom.generic.badge": {
-      "en": "Evidence room",
-      "hi": "प्रमाण कक्ष",
-      "gu": "પુરાવાનો રૂમ"
+      "en": "Specialist reading",
+      "hi": "विशेषज्ञ रीडिंग",
+      "gu": "વિશેષજ્ઞ રીડિંગ"
     },
     "ui.evidenceRoom.generic.startHere": {
       "en": "Start with the answer",
@@ -142,24 +142,24 @@
       "gu": "આ વિશે પ્રેડિક્ટાને પૂછો"
     },
     "ui.evidenceRoom.generic.openEvidence": {
-      "en": "Open evidence",
-      "hi": "प्रमाण खोलें",
-      "gu": "પુરાવો ખોલો"
+      "en": "Why Predicta says this",
+      "hi": "प्रेडिक्टा ऐसा क्यों कहती है",
+      "gu": "પ્રેડિક્ટા આવું કેમ કહે છે"
     },
     "ui.evidenceRoom.generic.detailsBelow": {
-      "en": "The detailed room stays below when you want proof.",
-      "hi": "जब प्रमाण चाहिए, विस्तृत कक्ष नीचे उपलब्ध है।",
-      "gu": "પુરાવો જોઈએ ત્યારે વિગતવાર રૂમ નીચે રહે છે."
+      "en": "Proof is available here, but the answer stays first.",
+      "hi": "प्रमाण यहाँ उपलब्ध है, लेकिन उत्तर पहले रहता है।",
+      "gu": "પુરાવો અહીં ઉપલબ્ધ છે, પરંતુ જવાબ પહેલો રહે છે."
     },
     "ui.evidenceRoom.generic.openDetailedRoom": {
-      "en": "Open detailed room",
-      "hi": "विस्तृत कक्ष खोलें",
-      "gu": "વિગતવાર રૂમ ખોલો"
+      "en": "Continue into the full reading",
+      "hi": "पूरी रीडिंग में आगे बढ़ें",
+      "gu": "સંપૂર્ણ રીડિંગમાં આગળ વધો"
     },
     "ui.evidenceRoom.generic.openDetailedRoomHint": {
-      "en": "Charts, proof, reports, and specialist tools stay here when you want depth.",
-      "hi": "जब गहराई चाहिए, चार्ट, प्रमाण, रिपोर्ट और विशेषज्ञ टूल यहीं रहते हैं।",
-      "gu": "જ્યારે ઊંડાણ જોઈએ, ત્યારે ચાર્ટ, પુરાવો, રિપોર્ટ અને વિશેષજ્ઞ ટૂલ્સ અહીં રહે છે."
+      "en": "The answer stays first. Open this only when you want charts, proof, and report options.",
+      "hi": "उत्तर पहले रहता है। इसे तभी खोलें जब आपको चार्ट, प्रमाण और रिपोर्ट विकल्प चाहिए।",
+      "gu": "જવાબ પહેલો રહે છે. ચાર્ટ, પુરાવો અને રિપોર્ટ વિકલ્પો જોઈએ ત્યારે જ આ ખોલો."
     },
     "ui.evidenceRoom.vedic.title": {
       "en": "Vedic shows the main life signal.",
