@@ -52,10 +52,6 @@ export function WebEvidenceRoomEntry({
         <div className="section-title">{t('ui.evidenceRoom.generic.badge')}</div>
         <h1>{title}</h1>
         <p>{body}</p>
-        <div className="evidence-room-next-action">
-          <span>{t('ui.evidenceRoom.generic.startHere')}</span>
-          <strong>{action}</strong>
-        </div>
       </div>
 
       <div className="evidence-room-entry-actions">
@@ -66,7 +62,7 @@ export function WebEvidenceRoomEntry({
           onPointerEnter={prewarmAsk}
           onTouchStart={prewarmAsk}
         >
-          {t('ui.evidenceRoom.generic.askPredicta')}
+          {action}
         </Link>
         <details className="evidence-room-proof-drawer">
           <summary>

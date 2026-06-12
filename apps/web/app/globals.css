@@ -4491,31 +4491,6 @@ button:disabled,
   max-width: 780px;
 }
 
-.evidence-room-next-action {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
-  display: grid;
-  gap: 6px;
-  max-width: 680px;
-  min-width: 0;
-  padding: 16px;
-}
-
-.evidence-room-next-action span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
-.evidence-room-next-action strong {
-  color: var(--text);
-  font-size: clamp(17px, 2vw, 23px);
-  line-height: 1.2;
-}
-
 .evidence-room-entry-actions {
   align-content: start;
   display: grid;
