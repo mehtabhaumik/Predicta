@@ -15,21 +15,7 @@ import { getOrCreateWebGuestSession } from '../lib/web-guest-session';
 import { useLanguagePreference } from '../lib/language-preference';
 import { applyPredictaDocumentLanguage } from '../lib/document-language';
 import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
-import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { WebAppTranslationRuntime } from './WebAppTranslationRuntime';
-
-const WARM_NAVIGATION_ROUTES = [
-  '/ask',
-  '/dashboard',
-  '/dashboard/kundli',
-  '/dashboard/saved-kundlis',
-  '/dashboard/vedic',
-  '/dashboard/kp',
-  '/dashboard/jaimini',
-  '/dashboard/numerology',
-  '/dashboard/signature',
-  '/dashboard/report',
-] as const;
 
 export function ClientServicesProvider(): React.JSX.Element {
   const pathname = usePathname();
@@ -69,8 +55,7 @@ export function ClientServicesProvider(): React.JSX.Element {
 
   useEffect(() => {
     const warmCoreRoutes = () => {
-      preloadAskPredictaRuntime();
-      WARM_NAVIGATION_ROUTES.forEach(route => router.prefetch(route));
+      router.prefetch('/ask');
     };
 
     const idleHandle =
