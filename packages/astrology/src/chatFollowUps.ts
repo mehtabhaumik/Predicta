@@ -558,15 +558,25 @@ function schoolHandoffFollowUps(
   return [];
 }
 
-function buildSchoolHandoffHref(path: string, context: ChartContext): string {
+function buildSchoolHandoffHref(_path: string, context: ChartContext): string {
   const params = new URLSearchParams();
 
   setHrefParam(params, 'handoffQuestion', context.handoffQuestion);
   setHrefParam(params, 'kundliId', context.kundliId);
   setHrefParam(params, 'from', context.handoffFrom);
   setHrefParam(params, 'school', context.predictaSchool);
+  setHrefParam(params, 'sourceScreen', context.sourceScreen);
 
-  return `${path}?${params.toString()}`;
+  if (context.selectedSection) {
+    params.set('prompt', context.selectedSection);
+    params.set('autoSend', 'true');
+  }
+
+  if (context.predictaSchool) {
+    params.set('handoffMode', 'room_safe');
+  }
+
+  return `/ask?${params.toString()}`;
 }
 
 function setHrefParam(

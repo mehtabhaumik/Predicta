@@ -11,16 +11,24 @@ const checks = [
   },
   {
     file: 'packages/astrology/src/chatFollowUps.ts',
-    label: 'KP handoff link preserves question, school, origin, and Kundli id',
-    mustContain: ["buildSchoolHandoffHref('/dashboard/kp/chat', context)"],
+    label: 'KP handoff link preserves question, school, origin, and Kundli id through Ask Predicta',
+    mustContain: [
+      "buildSchoolHandoffHref('/dashboard/kp/chat', context)",
+      "return `/ask?${params.toString()}`;",
+      "params.set('handoffMode', 'room_safe')",
+    ],
   },
   {
     file: 'packages/astrology/src/chatFollowUps.ts',
-    label: 'Jaimini handoff link preserves question, school, origin, and Kundli id',
-    mustContain: ["buildSchoolHandoffHref('/dashboard/jaimini/chat', context)"],
+    label: 'Jaimini handoff link preserves question, school, origin, and Kundli id through Ask Predicta',
+    mustContain: [
+      "buildSchoolHandoffHref('/dashboard/jaimini/chat', context)",
+      "setHrefParam(params, 'sourceScreen', context.sourceScreen)",
+      "params.set('autoSend', 'true')",
+    ],
   },
   {
-    file: 'apps/web/components/WebKpPredictaLoader.tsx',
+    file: 'apps/web/components/WebKpPredictaRuntime.tsx',
     label: 'KP Predicta page prefers the Kundli id from the handoff URL',
     mustContain: [
       'requestedKundliId',
@@ -35,7 +43,7 @@ const checks = [
       "school: 'JAIMINI'",
       'sourceScreen: copy.heroEyebrow',
       'jaiminiInterpretation.summary',
-      'jaiminiInterpretation.technicalEvidence.slice(0, 4)',
+      'jaiminiInterpretation.technicalEvidence.map(item =>',
     ],
   },
   {
@@ -63,7 +71,7 @@ const checks = [
     file: 'apps/web/components/WebPridictaChat.tsx',
     label: 'explicit house prompts override stale selected-house context before AI handoff',
     mustContain: [
-      'resolveChartContextForQuestion(text)',
+      'const baseQuestionChartContext = resolveChartContextForQuestion(',
       'extractHouseNumbersFromText(text)',
       'selectedHouse: explicitHouses.length === 1 ? explicitHouses[0] : undefined',
       'chartContext: questionChartContext',

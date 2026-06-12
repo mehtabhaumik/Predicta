@@ -58,13 +58,13 @@ const checks = [
 const sourceContracts = [
   {
     file: 'apps/web/components/DashboardShell.tsx',
-    label: 'web dashboard nav exposes all specialist rooms',
+    label: 'web dashboard nav exposes specialist rooms and the primary Ask Predicta action',
     mustContain: [
-      '/dashboard/vedic/chat',
-      '/dashboard/kp/chat',
-      '/dashboard/jaimini/chat',
-      '/dashboard/numerology/chat',
-      '/dashboard/signature/chat',
+      '/ask',
+      'askPredictaHref',
+      'askFromPageHref',
+      'dashboard-ask-dock',
+      '/dashboard/vedic',
       '/dashboard/kp',
       '/dashboard/jaimini',
       '/dashboard/numerology',
@@ -135,11 +135,14 @@ const sourceContracts = [
   },
   {
     file: 'packages/astrology/src/chatFollowUps.ts',
-    label: 'Predicta follow-ups can hand off to specialist chat routes',
+    label: 'Predicta follow-ups hand off directly into Ask Predicta with specialist context',
     mustContain: [
-      "'/dashboard/kp/chat'",
-      "'/dashboard/jaimini/chat'",
-      "'/dashboard/numerology/chat'",
+      "buildSchoolHandoffHref('/dashboard/kp/chat', context)",
+      "buildSchoolHandoffHref('/dashboard/jaimini/chat', context)",
+      "buildSchoolHandoffHref('/dashboard/numerology/chat', context)",
+      "return `/ask?${params.toString()}`;",
+      "setHrefParam(params, 'school', context.predictaSchool)",
+      "params.set('handoffMode', 'room_safe')",
       "targetScreen: 'NumerologyPredicta'",
     ],
   },
