@@ -377,6 +377,7 @@ export function DashboardShell({
         commonGroups={commonGroups}
         homeAriaLabel={shellLabels.nav.home}
         navAriaLabel={translateUiText('My Astrology navigation', language)}
+        onPredictaIntent={() => prewarmAskPredicta(askPredictaHref)}
         ownerLabel={shellLabels.groups.owner}
         showAdmin={showAdmin}
         startLabel={shellLabels.groups.start}

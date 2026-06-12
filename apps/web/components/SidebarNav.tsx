@@ -47,6 +47,7 @@ export function SidebarNav({
   brandSubtitle = 'Holistic astrology guide',
   homeAriaLabel = 'Predicta home',
   navAriaLabel = 'My Astrology navigation',
+  onPredictaIntent,
   ownerLabel = 'Owner',
   showAdmin,
   startLabel = 'Start',
@@ -59,6 +60,7 @@ export function SidebarNav({
   commonGroups: SidebarGroup[];
   homeAriaLabel?: string;
   navAriaLabel?: string;
+  onPredictaIntent?: () => void;
   ownerLabel?: string;
   showAdmin: boolean;
   startLabel?: string;
@@ -103,6 +105,7 @@ export function SidebarNav({
           <div className="nav-section nav-section-predicta-first">
             {renderSidebarSectionLink({
               activeSection,
+              onIntent: onPredictaIntent,
               primary: true,
               section: predictaSection,
             })}
@@ -232,11 +235,13 @@ export function SidebarNav({
 function renderSidebarSectionLink({
   activeSection,
   compact = false,
+  onIntent,
   primary = false,
   section,
 }: {
   activeSection: SidebarSection;
   compact?: boolean;
+  onIntent?: () => void;
   primary?: boolean;
   section: SidebarSection;
 }): React.JSX.Element {
@@ -252,6 +257,9 @@ function renderSidebarSectionLink({
           active ? ' active' : ''
         }`}
         href={section.href}
+        onFocus={onIntent}
+        onPointerEnter={onIntent}
+        onTouchStart={onIntent}
       >
         {section.label}
       </Link>
