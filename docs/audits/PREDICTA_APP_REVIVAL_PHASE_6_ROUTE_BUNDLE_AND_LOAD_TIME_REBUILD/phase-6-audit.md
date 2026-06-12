@@ -156,6 +156,40 @@ Supplemental verification:
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
 - `git diff --check`: PASS.
 
+## Supplemental Accuracy Method Card Import Reaudit
+
+Date: 2026-06-12
+
+The public `/accuracy-method` route drifted back to the exact Phase 6 ceiling
+after later shell work. The route still passed only if every public helper stayed
+lean, so an unnecessary shared component import was removed instead of widening
+the budget.
+
+### Changes
+
+- Replaced the shared `Card` component import in `AccuracyMethodPageClient` with
+  semantic `article` elements using the existing `soft-panel` styling.
+- Preserved the current visual language, copy, and translation-backed content.
+- Kept the strict `/accuracy-method/page` budget at `140 KB` rather than
+  relaxing the gate.
+
+### Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS; `/accuracy-method/page`
+  page-specific JS measured `140 KB` against the `140 KB` budget.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/accuracy-method,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, `36` route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/accuracy-method,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-personal-space`: PASS, `56` checks.
+
+### Verdict
+
+Green. The public accuracy-method route stays within the strict Phase 6 budget
+without sacrificing the page content or widening the load-time contract.
+
 ## Supplemental My Astrology Mount-Time Chat Runtime Deferral Lock
 
 Date: 2026-06-12

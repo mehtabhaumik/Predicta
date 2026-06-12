@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Card } from '../../components/Card';
 import { LandingLightFooter } from '../../components/LandingLightFooter';
 import { LandingLightHeader } from '../../components/LandingLightHeader';
 import { getLightweightAccuracyMethodCopy } from '../../lib/lightweight-accuracy-method-copy';
@@ -25,12 +24,12 @@ export function AccuracyMethodPageClient(): React.JSX.Element {
 
         <section className="method-pillar-grid">
           {copy.pillars.map(pillar => (
-            <Card className="method-pillar-card" key={pillar.title}>
+            <article className="method-pillar-card soft-panel" key={pillar.title}>
               <div className="card-content">
                 <h2>{pillar.title}</h2>
                 <p>{pillar.body}</p>
               </div>
-            </Card>
+            </article>
           ))}
         </section>
 
@@ -59,7 +58,7 @@ export function AccuracyMethodPageClient(): React.JSX.Element {
           </div>
           <div className="method-school-grid">
             {copy.schools.items.map(school => (
-              <Card className="method-school-card" key={school.name}>
+              <article className="method-school-card soft-panel" key={school.name}>
                 <div className="card-content">
                   <h3>{school.name}</h3>
                   <p>{school.summary}</p>
@@ -70,7 +69,7 @@ export function AccuracyMethodPageClient(): React.JSX.Element {
                   </ul>
                   <div className="method-caution">{school.caution}</div>
                 </div>
-              </Card>
+              </article>
             ))}
           </div>
         </section>

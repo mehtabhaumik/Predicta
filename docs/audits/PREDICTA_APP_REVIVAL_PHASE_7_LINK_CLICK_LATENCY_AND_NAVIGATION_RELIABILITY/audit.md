@@ -455,3 +455,44 @@ instead of Predicta knowing exactly which evidence room the user came from.
 Green. Ask links from specialist rooms, reports, charts, and landing prompts now
 reach Predicta as immediate chat actions without losing the evidence-room
 context that makes the answer feel intelligent.
+
+## Supplemental Landing World Cards Chat-First Handoff Lock
+
+Date: 2026-06-12
+
+The landing specialist-world cards still opened dashboard evidence rooms
+directly. That preserved discoverability, but it fought the app-revival rule:
+new users should meet the primary Predicta intelligence first, then use Vedic,
+KP, Jaimini, Numerology, and Signature as evidence rooms when needed.
+
+### Changes
+
+- Replaced landing world-card direct dashboard destinations with `/ask`
+  handoffs that carry the selected school context.
+- Added localized school-specific prompts for Vedic, KP, Jaimini, Numerology,
+  and Signature in the dedicated competitor-response translation JSON.
+- Preserved the specialist worlds as evidence-room cards on landing while
+  making the click action ask Predicta first.
+- Updated the Phase 7 gate so the landing page must expose five chat-first
+  school handoffs with `autoSend=true`, `sourceScreen=Landing`, and the expected
+  school identifiers: `PARASHARI`, `KP`, `JAIMINI`, `NUMEROLOGY`, and
+  `SIGNATURE`.
+
+### Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `node -e "const fs=require('fs'); JSON.parse(fs.readFileSync('packages/config/src/translations/competitorResponse.json','utf8')); console.log('competitorResponse ok')"`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `node --check scripts/run-app-revival-phase-7-link-reliability-gate.mjs`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS; the manifest verifies landing chat-first handoffs for all five schools.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, `17` scenarios.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/accuracy-method,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-text-overflow`: PASS, `36` route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/accuracy-method,/dashboard,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature corepack pnpm test:ui-personal-space`: PASS, `56` checks.
+
+### Verdict
+
+Green. Landing users now enter Predicta through the main intelligence surface
+while the school context still reaches the chat pipeline as structured handoff
+metadata.

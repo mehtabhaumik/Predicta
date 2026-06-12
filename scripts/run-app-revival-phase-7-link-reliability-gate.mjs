@@ -61,11 +61,6 @@ const requiredLinksByRoute = [
     route: '/',
     links: [
       '/ask',
-      '/dashboard/vedic',
-      '/dashboard/kp',
-      '/dashboard/jaimini',
-      '/dashboard/numerology',
-      '/dashboard/signature',
       '/dashboard/report',
       '/pricing',
       '/accuracy-method',
@@ -73,6 +68,7 @@ const requiredLinksByRoute = [
       '/feedback',
       '/legal',
     ],
+    schoolAskLinks: ['PARASHARI', 'KP', 'JAIMINI', 'NUMEROLOGY', 'SIGNATURE'],
   },
   {
     route: '/ask',
@@ -338,6 +334,7 @@ async function auditPageLinks(cdp, check) {
     awaitPromise: true,
     expression: `(() => {
       const requiredLinks = ${JSON.stringify(check.links)};
+      const requiredSchoolAskLinks = ${JSON.stringify(check.schoolAskLinks ?? [])};
       const isAskRoute = ${JSON.stringify(check.route === '/ask')};
       const anchors = [...document.querySelectorAll('a[href]')].map(anchor => ({
         ariaCurrent: anchor.getAttribute('aria-current') || '',
@@ -382,6 +379,21 @@ async function auditPageLinks(cdp, check) {
       const missing = requiredLinks.filter(required =>
         !hrefs.some(href => href === required || href.startsWith(required + '?') || href.startsWith(required + '#'))
       );
+      const missingSchoolAskLinks = requiredSchoolAskLinks.filter(requiredSchool =>
+        !anchors.some(anchor => {
+          if (!anchor.href.startsWith('/ask?')) {
+            return false;
+          }
+
+          const params = new URLSearchParams(anchor.href.split('?')[1] || '');
+
+          return (
+            params.get('autoSend') === 'true' &&
+            params.get('school') === requiredSchool &&
+            params.get('sourceScreen') === 'Landing'
+          );
+        })
+      );
       const askHeaderDashboardLinks = anchors.filter(
         anchor => anchor.inAskHeader && anchor.href === '/dashboard'
       );
@@ -396,6 +408,7 @@ async function auditPageLinks(cdp, check) {
         disabledActive,
         hrefs,
         missing,
+        missingSchoolAskLinks,
         nestedInteractive,
         oversizedHrefs,
         publicHeaderControlPanelLinks,
@@ -409,6 +422,12 @@ async function auditPageLinks(cdp, check) {
 
   for (const missing of result.missing ?? []) {
     pageFailures.push(`${check.route}: missing expected link ${missing}.`);
+  }
+
+  for (const missingSchool of result.missingSchoolAskLinks ?? []) {
+    pageFailures.push(
+      `${check.route}: missing chat-first landing world handoff for ${missingSchool}.`,
+    );
   }
 
   for (const item of result.disabledActive ?? []) {

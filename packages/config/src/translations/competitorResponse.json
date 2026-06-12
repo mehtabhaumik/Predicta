@@ -58,6 +58,13 @@
           "Name/date rhythm, personal cycles, number map, and timing color.",
           "Confirmed visible traits for reflective self-expression guidance."
         ],
+        "worldEvidencePrompts": [
+          "Use my Vedic evidence to answer what my chart is saying about my life right now.",
+          "Use KP timing to help me ask one clear event question and give the direct answer first.",
+          "Use Jaimini evidence to explain my destiny direction and what life is asking from me now.",
+          "Use Numerology to tell me what my name, date, and current cycle are saying now.",
+          "Use Signature Predicta only if my signature traits are available; otherwise tell me how to add them."
+        ],
         "capabilities": [
           {
             "title": "Kundli creation",
@@ -333,6 +340,13 @@
           "नाम/तारीख की लय, निजी चक्र, अंक-मानचित्र और समय-संकेत.",
           "पुष्टि किए गए दिखने वाले हस्ताक्षर-लक्षणों से आत्म-अभिव्यक्ति का सुरक्षित संकेत."
         ],
+        "worldEvidencePrompts": [
+          "मेरे वैदिक प्रमाण से बताएं कि अभी मेरी कुंडली मेरे जीवन के बारे में क्या कह रही है.",
+          "कृष्णमूर्ति पद्धति के समय-संकेत से मुझे एक स्पष्ट घटना-प्रश्न पूछने में मदद करें और पहले सीधा उत्तर दें.",
+          "जैमिनी प्रमाण से मेरी भाग्य-दिशा और अभी जीवन मुझसे क्या मांग रहा है यह बताएं.",
+          "अंक ज्योतिष से बताएं कि मेरा नाम, जन्म तारीख और वर्तमान चक्र अभी क्या कह रहे हैं.",
+          "हस्ताक्षर प्रेडिक्टा तभी उपयोग करें जब मेरे हस्ताक्षर-लक्षण उपलब्ध हों; नहीं तो उन्हें जोड़ने का तरीका बताएं."
+        ],
         "capabilities": [
           {
             "title": "कुंडली निर्माण",
@@ -607,6 +621,13 @@
           "કારક, ભાગ્ય-દિશા, આત્મ-પથ અને જૈમિની પુરાવો.",
           "નામ/તારીખની લય, વ્યક્તિગત ચક્ર, અંક-નકશો અને સમય-સંકેત.",
           "પુષ્ટિ કરેલા દેખાતા હસ્તાક્ષર-લક્ષણોથી આત્મ-અભિવ્યક્તિનો સુરક્ષિત સંકેત."
+        ],
+        "worldEvidencePrompts": [
+          "મારા વેદિક પુરાવાથી કહો કે હાલમાં મારી કુંડળી મારા જીવન વિશે શું કહી રહી છે.",
+          "કૃષ્ણમૂર્તિ પદ્ધતિના સમય-સંકેતથી મને એક સ્પષ્ટ ઘટના-પ્રશ્ન પૂછવામાં મદદ કરો અને પહેલા સીધો જવાબ આપો.",
+          "જૈમિની પુરાવાથી મારી ભાગ્ય-દિશા અને હાલમાં જીવન મારી પાસેથી શું માંગે છે તે કહો.",
+          "અંક જ્યોતિષથી કહો કે મારું નામ, જન્મ તારીખ અને હાલનો ચક્ર હાલમાં શું કહી રહ્યા છે.",
+          "હસ્તાક્ષર પ્રેડિક્ટા ફક્ત ત્યારે ઉપયોગ કરો જ્યારે મારા હસ્તાક્ષર-લક્ષણ ઉપલબ્ધ હોય; નહીં તો તેને કેવી રીતે ઉમેરવું તે કહો."
         ],
         "capabilities": [
           {

@@ -10,11 +10,13 @@ import {
 import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
+import type { PredictaSchool } from '@pridicta/types';
 
 function buildAskPredictaHref(
   prompt: string,
   fallbackPrompt: string,
   mode: 'text' | 'voice' = 'text',
+  school?: PredictaSchool,
 ): string {
   const resolvedPrompt = prompt.trim() || fallbackPrompt;
   const params = new URLSearchParams({
@@ -25,6 +27,12 @@ function buildAskPredictaHref(
 
   if (mode === 'voice') {
     params.set('inputMode', 'voice');
+  }
+
+  if (school) {
+    params.set('school', school);
+    params.set('from', school);
+    params.set('handoffMode', 'main_synthesis');
   }
 
   return `/ask?${params.toString()}`;
@@ -47,12 +55,15 @@ export function LandingChatFirstContent(): React.JSX.Element {
       setVoiceStatus('captured');
     },
   });
-  const evidenceRooms = [
-    { href: '/dashboard/vedic', label: labels.nav.vedic },
-    { href: '/dashboard/kp', label: labels.nav.kp },
-    { href: '/dashboard/jaimini', label: labels.nav.jaimini },
-    { href: '/dashboard/numerology', label: labels.nav.numerology },
-    { href: '/dashboard/signature', label: labels.nav.signature },
+  const evidenceRooms: Array<{
+    label: string;
+    school: PredictaSchool;
+  }> = [
+    { label: labels.nav.vedic, school: 'PARASHARI' },
+    { label: labels.nav.kp, school: 'KP' },
+    { label: labels.nav.jaimini, school: 'JAIMINI' },
+    { label: labels.nav.numerology, school: 'NUMEROLOGY' },
+    { label: labels.nav.signature, school: 'SIGNATURE' },
   ];
 
   useEffect(() => {
@@ -188,7 +199,19 @@ export function LandingChatFirstContent(): React.JSX.Element {
             </div>
             <div aria-label={labels.groups.worlds} className="landing-world-grid">
               {evidenceRooms.map((link, index) => (
-                <Link className="landing-world-card" href={link.href} key={link.href}>
+                <Link
+                  className="landing-world-card"
+                  href={buildAskPredictaHref(
+                    landing.worldEvidencePrompts[index] ?? landing.worldsAskPrompt,
+                    landing.defaultAskPrompt,
+                    'text',
+                    link.school,
+                  )}
+                  key={link.school}
+                  onFocus={preloadAskPredictaRuntime}
+                  onPointerEnter={preloadAskPredictaRuntime}
+                  onTouchStart={preloadAskPredictaRuntime}
+                >
                   <strong>{link.label}</strong>
                   <span>{landing.worldEvidenceItems[index] ?? landing.worldsBody}</span>
                 </Link>
