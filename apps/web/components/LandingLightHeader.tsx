@@ -25,6 +25,7 @@ export function LandingLightHeader(): React.JSX.Element {
     { href: '/pricing', label: labels.nav.premium },
   ];
   const desktopLinks = [
+    { href: '/ask', label: labels.actions.askPredicta },
     { href: '/accuracy-method', label: labels.nav.accuracyMethod },
     { href: '/dashboard/report', label: labels.nav.reports },
     { href: '/pricing', label: labels.nav.premium },
@@ -84,19 +85,16 @@ export function LandingLightHeader(): React.JSX.Element {
         </span>
       </Link>
       <nav aria-label={labels.groups.sections} className="header-nav">
-        {desktopLinks.map(link => renderNavLink(link, pathname))}
+        {desktopLinks.map(link =>
+          renderNavLink({
+            link,
+            onPrewarmAsk: link.href === '/ask' ? prewarmAskPredicta : undefined,
+            pathname,
+          }),
+        )}
       </nav>
       <div className="header-actions">
         <LightweightLanguageSelector compact hideCompactLabel />
-        <Link
-          className="button secondary header-cta"
-          href="/ask"
-          onFocus={prewarmAskPredicta}
-          onPointerEnter={prewarmAskPredicta}
-          onTouchStart={prewarmAskPredicta}
-        >
-          {labels.actions.askPredicta}
-        </Link>
       </div>
       <div className="mobile-menu" ref={mobileMenuRef}>
         <button
@@ -157,18 +155,31 @@ function isPublicNavActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function renderNavLink(
-  link: { href: string; label: string },
-  pathname: string,
-): React.JSX.Element {
+function renderNavLink({
+  link,
+  onPrewarmAsk,
+  pathname,
+}: {
+  link: { href: string; label: string };
+  onPrewarmAsk?: () => void;
+  pathname: string;
+}): React.JSX.Element {
   const active = isPublicNavActive(pathname, link.href);
 
   return (
     <Link
       aria-current={active ? 'page' : undefined}
-      className={active ? 'active' : undefined}
+      className={[
+        link.href === '/ask' ? 'header-nav-primary' : '',
+        active ? 'active' : '',
+      ]
+        .filter(Boolean)
+        .join(' ') || undefined}
       href={link.href}
       key={link.href}
+      onFocus={onPrewarmAsk}
+      onPointerEnter={onPrewarmAsk}
+      onTouchStart={onPrewarmAsk}
     >
       {link.label}
     </Link>

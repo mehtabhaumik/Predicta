@@ -1327,6 +1327,27 @@ button:disabled,
   color: var(--text);
 }
 
+.header-nav a.header-nav-primary {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 48%),
+    linear-gradient(135deg, rgba(111, 99, 255, 0.32), rgba(77, 218, 207, 0.26));
+  border: 1px solid rgba(146, 171, 255, 0.28);
+  border-radius: 999px;
+  box-shadow:
+    0 14px 34px rgba(77, 175, 255, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  padding-inline: 18px;
+}
+
+.header-nav a.header-nav-primary:hover,
+.header-nav a.header-nav-primary:focus-visible {
+  border-color: rgba(158, 217, 255, 0.48);
+  box-shadow:
+    0 18px 42px rgba(77, 175, 255, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
 .header-cta {
   white-space: nowrap;
 }
