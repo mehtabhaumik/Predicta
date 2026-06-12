@@ -13,10 +13,16 @@ export type PublicPageFallbackCopy = {
   ctaHref: string;
   ctaLabel: string;
   eyebrow: string;
+  secondaryActions?: Array<{
+    href: string;
+    label: string;
+  }>;
   title: string;
 };
 
-type LocalizedCopy = Omit<PublicPageFallbackCopy, 'ctaHref'>;
+type LocalizedCopy = Omit<PublicPageFallbackCopy, 'ctaHref' | 'secondaryActions'> & {
+  secondaryActions?: PublicPageFallbackCopy['secondaryActions'];
+};
 
 type PublicFallbackEntry = {
   ctaHref: string;

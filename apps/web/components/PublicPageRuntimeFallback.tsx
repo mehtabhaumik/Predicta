@@ -7,12 +7,17 @@ export function PublicPageRuntimeFallback({
   ctaHref,
   ctaLabel,
   eyebrow,
+  secondaryActions = [],
   title,
 }: {
   body: string;
   ctaHref: string;
   ctaLabel: string;
   eyebrow: string;
+  secondaryActions?: Array<{
+    href: string;
+    label: string;
+  }>;
   title: string;
 }): React.JSX.Element {
   return (
@@ -23,9 +28,16 @@ export function PublicPageRuntimeFallback({
           <div className="section-title">{eyebrow}</div>
           <h1 className="gradient-text">{title}</h1>
           <p>{body}</p>
-          <Link className="button" href={ctaHref}>
-            {ctaLabel}
-          </Link>
+          <div className="public-fallback-actions">
+            <Link className="button" href={ctaHref}>
+              {ctaLabel}
+            </Link>
+            {secondaryActions.map(action => (
+              <Link className="button secondary" href={action.href} key={action.href}>
+                {action.label}
+              </Link>
+            ))}
+          </div>
         </section>
       </main>
       <LandingLightFooter />

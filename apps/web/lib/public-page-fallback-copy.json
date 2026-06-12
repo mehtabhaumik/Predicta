@@ -70,18 +70,36 @@
         "body": "Choose a plan, pass, question pack, or report only when you know the outcome you want.",
         "ctaLabel": "Ask before buying",
         "eyebrow": "Pricing",
+        "secondaryActions": [
+          {
+            "href": "/checkout?productId=pridicta_10_questions",
+            "label": "10 AI questions"
+          }
+        ],
         "title": "Pay for clarity, not confusion."
       },
       "hi": {
         "body": "जब आपको अपना वांछित परिणाम पता हो, तभी प्लान, पास, प्रश्न पैक या रिपोर्ट चुनें।",
         "ctaLabel": "खरीदने से पहले पूछें",
         "eyebrow": "कीमतें",
+        "secondaryActions": [
+          {
+            "href": "/checkout?productId=pridicta_10_questions",
+            "label": "10 AI प्रश्न"
+          }
+        ],
         "title": "स्पष्टता के लिए भुगतान करें, भ्रम के लिए नहीं।"
       },
       "gu": {
         "body": "તમને કયો પરિણામ જોઈએ છે તે ખબર હોય ત્યારે જ પ્લાન, પાસ, પ્રશ્ન પેક અથવા રિપોર્ટ પસંદ કરો.",
         "ctaLabel": "ખરીદતા પહેલાં પૂછો",
         "eyebrow": "કિંમત",
+        "secondaryActions": [
+          {
+            "href": "/checkout?productId=pridicta_10_questions",
+            "label": "10 AI પ્રશ્નો"
+          }
+        ],
         "title": "સ્પષ્ટતા માટે ચૂકવો, ગૂંચવણ માટે નહીં."
       }
     },

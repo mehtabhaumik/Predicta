@@ -415,48 +415,40 @@ try {
     return { audit, failures: localFailures };
   });
 
-  await runScenario('dashboard-question-composer-handoff', mobileViewport, async cdp => {
-    const question = 'Will I get a better job opportunity soon?';
+  await runScenario('dashboard-primary-ask-doorway', mobileViewport, async cdp => {
     await navigateAndWait(cdp, `${baseUrl}/dashboard`);
-    await waitForCondition(cdp, `Boolean(document.querySelector('.library-question-composer textarea'))`, 8_000);
+    await waitForCondition(cdp, `Boolean(document.querySelector('.library-predicta-panel .primary-predicta-actions a[href^="/ask"]'))`, 8_000);
     const before = await evaluate(cdp, `(() => {
-      const textarea = document.querySelector('.library-question-composer textarea');
-      const button = document.querySelector('.primary-predicta-actions button.button[type="submit"]');
+      const askLink = document.querySelector('.library-predicta-panel .primary-predicta-actions a[href^="/ask"]');
+      const actionLinks = [...document.querySelectorAll('.library-predicta-panel .primary-predicta-actions a[href]')]
+        .map(link => link.getAttribute('href'));
       return {
-        hasComposer: Boolean(textarea),
-        hasPrimaryAsk: Boolean(button),
+        actionLinks,
+        hasComposer: Boolean(document.querySelector('.library-question-composer textarea')),
+        hasPrimaryAsk: Boolean(askLink),
+        hasProofDrawer: Boolean(document.querySelector('.library-proof-drawer')),
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+        primaryHref: askLink?.getAttribute('href') || '',
       };
     })()`);
-    await evaluate(cdp, `(() => {
-      const textarea = document.querySelector('.library-question-composer textarea');
-      const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
-      setter?.call(textarea, ${JSON.stringify(question)});
-      textarea?.dispatchEvent(new Event('input', { bubbles: true }));
-      return true;
-    })()`);
-    const carried = await evaluate(cdp, `(() => ({
-      value: document.querySelector('.library-question-composer textarea')?.value || '',
-    }))()`);
-    await click(cdp, '.primary-predicta-actions button.button[type="submit"]');
+    await click(cdp, '.library-predicta-panel .primary-predicta-actions a[href^="/ask"]');
     await waitForCondition(cdp, `location.pathname === '/ask'`, 8_000);
     const after = await evaluate(cdp, `(() => ({
       hasAskShell: Boolean(document.querySelector('.ask-light-shell')),
       horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
       path: location.pathname,
       search: location.search,
-      textareaValue: document.querySelector('.ask-light-field textarea')?.value || '',
       url: location.href,
     }))()`);
     const localFailures = [];
-    if (!before.hasComposer || !before.hasPrimaryAsk) {
-      localFailures.push('dashboard does not expose a direct question composer and primary Ask Predicta CTA');
+    if (before.hasComposer || before.hasProofDrawer) {
+      localFailures.push('dashboard still exposes an embedded composer or method drawer instead of a clean Ask doorway');
+    }
+    if (!before.hasPrimaryAsk || !before.primaryHref.startsWith('/ask')) {
+      localFailures.push('dashboard does not expose a direct primary Ask Predicta link');
     }
     if (before.horizontalOverflow || after.horizontalOverflow) {
-      localFailures.push('dashboard question composer handoff has horizontal overflow');
-    }
-    if (carried.value !== question) {
-      localFailures.push('dashboard question composer did not preserve the typed question before submit');
+      localFailures.push('dashboard primary Ask doorway has horizontal overflow');
     }
     const preservedSearchPrompt = new URLSearchParams(
       after.search.startsWith('?') ? after.search.slice(1) : after.search,
@@ -464,12 +456,11 @@ try {
     if (
       after.path !== '/ask' ||
       !after.hasAskShell ||
-      preservedSearchPrompt !== question ||
-      after.textareaValue !== question
+      !preservedSearchPrompt
     ) {
-      localFailures.push('dashboard question composer did not open /ask with the typed question preserved');
+      localFailures.push('dashboard primary Ask doorway did not open /ask with a preserved prompt');
     }
-    return { audit: { after, before, carried }, failures: localFailures };
+    return { audit: { after, before }, failures: localFailures };
   });
 
   await runScenario('mobile-navigation-primary-links', mobileViewport, async cdp => {

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState } from 'react';
 import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
@@ -40,25 +40,6 @@ export default function DashboardPage(): React.JSX.Element {
     router.prefetch(href);
   }
 
-  function handleQuestionSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const rawQuestion = data.get('question');
-    const prompt =
-      typeof rawQuestion === 'string' && rawQuestion.trim()
-        ? rawQuestion.trim()
-        : activeKundli
-          ? copy.libraryAskActivePrompt
-          : copy.libraryAskNewPrompt;
-    const nextHref = buildPredictaChatHref({
-      kundliId: activeKundli?.id,
-      prompt,
-      sourceScreen: 'My Kundlis',
-    });
-    prewarmDashboardAsk(nextHref);
-    router.push(nextHref);
-  }
-
   useEffect(() => {
     prewarmDashboardAsk();
     setIsFamilyFriendsVisit(
@@ -81,11 +62,10 @@ export default function DashboardPage(): React.JSX.Element {
         <p>{activeKundli ? copy.libraryReadyBody : copy.libraryEmptyBody}</p>
       </div>
 
-      <form
+      <section
         className="primary-predicta-panel library-predicta-panel glass-panel"
         onFocus={() => prewarmDashboardAsk()}
         onPointerEnter={() => prewarmDashboardAsk()}
-        onSubmit={handleQuestionSubmit}
         onTouchStart={() => prewarmDashboardAsk()}
       >
         <div className="primary-predicta-copy">
@@ -93,35 +73,17 @@ export default function DashboardPage(): React.JSX.Element {
             {copy.primaryPredictaEyebrow}
           </div>
           <h2>{copy.primaryPredictaTitle}</h2>
-          <label className="library-question-composer">
-            <span>{copy.libraryQuestionLabel}</span>
-            <textarea
-              name="question"
-              placeholder={copy.libraryQuestionPlaceholder}
-              rows={3}
-            />
-          </label>
-          <details className="library-proof-drawer">
-            <summary>
-              <span>{copy.libraryProofDrawerTitle}</span>
-              <strong>{copy.libraryProofDrawerCta}</strong>
-            </summary>
-            <p>{copy.primaryPredictaBody}</p>
-            <p>{copy.primaryPredictaProof}</p>
-          </details>
+          <p>{copy.primaryPredictaBody}</p>
         </div>
         <div className="primary-predicta-actions">
-          <button className="button" type="submit">
-            {copy.primaryPredictaPrimary}
-          </button>
           <Link
-            className="button secondary"
+            className="button"
             href={askHref}
             onFocus={() => prewarmDashboardAsk(askHref)}
             onPointerEnter={() => prewarmDashboardAsk(askHref)}
             onTouchStart={() => prewarmDashboardAsk(askHref)}
           >
-            {copy.libraryAskHelpCta}
+            {copy.primaryPredictaPrimary}
           </Link>
           {!activeKundli ? (
             <Link className="button secondary" href="/dashboard/kundli">
@@ -133,7 +95,7 @@ export default function DashboardPage(): React.JSX.Element {
             </Link>
           )}
         </div>
-      </form>
+      </section>
 
       <section className="library-outcome-panel glass-panel">
         <div className="library-outcome-head">

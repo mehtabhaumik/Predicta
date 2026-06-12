@@ -17223,6 +17223,8 @@ button:disabled,
 }
 
 .pricing-heading-actions,
+.public-fallback-actions,
+.report-composer-loading-actions,
 .report-page-quick-actions {
   display: flex;
   flex-wrap: wrap;

@@ -142,6 +142,14 @@ function ReportComposerLoading(): React.JSX.Element {
         <span>{copy.loadingEyebrow}</span>
         <strong>{copy.loadingTitle}</strong>
         <p>{copy.loadingBody}</p>
+        <div className="report-composer-loading-actions">
+          <Link className="button" href="/dashboard/kundli">
+            {copy.createKundliCta}
+          </Link>
+          <Link className="button secondary" href="/ask?sourceScreen=Reports">
+            {copy.askPredictaCta}
+          </Link>
+        </div>
       </div>
       <div className="report-composer-loading-grid" aria-hidden="true">
         <i />
