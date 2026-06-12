@@ -55,13 +55,6 @@ const DASHBOARD_WORLD_SECTION_IDS = new Set([
   'numerology',
   'signature',
 ]);
-const DASHBOARD_WORLD_HOME_PATHS = new Set([
-  '/dashboard/vedic',
-  '/dashboard/kp',
-  '/dashboard/jaimini',
-  '/dashboard/numerology',
-  '/dashboard/signature',
-]);
 function buildDashboardNavModel(
   labels: LightweightAppShellLabels,
 ): DashboardNavModel {
@@ -286,12 +279,8 @@ export function DashboardShell({
   const shellLabels = getLightweightAppShellLabels(language);
   const { commonGroups, sections } = buildDashboardNavModel(shellLabels);
   const activeSection = getActiveDashboardSection(pathname, sections);
-  const isWorldHomeRoute = DASHBOARD_WORLD_HOME_PATHS.has(pathname);
   const showAskDock =
     !isChatRoute &&
-    !isWorldHomeRoute &&
-    pathname !== '/dashboard' &&
-    pathname !== '/dashboard/report' &&
     !pathname.startsWith('/dashboard/admin');
   const primarySections = sections.filter(section =>
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
