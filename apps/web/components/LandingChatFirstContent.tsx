@@ -11,11 +11,12 @@ import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload'
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 
-const DEFAULT_ASK_PROMPT =
-  'Help me create my Kundli first, then answer my astrology question clearly.';
-
-function buildAskPredictaHref(prompt: string, mode: 'text' | 'voice' = 'text'): string {
-  const resolvedPrompt = prompt.trim() || DEFAULT_ASK_PROMPT;
+function buildAskPredictaHref(
+  prompt: string,
+  fallbackPrompt: string,
+  mode: 'text' | 'voice' = 'text',
+): string {
+  const resolvedPrompt = prompt.trim() || fallbackPrompt;
   const params = new URLSearchParams({
     sourceScreen: 'Landing',
     prompt: resolvedPrompt,
@@ -59,7 +60,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
 
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {
     preloadAskPredictaRuntime();
-    router.push(buildAskPredictaHref(prompt, mode));
+    router.push(buildAskPredictaHref(prompt, landing.defaultAskPrompt, mode));
   }
 
   function startVoiceCapture(): void {
@@ -100,7 +101,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
           <div className="landing-question-chips" aria-label={landing.suggestedQuestionLabel}>
             {landing.suggestedQuestions.slice(0, 4).map(item => (
               <Link
-                href={buildAskPredictaHref(item)}
+                href={buildAskPredictaHref(item, landing.defaultAskPrompt)}
                 key={item}
                 onFocus={preloadAskPredictaRuntime}
                 onPointerEnter={preloadAskPredictaRuntime}
@@ -114,7 +115,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
           <div className="landing-ask-actions">
             <Link
               className="button"
-              href={buildAskPredictaHref(question)}
+              href={buildAskPredictaHref(question, landing.defaultAskPrompt)}
               onFocus={preloadAskPredictaRuntime}
               onPointerEnter={preloadAskPredictaRuntime}
               onTouchStart={preloadAskPredictaRuntime}
@@ -170,7 +171,10 @@ export function LandingChatFirstContent(): React.JSX.Element {
             <div className="landing-world-actions">
               <Link
                 className="button"
-                href={buildAskPredictaHref(landing.worldsAskPrompt)}
+                href={buildAskPredictaHref(
+                  landing.worldsAskPrompt,
+                  landing.defaultAskPrompt,
+                )}
                 onFocus={preloadAskPredictaRuntime}
                 onPointerEnter={preloadAskPredictaRuntime}
                 onTouchStart={preloadAskPredictaRuntime}
@@ -261,7 +265,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
           </div>
           <Link
             className="button"
-            href={buildAskPredictaHref(DEFAULT_ASK_PROMPT)}
+            href={buildAskPredictaHref('', landing.defaultAskPrompt)}
             onFocus={preloadAskPredictaRuntime}
             onPointerEnter={preloadAskPredictaRuntime}
             onTouchStart={preloadAskPredictaRuntime}

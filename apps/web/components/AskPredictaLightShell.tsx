@@ -34,9 +34,6 @@ const FullPredictaChat = dynamic(
   },
 );
 
-const DEFAULT_ASK_PROMPT =
-  'Help me create my Kundli first, then answer my astrology question clearly.';
-
 const CONTEXT_PARAMS = [
   'birthTimeDetective',
   'chartName',
@@ -94,7 +91,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
   }, [hasIncomingContext, incomingPrompt]);
 
   function startChat(prompt: string, mode: 'text' | 'voice' = 'text'): void {
-    const resolvedPrompt = prompt.trim() || DEFAULT_ASK_PROMPT;
+    const resolvedPrompt = prompt.trim() || landing.defaultAskPrompt;
     const nextUrl = buildAskHref(resolvedPrompt, mode);
 
     preloadFullPredictaChat();
@@ -115,7 +112,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
   }
 
   function buildAskHref(prompt: string, mode: 'text' | 'voice' = 'text'): string {
-    const resolvedPrompt = prompt.trim() || DEFAULT_ASK_PROMPT;
+    const resolvedPrompt = prompt.trim() || landing.defaultAskPrompt;
     const params = new URLSearchParams(searchParams.toString());
 
     params.set('prompt', resolvedPrompt);

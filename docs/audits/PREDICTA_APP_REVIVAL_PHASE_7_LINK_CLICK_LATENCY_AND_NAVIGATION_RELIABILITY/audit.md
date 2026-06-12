@@ -371,3 +371,47 @@ surface instead of the focused place where the user asks Predicta a question.
 Green. `/ask` now stays focused on the Ask Predicta action without turning the
 top bar into a marketplace/menu, and the separate report/pricing routes remain
 reachable through their proper surfaces.
+
+## Supplemental Localized Ask Default Prompt Lock
+
+Date: 2026-06-12
+
+The landing and top-level Ask surfaces still used a hardcoded English fallback
+prompt when the user clicked Ask Predicta without typing a question. That meant
+Gujarati/Hindi UI could silently hand Predicta an English prompt, weakening the
+chat-first trust contract.
+
+### Changes
+
+- Removed the hardcoded English fallback prompt from the landing Ask doorway and
+  the top-level `/ask` lightweight shell.
+- Added `landing.defaultAskPrompt` to the dedicated competitor-response
+  translation JSON for English, Hindi, and Gujarati.
+- Routed empty landing/Ask submissions and the final landing CTA through the
+  localized default prompt.
+
+### Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm test:translation-trust`: PASS.
+- `corepack pnpm build:web`: PASS.
+- Browser smoke on `http://127.0.0.1:3009/` at `390px` verified the visible
+  Gujarati `પ્રેડિક્ટાને પૂછો` landing CTA carries the Gujarati prompt
+  `પહેલા મારી કુંડળી બનાવવામાં મદદ કરો, પછી મારા જ્યોતિષ પ્રશ્નનો સ્પષ્ટ જવાબ આપો.`
+- Browser smoke on `http://127.0.0.1:3009/ask` at `390px` verified empty
+  Gujarati submit preserves the same Gujarati prompt, sets `autoSend=true`,
+  and has no horizontal overflow.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/pricing corepack pnpm test:ui-text-overflow`: PASS, `40` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/report,/dashboard/vedic,/dashboard/kp,/dashboard/jaimini,/dashboard/numerology,/dashboard/signature,/pricing corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- `corepack pnpm test:app-revival-phase-6`: PASS.
+- `PREDICTA_MOBILE_APP_FEEL_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-8`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `git diff --check`: PASS.
+
+### Verdict
+
+Green. Empty Ask actions now stay in the user's selected language while route
+budgets, link latency, overflow, spacing, mobile feel, and full user journey
+gates remain green.
