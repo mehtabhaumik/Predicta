@@ -155,7 +155,7 @@
         "remedies": "Remedies",
         "reports": "Reports",
         "safetyPromise": "Safety Promise",
-        "savedKundlis": "My Kundlis",
+        "savedKundlis": "Saved Kundlis",
       "settings": "Settings",
       "signature": "Signature",
       "signatureEvidence": "Signature Room",
@@ -165,7 +165,7 @@
       "vedicEvidence": "Vedic Room",
       "vedicPredicta": "Vedic Predicta",
         "wrapped": "Wrapped",
-        "dashboard": "My Kundlis"
+        "dashboard": "Kundli Home"
       },
       "privateSave": {
         "title": "Saved safely",
@@ -254,11 +254,11 @@
       "vedic": "वैदिक",
       "vedicEvidence": "वैदिक कक्ष",
         "wrapped": "वर्ष सार",
-        "dashboard": "मेरी कुंडलियां",
+        "dashboard": "कुंडली होम",
         "kpPredicta": "कृष्णमूर्ति पद्धति प्रेडिक्टा",
         "nadiPredicta": "जैमिनी प्रेडिक्टा",
         "numerologyPredicta": "अंक प्रेडिक्टा",
-        "savedKundlis": "मेरी कुंडलियां",
+        "savedKundlis": "सेव कुंडलियां",
         "signaturePredicta": "हस्ताक्षर प्रेडिक्टा",
         "vedicPredicta": "वैदिक प्रेडिक्टा"
       },
@@ -349,11 +349,11 @@
       "vedic": "વેદિક",
       "vedicEvidence": "વેદિક કક્ષ",
         "wrapped": "વર્ષ સાર",
-        "dashboard": "મારી કુંડળીઓ",
+        "dashboard": "કુંડળી હોમ",
         "kpPredicta": "કૃષ્ણમૂર્તિ પદ્ધતિ પ્રેડિક્ટા",
         "nadiPredicta": "જૈમિની પ્રેડિક્ટા",
         "numerologyPredicta": "અંક પ્રેડિક્ટા",
-        "savedKundlis": "મારી કુંડળીઓ",
+        "savedKundlis": "સાચવેલી કુંડળીઓ",
         "signaturePredicta": "હસ્તાક્ષર પ્રેડિક્ટા",
         "vedicPredicta": "વેદિક પ્રેડિક્ટા"
       },

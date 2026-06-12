@@ -76,6 +76,9 @@ export function SidebarNav({
   );
   const predictaSection = primarySections.find(section => section.id === 'predicta');
   const utilitySections = primarySections.filter(section => section.id !== 'predicta');
+  const visibleUtilitySections = utilitySections.filter(
+    section => section.id !== activeSection.id,
+  );
   const worldSections = allSections.filter(section =>
     WORLD_SECTION_IDS.has(section.id),
   );
@@ -155,7 +158,7 @@ export function SidebarNav({
               </strong>
             </summary>
             <div className="nav-section-links">
-              {utilitySections.map(section =>
+              {visibleUtilitySections.map(section =>
                 renderSidebarSectionLink({ activeSection, section }),
               )}
             </div>

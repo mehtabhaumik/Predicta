@@ -296,6 +296,9 @@ export function DashboardShell({
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
   );
   const utilitySections = primarySections.filter(section => section.id !== 'predicta');
+  const visibleUtilitySections = utilitySections.filter(
+    section => section.id !== activeSection.id,
+  );
   const worldSections = sections.filter(section =>
     DASHBOARD_WORLD_SECTION_IDS.has(section.id),
   );
@@ -513,7 +516,7 @@ export function DashboardShell({
                       </strong>
                     </summary>
                     <div className="dashboard-mobile-section-switcher">
-                      {utilitySections.map(section =>
+                      {visibleUtilitySections.map(section =>
                         renderDashboardMasterLink({
                           activeSection,
                           onClick: () => setMenuOpen(false),
