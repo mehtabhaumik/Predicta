@@ -266,6 +266,19 @@ export function WebKundliWizard(): React.JSX.Element {
     setIsBirthPlaceInputFocused(false);
     setIsBirthPlaceSelectionLocked(true);
     resetBirthPlaceSearchUi();
+
+    window.requestAnimationFrame(() => {
+      const activeElement = document.activeElement;
+      const input = birthPlaceInputRef.current;
+
+      if (
+        input &&
+        activeElement === input &&
+        normalizeBirthPlaceLabel(input.value) === normalizeBirthPlaceLabel(optionLabel)
+      ) {
+        input.blur();
+      }
+    });
   }
 
   function selectBirthPlace(option: WebBirthPlace) {

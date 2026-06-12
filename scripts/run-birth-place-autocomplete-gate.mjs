@@ -127,6 +127,17 @@ try {
     );
   }
 
+  if (
+    humanTypingResult.partialHasSearchingPlaces ||
+    humanTypingResult.partialHasMixedOptionAndSearching ||
+    humanTypingResult.exactImmediateHasSearchingPlaces ||
+    humanTypingResult.exactImmediateHasMixedOptionAndSearching
+  ) {
+    throw new Error(
+      'Human typing exposed a stale birth-place autocomplete loading state before the final selection settled.',
+    );
+  }
+
   console.log('Birth-place autocomplete gate passed.');
 } finally {
   cdp?.close();
@@ -167,30 +178,63 @@ async function runHumanTypingAutocompleteScenario(cdp) {
     return { inputFound: false };
   }
 
-  for (const character of 'Petlad') {
+  for (const character of 'Petla') {
     await cdp.send('Input.insertText', { text: character });
     await delay(45);
   }
 
   await delay(180);
 
-  const immediateState = await collectAutocompleteState(cdp, {
+  const partialState = await collectAutocompleteState(cdp, {
+    optionPattern: /Petlad/i,
+  });
+
+  await cdp.send('Input.insertText', { text: 'd' });
+  await delay(80);
+
+  const exactImmediateState = await collectAutocompleteState(cdp, {
+    optionPattern: /Petlad/i,
+  });
+
+  await delay(900);
+
+  const exactTypedState = await collectAutocompleteState(cdp, {
     optionPattern: /Petlad/i,
   });
 
   if (
-    immediateState.inputValue === 'Petlad, Gujarat, India' &&
-    !immediateState.suggestionsMounted &&
-    !immediateState.hasSearchingPlaces
+    exactTypedState.inputValue === 'Petlad, Gujarat, India' &&
+    !exactTypedState.suggestionsMounted &&
+    !exactTypedState.hasSearchingPlaces
   ) {
-    return immediateState;
+    return {
+      ...exactTypedState,
+      exactImmediateHasMixedOptionAndSearching:
+        exactImmediateState.hasMixedOptionAndSearching,
+      exactImmediateHasSearchingPlaces: exactImmediateState.hasSearchingPlaces,
+      exactImmediateSuggestionsMounted: exactImmediateState.suggestionsMounted,
+      exactImmediateSuggestionsText: exactImmediateState.suggestionsText,
+      partialHasMixedOptionAndSearching: partialState.hasMixedOptionAndSearching,
+      partialHasSearchingPlaces: partialState.hasSearchingPlaces,
+      partialOptionFound: partialState.optionFound,
+      partialSuggestionsMounted: partialState.suggestionsMounted,
+      partialSuggestionsText: partialState.suggestionsText,
+    };
   }
 
-  await delay(900);
-
-  return collectAutocompleteState(cdp, {
-    optionPattern: /Petlad/i,
-  });
+  return {
+    ...exactTypedState,
+    exactImmediateHasMixedOptionAndSearching:
+      exactImmediateState.hasMixedOptionAndSearching,
+    exactImmediateHasSearchingPlaces: exactImmediateState.hasSearchingPlaces,
+    exactImmediateSuggestionsMounted: exactImmediateState.suggestionsMounted,
+    exactImmediateSuggestionsText: exactImmediateState.suggestionsText,
+    partialHasMixedOptionAndSearching: partialState.hasMixedOptionAndSearching,
+    partialHasSearchingPlaces: partialState.hasSearchingPlaces,
+    partialOptionFound: partialState.optionFound,
+    partialSuggestionsMounted: partialState.suggestionsMounted,
+    partialSuggestionsText: partialState.suggestionsText,
+  };
 }
 
 async function runAutocompleteScenario(cdp) {
