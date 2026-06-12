@@ -322,3 +322,44 @@ Date: 2026-06-12
 Green. The desktop shell now supports the revived product model: Predicta is
 the main path, specialist rooms are available as evidence rooms, and navigation
 depth is intentionally opened instead of forced onto every first screen.
+
+## Supplemental Dashboard Language Erasure Lock
+
+Date: 2026-06-12
+
+### Implemented
+
+- Replaced remaining user-facing `Dashboard` language with `My Astrology`,
+  `My Kundlis`, or `Ask Predicta` language across shell ARIA labels, feedback
+  placeholders, admin fallback copy, Predicta memory, testimonial trust copy,
+  and shared translation JSON.
+- Kept `/dashboard` route paths, CSS class names, and internal component names
+  stable so compatibility and existing links are not broken.
+- Routed newly changed ARIA labels through `translateUiText(...)` instead of
+  adding untranslated hardcoded strings.
+- Updated Hindi and Gujarati translation values so the old `डैशबोर्ड` /
+  `ડેશબોર્ડ` wording does not leak on revived app surfaces.
+
+### Supplemental Verification
+
+- Focused source search for visible/control-panel language returned no matches:
+  `"Dashboard"`, `Return to dashboard`, `Dashboard menu`, `Dashboard navigation`,
+  `First dashboard`, `dashboard does not look`, `dashboard feels calm`,
+  `Example: Dashboard`, `Dashboard cards`, `डैशबोर्ड`, and `ડેશબોર્ડ`.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS; click checks stayed near `101ms` to `105ms`.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, `15` scenarios.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard,/dashboard/admin,/feedback,/ask corepack pnpm test:ui-text-overflow`: PASS, `16` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard,/dashboard/admin,/feedback,/ask corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+- Browser DOM smoke on `http://127.0.0.1:3009/dashboard`: no visible or ARIA
+  `Dashboard` wording; `My Astrology navigation` is present.
+- Browser DOM smoke on `http://127.0.0.1:3009/feedback`: no visible
+  `Dashboard` wording and no old dashboard placeholder.
+
+### Supplemental Result
+
+Green. The app still keeps stable dashboard routes internally, but the human
+experience no longer teaches users that Predicta is a dashboard/control-panel
+product.

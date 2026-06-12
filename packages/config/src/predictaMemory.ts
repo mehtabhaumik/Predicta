@@ -167,7 +167,7 @@ export const PREDICTA_APP_MEMORY_DIGEST: PredictaAppMemoryDigest = {
     'When a user switches Kundli or report, Predicta must carry the active subject, selected report lane, and available section list into chat.',
   ],
   featureCatalog: [
-    'Dashboard cards guide users into Kundli, charts, reports, remedies, specialist rooms, saved context, and purchase surfaces.',
+    'My Astrology library cards guide users into Kundli, charts, reports, remedies, specialist rooms, saved context, and purchase surfaces while Predicta chat remains the primary doorway.',
     'Vedic world contains charts, dasha, gochar, Panchang, Ashtakavarga, remedies, and report-grade evidence tables.',
     'Charts page opens with the focus order D1, Moon/Chandra Lagna, D9, D10, Chalit, then keeps the full Varga library selectable with prediction-first summaries for every supported chart.',
     'Swamsa and Karakamsha are first-class Vedic soul-direction chart surfaces, not optional hidden notes.',

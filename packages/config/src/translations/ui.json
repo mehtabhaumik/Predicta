@@ -487,9 +487,9 @@
       "gu": "રિપોર્ટ ચાલુ રાખો"
     },
     "ui.firstDashboardVisitSavedForThisDevice.retention": {
-      "en": "First dashboard visit saved for this device.",
-      "hi": "इस डिवाइस के लिए पहली डैशबोर्ड विजिट सेव हो गई है.",
-      "gu": "આ ડિવાઇસ માટે પહેલી ડેશબોર્ડ મુલાકાત સેવ થઈ ગઈ છે."
+      "en": "First My Astrology visit saved for this device.",
+      "hi": "इस डिवाइस के लिए पहली मेरी ज्योतिष विजिट सेव हो गई है.",
+      "gu": "આ ડિવાઇસ માટે પહેલી મારી જ્યોતિષ મુલાકાત સેવ થઈ ગઈ છે."
     },
     "ui.welcomeBackYourRhythmIsSavedHere.retention": {
       "en": "Welcome back. Your rhythm is saved here.",
@@ -1492,9 +1492,9 @@
       "gu": "દશા, સાડે સાતી, વાર્ષિક સમય અને આગળનો મહત્વનો સમય."
     },
     "ui.dashboard.ft8p6c": {
-      "en": "Dashboard",
-      "hi": "डैशबोर्ड",
-      "gu": "ડેશબોર્ડ"
+      "en": "My Astrology",
+      "hi": "मेरी ज्योतिष",
+      "gu": "મારી જ્યોતિષ"
     },
     "ui.day.24kc": {
       "en": "day",
@@ -3487,9 +3487,9 @@
       "gu": "આ વિભાગો સાચા ચાર્ટ ડેટા સાથે ખુલશે."
     },
     "ui.theyStayCompactForNowSoTheDashboardDoesNotLookBroken.1iz70um": {
-      "en": "They stay compact for now so the dashboard does not look broken or noisy before birth details are available.",
-      "hi": "जन्म विवरण मिलने से पहले डैशबोर्ड खाली या भरा-भरा न लगे, इसलिए अभी ये छोटे रूप में रहेंगे.",
-      "gu": "જન્મ વિગતો મળ્યા પહેલાં ડેશબોર્ડ ખાલી અથવા ગોઠવણ વગરનું ન લાગે, એટલે હાલ આ ટૂંકા રૂપમાં રહેશે."
+      "en": "They stay compact for now so My Astrology does not look broken or noisy before birth details are available.",
+      "hi": "जन्म विवरण मिलने से पहले मेरी ज्योतिष जगह खाली या भरी-भरी न लगे, इसलिए अभी ये छोटे रूप में रहेंगे.",
+      "gu": "જન્મ વિગતો મળ્યા પહેલાં મારી જ્યોતિષ જગ્યા ખાલી અથવા ગોઠવણ વગરની ન લાગે, એટલે હાલ આ ટૂંકા રૂપમાં રહેશે."
     },
     "ui.thisBrowserRemembersYourChartSignInToKeepItAcrossDevices.1igu45e": {
       "en": "Your Kundli stays safe here. Sign in to keep it with you on every device.",
@@ -6262,9 +6262,9 @@
       "gu": "વર્તમાન સમય"
     },
     "ui.global.dashboard.menu.d462e220": {
-      "en": "Dashboard menu",
-      "hi": "डैशबोर्ड मेनू",
-      "gu": "ડેશબોર્ડ મેનુ"
+      "en": "My Astrology menu",
+      "hi": "मेरी ज्योतिष मेनू",
+      "gu": "મારી જ્યોતિષ મેનુ"
     },
     "ui.global.days.95a37eed": {
       "en": "days ·",
@@ -6277,19 +6277,19 @@
       "gu": "દિવસ"
     },
     "ui.global.dashboard.menu.links.0b80c848": {
-      "en": "Dashboard menu links",
-      "hi": "डैशबोर्ड मेनू लिंक",
-      "gu": "ડેશબોર્ડ મેનુ લિંક્સ"
+      "en": "My Astrology menu links",
+      "hi": "मेरी ज्योतिष मेनू लिंक",
+      "gu": "મારી જ્યોતિષ મેનુ લિંક્સ"
     },
     "ui.global.dashboard.footer.navigation.33b0ea5b": {
-      "en": "Dashboard footer navigation",
-      "hi": "डैशबोर्ड फ़ुटर नेविगेशन",
-      "gu": "ડેશબોર્ડ ફૂટર નેવિગેશન"
+      "en": "My Astrology footer navigation",
+      "hi": "मेरी ज्योतिष फ़ुटर नेविगेशन",
+      "gu": "મારી જ્યોતિષ ફૂટર નેવિગેશન"
     },
     "ui.global.dashboard.navigation.3d4759ce": {
-      "en": "Dashboard navigation",
-      "hi": "डैशबोर्ड नेविगेशन",
-      "gu": "ડેશબોર્ડ નેવિગેશન"
+      "en": "My Astrology navigation",
+      "hi": "मेरी ज्योतिष नेविगेशन",
+      "gu": "મારી જ્યોતિષ નેવિગેશન"
     },
     "ui.global.day.bd0a3009": {
       "en": "day,",
@@ -7837,9 +7837,9 @@
       "gu": "ઉકેલાયેલ જન્મસ્થળ"
     },
     "ui.global.return.to.dashboard.c966fb8f": {
-      "en": "Return to dashboard",
-      "hi": "डैशबोर्ड पर लौटें",
-      "gu": "ડેશબોર્ડ પર પાછા ફરો"
+      "en": "Return to My Astrology",
+      "hi": "मेरी ज्योतिष पर लौटें",
+      "gu": "મારી જ્યોતિષ પર પાછા ફરો"
     },
     "ui.global.risk.5a8f23f5": {
       "en": "Risk",

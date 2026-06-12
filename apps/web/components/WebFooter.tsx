@@ -1,6 +1,7 @@
 'use client';
 
 import { getNativeCopy } from '@pridicta/config';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
@@ -208,7 +209,10 @@ export function WebFooter({
             </Link>
             <span>{copy.compactLead}</span>
           </div>
-          <nav aria-label="Dashboard footer navigation" className="web-footer-compact-links">
+          <nav
+            aria-label={translateUiText('My Astrology footer navigation', language)}
+            className="web-footer-compact-links"
+          >
             {copy.compactLinks.map(link => (
               <Link href={link.href} key={link.href}>
                 {link.label}

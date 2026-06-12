@@ -16,7 +16,7 @@ export default function AdminPage(): React.JSX.Element {
             part of the owner team, open the protected owner environment instead.
           </p>
           <Link className="button secondary" href="/dashboard">
-            Return to dashboard
+            Return to My Astrology
           </Link>
         </div>
       </section>

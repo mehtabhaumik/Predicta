@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { canSeeAdminRoute } from '@pridicta/access';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import type {
   PredictaSchool,
   ResolvedAccess,
@@ -351,6 +352,7 @@ export function DashboardShell({
         brandSubtitle={shellLabels.topbarDescription}
         commonGroups={commonGroups}
         homeAriaLabel={shellLabels.nav.home}
+        navAriaLabel={translateUiText('My Astrology navigation', language)}
         ownerLabel={shellLabels.groups.owner}
         showAdmin={showAdmin}
         startLabel={shellLabels.groups.start}
@@ -396,7 +398,7 @@ export function DashboardShell({
             role="presentation"
           >
             <aside
-              aria-label="Dashboard menu"
+              aria-label={translateUiText('My Astrology menu', language)}
               aria-modal="true"
               className="dashboard-mobile-drawer"
               onClick={event => event.stopPropagation()}
@@ -419,7 +421,10 @@ export function DashboardShell({
               <div className="dashboard-mobile-language">
                 <LightweightLanguageSelector compact />
               </div>
-              <nav aria-label="Dashboard menu links" className="dashboard-mobile-revival-nav">
+              <nav
+                aria-label={translateUiText('My Astrology menu links', language)}
+                className="dashboard-mobile-revival-nav"
+              >
                 <Link
                   className="dashboard-mobile-primary-ask"
                   href={askPredictaHref}

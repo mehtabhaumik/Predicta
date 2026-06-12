@@ -369,7 +369,7 @@ const feedbackCopy: Record<SupportedLanguage, FeedbackCopy> = {
     notShared: 'Not shared',
     notSure: 'Not sure',
     pageLabel: 'Page or screen',
-    pagePlaceholder: 'Example: Dashboard, Chat, Report, KP',
+    pagePlaceholder: 'Example: My Kundlis, Ask Predicta, Report, KP',
     pass: 'Redeem Pass',
     saved:
       'Saved. Thank you. We will review this before the next feedback review, and your note stays available here too.',

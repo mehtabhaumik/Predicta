@@ -285,7 +285,7 @@ function buildLastSeenLabel(
   language: SupportedLanguage,
 ): string {
   if (!previousVisit?.lastSeenAt) {
-    return translateUiText('First dashboard visit saved for this device.', language);
+    return translateUiText('First My Astrology visit saved for this device.', language);
   }
 
   const lastSeen = new Date(previousVisit.lastSeenAt);

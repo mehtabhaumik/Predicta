@@ -46,6 +46,7 @@ export function SidebarNav({
   activeSection,
   brandSubtitle = 'Holistic astrology guide',
   homeAriaLabel = 'Predicta home',
+  navAriaLabel = 'My Astrology navigation',
   ownerLabel = 'Owner',
   showAdmin,
   startLabel = 'Start',
@@ -57,6 +58,7 @@ export function SidebarNav({
   brandSubtitle?: string;
   commonGroups: SidebarGroup[];
   homeAriaLabel?: string;
+  navAriaLabel?: string;
   ownerLabel?: string;
   showAdmin: boolean;
   startLabel?: string;
@@ -96,7 +98,7 @@ export function SidebarNav({
           <small>{brandSubtitle}</small>
         </span>
       </Link>
-      <nav aria-label="Dashboard navigation" className="nav-list nav-list-revival">
+      <nav aria-label={navAriaLabel} className="nav-list nav-list-revival">
         {predictaSection ? (
           <div className="nav-section nav-section-predicta-first">
             {renderSidebarSectionLink({
