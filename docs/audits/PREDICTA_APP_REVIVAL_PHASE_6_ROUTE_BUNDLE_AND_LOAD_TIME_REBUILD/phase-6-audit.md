@@ -156,6 +156,42 @@ Supplemental verification:
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
 - `git diff --check`: PASS.
 
+## Supplemental Static Entry Route Lock
+
+Date: 2026-06-12
+
+The public landing page and top-level Ask Predicta route were still explicitly
+marked as dynamic even after their heavy first-screen imports had been removed.
+Both pages now render as lightweight static shells with client islands, so
+keeping `force-dynamic` only made the two most important entry routes slower
+than needed.
+
+Implementation lock:
+
+- Removed forced dynamic rendering from `/`.
+- Removed forced dynamic rendering from `/ask`.
+- Kept both pages translation-backed and client-hydrated for interactive chat
+  entry.
+- Did not move personalized account, Kundli, entitlement, or report data into
+  static HTML.
+
+Performance evidence from `corepack pnpm build:web`:
+
+- `/`: static prerendered route (`○`) with `3.01 kB` route size and `131 kB`
+  First Load JS.
+- `/ask`: static prerendered route (`○`) with `9.26 kB` route size and `130 kB`
+  First Load JS.
+
+Supplemental verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask corepack pnpm test:ui-text-overflow`: PASS.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS, 56 route and viewport checks.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+
 ## Supplemental Family, Matchmaking, And Redeem Runtime Split
 
 Date: 2026-06-11

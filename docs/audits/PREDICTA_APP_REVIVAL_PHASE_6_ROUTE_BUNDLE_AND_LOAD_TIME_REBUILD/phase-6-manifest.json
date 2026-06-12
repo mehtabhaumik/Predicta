@@ -30,5 +30,30 @@
     "uiTextOverflow": "pass",
     "uiPersonalSpace": "pass",
     "globalTranslationCoverage": "pass"
+  },
+  "staticEntryRouteLock": {
+    "date": "2026-06-12",
+    "status": "green",
+    "routes": {
+      "/": {
+        "rendering": "static-prerendered",
+        "routeSizeKb": 3.01,
+        "firstLoadJsKb": 131
+      },
+      "/ask": {
+        "rendering": "static-prerendered",
+        "routeSizeKb": 9.26,
+        "firstLoadJsKb": 130
+      }
+    },
+    "checks": {
+      "webTypecheck": "pass",
+      "webProductionBuild": "pass",
+      "phase6BundleGate": "pass",
+      "phase7LinkReliability": "pass",
+      "uiTextOverflowLandingAsk": "pass",
+      "uiPersonalSpace": "pass",
+      "phase9FullJourney": "pass"
+    }
   }
 }

@@ -5,9 +5,6 @@ import {
   AskPredictaLoadingCard,
 } from '../../components/AskPredictaLightShell';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
 export default function AskPredictaPage(): React.JSX.Element {
   return (
     <>
