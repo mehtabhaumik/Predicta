@@ -5779,6 +5779,17 @@ button:disabled,
   line-height: 1.35;
 }
 
+.birth-place-search input::-webkit-contacts-auto-fill-button,
+.birth-place-search input::-webkit-credentials-auto-fill-button,
+.birth-place-search input::-webkit-search-cancel-button,
+.birth-place-search input::-webkit-search-decoration,
+.birth-place-search input::-webkit-search-results-button,
+.birth-place-search input::-webkit-search-results-decoration {
+  display: none !important;
+  pointer-events: none;
+  visibility: hidden;
+}
+
 .birth-place-search-status {
   align-items: center;
   background: rgba(77, 175, 255, 0.08);

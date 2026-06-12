@@ -196,7 +196,7 @@ async function runClickSuggestionAutocompleteScenario(cdp) {
 
   const focusResponse = await cdp.send('Runtime.evaluate', {
     expression: `(() => {
-      const input = document.querySelector('input[name="predicta-birth-place-search"]');
+      const input = document.querySelector('input[data-birth-place-search="true"]');
 
       if (!input) {
         return { inputFound: false };
@@ -229,7 +229,7 @@ async function runClickSuggestionAutocompleteScenario(cdp) {
       option?.click();
 
       return {
-        inputFound: Boolean(document.querySelector('input[name="predicta-birth-place-search"]')),
+        inputFound: Boolean(document.querySelector('input[data-birth-place-search="true"]')),
         optionFound: Boolean(option),
       };
     })()`,
@@ -262,7 +262,7 @@ async function runHumanTypingAutocompleteScenario(cdp) {
 
   const focusResponse = await cdp.send('Runtime.evaluate', {
     expression: `(() => {
-      const input = document.querySelector('input[name="predicta-birth-place-search"]');
+      const input = document.querySelector('input[data-birth-place-search="true"]');
 
       if (!input) {
         return false;
@@ -349,7 +349,7 @@ async function runAutocompleteScenario(cdp) {
 
   const focusResponse = await cdp.send('Runtime.evaluate', {
     expression: `(() => {
-      const input = document.querySelector('input[name="predicta-birth-place-search"]');
+      const input = document.querySelector('input[data-birth-place-search="true"]');
 
       if (!input) {
         return { inputFound: false };
@@ -373,7 +373,7 @@ async function runAutocompleteScenario(cdp) {
 
   await cdp.send('Runtime.evaluate', {
     expression: `(() => {
-      const input = document.querySelector('input[name="predicta-birth-place-search"]');
+      const input = document.querySelector('input[data-birth-place-search="true"]');
       const setter = Object.getOwnPropertyDescriptor(input.constructor.prototype, 'value')?.set;
       setter.call(input, 'Petla');
       input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -389,7 +389,7 @@ async function runAutocompleteScenario(cdp) {
 
   await cdp.send('Runtime.evaluate', {
     expression: `(() => {
-      const input = document.querySelector('input[name="predicta-birth-place-search"]');
+      const input = document.querySelector('input[data-birth-place-search="true"]');
       const setter = Object.getOwnPropertyDescriptor(input.constructor.prototype, 'value')?.set;
       setter.call(input, 'Petlad');
       input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -440,7 +440,7 @@ async function runAutocompleteScenario(cdp) {
         const option = options.find(item => /Petlad/i.test(item.textContent || ''));
 
         if (!option) {
-          const input = document.querySelector('input[name="predicta-birth-place-search"]');
+          const input = document.querySelector('input[data-birth-place-search="true"]');
           const suggestions = document.querySelector('.birth-place-suggestions');
           const text = document.body.textContent || '';
           return {
@@ -534,7 +534,7 @@ async function runAutocompleteScenario(cdp) {
   const resultResponse = await cdp.send('Runtime.evaluate', {
     expression: `(() => {
       const suggestions = document.querySelector('.birth-place-suggestions');
-      const input = document.querySelector('input[name="predicta-birth-place-search"]');
+      const input = document.querySelector('input[data-birth-place-search="true"]');
       const options = [...document.querySelectorAll('.birth-place-suggestions button')];
       const text = document.body.textContent || '';
 
@@ -589,7 +589,7 @@ async function waitForBirthPlaceInput(cdp) {
     awaitPromise: true,
     expression: `new Promise(resolve => {
       const findInput = () =>
-        Boolean(document.querySelector('input[name="predicta-birth-place-search"]'));
+        Boolean(document.querySelector('input[data-birth-place-search="true"]'));
 
       if (findInput()) {
         resolve(true);
@@ -616,7 +616,7 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
     expression: `(() => {
       const options = [...document.querySelectorAll('.birth-place-suggestions button')];
       const suggestions = document.querySelector('.birth-place-suggestions');
-      const input = document.querySelector('input[name="predicta-birth-place-search"]');
+      const input = document.querySelector('input[data-birth-place-search="true"]');
       const text = document.body.textContent || '';
 
       return {
@@ -649,7 +649,7 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
 async function collectRefocusState(cdp) {
   const refocusResponse = await cdp.send('Runtime.evaluate', {
     expression: `(() => {
-      const input = document.querySelector('input[name="predicta-birth-place-search"]');
+      const input = document.querySelector('input[data-birth-place-search="true"]');
       input?.focus();
       return Boolean(input);
     })()`,
@@ -664,7 +664,7 @@ async function collectRefocusState(cdp) {
       const text = document.body.textContent || '';
 
       return {
-        refocusInputFound: Boolean(document.querySelector('input[name="predicta-birth-place-search"]')),
+        refocusInputFound: Boolean(document.querySelector('input[data-birth-place-search="true"]')),
         refocusHasSearchingPlaces:
           Boolean(document.querySelector('.birth-place-search-status')) ||
           text.includes('Searching places...'),

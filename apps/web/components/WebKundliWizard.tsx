@@ -7,7 +7,7 @@ import {
 } from '@pridicta/config';
 import Link from 'next/link';
 import type { CSSProperties, RefObject } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import {
   applyManualBirthTimeEstimate,
   composeDestinyPassport,
@@ -105,6 +105,10 @@ export function WebKundliWizard(): React.JSX.Element {
   const [showCreationReveal, setShowCreationReveal] = useState(false);
   const birthPlaceInputRef = useRef<HTMLInputElement | null>(null);
   const birthPlaceSearchRef = useRef<HTMLDivElement | null>(null);
+  const birthPlaceAutocompleteName = `predicta-context-${useId().replace(
+    /[^a-zA-Z0-9_-]/g,
+    '',
+  )}`;
   const placeSearchRequestRef = useRef(0);
   const latestBirthPlaceSearchQueryRef = useRef('');
   const birthPlaceSearchSettledRef = useRef(false);
@@ -361,6 +365,66 @@ export function WebKundliWizard(): React.JSX.Element {
     window.requestAnimationFrame(() => {
       birthPlaceInputRef.current?.blur();
     });
+  }
+
+  function handleBirthPlaceQueryInput(nextQuery: string) {
+    resetFlow();
+    placeSearchRequestRef.current += 1;
+    const normalizedNextQuery = normalizeBirthPlaceLabel(nextQuery);
+    markBirthPlaceSearchUnsettled(nextQuery);
+    resetBirthPlaceSearchUi();
+    setIsBirthPlaceInputFocused(true);
+    setBirthPlaceQuery(nextQuery);
+
+    if (
+      settledBirthPlaceQuery &&
+      settledBirthPlaceQuery !== normalizedNextQuery
+    ) {
+      setSettledBirthPlaceQuery('');
+    }
+
+    if (
+      !acceptedBirthPlaceQuery ||
+      acceptedBirthPlaceQuery !== normalizedNextQuery
+    ) {
+      setIsBirthPlaceSelectionLocked(false);
+      setSelectedPlace(undefined);
+    }
+
+    const settledPlace = findSettledBirthPlaceCandidate(
+      searchLocalWebBirthPlaces(nextQuery).slice(0, 6),
+      nextQuery,
+    );
+
+    if (settledPlace) {
+      settleBirthPlaceSelection(settledPlace);
+      return;
+    }
+
+    if (
+      (settledBirthPlaceQuery &&
+        settledBirthPlaceQuery === normalizedNextQuery) ||
+      (acceptedBirthPlaceQuery &&
+        acceptedBirthPlaceQuery === normalizedNextQuery)
+    ) {
+      markBirthPlaceSearchSettled(nextQuery);
+      closeBirthPlaceSuggestions();
+      setIsBirthPlaceSelectionLocked(true);
+      return;
+    }
+
+    const nextLocalMatches = searchLocalWebBirthPlaces(nextQuery).slice(0, 6);
+
+    if (nextLocalMatches.length > 0) {
+      setBirthPlaceSuggestionResults(nextLocalMatches, nextQuery);
+      setIsPlaceSuggestionsOpen(true);
+      return;
+    }
+
+    setAcceptedBirthPlaceQuery('');
+    setIsBirthPlaceSelectionLocked(false);
+    setIsPlaceSuggestionsOpen(normalizedNextQuery.length >= 2);
+    setIsSearchingPlaces(normalizedNextQuery.length >= 2);
   }
 
   useEffect(() => {
@@ -630,6 +694,23 @@ export function WebKundliWizard(): React.JSX.Element {
     isSearchingPlaces,
     isSelectedPlaceCurrent,
     placeSuggestions.length,
+  ]);
+
+  useEffect(() => {
+    if (!isResolvedBirthPlaceQuery(birthPlaceQuery)) {
+      return;
+    }
+
+    // A resolved place must never leave a native/autocomplete ghost panel behind.
+    placeSearchRequestRef.current += 1;
+    markBirthPlaceSearchSettled(birthPlaceQuery);
+    setIsBirthPlaceInputFocused(false);
+    resetBirthPlaceSearchUi();
+  }, [
+    acceptedBirthPlaceQuery,
+    birthPlaceQuery,
+    selectedPlace,
+    settledBirthPlaceQuery,
   ]);
 
   useEffect(() => {
@@ -932,73 +1013,30 @@ export function WebKundliWizard(): React.JSX.Element {
                 aria-describedby="birth-place-help"
                 aria-autocomplete="list"
                 autoCapitalize="none"
-                autoComplete="new-password"
+                autoComplete="off"
                 autoCorrect="off"
                 data-1p-ignore="true"
+                data-birth-place-search="true"
                 data-form-type="other"
                 data-lpignore="true"
-                name="predicta-birth-place-search"
+                inputMode="search"
+                name={birthPlaceAutocompleteName}
                 ref={birthPlaceInputRef}
                 spellCheck={false}
                 onChange={event => {
-                  resetFlow();
-                  placeSearchRequestRef.current += 1;
-                  const nextQuery = event.target.value;
-                  const normalizedNextQuery =
-                    normalizeBirthPlaceLabel(nextQuery);
-                  markBirthPlaceSearchUnsettled(nextQuery);
-                  resetBirthPlaceSearchUi();
-                  setIsBirthPlaceInputFocused(true);
-                  setBirthPlaceQuery(nextQuery);
-                  if (
-                    settledBirthPlaceQuery &&
-                    settledBirthPlaceQuery !== normalizedNextQuery
-                  ) {
-                    setSettledBirthPlaceQuery('');
-                  }
-                  if (
-                    !acceptedBirthPlaceQuery ||
-                    acceptedBirthPlaceQuery !== normalizedNextQuery
-                  ) {
-                    setIsBirthPlaceSelectionLocked(false);
-                    setSelectedPlace(undefined);
-                  }
-                  const settledPlace = findSettledBirthPlaceCandidate(
-                    searchLocalWebBirthPlaces(nextQuery).slice(0, 6),
-                    nextQuery,
-                  );
-                  if (settledPlace) {
-                    settleBirthPlaceSelection(settledPlace);
-                    return;
-                  }
-                  if (
-                    (settledBirthPlaceQuery &&
-                      settledBirthPlaceQuery === normalizedNextQuery) ||
-                    (acceptedBirthPlaceQuery &&
-                      acceptedBirthPlaceQuery === normalizedNextQuery)
-                  ) {
-                    markBirthPlaceSearchSettled(nextQuery);
-                    closeBirthPlaceSuggestions();
-                    setIsBirthPlaceSelectionLocked(true);
-                    return;
-                  }
-                  const nextLocalMatches = searchLocalWebBirthPlaces(nextQuery).slice(
-                    0,
-                    6,
-                  );
-
-                  if (nextLocalMatches.length > 0) {
-                    setBirthPlaceSuggestionResults(nextLocalMatches, nextQuery);
-                    setIsPlaceSuggestionsOpen(true);
-                    return;
-                  }
-
-                  setAcceptedBirthPlaceQuery('');
-                  setIsBirthPlaceSelectionLocked(false);
-                  setIsPlaceSuggestionsOpen(normalizedNextQuery.length >= 2);
-                  setIsSearchingPlaces(normalizedNextQuery.length >= 2);
+                  handleBirthPlaceQueryInput(event.target.value);
                 }}
                 onFocus={() => {
+                  const nativeValue = birthPlaceInputRef.current?.value ?? '';
+                  if (
+                    nativeValue &&
+                    normalizeBirthPlaceLabel(nativeValue) !==
+                      normalizeBirthPlaceLabel(birthPlaceQuery)
+                  ) {
+                    handleBirthPlaceQueryInput(nativeValue);
+                    return;
+                  }
+
                   setIsBirthPlaceInputFocused(true);
                   if (settleBirthPlaceQueryIfPossible()) {
                     closeBirthPlaceSuggestions();
