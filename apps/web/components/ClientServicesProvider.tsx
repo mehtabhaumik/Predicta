@@ -1,51 +1,52 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 import type React from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
 import { usePathname, useRouter } from 'next/navigation';
-import {
-  getFirebaseWebAuth,
-  initializeClientTelemetry,
-} from '../lib/firebase/client';
-import { mergeGuestSessionIntoAccount } from '../lib/web-account-merge';
-import { loadWebServerLedgerState } from '../lib/web-access-state';
-import { loadWebAutoSaveMemory } from '../lib/web-auto-save-memory';
-import { getOrCreateWebGuestSession } from '../lib/web-guest-session';
-import { useLanguagePreference } from '../lib/language-preference';
 import { applyPredictaDocumentLanguage } from '../lib/document-language';
 import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
-import { WebAppTranslationRuntime } from './WebAppTranslationRuntime';
+import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
+
+const ClientAccountServicesProvider = dynamic(
+  () =>
+    import('./ClientAccountServicesProvider').then(module => ({
+      default: module.ClientAccountServicesProvider,
+    })),
+  {
+    loading: () => null,
+    ssr: false,
+  },
+);
 
 export function ClientServicesProvider(): React.JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
   const [isNavigating, setIsNavigating] = useState(false);
+  const [areAccountServicesReady, setAreAccountServicesReady] = useState(false);
   const navigationTimeoutRef = useRef<number | undefined>(undefined);
-  const { language } = useLanguagePreference();
+  const { language } = useLightweightLanguagePreference();
 
   useEffect(() => {
-    getOrCreateWebGuestSession();
-    loadWebAutoSaveMemory();
-    void initializeClientTelemetry();
+    const enableAccountServices = () => {
+      setAreAccountServicesReady(true);
+    };
 
-    try {
-      return onAuthStateChanged(getFirebaseWebAuth(), user => {
-        if (!user) {
-          return;
-        }
-
-        mergeGuestSessionIntoAccount({
-          displayName: user.displayName,
-          email: user.email,
-          providerId: user.providerData[0]?.providerId,
-          uid: user.uid,
-        });
-        void loadWebServerLedgerState();
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(enableAccountServices, {
+        timeout: 2200,
       });
-    } catch {
-      return undefined;
+
+      return () => {
+        window.cancelIdleCallback(idleId);
+      };
     }
+
+    const timeoutId = globalThis.setTimeout(enableAccountServices, 1200);
+
+    return () => {
+      globalThis.clearTimeout(timeoutId);
+    };
   }, []);
 
   useEffect(() => {
@@ -202,7 +203,7 @@ export function ClientServicesProvider(): React.JSX.Element {
       >
         <span />
       </div>
-      <WebAppTranslationRuntime />
+      {areAccountServicesReady ? <ClientAccountServicesProvider /> : null}
     </>
   );
 }
