@@ -165,7 +165,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
         </label>
 
         <div className="ask-light-chips" aria-label={landing.suggestedQuestionLabel}>
-          {landing.suggestedQuestions.slice(0, 5).map(item => (
+          {landing.suggestedQuestions.slice(0, 3).map(item => (
             <Link
               href={buildAskHref(item)}
               key={item}
@@ -195,12 +195,11 @@ export function AskPredictaLightShell(): React.JSX.Element {
           </button>
         </div>
 
-        <p className="ask-light-support-copy">{landing.askBody}</p>
-
-        <div className="ask-light-hints">
+        <p className="ask-light-trust-note">
           <span>{landing.noKundliHint}</span>
+          {' '}
           <span>{landing.existingKundliHint}</span>
-        </div>
+        </p>
         {voiceNotice ? (
           <p className="ask-light-voice-note">
             {voiceStatus === 'unsupported'

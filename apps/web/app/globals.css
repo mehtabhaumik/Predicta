@@ -21705,6 +21705,7 @@ select::-ms-expand {
 .ask-light-shell-started .ask-light-chips,
 .ask-light-shell-started .ask-light-hints,
 .ask-light-shell-started .ask-light-support-copy,
+.ask-light-shell-started .ask-light-trust-note,
 .ask-light-shell-started .ask-light-voice-note {
   display: none;
 }
@@ -21816,6 +21817,7 @@ select::-ms-expand {
 }
 
 .ask-light-hints span,
+.ask-light-trust-note,
 .ask-light-voice-note {
   background: rgba(255, 255, 255, 0.055);
   border: 1px solid rgba(255, 255, 255, 0.09);
@@ -21827,6 +21829,20 @@ select::-ms-expand {
   margin: 0;
   min-width: 0;
   padding: 12px 14px;
+}
+
+.ask-light-trust-note {
+  align-items: center;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding-inline: 0;
+}
+
+.ask-light-trust-note span {
+  min-width: min(260px, 100%);
 }
 
 .ask-light-voice-note {
@@ -25186,6 +25202,7 @@ select::-ms-expand {
   }
 
   .ask-light-hints,
+  .ask-light-trust-note,
   .ask-light-voice-note,
   .ask-light-support-copy {
     order: 2;
@@ -25203,6 +25220,14 @@ select::-ms-expand {
   .ask-light-hints {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .ask-light-trust-note {
+    align-items: flex-start;
+    border-radius: 14px;
+    display: grid;
+    gap: 6px;
+    padding: 0;
   }
 
   .ask-light-chips {
