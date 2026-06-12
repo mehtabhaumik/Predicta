@@ -276,6 +276,8 @@ export function DashboardShell({
   const shellLabels = getLightweightAppShellLabels(language);
   const { commonGroups, sections } = buildDashboardNavModel(shellLabels);
   const activeSection = getActiveDashboardSection(pathname, sections);
+  const showAskDock =
+    !isChatRoute && DASHBOARD_WORLD_SECTION_IDS.has(activeSection.id);
   const primarySections = sections.filter(section =>
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
   );
@@ -292,6 +294,15 @@ export function DashboardShell({
   const askPredictaHref = buildPredictaChatHref({
     kundliId: activeKundliId,
     prompt: 'Help me from my selected Kundli.',
+    school: getTopbarPredictaSchool(activeSection.id),
+    sourceScreen: getTopbarPredictaSourceScreen(activeSection),
+  });
+  const askFromPageHref = buildPredictaChatHref({
+    kundliId: activeKundliId,
+    prompt: buildAskDockPrompt({
+      section: activeSection.label,
+      template: shellLabels.actions.askDockPrompt,
+    }),
     school: getTopbarPredictaSchool(activeSection.id),
     sourceScreen: getTopbarPredictaSourceScreen(activeSection),
   });
@@ -320,7 +331,11 @@ export function DashboardShell({
   });
 
   return (
-    <div className={`dashboard-shell ${isChatRoute ? 'chat-route' : ''}`}>
+    <div
+      className={`dashboard-shell ${
+        isChatRoute ? 'chat-route' : showAskDock ? 'has-ask-dock' : ''
+      }`}
+    >
       <SidebarNav
         activeSection={activeSection}
         adminLabel={shellLabels.nav.admin}
@@ -537,12 +552,37 @@ export function DashboardShell({
         >
           {children}
         </div>
+        {showAskDock ? (
+          <aside
+            aria-label={shellLabels.actions.askDockTitle}
+            className="dashboard-ask-dock glass-panel"
+          >
+            <div>
+              <span>{shellLabels.actions.askDockEyebrow}</span>
+              <strong>{shellLabels.actions.askDockTitle}</strong>
+              <small>{shellLabels.actions.askDockBody}</small>
+            </div>
+            <Link className="button" href={askFromPageHref}>
+              {shellLabels.actions.askDockCta}
+            </Link>
+          </aside>
+        ) : null}
         {!isChatRoute ? (
           <DashboardLightFooter labels={shellLabels} />
         ) : null}
       </main>
     </div>
   );
+}
+
+function buildAskDockPrompt({
+  section,
+  template,
+}: {
+  section: string;
+  template: string;
+}): string {
+  return template.replace('{section}', section);
 }
 
 function getTopbarContextCopy(

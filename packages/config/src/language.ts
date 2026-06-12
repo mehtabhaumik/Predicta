@@ -40,6 +40,11 @@ export type AppShellLabels = {
   };
   actions: {
     askPredicta: string;
+    askDockBody: string;
+    askDockCta: string;
+    askDockEyebrow: string;
+    askDockPrompt: string;
+    askDockTitle: string;
     close: string;
     openMenu: string;
     closeMenu: string;
