@@ -77,6 +77,8 @@ export function WebKundliWizard(): React.JSX.Element {
   const [isBirthPlaceInputFocused, setIsBirthPlaceInputFocused] = useState(false);
   const [isSearchingPlaces, setIsSearchingPlaces] = useState(false);
   const [acceptedBirthPlaceQuery, setAcceptedBirthPlaceQuery] = useState('');
+  const [isBirthPlaceSelectionLocked, setIsBirthPlaceSelectionLocked] =
+    useState(false);
   const [editingKundliId, setEditingKundliId] = useState<string | undefined>();
   const [editingKundliName, setEditingKundliName] = useState<string | undefined>();
   const [isApproximate, setIsApproximate] = useState(false);
@@ -262,6 +264,7 @@ export function WebKundliWizard(): React.JSX.Element {
     setSelectedPlace(option);
     setBirthPlaceQuery(optionLabel);
     setIsBirthPlaceInputFocused(false);
+    setIsBirthPlaceSelectionLocked(true);
     resetBirthPlaceSearchUi();
   }
 
@@ -318,11 +321,13 @@ export function WebKundliWizard(): React.JSX.Element {
       Boolean(selectedPlace && doesBirthPlaceMatchQuery(selectedPlace, query));
 
     if (selectedPlace && !selectedPlaceMatchesQuery) {
+      setIsBirthPlaceSelectionLocked(false);
       setSelectedPlace(undefined);
     }
 
     if (query.length < 2) {
       setAcceptedBirthPlaceQuery('');
+      setIsBirthPlaceSelectionLocked(false);
       resetBirthPlaceSearchUi();
       return;
     }
@@ -410,6 +415,7 @@ export function WebKundliWizard(): React.JSX.Element {
     acceptedBirthPlaceQuery,
     isBirthPlaceInputFocused,
     isPlaceSuggestionsOpen,
+    isBirthPlaceSelectionLocked,
     normalizedBirthPlaceQuery,
     selectedPlace,
   ]);
@@ -596,6 +602,7 @@ export function WebKundliWizard(): React.JSX.Element {
 
   const shouldShowReadyFirst = Boolean(kundli && !editingKundliId);
   const shouldSuppressBirthPlaceOverlay =
+    isBirthPlaceSelectionLocked ||
     Boolean(selectedPlace) ||
     isBirthPlaceSearchSettled ||
     Boolean(immediatelySettledBirthPlace);
@@ -732,7 +739,13 @@ export function WebKundliWizard(): React.JSX.Element {
                   resetBirthPlaceSearchUi();
                   setIsBirthPlaceInputFocused(true);
                   setBirthPlaceQuery(nextQuery);
-                  setSelectedPlace(undefined);
+                  if (
+                    !acceptedBirthPlaceQuery ||
+                    acceptedBirthPlaceQuery !== normalizedNextQuery
+                  ) {
+                    setIsBirthPlaceSelectionLocked(false);
+                    setSelectedPlace(undefined);
+                  }
                   const settledPlace = findSettledBirthPlaceCandidate(
                     searchLocalWebBirthPlaces(nextQuery).slice(0, 6),
                     nextQuery,
@@ -746,6 +759,7 @@ export function WebKundliWizard(): React.JSX.Element {
                     acceptedBirthPlaceQuery === normalizedNextQuery
                   ) {
                     closeBirthPlaceSuggestions();
+                    setIsBirthPlaceSelectionLocked(true);
                     return;
                   }
                   const nextLocalMatches = searchLocalWebBirthPlaces(nextQuery).slice(
@@ -760,6 +774,7 @@ export function WebKundliWizard(): React.JSX.Element {
                   }
 
                   setAcceptedBirthPlaceQuery('');
+                  setIsBirthPlaceSelectionLocked(false);
                   setIsPlaceSuggestionsOpen(normalizedNextQuery.length >= 2);
                   setIsSearchingPlaces(normalizedNextQuery.length >= 2);
                 }}
