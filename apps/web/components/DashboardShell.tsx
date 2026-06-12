@@ -379,8 +379,10 @@ export function DashboardShell({
         navAriaLabel={translateUiText('My Astrology navigation', language)}
         onPredictaIntent={() => prewarmAskPredicta(askPredictaHref)}
         ownerLabel={shellLabels.groups.owner}
+        sectionLabel={shellLabels.groups.thisSection}
         showAdmin={showAdmin}
         startLabel={shellLabels.groups.start}
+        worldsSummaryLabel={shellLabels.groups.schools}
         worldsLabel={shellLabels.groups.worlds}
       />
       <main className={`main-workspace ${isChatRoute ? 'chat-main-workspace' : ''}`}>
@@ -478,7 +480,7 @@ export function DashboardShell({
                       <strong>
                         {DASHBOARD_WORLD_SECTION_IDS.has(activeSection.id)
                           ? activeSection.label
-                          : shellLabels.groups.worlds}
+                          : shellLabels.groups.schools}
                       </strong>
                     </summary>
                     <div className="dashboard-mobile-section-switcher">
@@ -528,7 +530,7 @@ export function DashboardShell({
                     data-active="true"
                   >
                     <summary>
-                      <span>{activeSection.label}</span>
+                      <span>{shellLabels.groups.thisSection}</span>
                       <strong>{activeSection.label}</strong>
                     </summary>
                     <div>

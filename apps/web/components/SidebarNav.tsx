@@ -49,8 +49,10 @@ export function SidebarNav({
   navAriaLabel = 'My Astrology navigation',
   onPredictaIntent,
   ownerLabel = 'Owner',
+  sectionLabel = 'This Section',
   showAdmin,
   startLabel = 'Start',
+  worldsSummaryLabel = 'Worlds',
   worldsLabel = 'Predicta Worlds',
 }: {
   adminLabel?: string;
@@ -62,8 +64,10 @@ export function SidebarNav({
   navAriaLabel?: string;
   onPredictaIntent?: () => void;
   ownerLabel?: string;
+  sectionLabel?: string;
   showAdmin: boolean;
   startLabel?: string;
+  worldsSummaryLabel?: string;
   worldsLabel?: string;
 }): React.JSX.Element {
   const pathname = usePathname();
@@ -122,7 +126,7 @@ export function SidebarNav({
               <strong>
                 {WORLD_SECTION_IDS.has(activeSection.id)
                   ? activeSection.label
-                  : worldsLabel}
+                  : worldsSummaryLabel}
               </strong>
             </summary>
             <div className="nav-section-links nav-section-links--compact">
@@ -164,7 +168,7 @@ export function SidebarNav({
             data-active="true"
           >
             <summary>
-              <span>{activeSection.label}</span>
+              <span>{sectionLabel}</span>
               <strong>{activeSection.label}</strong>
             </summary>
             <div className="nav-section-links">

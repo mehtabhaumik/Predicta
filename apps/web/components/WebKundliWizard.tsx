@@ -699,7 +699,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const shouldShowReadyFirst = Boolean(kundli && !editingKundliId);
   const shouldSuppressBirthPlaceOverlay =
     isBirthPlaceSelectionLocked ||
-    Boolean(selectedPlace) ||
+    Boolean(selectedPlace && isSelectedPlaceCurrent) ||
     isBirthPlaceSearchSettled ||
     Boolean(immediatelySettledBirthPlace);
   const canShowBirthPlaceOverlay =
@@ -881,6 +881,10 @@ export function WebKundliWizard(): React.JSX.Element {
                 }}
                 onFocus={() => {
                   setIsBirthPlaceInputFocused(true);
+                  if (settleBirthPlaceQueryIfPossible()) {
+                    closeBirthPlaceSuggestions();
+                    return;
+                  }
                   if (isBirthPlaceSearchSettled) {
                     closeBirthPlaceSuggestions();
                     return;
