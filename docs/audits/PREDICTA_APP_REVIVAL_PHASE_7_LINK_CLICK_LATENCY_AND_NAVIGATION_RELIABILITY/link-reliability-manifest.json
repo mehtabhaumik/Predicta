@@ -6,7 +6,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Landing&prompt=Will+I+get+a+better+job+opportunity+soon%3F",
       "text": "Will I get a better job opportunity soon?",
-      "elapsedMs": 103,
+      "elapsedMs": 109,
       "from": "/",
       "name": "landing primary ask entry",
       "url": "/ask?sourceScreen=Landing&prompt=Will+I+get+a+better+job+opportunity+soon%3F"
@@ -15,7 +15,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=My+Kundlis&prompt=Help+me+from+my+selected+Kundli.",
       "text": "Ask Predicta",
-      "elapsedMs": 107,
+      "elapsedMs": 103,
       "from": "/dashboard",
       "name": "dashboard ask predicta link",
       "url": "/ask?sourceScreen=My+Kundlis&prompt=Help+me+from+my+selected+Kundli."
@@ -39,7 +39,7 @@
       "url": "/checkout?productId=pridicta_10_questions"
     }
   ],
-  "generatedAt": "2026-06-12T05:43:34.924Z",
+  "generatedAt": "2026-06-12T05:51:58.810Z",
   "hrefLengthBudget": 900,
   "pageResults": [
     {
@@ -168,7 +168,7 @@
         }
       ],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 24,
+      "anchorCount": 25,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -190,6 +190,7 @@
         "/dashboard/decision",
         "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI",
         "/ask?sourceScreen=Vedic+Predicta&prompt=Read+my+Vedic+chart+and+tell+me+what+it+means+for+my+life+right+now.&school=PARASHARI",
+        "/ask?sourceScreen=Vedic+Predicta&prompt=I+am+on+Vedic+Room.+Use+this+page+context+and+my+selected+Kundli+if+available.+Give+me+the+direct+answer+or+next+best+action+first%2C+then+show+the+evidence+only+if+needed.&school=PARASHARI",
         "/",
         "/accuracy-method",
         "/safety",
@@ -216,7 +217,7 @@
         }
       ],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 17,
+      "anchorCount": 18,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -231,6 +232,7 @@
         "/dashboard/account",
         "/ask?sourceScreen=KP+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=KP",
         "/ask?sourceScreen=KP+Room&evidenceSourceLabel=KP+cusp%2C+sub-lord%2C+significator%2C+and+timing+evidence&handoffMode=room_safe&prompt=Help+me+ask+one+clear+KP+event+question+and+read+the+timing+evidence.&school=KP",
+        "/ask?sourceScreen=KP+Predicta&prompt=I+am+on+KP+Room.+Use+this+page+context+and+my+selected+Kundli+if+available.+Give+me+the+direct+answer+or+next+best+action+first%2C+then+show+the+evidence+only+if+needed.&school=KP",
         "/",
         "/accuracy-method",
         "/safety",
@@ -257,7 +259,7 @@
         }
       ],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 17,
+      "anchorCount": 18,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -272,6 +274,7 @@
         "/dashboard/account",
         "/ask?sourceScreen=Jaimini+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=JAIMINI",
         "/ask?sourceScreen=Jaimini+Room&evidenceSourceLabel=Jaimini+karaka%2C+Arudha%2C+Karakamsha%2C+and+destiny+chapter+evidence&handoffMode=room_safe&prompt=Read+my+current+Jaimini+destiny+chapter+and+tell+me+what+it+means+for+my+life+now.&school=JAIMINI",
+        "/ask?sourceScreen=Jaimini+Predicta&prompt=I+am+on+Jaimini+Room.+Use+this+page+context+and+my+selected+Kundli+if+available.+Give+me+the+direct+answer+or+next+best+action+first%2C+then+show+the+evidence+only+if+needed.&school=JAIMINI",
         "/",
         "/accuracy-method",
         "/safety",
@@ -298,7 +301,7 @@
         }
       ],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 17,
+      "anchorCount": 18,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -313,6 +316,7 @@
         "/dashboard/account",
         "/ask?sourceScreen=Numerology+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=NUMEROLOGY",
         "/ask?sourceScreen=Numerology+Room&evidenceSourceLabel=Numerology+name+number%2C+birth+number%2C+destiny+number%2C+and+current+cycle+evidence&handoffMode=room_safe&prompt=Read+what+my+name+number%2C+birth+number%2C+destiny+number%2C+and+current+cycle+say+now.&school=NUMEROLOGY",
+        "/ask?sourceScreen=Numerology+Predicta&prompt=I+am+on+Numerology+Room.+Use+this+page+context+and+my+selected+Kundli+if+available.+Give+me+the+direct+answer+or+next+best+action+first%2C+then+show+the+evidence+only+if+needed.&school=NUMEROLOGY",
         "/",
         "/accuracy-method",
         "/safety",
@@ -339,7 +343,7 @@
         }
       ],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 17,
+      "anchorCount": 18,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -354,6 +358,7 @@
         "/dashboard/account",
         "/ask?sourceScreen=Signature+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=SIGNATURE",
         "/ask?sourceScreen=Signature+Room&evidenceSourceLabel=Confirmed+signature+traits+and+reflective+expression+evidence&handoffMode=room_safe&prompt=Read+my+confirmed+signature+traits+safely+and+explain+what+they+reflect.&school=SIGNATURE",
+        "/ask?sourceScreen=Signature+Predicta&prompt=I+am+on+Signature+Room.+Use+this+page+context+and+my+selected+Kundli+if+available.+Give+me+the+direct+answer+or+next+best+action+first%2C+then+show+the+evidence+only+if+needed.&school=SIGNATURE",
         "/",
         "/accuracy-method",
         "/safety",
@@ -380,7 +385,7 @@
         }
       ],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 25,
+      "anchorCount": 26,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -403,6 +408,7 @@
         "/dashboard/kundli",
         "/ask?sourceScreen=Report&carriedContextLabel=Kundli+Report&evidenceSourceLabel=Report+section+memory+and+generated+report+context&handoffMode=main_synthesis&prompt=Create+a+complete+Kundli+report+preview+with+useful+insights+first%2C+then+show+what+a+detailed+premium+PDF+would+add.&school=PARASHARI&selectedSection=Kundli+Report&reportFocus=KUNDLI&reportMode=FREE&reportSchoolLane=VEDIC&reportSectionTitle=Kundli+Report&reportType=Kundli+Report&reportAvailableSections=Birth+details+and+calculation%7C%7CD1+and+all+divisional+charts%7C%7CParashari+Chalit+refinement%7C%7C%2B15+more+sections&reportSelectedSections=Birth+details+and+calculation%7C%7CD1+and+all+divisional+charts%7C%7CParashari+Chalit+refinement%7C%7C%2B15+more+sections&eventOracleHandoff=true",
         "/dashboard/kundli",
+        "/ask?sourceScreen=My+Kundlis&prompt=I+am+on+Reports.+Use+this+page+context+and+my+selected+Kundli+if+available.+Give+me+the+direct+answer+or+next+best+action+first%2C+then+show+the+evidence+only+if+needed.",
         "/",
         "/accuracy-method",
         "/safety",
@@ -495,7 +501,7 @@
         }
       ],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 19,
+      "anchorCount": 20,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -512,6 +518,7 @@
         "/dashboard/settings",
         "/dashboard/redeem-pass",
         "/ask?sourceScreen=My+Kundlis&prompt=Help+me+from+my+selected+Kundli.",
+        "/ask?sourceScreen=My+Kundlis&prompt=I+am+on+Account.+Use+this+page+context+and+my+selected+Kundli+if+available.+Give+me+the+direct+answer+or+next+best+action+first%2C+then+show+the+evidence+only+if+needed.",
         "/",
         "/accuracy-method",
         "/safety",
@@ -535,35 +542,35 @@
       "url": "http://127.0.0.1:3009/"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 3,
       "location": null,
       "route": "/ask",
       "status": 200,
       "url": "http://127.0.0.1:3009/ask"
     },
     {
-      "elapsedMs": 8,
+      "elapsedMs": 9,
       "location": "/ask?legacyChatSmoke=1&prompt=Will+my+job+improve%3F&sourceScreen=Legacy+Dashboard+Chat",
       "route": "/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F"
     },
     {
-      "elapsedMs": 8,
+      "elapsedMs": 9,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Vedic+Predicta&school=PARASHARI&prompt=Read+my+Vedic+chart+and+tell+me+what+it+means+for+my+life+right+now.&handoffMode=room_safe",
       "route": "/dashboard/vedic/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/vedic/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 7,
+      "elapsedMs": 6,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=KP+Predicta&school=KP&prompt=Answer+my+KP+question+clearly+with+timing%2C+likely+trigger%2C+and+what+I+should+do+next.&handoffMode=room_safe",
       "route": "/dashboard/kp/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/kp/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 9,
+      "elapsedMs": 8,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Jaimini+Predicta&school=JAIMINI&prompt=Read+my+current+Jaimini+destiny+chapter+and+tell+me+what+it+means+for+my+life+now.&handoffMode=room_safe",
       "route": "/dashboard/jaimini/chat?legacyRoomSmoke=1",
       "status": 307,
@@ -577,14 +584,14 @@
       "url": "http://127.0.0.1:3009/dashboard/nadi/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 6,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Numerology+Predicta&school=NUMEROLOGY&prompt=Read+my+number+pattern+and+tell+me+what+it+means+for+my+life+right+now.&handoffMode=room_safe",
       "route": "/dashboard/numerology/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/numerology/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 6,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Signature+Predicta&school=SIGNATURE&prompt=Read+my+confirmed+signature+traits+safely+and+tell+me+what+they+reflect.&handoffMode=room_safe",
       "route": "/dashboard/signature/chat?legacyRoomSmoke=1",
       "status": 307,
@@ -605,28 +612,28 @@
       "url": "http://127.0.0.1:3009/checkout?productId=pridicta_10_questions"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/accuracy-method",
       "status": 200,
       "url": "http://127.0.0.1:3009/accuracy-method"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/safety",
       "status": 200,
       "url": "http://127.0.0.1:3009/safety"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 1,
       "location": null,
       "route": "/legal",
       "status": 200,
       "url": "http://127.0.0.1:3009/legal"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 5,
       "location": null,
       "route": "/feedback",
       "status": 200,
@@ -640,7 +647,7 @@
       "url": "http://127.0.0.1:3009/dashboard"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/kundli",
       "status": 200,
@@ -668,42 +675,42 @@
       "url": "http://127.0.0.1:3009/dashboard/jaimini"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/numerology",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/numerology"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/signature",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/signature"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/report",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/report"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 1,
       "location": null,
       "route": "/dashboard/redeem-pass",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/redeem-pass"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/saved-kundlis",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/saved-kundlis"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/family",
       "status": 200,

@@ -246,6 +246,53 @@ try {
   await runEvidenceHandoffScenario('kp-evidence-handoff', '/dashboard/kp', desktopViewport);
   await runEvidenceHandoffScenario('jaimini-evidence-handoff', '/dashboard/jaimini', desktopViewport);
 
+  await runScenario('dashboard-ask-dock-universal-handoff', mobileViewport, async cdp => {
+    const checkedRoutes = [
+      '/dashboard/report',
+      '/dashboard/kp',
+      '/dashboard/jaimini',
+      '/dashboard/numerology',
+      '/dashboard/signature',
+    ];
+    const routeAudits = [];
+    const localFailures = [];
+    for (const route of checkedRoutes) {
+      await navigateAndWait(cdp, `${baseUrl}${route}`);
+      await waitForCondition(cdp, `Boolean(document.querySelector('.dashboard-ask-dock a[href^="/ask"]'))`, 8_000).catch(() => undefined);
+      const audit = await evaluate(cdp, `(() => {
+        const dock = document.querySelector('.dashboard-ask-dock');
+        const link = dock?.querySelector('a[href^="/ask"]');
+        const rect = dock?.getBoundingClientRect();
+        return {
+          dockVisible: Boolean(dock),
+          href: link?.getAttribute('href') || '',
+          horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+          rect: rect ? {
+            bottom: Math.round(rect.bottom),
+            height: Math.round(rect.height),
+            top: Math.round(rect.top),
+            width: Math.round(rect.width),
+          } : null,
+          text: dock?.textContent?.replace(/\\s+/g, ' ').trim() || '',
+        };
+      })()`);
+      routeAudits.push({ audit, route });
+      if (!audit.dockVisible || !audit.href.startsWith('/ask')) {
+        localFailures.push(`${route} does not show the universal Ask Predicta dock`);
+      }
+      if (audit.href.length > 900) {
+        localFailures.push(`${route} universal Ask Predicta dock href is too long`);
+      }
+      if (audit.horizontalOverflow) {
+        localFailures.push(`${route} universal Ask Predicta dock has horizontal overflow`);
+      }
+      if (!audit.rect || audit.rect.height < 44 || audit.rect.width < 220) {
+        localFailures.push(`${route} universal Ask Predicta dock is too small for touch`);
+      }
+    }
+    return { audit: { routeAudits }, failures: localFailures };
+  });
+
   await runScenario('chat-driven-report-composer', desktopViewport, async cdp => {
     const prompt = encodeURIComponent('Create a Vedic report for my current career and timing question.');
     await navigateAndWait(cdp, `${baseUrl}/ask?prompt=${prompt}&autoSend=true&reportFocus=VEDIC&sourceScreen=Report+Chat+Journey`);
