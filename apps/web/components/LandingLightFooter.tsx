@@ -1,18 +1,27 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { getLightweightAppShellLabels } from '../lib/lightweight-public-copy';
+import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 
 export function LandingLightFooter(): React.JSX.Element {
   const { language } = useLightweightLanguagePreference();
+  const router = useRouter();
   const labels = getLightweightAppShellLabels(language);
   const links = [
+    { href: '/ask', label: labels.actions.askPredicta },
     { href: '/accuracy-method', label: labels.nav.accuracyMethod },
     { href: '/safety', label: labels.nav.safetyPromise },
     { href: '/legal', label: labels.nav.legal },
     { href: '/feedback', label: labels.nav.feedback },
   ];
+
+  function prewarmAskPredicta(): void {
+    preloadAskPredictaRuntime();
+    router.prefetch('/ask');
+  }
 
   return (
     <footer className="web-footer web-footer-compact">
@@ -28,7 +37,15 @@ export function LandingLightFooter(): React.JSX.Element {
           className="web-footer-compact-links"
         >
           {links.map(link => (
-            <Link href={link.href} key={link.href}>
+            <Link
+              href={link.href}
+              key={link.href}
+              onFocus={link.href === '/ask' ? prewarmAskPredicta : undefined}
+              onPointerEnter={
+                link.href === '/ask' ? prewarmAskPredicta : undefined
+              }
+              onTouchStart={link.href === '/ask' ? prewarmAskPredicta : undefined}
+            >
               {link.label}
             </Link>
           ))}

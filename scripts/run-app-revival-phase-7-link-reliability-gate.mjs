@@ -108,7 +108,23 @@ const requiredLinksByRoute = [
   },
   {
     route: '/pricing',
-    links: ['/checkout?productId=pridicta_10_questions', '/legal', '/'],
+    links: ['/ask', '/checkout?productId=pridicta_10_questions', '/legal', '/'],
+  },
+  {
+    route: '/accuracy-method',
+    links: ['/ask', '/safety', '/legal', '/feedback'],
+  },
+  {
+    route: '/safety',
+    links: ['/ask', '/accuracy-method', '/legal', '/feedback'],
+  },
+  {
+    route: '/legal',
+    links: ['/ask', '/accuracy-method', '/safety', '/feedback'],
+  },
+  {
+    route: '/feedback',
+    links: ['/ask', '/accuracy-method', '/safety', '/legal'],
   },
   {
     route: '/dashboard/redeem-pass',
