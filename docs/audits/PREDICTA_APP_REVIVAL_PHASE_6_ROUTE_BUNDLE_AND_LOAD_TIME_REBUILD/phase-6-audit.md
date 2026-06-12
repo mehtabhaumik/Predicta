@@ -156,6 +156,44 @@ Supplemental verification:
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
 - `git diff --check`: PASS.
 
+## Supplemental Ask Predicta Intent Preload Lock
+
+Date: 2026-06-12
+
+The `/ask` route stayed lightweight, but the full chat runtime was only fetched
+after the user submitted a prompt or opened a seeded Ask link. That preserved
+initial load, but it could still make the first real chat action feel delayed.
+
+Implementation lock:
+
+- Kept `WebPridictaChat` out of initial server rendering and first paint.
+- Added a deduped module loader for the full Predicta chat runtime.
+- Preloads the full chat runtime when the user shows intent by focusing,
+  hovering, touching the Ask console or prompt chips, starting voice capture, or
+  landing with incoming Ask context.
+- Starts the same preload immediately when a prompt is submitted so the dynamic
+  chat render and module fetch share the same promise.
+
+Performance evidence from `corepack pnpm build:web`:
+
+- `/ask`: `9.33 kB` page size and `130 kB` First Load JS after the preload
+  change, keeping the route lightweight.
+
+Supplemental verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, `15` scenarios.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/ask,/ corepack pnpm test:ui-text-overflow`: PASS, `8` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/ask,/ corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+
+Supplemental result:
+
+Green. `/ask` still loads as a lightweight text/voice entry page, but the first
+real chat action now warms the full Predicta runtime on intent instead of
+waiting until after the user has committed.
+
 ## Supplemental Static Entry Route Lock
 
 Date: 2026-06-12

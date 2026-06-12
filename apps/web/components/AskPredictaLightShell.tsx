@@ -8,11 +8,26 @@ import { getLightweightCompetitorResponseCopy } from '../lib/lightweight-public-
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 
+type FullPredictaChatModule = {
+  default: typeof import('./WebPridictaChat').WebPridictaChat;
+};
+
+let fullPredictaChatPreload: Promise<FullPredictaChatModule> | undefined;
+
+function loadFullPredictaChat(): Promise<FullPredictaChatModule> {
+  fullPredictaChatPreload ??= import('./WebPridictaChat').then(module => ({
+    default: module.WebPridictaChat,
+  }));
+
+  return fullPredictaChatPreload;
+}
+
+function preloadFullPredictaChat(): void {
+  void loadFullPredictaChat();
+}
+
 const FullPredictaChat = dynamic(
-  () =>
-    import('./WebPridictaChat').then(module => ({
-      default: module.WebPridictaChat,
-    })),
+  loadFullPredictaChat,
   {
     loading: () => <AskPredictaLoadingCard />,
     ssr: false,
@@ -74,6 +89,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
 
     if (hasIncomingContext) {
       setChatStarted(true);
+      preloadFullPredictaChat();
     }
   }, [hasIncomingContext, incomingPrompt]);
 
@@ -81,6 +97,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
     const resolvedPrompt = prompt.trim() || DEFAULT_ASK_PROMPT;
     const nextUrl = buildAskHref(resolvedPrompt, mode);
 
+    preloadFullPredictaChat();
     setVoiceNotice(mode === 'voice');
     setQuestion(resolvedPrompt);
     setChatStarted(true);
@@ -90,6 +107,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
   }
 
   function startVoiceCapture(): void {
+    preloadFullPredictaChat();
     setVoiceNotice(true);
 
     const started = speechInput.startListening();
@@ -123,6 +141,9 @@ export function AskPredictaLightShell(): React.JSX.Element {
     >
       <form
         className="ask-light-console glass-panel"
+        onFocus={preloadFullPredictaChat}
+        onPointerEnter={preloadFullPredictaChat}
+        onTouchStart={preloadFullPredictaChat}
         onSubmit={event => {
           event.preventDefault();
           startChat(question);
@@ -148,6 +169,8 @@ export function AskPredictaLightShell(): React.JSX.Element {
             <Link
               href={buildAskHref(item)}
               key={item}
+              onPointerEnter={preloadFullPredictaChat}
+              onTouchStart={preloadFullPredictaChat}
             >
               {item}
             </Link>
