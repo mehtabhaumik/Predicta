@@ -334,10 +334,12 @@ async function runAutocompleteScenario(cdp) {
           const suggestions = document.querySelector('.birth-place-suggestions');
           const text = document.body.textContent || '';
           return {
-            hasSearchingPlaces: text.includes('Searching places...'),
+            hasSearchingPlaces:
+              Boolean(document.querySelector('.birth-place-search-status')) ||
+              text.includes('Searching places...'),
             hasMixedOptionAndSearching:
               Boolean(suggestions?.textContent?.includes('Petlad')) &&
-              text.includes('Searching places...'),
+              Boolean(document.querySelector('.birth-place-search-status')),
             horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
             inputFound: true,
             inputValue: input?.value || '',
@@ -414,10 +416,12 @@ async function runAutocompleteScenario(cdp) {
       const text = document.body.textContent || '';
 
       return {
-        hasSearchingPlaces: text.includes('Searching places...'),
+        hasSearchingPlaces:
+          Boolean(document.querySelector('.birth-place-search-status')) ||
+          text.includes('Searching places...'),
         hasMixedOptionAndSearching:
           options.some(item => /Petlad/i.test(item.textContent || '')) &&
-          text.includes('Searching places...'),
+          Boolean(document.querySelector('.birth-place-search-status')),
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         inputFound: Boolean(input),
         inputValue: input?.value || '',
@@ -485,10 +489,12 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
       const text = document.body.textContent || '';
 
       return {
-        hasSearchingPlaces: text.includes('Searching places...'),
+        hasSearchingPlaces:
+          Boolean(document.querySelector('.birth-place-search-status')) ||
+          text.includes('Searching places...'),
         hasMixedOptionAndSearching:
           options.some(item => ${optionPattern}.test(item.textContent || '')) &&
-          text.includes('Searching places...'),
+          Boolean(document.querySelector('.birth-place-search-status')),
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         inputFound: Boolean(input),
         inputValue: input?.value || '',
@@ -523,7 +529,9 @@ async function collectRefocusState(cdp) {
 
       return {
         refocusInputFound: Boolean(document.querySelector('input[placeholder="Start typing city, state, country"]')),
-        refocusHasSearchingPlaces: text.includes('Searching places...'),
+        refocusHasSearchingPlaces:
+          Boolean(document.querySelector('.birth-place-search-status')) ||
+          text.includes('Searching places...'),
         refocusSuggestionsMounted: Boolean(suggestions),
         refocusSuggestionsText: suggestions?.textContent?.trim() || '',
       };
