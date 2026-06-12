@@ -84,6 +84,7 @@ import {
 } from '../lib/pridicta-ai';
 import {
   hydrateWebSpecialistContextSync,
+  loadWebAutoSaveMemory,
   saveWebAutoSaveMemory,
   saveWebSpecialistPredictaContext,
 } from '../lib/web-auto-save-memory';
@@ -4620,20 +4621,50 @@ function reportContextFromParams(
     return {};
   }
 
+  const storedReportContext = loadStoredGeneratedReportContext(reportFocus);
+
   return {
-    reportAvailableSections: parseListParam(params.get('reportAvailableSections')),
+    reportAvailableSections:
+      parseListParam(params.get('reportAvailableSections')) ??
+      storedReportContext?.availableSections,
     reportFocus,
-    reportGeneratedAt: params.get('reportGeneratedAt') ?? undefined,
+    reportGeneratedAt:
+      params.get('reportGeneratedAt') ??
+      storedReportContext?.generatedAt,
     reportMode:
-      params.get('reportMode') === 'PREMIUM' ? 'PREMIUM' : 'FREE',
-    reportSchoolLane: parseReportSchoolLane(params.get('reportSchoolLane')),
+      parseReportMode(params.get('reportMode')) ??
+      storedReportContext?.mode,
+    reportSchoolLane:
+      parseReportSchoolLane(params.get('reportSchoolLane')) ??
+      storedReportContext?.schoolLane,
     reportSectionId: params.get('reportSectionId') ?? undefined,
     reportSectionPrompt: params.get('reportSectionPrompt') ?? undefined,
-    reportSectionTitle: params.get('reportSectionTitle') ?? undefined,
-    reportSelectedSections: parseListParam(params.get('reportSelectedSections')),
-    reportSubjectName: params.get('reportSubjectName') ?? undefined,
-    reportType: params.get('reportType') ?? undefined,
+    reportSectionTitle:
+      params.get('reportSectionTitle') ??
+      storedReportContext?.reportTitle,
+    reportSelectedSections:
+      parseListParam(params.get('reportSelectedSections')) ??
+      storedReportContext?.selectedSections,
+    reportSubjectName:
+      params.get('reportSubjectName') ??
+      storedReportContext?.subjectName,
+    reportType:
+      params.get('reportType') ??
+      storedReportContext?.reportTitle,
   };
+}
+
+function loadStoredGeneratedReportContext(reportFocus: string) {
+  try {
+    const generatedReportContext =
+      loadWebAutoSaveMemory().report?.generatedReportContext;
+
+    return generatedReportContext?.reportFocus === reportFocus
+      ? generatedReportContext
+      : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 function parseReportSchoolLane(

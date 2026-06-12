@@ -572,24 +572,31 @@ export function WebDossierPreview(): React.JSX.Element {
   }
 
   function buildCurrentReportAskHref(section?: PdfSection): string {
-    const sectionTitle = section?.title ?? localizedSelectedReport.title;
     const sectionPrompt = section
-      ? `Explain this report section: ${section.title}`
-      : localizedSelectedReport.prompt;
+      ? 'Explain this selected report section.'
+      : 'Explain this Predicta report.';
 
     return buildReportAskHref({
-      availableSections: sectionOptions.map(option => option.section.title),
       generatedAt: generatedAt ?? undefined,
       kundliId: kundli?.id,
-      language: appLanguage,
       mode,
       product: selectedReport,
-      reportTitle: localizedSelectedReport.title,
       section,
       sectionPrompt,
-      sectionTitle,
-      selectedSections: visibleSections.map(item => item.title),
-      subjectName: kundli?.birthDetails.name,
+    });
+  }
+
+  function saveCurrentReportAskContext(): void {
+    saveWebAutoSaveMemory({
+      report: {
+        builderMode,
+        generatedReportContext: buildCurrentReportMemoryContext(),
+        mode,
+        reportLanguage,
+        selectedReportId,
+        selectedSectionKeys,
+        updatedAt: new Date().toISOString(),
+      },
     });
   }
 
@@ -908,7 +915,11 @@ export function WebDossierPreview(): React.JSX.Element {
           >
             {builderCopy.previewSelected}
           </PredictaButton>
-          <PredictaButton href={buildCurrentReportAskHref()} variant="secondary">
+          <PredictaButton
+            href={buildCurrentReportAskHref()}
+            onClick={saveCurrentReportAskContext}
+            variant="secondary"
+          >
             {builderCopy.askFromReport}
           </PredictaButton>
           <PredictaButton href="/dashboard/kundli" variant="secondary">
@@ -1687,7 +1698,11 @@ export function WebDossierPreview(): React.JSX.Element {
                     ? builderCopy.copied
                     : builderCopy.copyReport}
                 </PredictaButton>
-                <PredictaButton href={buildCurrentReportAskHref()} variant="secondary">
+                <PredictaButton
+                  href={buildCurrentReportAskHref()}
+                  onClick={saveCurrentReportAskContext}
+                  variant="secondary"
+                >
                   {builderCopy.askFromReport}
                 </PredictaButton>
               </div>
@@ -3144,56 +3159,33 @@ function getFreePremiumDifferenceRows(language: SupportedLanguage): Array<{
 
 function buildReportAskHref(
   {
-    availableSections,
     generatedAt,
     kundliId,
-    language,
     mode,
     product,
-    reportTitle,
     section,
     sectionPrompt,
-    sectionTitle,
-    selectedSections,
-    subjectName,
   }: {
-    availableSections: string[];
     generatedAt?: string;
     kundliId?: string;
-    language: SupportedLanguage;
     mode: 'FREE' | 'PREMIUM';
     product: ReportMarketplaceProduct;
-    reportTitle: string;
     section?: PdfSection;
     sectionPrompt: string;
-    sectionTitle: string;
-    selectedSections: string[];
-    subjectName?: string;
   },
 ): string {
   return buildPredictaChatHref({
-    carriedContextLabel: sectionTitle,
     eventOracleHandoff: true,
-    evidenceSourceLabel: translateUiText(
-      'Report section memory and generated report context',
-      language,
-    ),
     handoffMode: 'main_synthesis',
     kundliId,
     prompt: sectionPrompt,
-    reportAvailableSections: availableSections,
     reportFocus: product.id,
     reportGeneratedAt: generatedAt,
     reportMode: mode,
     reportSchoolLane: product.school,
     reportSectionId: section ? getReportSectionKey(section, 0) : undefined,
     reportSectionPrompt: sectionPrompt,
-    reportSectionTitle: sectionTitle,
-    reportSelectedSections: selectedSections,
-    reportSubjectName: subjectName,
-    reportType: reportTitle,
     school: mapReportLaneToPredictaSchool(product.school),
-    selectedSection: sectionTitle,
     sourceScreen: 'Report',
   });
 }
