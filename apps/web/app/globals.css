@@ -677,6 +677,45 @@ summary.predicta-feedback-target {
   z-index: 1;
 }
 
+.predicta-route-progress {
+  height: 3px;
+  inset: 0 0 auto;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  transform: translateY(-100%);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+  z-index: 2500;
+}
+
+.predicta-route-progress span {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(83, 224, 210, 0),
+      rgba(83, 224, 210, 0.92),
+      rgba(207, 101, 255, 0.94),
+      rgba(77, 175, 255, 0)
+    );
+  border-radius: 999px;
+  display: block;
+  height: 100%;
+  transform: translateX(-100%);
+  width: 58%;
+}
+
+.predicta-route-progress.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.predicta-route-progress.is-active span {
+  animation: predictaRouteProgressSweep 950ms ease-in-out infinite;
+}
+
 .gradient-text {
   background: var(--gradient);
   -webkit-background-clip: text;
@@ -21219,6 +21258,16 @@ button:disabled,
   55%,
   100% {
     transform: translateX(100%);
+  }
+}
+
+@keyframes predictaRouteProgressSweep {
+  0% {
+    transform: translateX(-110%);
+  }
+  58%,
+  100% {
+    transform: translateX(180%);
   }
 }
 
