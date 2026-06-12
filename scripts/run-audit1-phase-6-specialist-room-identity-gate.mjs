@@ -23,11 +23,11 @@ const chromePath =
   ].find(candidate => existsSync(candidate));
 
 const routes = [
-  { interaction: 'vedic', label: 'vedic', path: '/dashboard/vedic', primaryText: /Build Vedic report|Create report/i },
-  { interaction: 'kp', label: 'kp', path: '/dashboard/kp', primaryText: /Build KP report/i },
-  { interaction: 'jaimini', label: 'jaimini', path: '/dashboard/jaimini', primaryText: /Build Jaimini report|Download Jaimini/i },
-  { interaction: 'numerology', label: 'numerology', path: '/dashboard/numerology', primaryText: /Build Numerology report/i },
-  { interaction: 'signature', label: 'signature', path: '/dashboard/signature', primaryText: /Build Signature report/i },
+  { interaction: 'vedic', label: 'vedic', path: '/dashboard/vedic', primaryText: /Chat with Vedic|Vedic Predicta/i, secondaryText: /Build Vedic report|Create report/i },
+  { interaction: 'kp', label: 'kp', path: '/dashboard/kp', primaryText: /Chat with KP|Ask KP/i, secondaryText: /Build KP report/i },
+  { interaction: 'jaimini', label: 'jaimini', path: '/dashboard/jaimini', primaryText: /Ask Jaimini|Jaimini Predicta/i, secondaryText: /Build Jaimini report|Download Jaimini/i },
+  { interaction: 'numerology', label: 'numerology', path: '/dashboard/numerology', primaryText: /Chat with Numerology|Ask Numerology/i, secondaryText: /Build Numerology report/i },
+  { interaction: 'signature', label: 'signature', path: '/dashboard/signature', primaryText: /Chat with Signature|Ask Predicta/i, secondaryText: /Build Signature report/i },
 ];
 
 const viewports = [
@@ -39,8 +39,9 @@ const viewports = [
 const sourceFailures = [];
 const sourceChecks = [
   ['apps/web/components/PredictaWorldFrame.tsx', 'predicta-world-hero-interaction'],
+  ['apps/web/components/PredictaWorldFrame.tsx', 'predicta-world-primary-actions'],
   ['apps/web/components/PredictaWorldFrame.tsx', 'predicta-world-proof-disclosure'],
-  ['apps/web/app/dashboard/vedic/page.tsx', 'data-audit1-phase6-hero-interaction="vedic"'],
+  ['apps/web/components/WebVedicWorldPage.tsx', 'data-audit1-phase6-hero-interaction="vedic"'],
   ['apps/web/components/WebKpPredictaPanel.tsx', 'data-audit1-phase6-hero-interaction="kp"'],
   ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'data-audit1-phase6-hero-interaction="jaimini"'],
   ['apps/web/components/WebNumerologyPredictaPanel.tsx', 'data-audit1-phase6-hero-interaction="numerology"'],
@@ -112,6 +113,7 @@ try {
           route: route.path,
           url,
         });
+        await openDeferredEvidenceRoom(cdp, route.interaction);
         const metrics = await evaluateSpecialistRoom(cdp, route);
         const screenshot = await cdp.send('Page.captureScreenshot', {
           captureBeyondViewport: false,
@@ -147,11 +149,11 @@ try {
         }
 
         if (!metrics.summary.hasSinglePrimaryHeroCta) {
-          failures.push(`${viewport.name} ${route.path}: hero must expose exactly one primary CTA.`);
+          failures.push(`${viewport.name} ${route.path}: hero must expose exactly one primary Ask Predicta CTA.`);
         }
 
-        if (!metrics.summary.hasSecondaryChatEntry) {
-          failures.push(`${viewport.name} ${route.path}: Predicta chat entry is missing or dominant instead of secondary.`);
+        if (!metrics.summary.hasSecondaryReportEntry) {
+          failures.push(`${viewport.name} ${route.path}: report/download entry is missing or dominant instead of secondary.`);
         }
 
         for (const item of metrics.wideElements) {
@@ -280,13 +282,14 @@ async function evaluateSpecialistRoom(cdp, route) {
         const text = (element.textContent || '').replace(/\\s+/g, ' ').trim();
         return isPrimaryButton(element) && primaryPattern.test(text);
       });
-      const dominantChatButtons = heroButtons.filter(element => {
+      const secondaryPattern = new RegExp(${JSON.stringify(route.secondaryText.source)}, ${JSON.stringify(route.secondaryText.flags)});
+      const dominantReportButtons = heroButtons.filter(element => {
         const text = (element.textContent || '').replace(/\\s+/g, ' ').trim();
-        return isPrimaryButton(element) && /chat|Predicta chat|Chat with/i.test(text);
+        return isPrimaryButton(element) && secondaryPattern.test(text);
       });
-      const secondaryChatButtons = heroButtons.filter(element => {
+      const secondaryReportButtons = heroButtons.filter(element => {
         const text = (element.textContent || '').replace(/\\s+/g, ' ').trim();
-        return isSecondaryButton(element) && /chat|Predicta chat|Chat with/i.test(text);
+        return isSecondaryButton(element) && secondaryPattern.test(text);
       });
       const proofDisclosure = document.querySelector('.predicta-world-proof-disclosure');
       const proofGrid = document.querySelector('.predicta-world-proof-disclosure .predicta-world-proof-grid');
@@ -299,7 +302,7 @@ async function evaluateSpecialistRoom(cdp, route) {
             !proofDisclosure.open &&
             (!proofGrid || window.getComputedStyle(proofGrid).display === 'none')
           ),
-          hasSecondaryChatEntry: secondaryChatButtons.length >= 1 && dominantChatButtons.length === 0,
+          hasSecondaryReportEntry: secondaryReportButtons.length >= 1 && dominantReportButtons.length === 0,
           hasSinglePrimaryHeroCta: primaryButtons.length === 1,
           hasUniqueHeroInteraction: Boolean(document.querySelector('[data-audit1-phase6-hero-interaction="' + route.interaction + '"]')),
           horizontalOverflow: Math.max(
@@ -314,6 +317,61 @@ async function evaluateSpecialistRoom(cdp, route) {
   });
 
   return response.result.value;
+}
+
+async function openDeferredEvidenceRoom(cdp, room) {
+  await cdp.send('Runtime.evaluate', {
+    awaitPromise: true,
+    expression: `new Promise(resolve => {
+      let details;
+      const done = () =>
+        Boolean(
+          details?.querySelector('.predicta-world-hero') ||
+          document.querySelector('[data-audit1-phase6-hero-interaction="${room}"]'),
+        );
+
+      const openDetails = () => {
+        details = document.querySelector('[data-app-revival-deferred-evidence-room="${room}"]');
+
+        if (!details) {
+          return false;
+        }
+
+        if (!details.open) {
+          const summary = details.querySelector('summary');
+          if (summary) {
+            summary.click();
+          } else {
+            details.open = true;
+            details.dispatchEvent(new Event('toggle', { bubbles: true }));
+          }
+        }
+
+        return true;
+      };
+
+      openDetails();
+
+      if (done()) {
+        resolve(true);
+        return;
+      }
+
+      const timer = setInterval(() => {
+        openDetails();
+
+        if (done()) {
+          clearInterval(timer);
+          resolve(true);
+        }
+      }, 100);
+
+      setTimeout(() => {
+        clearInterval(timer);
+        resolve(false);
+      }, 8000);
+    })()`,
+  });
 }
 
 async function waitForChrome(debugPort) {

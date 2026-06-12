@@ -9,7 +9,7 @@
       "viewportWidth": 1440,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -22,7 +22,7 @@
       "viewportWidth": 1440,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -35,7 +35,7 @@
       "viewportWidth": 1440,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -48,7 +48,7 @@
       "viewportWidth": 1440,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -61,7 +61,7 @@
       "viewportWidth": 1440,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -74,7 +74,7 @@
       "viewportWidth": 834,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -87,7 +87,7 @@
       "viewportWidth": 834,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -100,7 +100,7 @@
       "viewportWidth": 834,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -113,7 +113,7 @@
       "viewportWidth": 834,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -126,7 +126,7 @@
       "viewportWidth": 834,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -139,7 +139,7 @@
       "viewportWidth": 390,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -152,7 +152,7 @@
       "viewportWidth": 390,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -165,7 +165,7 @@
       "viewportWidth": 390,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -178,7 +178,7 @@
       "viewportWidth": 390,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
@@ -191,13 +191,13 @@
       "viewportWidth": 390,
       "clippedText": 0,
       "hasCollapsedProof": true,
-      "hasSecondaryChatEntry": true,
+      "hasSecondaryReportEntry": true,
       "hasSinglePrimaryHeroCta": true,
       "hasUniqueHeroInteraction": true,
       "horizontalOverflow": 0
     }
   ],
-  "generatedAt": "2026-06-02T20:17:24.052Z",
+  "generatedAt": "2026-06-12T06:28:59.364Z",
   "phase": "PREDICTA_AUDIT_1_PHASE_6_SPECIALIST_ROOM_VISUAL_IDENTITY_AND_PROGRESSIVE_DISCLOSURE",
   "screenshotRoot": "docs/audits/PREDICTA_AUDIT_1_ENTERPRISE_UI_UX/phase-6-specialist-room-visual-identity-progressive-disclosure/screenshots",
   "status": "green"

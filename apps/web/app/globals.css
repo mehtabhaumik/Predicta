@@ -22489,6 +22489,25 @@ select::-ms-expand {
   margin: 10px 0 14px;
 }
 
+.predicta-world-primary-actions {
+  align-items: stretch;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 clamp(18px, 2.2vw, 28px);
+}
+
+.predicta-world-primary-actions .button,
+.predicta-world-primary-actions .predicta-button {
+  min-height: 54px;
+  min-width: min(100%, 210px);
+  white-space: normal;
+}
+
+.predicta-world-primary-actions .predicta-button--primary {
+  box-shadow: 0 18px 52px color-mix(in srgb, var(--world-accent) 22%, transparent);
+}
+
 .predicta-world-hero-copy p,
 .predicta-world-report-note,
 .predicta-world-local-card p,
@@ -22901,9 +22920,16 @@ select::-ms-expand {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .predicta-world-primary-actions,
+  .predicta-world-primary-actions .button,
+  .predicta-world-primary-actions .predicta-button,
   .predicta-world-actions .button,
   .predicta-world-local-card {
     width: 100%;
+  }
+
+  .predicta-world-primary-actions {
+    display: grid;
   }
 
   .predicta-world-primary-guidance,

@@ -127,6 +127,18 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
         <div className="jaimini-room-hero-copy predicta-world-hero-copy">
           <p className="section-title">{copy.heroEyebrow.toUpperCase()}</p>
           <h1>{copy.destinyRoleTitle}</h1>
+          <div
+            aria-label={copy.primaryActionsAria}
+            className="jaimini-room-cta-row predicta-world-primary-actions"
+            data-audit1-phase6-hero-interaction="jaimini"
+          >
+            <PredictaButton href={chatHref} size="lg" variant="primary">
+              {copy.askCta}
+            </PredictaButton>
+            <PredictaButton href="/dashboard/report#report-lane-jaimini" size="lg" variant="secondary">
+              {copy.downloadCta}
+            </PredictaButton>
+          </div>
           <p>
             {shouldUseGeneratedJaiminiText
               ? jaiminiInterpretation.summary
@@ -141,18 +153,6 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
             <p>
               {copy.downloadCta} · {copy.askCta}
             </p>
-          </div>
-          <div
-            aria-label={copy.primaryActionsAria}
-            className="jaimini-room-cta-row predicta-world-actions"
-            data-audit1-phase6-hero-interaction="jaimini"
-          >
-            <PredictaButton href="/dashboard/report#report-lane-jaimini" size="lg" variant="primary">
-              {copy.downloadCta}
-            </PredictaButton>
-            <PredictaButton href={chatHref} size="lg" variant="secondary">
-              {copy.askCta}
-            </PredictaButton>
           </div>
         </div>
         <aside className="jaimini-soul-compass-card" aria-label={copy.compassAria}>

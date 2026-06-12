@@ -103,6 +103,21 @@ export function PredictaWorldFrame({
         <div className="predicta-world-hero-copy">
           <p className="section-title">{eyebrow}</p>
           <h1 className="gradient-text">{title}</h1>
+          <div
+            aria-label={t('Start this reading')}
+            className="predicta-world-primary-actions"
+          >
+            {chatAction ?? (
+              <PredictaButton href={chatHref} variant="primary">
+                {chatLabel}
+              </PredictaButton>
+            )}
+            {reportAction ?? (
+              <PredictaButton href={reportHref} variant="secondary">
+                {reportLabel}
+              </PredictaButton>
+            )}
+          </div>
           <p>{body}</p>
           {primaryGuidance ? (
             <div
@@ -122,18 +137,6 @@ export function PredictaWorldFrame({
         </div>
         <div className="predicta-world-aside">
           <PredictaBadge className="predicta-world-badge">{badge}</PredictaBadge>
-          <div className="predicta-world-actions">
-            {reportAction ?? (
-              <PredictaButton href={reportHref} variant="primary">
-                {reportLabel}
-              </PredictaButton>
-            )}
-            {chatAction ?? (
-              <PredictaButton href={chatHref} variant="secondary">
-                {chatLabel}
-              </PredictaButton>
-            )}
-          </div>
           <p className="predicta-world-report-note">{reportNote}</p>
           <div className="predicta-world-pillars">
             {pillars.map(pillar => (

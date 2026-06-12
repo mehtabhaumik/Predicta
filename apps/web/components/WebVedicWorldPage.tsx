@@ -187,6 +187,14 @@ export function WebVedicWorldPage(): React.JSX.Element {
               <div className="predicta-world-hero-copy">
                 <p className="section-title">{copy.hero.eyebrow}</p>
                 <h1 className="gradient-text">{copy.hero.title}</h1>
+                <div className="predicta-world-primary-actions">
+                  <Link className="button primary" href={chatHref}>
+                    {copy.actions.chat}
+                  </Link>
+                  <Link className="button secondary" href="/dashboard/report">
+                    {copy.report.cta}
+                  </Link>
+                </div>
                 <p>{copy.hero.body}</p>
                 <div
                   className="predicta-world-primary-guidance"
@@ -209,11 +217,6 @@ export function WebVedicWorldPage(): React.JSX.Element {
                       language,
                     )}
                   </p>
-                </div>
-                <div className="predicta-world-actions">
-                  <Link className="button primary" href={chatHref}>
-                    {copy.actions.chat}
-                  </Link>
                 </div>
               </div>
               <div

@@ -933,7 +933,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
             disabled={!canOpenReading}
             onClick={continueToPredicta}
             type="button"
-            variant="secondary"
+            variant="primary"
           >
             {copy.actions.askPredicta}
           </PredictaButton>
@@ -1039,11 +1039,11 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
         proofLabel={copy.proofLabel}
         reportAction={
           canOpenReading ? (
-            <PredictaButton href="/dashboard/report" variant="primary">
+            <PredictaButton href="/dashboard/report" variant="secondary">
               {copy.report.cta}
             </PredictaButton>
           ) : (
-            <PredictaButton disabled href="/dashboard/report" variant="primary">
+            <PredictaButton disabled href="/dashboard/report" variant="secondary">
               {copy.report.cta}
             </PredictaButton>
           )
