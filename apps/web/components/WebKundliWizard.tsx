@@ -117,6 +117,17 @@ export function WebKundliWizard(): React.JSX.Element {
   const shouldShowRelationshipSelector = !isOwnerProfile;
   const selectedPlaceLabel = selectedPlace ? getBirthPlaceLabel(selectedPlace) : '';
   const normalizedBirthPlaceQuery = normalizeBirthPlaceLabel(birthPlaceQuery);
+  const localBirthPlaceMatches = useMemo(
+    () =>
+      birthPlaceQuery.trim().length >= 2
+        ? searchLocalWebBirthPlaces(birthPlaceQuery.trim()).slice(0, 6)
+        : [],
+    [birthPlaceQuery],
+  );
+  const immediatelySettledBirthPlace = useMemo(
+    () => findSettledBirthPlaceCandidate(localBirthPlaceMatches, birthPlaceQuery),
+    [birthPlaceQuery, localBirthPlaceMatches],
+  );
   const isSelectedPlaceCurrent =
     Boolean(selectedPlace) &&
     (isExactBirthPlaceSelection(selectedPlace, birthPlaceQuery) ||
@@ -587,10 +598,15 @@ export function WebKundliWizard(): React.JSX.Element {
 
   const shouldShowReadyFirst = Boolean(kundli && !editingKundliId);
   const shouldSuppressBirthPlaceOverlay =
-    Boolean(selectedPlace) || isBirthPlaceSearchSettled;
+    Boolean(selectedPlace) ||
+    isBirthPlaceSearchSettled ||
+    Boolean(immediatelySettledBirthPlace);
   const visibleBirthPlaceSuggestions = shouldSuppressBirthPlaceOverlay
     ? []
-    : placeSuggestions.slice(0, 6);
+    : (placeSuggestions.length > 0
+        ? placeSuggestions
+        : localBirthPlaceMatches
+      ).slice(0, 6);
   const shouldShowBirthPlaceSuggestions =
     !shouldSuppressBirthPlaceOverlay &&
     isBirthPlaceInputFocused &&
@@ -697,8 +713,13 @@ export function WebKundliWizard(): React.JSX.Element {
             <div className="birth-place-search" ref={birthPlaceSearchRef}>
               <input
                 aria-describedby="birth-place-help"
-                autoComplete="new-password"
+                aria-autocomplete="list"
+                autoCapitalize="none"
+                autoComplete="off"
                 autoCorrect="off"
+                data-1p-ignore="true"
+                data-form-type="other"
+                data-lpignore="true"
                 name="predicta-birth-place-search"
                 ref={birthPlaceInputRef}
                 spellCheck={false}
@@ -710,6 +731,14 @@ export function WebKundliWizard(): React.JSX.Element {
                   setIsBirthPlaceInputFocused(true);
                   setBirthPlaceQuery(nextQuery);
                   setSelectedPlace(undefined);
+                  const settledPlace = findSettledBirthPlaceCandidate(
+                    searchLocalWebBirthPlaces(nextQuery).slice(0, 6),
+                    nextQuery,
+                  );
+                  if (settledPlace) {
+                    settleBirthPlaceSelection(settledPlace);
+                    return;
+                  }
                   if (
                     acceptedBirthPlaceQuery &&
                     acceptedBirthPlaceQuery === normalizedNextQuery

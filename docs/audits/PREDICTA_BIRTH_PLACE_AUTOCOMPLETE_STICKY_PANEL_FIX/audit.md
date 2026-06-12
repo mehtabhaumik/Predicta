@@ -135,3 +135,36 @@ Date: 2026-06-12
 Green. The birth-place autocomplete now treats `Petlad` as a closed, committed
 selection and forbids the trust-breaking state where a selectable place and
 `Searching places...` are visible together.
+
+## Immediate Local-Match And Autofill Collision Reaudit
+
+Date: 2026-06-12
+
+### Additional Fix
+
+- Added live local-match rendering so known local places are available to the
+  overlay immediately, even before async suggestion state catches up.
+- Added immediate exact-place settlement during input changes so `Petlad` cannot
+  spend a visible frame as both an accepted place and an open search.
+- Suppressed the overlay whenever the current query is already a settled local
+  place, even if stale suggestion/search state still exists.
+- Replaced the birth-place input's browser autocomplete hint with stronger
+  non-profile attributes: `autocomplete="off"`, `data-lpignore`,
+  `data-1p-ignore`, and `data-form-type="other"`.
+- Extended the regression gate to inspect the immediate exact-typed state after
+  `Petlad`, not only the final settled state.
+
+### Supplemental Evidence
+
+- `node --check scripts/run-birth-place-autocomplete-gate.mjs`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_AUTOCOMPLETE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:birth-place-autocomplete`: PASS. `exactImmediateHasSearchingPlaces=false`, `exactImmediateHasMixedOptionAndSearching=false`, exact `Petlad` resolves to `Petlad, Gujarat, India`, suggestions are unmounted, refocus stays closed, and no horizontal overflow is present.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/kundli corepack pnpm test:ui-text-overflow`: PASS, `4` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard/kundli corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+
+### Supplemental Result
+
+Green. Known local birth places now settle before the user can see a half-open
+search state, and browser profile/autofill UI is more aggressively discouraged
+from colliding with Predicta's custom place picker.

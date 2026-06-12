@@ -73,6 +73,10 @@ try {
     throw new Error('Birth-place autocomplete showed a place option and Searching places at the same time.');
   }
 
+  if (result.exactImmediateHasSearchingPlaces || result.exactImmediateHasMixedOptionAndSearching) {
+    throw new Error('Exact known birth place briefly showed a stale autocomplete panel.');
+  }
+
   if (!result.exactTypedSettledClosed) {
     throw new Error('Exact birth-place auto-populate did not dismiss the suggestions without an extra click.');
   }
@@ -168,7 +172,13 @@ async function runAutocompleteScenario(cdp) {
       input.dispatchEvent(new Event('change', { bubbles: true }));
     })()`,
   });
-  await delay(900);
+  await delay(80);
+
+  const exactImmediateState = await collectAutocompleteState(cdp, {
+    optionPattern: /Petlad/i,
+  });
+
+  await delay(820);
 
   const exactTypedState = await collectAutocompleteState(cdp, {
     optionPattern: /Petlad/i,
@@ -181,6 +191,11 @@ async function runAutocompleteScenario(cdp) {
   ) {
     return {
       ...exactTypedState,
+      exactImmediateHasMixedOptionAndSearching:
+        exactImmediateState.hasMixedOptionAndSearching,
+      exactImmediateHasSearchingPlaces: exactImmediateState.hasSearchingPlaces,
+      exactImmediateSuggestionsMounted: exactImmediateState.suggestionsMounted,
+      exactImmediateSuggestionsText: exactImmediateState.suggestionsText,
       exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
       exactTypedSettledClosed: true,
       exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
@@ -239,6 +254,11 @@ async function runAutocompleteScenario(cdp) {
     ) {
       return {
         ...earlyResult,
+        exactImmediateHasMixedOptionAndSearching:
+          exactImmediateState.hasMixedOptionAndSearching,
+        exactImmediateHasSearchingPlaces: exactImmediateState.hasSearchingPlaces,
+        exactImmediateSuggestionsMounted: exactImmediateState.suggestionsMounted,
+        exactImmediateSuggestionsText: exactImmediateState.suggestionsText,
         exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
         exactTypedSettledClosed: false,
         exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
@@ -252,6 +272,11 @@ async function runAutocompleteScenario(cdp) {
 
     return {
       ...earlyResult,
+      exactImmediateHasMixedOptionAndSearching:
+        exactImmediateState.hasMixedOptionAndSearching,
+      exactImmediateHasSearchingPlaces: exactImmediateState.hasSearchingPlaces,
+      exactImmediateSuggestionsMounted: exactImmediateState.suggestionsMounted,
+      exactImmediateSuggestionsText: exactImmediateState.suggestionsText,
       exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
       exactTypedSettledClosed: false,
       exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
@@ -291,6 +316,11 @@ async function runAutocompleteScenario(cdp) {
 
   return {
     ...selectedResult,
+    exactImmediateHasMixedOptionAndSearching:
+      exactImmediateState.hasMixedOptionAndSearching,
+    exactImmediateHasSearchingPlaces: exactImmediateState.hasSearchingPlaces,
+    exactImmediateSuggestionsMounted: exactImmediateState.suggestionsMounted,
+    exactImmediateSuggestionsText: exactImmediateState.suggestionsText,
     exactTypedHasSearchingPlaces: exactTypedState.hasSearchingPlaces,
     exactTypedSettledClosed: false,
     exactTypedSuggestionsMounted: exactTypedState.suggestionsMounted,
