@@ -48,6 +48,7 @@ export type AppShellLabels = {
     close: string;
     openMenu: string;
     closeMenu: string;
+    selectedKundliPrompt: string;
   };
   groups: {
     account: string;

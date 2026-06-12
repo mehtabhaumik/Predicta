@@ -103,7 +103,8 @@
         "askDockTitle": "Predicta can guide this page.",
         "close": "Close",
         "closeMenu": "Close navigation menu",
-        "openMenu": "Open navigation menu"
+        "openMenu": "Open navigation menu",
+        "selectedKundliPrompt": "Help me from my selected Kundli."
       },
       "groups": {
         "account": "Account",
@@ -198,7 +199,8 @@
         "askDockTitle": "प्रेडिक्टा इस पेज से मार्गदर्शन दे सकती है.",
         "close": "बंद करें",
         "closeMenu": "नेविगेशन मेनू बंद करें",
-        "openMenu": "नेविगेशन मेनू खोलें"
+        "openMenu": "नेविगेशन मेनू खोलें",
+        "selectedKundliPrompt": "मेरी चुनी हुई कुंडली से मेरी मदद करें."
       },
       "groups": {
         "account": "खाता",
@@ -293,7 +295,8 @@
         "askDockTitle": "પ્રેડિક્ટા આ પેજથી માર્ગદર્શન આપી શકે છે.",
         "close": "બંધ કરો",
         "closeMenu": "નેવિગેશન મેનૂ બંધ કરો",
-        "openMenu": "નેવિગેશન મેનૂ ખોલો"
+        "openMenu": "નેવિગેશન મેનૂ ખોલો",
+        "selectedKundliPrompt": "મારી પસંદ કરેલી કુંડળીથી મારી મદદ કરો."
       },
       "groups": {
         "account": "ખાતું",

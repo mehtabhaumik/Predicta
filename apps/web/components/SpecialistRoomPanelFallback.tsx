@@ -17,12 +17,10 @@ function buildFallbackAskHref(
     sourceScreen: string;
   },
   language: SpecialistRoomFallbackLanguage,
-  room: SpecialistRoomFallbackKey,
 ): string {
-  const canonicalRoomCopy = getSpecialistRoomFallbackRoomCopy('en', room);
   const params = new URLSearchParams({
     autoSend: 'true',
-    prompt: canonicalRoomCopy.prompt,
+    prompt: copy.prompt,
     selectedLanguage: language,
     sourceScreen: copy.sourceScreen,
   });
@@ -73,7 +71,7 @@ export function SpecialistRoomPanelFallback({
           return (
             <a
               className={`button predicta-i18n-link predicta-i18n-link-${language}`}
-              href={buildFallbackAskHref(roomCopy, language, room)}
+              href={buildFallbackAskHref(roomCopy, language)}
               key={language}
             >
               {copy.askCta}

@@ -313,7 +313,7 @@ export function DashboardShell({
   const topbarContext = getTopbarContextCopy(shellLabels, activeSection);
   const askPredictaHref = buildPredictaChatHref({
     kundliId: activeKundliId,
-    prompt: 'Help me from my selected Kundli.',
+    prompt: shellLabels.actions.selectedKundliPrompt,
     school: getTopbarPredictaSchool(activeSection.id),
     sourceScreen: getTopbarPredictaSourceScreen(activeSection),
   });
