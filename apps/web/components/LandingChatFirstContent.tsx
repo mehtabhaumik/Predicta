@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
@@ -12,6 +12,12 @@ import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 
 const DEFAULT_ASK_PROMPT =
   'Help me create my Kundli first, then answer my astrology question clearly.';
+
+let predictaChatRuntimePreload: Promise<unknown> | undefined;
+
+function preloadAskPredictaRuntime(): void {
+  predictaChatRuntimePreload ??= import('./WebPridictaChat');
+}
 
 function buildAskPredictaHref(prompt: string, mode: 'text' | 'voice' = 'text'): string {
   const resolvedPrompt = prompt.trim() || DEFAULT_ASK_PROMPT;
@@ -52,11 +58,17 @@ export function LandingChatFirstContent(): React.JSX.Element {
     { href: '/dashboard/signature', label: labels.nav.signature },
   ];
 
+  useEffect(() => {
+    router.prefetch('/ask');
+  }, [router]);
+
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {
+    preloadAskPredictaRuntime();
     router.push(buildAskPredictaHref(prompt, mode));
   }
 
   function startVoiceCapture(): void {
+    preloadAskPredictaRuntime();
     const started = speechInput.startListening();
     setVoiceStatus(started ? 'listening' : 'unsupported');
   }
@@ -72,10 +84,13 @@ export function LandingChatFirstContent(): React.JSX.Element {
 
         <form
           className="landing-ask-console glass-panel"
+          onFocus={preloadAskPredictaRuntime}
+          onPointerEnter={preloadAskPredictaRuntime}
           onSubmit={event => {
             event.preventDefault();
             openAskPredicta(question);
           }}
+          onTouchStart={preloadAskPredictaRuntime}
         >
           <label className="landing-ask-field">
             <span>{landing.suggestedQuestionLabel}</span>
@@ -92,6 +107,9 @@ export function LandingChatFirstContent(): React.JSX.Element {
               <Link
                 href={buildAskPredictaHref(item)}
                 key={item}
+                onFocus={preloadAskPredictaRuntime}
+                onPointerEnter={preloadAskPredictaRuntime}
+                onTouchStart={preloadAskPredictaRuntime}
               >
                 {item}
               </Link>
@@ -99,7 +117,13 @@ export function LandingChatFirstContent(): React.JSX.Element {
           </div>
 
           <div className="landing-ask-actions">
-            <Link className="button" href={buildAskPredictaHref(question)}>
+            <Link
+              className="button"
+              href={buildAskPredictaHref(question)}
+              onFocus={preloadAskPredictaRuntime}
+              onPointerEnter={preloadAskPredictaRuntime}
+              onTouchStart={preloadAskPredictaRuntime}
+            >
               {landing.askSubmit}
             </Link>
             <button
@@ -146,7 +170,13 @@ export function LandingChatFirstContent(): React.JSX.Element {
           <p>{landing.worldsBody}</p>
         </div>
         <div className="landing-world-actions">
-          <Link className="button" href={buildAskPredictaHref(landing.worldsAskPrompt)}>
+          <Link
+            className="button"
+            href={buildAskPredictaHref(landing.worldsAskPrompt)}
+            onFocus={preloadAskPredictaRuntime}
+            onPointerEnter={preloadAskPredictaRuntime}
+            onTouchStart={preloadAskPredictaRuntime}
+          >
             {landing.worldsPrimaryCta}
           </Link>
           <Link className="button secondary" href="/dashboard">
@@ -217,7 +247,13 @@ export function LandingChatFirstContent(): React.JSX.Element {
           <h2>{landing.plansTitle}</h2>
           <p>{landing.plansIntro}</p>
         </div>
-        <Link className="button" href={buildAskPredictaHref(DEFAULT_ASK_PROMPT)}>
+        <Link
+          className="button"
+          href={buildAskPredictaHref(DEFAULT_ASK_PROMPT)}
+          onFocus={preloadAskPredictaRuntime}
+          onPointerEnter={preloadAskPredictaRuntime}
+          onTouchStart={preloadAskPredictaRuntime}
+        >
           {copy.hero.primary}
         </Link>
       </section>
