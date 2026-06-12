@@ -1412,6 +1412,54 @@ button:disabled,
   border-color: var(--border);
 }
 
+.mobile-menu-panel nav .mobile-menu-primary-ask {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  box-shadow: 0 16px 36px rgba(70, 149, 255, 0.18);
+}
+
+.mobile-menu-world-drawer {
+  border-top: 1px solid var(--border-quiet);
+  padding-top: 12px;
+}
+
+.mobile-menu-world-drawer summary {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--border-quiet);
+  border-radius: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  font-weight: 900;
+  justify-content: space-between;
+  letter-spacing: 0.08em;
+  list-style: none;
+  padding: 12px 14px;
+  text-transform: uppercase;
+}
+
+.mobile-menu-world-drawer summary::-webkit-details-marker {
+  display: none;
+}
+
+.mobile-menu-world-drawer summary strong {
+  color: var(--text);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.mobile-menu-world-drawer[open] summary strong {
+  transform: rotate(45deg);
+}
+
+.mobile-menu-world-drawer > div {
+  display: grid;
+  gap: 10px;
+  padding-top: 10px;
+}
+
 .mobile-menu-actions .button {
   width: 100%;
 }

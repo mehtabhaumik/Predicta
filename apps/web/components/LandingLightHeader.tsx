@@ -17,15 +17,17 @@ export function LandingLightHeader(): React.JSX.Element {
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const labels = getLightweightAppShellLabels(language);
   const responseCopy = getLightweightCompetitorResponseCopy(language);
-  const menuLinks = [
-    { href: '/ask', label: labels.actions.askPredicta },
+  const primaryMenuLinks = [
+    { href: '/dashboard', label: labels.nav.dashboard },
+    { href: '/dashboard/report', label: labels.nav.reports },
+    { href: '/pricing', label: labels.nav.premium },
+  ];
+  const worldMenuLinks = [
     { href: '/dashboard/vedic', label: labels.nav.vedic },
     { href: '/dashboard/kp', label: labels.nav.kp },
     { href: '/dashboard/jaimini', label: labels.nav.jaimini },
     { href: '/dashboard/numerology', label: labels.nav.numerology },
     { href: '/dashboard/signature', label: labels.nav.signature },
-    { href: '/dashboard/report', label: labels.nav.reports },
-    { href: '/pricing', label: labels.nav.premium },
   ];
   const desktopLinks = [
     { href: '/#predicta-worlds', label: labels.groups.worlds },
@@ -112,7 +114,14 @@ export function LandingLightHeader(): React.JSX.Element {
             <div className="mobile-menu-panel">
               <nav aria-label={labels.groups.sections}>
                 <div className="mobile-menu-nav-group">
-                  {menuLinks.map(link =>
+                  <Link
+                    className="mobile-menu-primary-ask"
+                    href="/ask"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {labels.actions.askPredicta}
+                  </Link>
+                  {primaryMenuLinks.map(link =>
                     renderMobileNavLink({
                       link,
                       onClick: () => setMenuOpen(false),
@@ -120,16 +129,24 @@ export function LandingLightHeader(): React.JSX.Element {
                     }),
                   )}
                 </div>
+                <details className="mobile-menu-world-drawer">
+                  <summary>
+                    <span>{labels.groups.worlds}</span>
+                    <strong aria-hidden="true">+</strong>
+                  </summary>
+                  <div>
+                    {worldMenuLinks.map(link =>
+                      renderMobileNavLink({
+                        link,
+                        onClick: () => setMenuOpen(false),
+                        pathname,
+                      }),
+                    )}
+                  </div>
+                </details>
               </nav>
               <div className="mobile-menu-actions">
                 <LightweightLanguageSelector compact />
-                <Link
-                  className="button secondary"
-                  href="/ask"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {labels.actions.askPredicta}
-                </Link>
               </div>
             </div>
           </>

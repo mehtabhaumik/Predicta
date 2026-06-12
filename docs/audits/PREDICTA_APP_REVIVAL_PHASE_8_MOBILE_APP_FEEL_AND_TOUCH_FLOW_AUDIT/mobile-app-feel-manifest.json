@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:3009",
-  "generatedAt": "2026-06-12T01:09:53.790Z",
+  "generatedAt": "2026-06-12T03:03:03.305Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -1816,18 +1816,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 940,
-          "className": "sidebar",
-          "height": 940,
-          "tag": "aside",
-          "top": 0
-        },
-        {
-          "bottom": 138,
+          "bottom": 154,
           "className": "dashboard-topbar glass-panel",
           "height": 122,
           "tag": "div",
-          "top": 16
+          "top": 32
         }
       ],
       "horizontalOverflow": false,
@@ -1850,18 +1843,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 940,
-          "className": "sidebar",
-          "height": 940,
-          "tag": "aside",
-          "top": 0
-        },
-        {
-          "bottom": 138,
+          "bottom": 154,
           "className": "dashboard-topbar glass-panel",
           "height": 122,
           "tag": "div",
-          "top": 16
+          "top": 32
         }
       ],
       "horizontalOverflow": false,
@@ -1884,18 +1870,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 940,
-          "className": "sidebar",
-          "height": 940,
-          "tag": "aside",
-          "top": 0
-        },
-        {
-          "bottom": 138,
+          "bottom": 154,
           "className": "dashboard-topbar glass-panel",
           "height": 122,
           "tag": "div",
-          "top": 16
+          "top": 32
         }
       ],
       "horizontalOverflow": false,
@@ -1918,18 +1897,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 940,
-          "className": "sidebar",
-          "height": 940,
-          "tag": "aside",
-          "top": 0
-        },
-        {
-          "bottom": 138,
+          "bottom": 154,
           "className": "dashboard-topbar glass-panel",
           "height": 122,
           "tag": "div",
-          "top": 16
+          "top": 32
         }
       ],
       "horizontalOverflow": false,
@@ -1952,18 +1924,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 940,
-          "className": "sidebar",
-          "height": 940,
-          "tag": "aside",
-          "top": 0
-        },
-        {
-          "bottom": 138,
+          "bottom": 154,
           "className": "dashboard-topbar glass-panel",
           "height": 122,
           "tag": "div",
-          "top": 16
+          "top": 32
         }
       ],
       "horizontalOverflow": false,
@@ -1986,18 +1951,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 940,
-          "className": "sidebar",
-          "height": 940,
-          "tag": "aside",
-          "top": 0
-        },
-        {
-          "bottom": 138,
+          "bottom": 154,
           "className": "dashboard-topbar glass-panel",
           "height": 122,
           "tag": "div",
-          "top": 16
+          "top": 32
         }
       ],
       "horizontalOverflow": false,
@@ -2020,18 +1978,11 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 940,
-          "className": "sidebar",
-          "height": 940,
-          "tag": "aside",
-          "top": 0
-        },
-        {
-          "bottom": 138,
+          "bottom": 154,
           "className": "dashboard-topbar glass-panel",
           "height": 122,
           "tag": "div",
-          "top": 16
+          "top": 32
         }
       ],
       "horizontalOverflow": false,

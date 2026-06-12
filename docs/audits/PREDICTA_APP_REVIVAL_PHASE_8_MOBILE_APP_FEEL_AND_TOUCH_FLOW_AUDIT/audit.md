@@ -218,6 +218,43 @@ plus a quiet world rail below the primary Ask moment.
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS, 15 scenarios.
 - `corepack pnpm test:global-translation-coverage`: PASS.
 
+## Supplemental Public Mobile Menu Drawer Lock
+
+Date: 2026-06-12
+
+The public mobile menu still felt like a flat specialist-room control panel. It
+listed every world with the same visual weight as the primary user actions,
+which made the menu feel crowded before the user could simply ask Predicta.
+
+### Changes
+
+- Public mobile menu now puts `Ask Predicta` first as the strongest action.
+- Primary mobile menu links are limited to `My Kundlis`, `Reports`, and
+  `Premium`.
+- Vedic, KP, Jaimini, Numerology, and Signature are preserved inside a
+  translated `Predicta Worlds` disclosure instead of being removed.
+- Removed the duplicate bottom `Ask Predicta` button from the mobile menu
+  actions area so the menu does not repeat itself.
+
+### Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_MOBILE_APP_FEEL_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-8`: PASS, 63 route and viewport screenshots regenerated.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/pricing,/feedback corepack pnpm test:ui-text-overflow`: PASS, 16 route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/pricing,/feedback corepack pnpm test:ui-personal-space`: PASS, 56 route and viewport checks.
+
+### Visual Audit Notes
+
+- The mobile menu now reads as `Ask Predicta` first, then account/report/payment
+  actions, then optional specialist-world navigation.
+- Specialist worlds remain discoverable without competing with the main
+  Predicta action.
+- No audited public surface introduced horizontal overflow, text clipping, or
+  personal-space collisions.
+
 ### Visual Audit Notes
 
 - `desktop-1440-home.png`: logo, nav, language selector, and Ask Predicta CTA
