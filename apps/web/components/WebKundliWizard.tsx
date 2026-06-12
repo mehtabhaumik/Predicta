@@ -271,7 +271,9 @@ export function WebKundliWizard(): React.JSX.Element {
   function selectBirthPlace(option: WebBirthPlace) {
     resetFlow();
     settleBirthPlaceSelection(option);
-    birthPlaceInputRef.current?.blur();
+    window.requestAnimationFrame(() => {
+      birthPlaceInputRef.current?.blur();
+    });
   }
 
   useEffect(() => {
@@ -627,7 +629,9 @@ export function WebKundliWizard(): React.JSX.Element {
     localBirthPlaceMatches.length === 0 &&
     placeSuggestions.length === 0;
   const shouldShowBirthPlaceOverlay =
-    shouldShowBirthPlaceSuggestions || shouldShowBirthPlaceSearchStatus;
+    isBirthPlaceInputFocused &&
+    !shouldSuppressBirthPlaceOverlay &&
+    (shouldShowBirthPlaceSuggestions || shouldShowBirthPlaceSearchStatus);
   const readyFlow = kundli ? (
     <KundliReadyFlow
       creationNote={lastCreationNote}
@@ -847,14 +851,22 @@ export function WebKundliWizard(): React.JSX.Element {
                           key={`${option.place}-${option.latitude}-${option.longitude}`}
                           onPointerDown={event => {
                             event.preventDefault();
+                            event.stopPropagation();
                             selectBirthPlace(option);
                           }}
-                          onClick={() => {
+                          onMouseDown={event => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                          }}
+                          onClick={event => {
+                            event.preventDefault();
+                            event.stopPropagation();
                             selectBirthPlace(option);
                           }}
                           onKeyDown={event => {
                             if (event.key === 'Enter' || event.key === ' ') {
                               event.preventDefault();
+                              event.stopPropagation();
                               selectBirthPlace(option);
                             }
                           }}
