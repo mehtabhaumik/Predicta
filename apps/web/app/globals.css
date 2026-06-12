@@ -21772,7 +21772,7 @@ select::-ms-expand {
     radial-gradient(circle at 88% 12%, rgba(239, 80, 175, 0.12), transparent 26%),
     var(--color-bg);
   min-height: 100dvh;
-  padding: clamp(24px, 4vw, 52px) var(--page-gutter) clamp(16px, 3vw, 32px);
+  padding: clamp(14px, 2.2vw, 28px) var(--page-gutter) clamp(16px, 3vw, 32px);
 }
 
 .ask-lean-header {
@@ -21891,6 +21891,22 @@ select::-ms-expand {
 .ask-predicta-page {
   margin: 0 auto;
   max-width: min(1120px, 100%);
+}
+
+.ask-predicta-page .ask-light-console {
+  gap: clamp(12px, 1.8vw, 16px);
+  padding: clamp(16px, 2.4vw, 24px);
+}
+
+.ask-predicta-page .ask-light-copy {
+  gap: 6px;
+  max-width: min(880px, 100%);
+}
+
+.ask-predicta-page .ask-light-copy h1 {
+  font-size: clamp(30px, 3.6vw, 44px);
+  letter-spacing: -0.045em;
+  line-height: 1;
 }
 
 .ask-light-shell {
