@@ -289,6 +289,13 @@ export function WebKundliWizard(): React.JSX.Element {
     nextSuggestions: WebBirthPlace[],
     query = birthPlaceQuery,
   ) {
+    const settledSuggestion = findSettledBirthPlaceCandidate(nextSuggestions, query);
+
+    if (settledSuggestion) {
+      settleBirthPlaceSelection(settledSuggestion);
+      return;
+    }
+
     if (
       birthPlaceSearchSettledRef.current ||
       isResolvedBirthPlaceQuery(query)
@@ -893,6 +900,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const canShowBirthPlaceOverlay =
     isBirthPlaceInputFocused &&
     !shouldSuppressBirthPlaceOverlay &&
+    !isResolvedBirthPlaceQuery(birthPlaceQuery) &&
     normalizedBirthPlaceQuery.length >= 2;
   const visibleBirthPlaceSuggestions = !canShowBirthPlaceOverlay
     ? []

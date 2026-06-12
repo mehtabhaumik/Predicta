@@ -157,6 +157,7 @@ export default function DashboardPage(): React.JSX.Element {
 
             return (
               <Link
+                aria-label={`${question.title}: ${question.body}`}
                 className="library-outcome-card"
                 href={href}
                 key={question.title}
@@ -165,6 +166,7 @@ export default function DashboardPage(): React.JSX.Element {
                 onTouchStart={() => prewarmDashboardAsk(href)}
               >
                 <strong>{question.title}</strong>
+                {' '}
                 <span>{question.body}</span>
               </Link>
             );
