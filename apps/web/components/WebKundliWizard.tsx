@@ -384,6 +384,24 @@ export function WebKundliWizard(): React.JSX.Element {
   }, [isSearchingPlaces, localBirthPlaceMatches.length, placeSuggestions.length]);
 
   useEffect(() => {
+    if (
+      !immediatelySettledBirthPlace ||
+      isBirthPlaceSelectionLocked ||
+      isSelectedPlaceCurrent
+    ) {
+      return;
+    }
+
+    // Exact local matches should become a real resolved place immediately,
+    // not a half-open autocomplete state that waits for another click.
+    settleBirthPlaceSelection(immediatelySettledBirthPlace);
+  }, [
+    immediatelySettledBirthPlace,
+    isBirthPlaceSelectionLocked,
+    isSelectedPlaceCurrent,
+  ]);
+
+  useEffect(() => {
     if (!isBirthPlaceInputFocused && !isPlaceSuggestionsOpen) {
       return undefined;
     }
