@@ -13,6 +13,7 @@ import { loadWebServerLedgerState } from '../lib/web-access-state';
 import { loadWebAutoSaveMemory } from '../lib/web-auto-save-memory';
 import { getOrCreateWebGuestSession } from '../lib/web-guest-session';
 import { useLanguagePreference } from '../lib/language-preference';
+import { applyPredictaDocumentLanguage } from '../lib/document-language';
 import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
 import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { WebAppTranslationRuntime } from './WebAppTranslationRuntime';
@@ -62,6 +63,7 @@ export function ClientServicesProvider(): React.JSX.Element {
   }, []);
 
   useEffect(() => {
+    applyPredictaDocumentLanguage(language);
     document.title = getLocalizedPredictaPageTitle(pathname, language);
   }, [language, pathname]);
 

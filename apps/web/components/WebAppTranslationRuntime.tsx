@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { translateUiText } from '@pridicta/config/uiTranslations';
+import { applyPredictaDocumentLanguage } from '../lib/document-language';
 import { useLanguagePreference } from '../lib/language-preference';
 import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
 
@@ -39,7 +40,7 @@ export function WebAppTranslationRuntime(): null {
     const applyLocalizedTitle = () => {
       document.title = localizedTitle;
     };
-    document.documentElement.lang = language;
+    applyPredictaDocumentLanguage(language);
     applyLocalizedTitle();
     const titleTimers = [0, 250, 1000].map(delay =>
       window.setTimeout(applyLocalizedTitle, delay),
