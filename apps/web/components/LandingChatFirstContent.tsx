@@ -125,15 +125,16 @@ export function LandingChatFirstContent(): React.JSX.Element {
           </div>
 
           <div className="landing-ask-actions">
-            <Link
+            <button
               className="button"
-              href={buildAskPredictaHref(question, landing.defaultAskPrompt)}
+              onClick={() => preloadAskPredictaRuntime()}
               onFocus={preloadAskPredictaRuntime}
               onPointerEnter={preloadAskPredictaRuntime}
               onTouchStart={preloadAskPredictaRuntime}
+              type="submit"
             >
               {landing.askSubmit}
-            </Link>
+            </button>
             <button
               className={
                 speechInput.isListening
