@@ -2,9 +2,10 @@
 
 import { getAppShellLabels, getCompetitorResponseCopy } from '@pridicta/config';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useLanguagePreference } from '../lib/language-preference';
+import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { AuthDialog } from './AuthDialog';
 import { PredictaMediaAsset } from './ui/DesignSystemPrimitives';
 import { WebLanguageSelector } from './WebLanguageSelector';
@@ -12,11 +13,17 @@ import { WebLanguageSelector } from './WebLanguageSelector';
 export function WebHeader(): React.JSX.Element {
   const { language } = useLanguagePreference();
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const shellLabels = getAppShellLabels(language);
   const copy = buildPublicHeaderCopy(shellLabels);
   const responseCopy = getCompetitorResponseCopy(language);
+
+  function prewarmAskPredicta(): void {
+    preloadAskPredictaRuntime();
+    router.prefetch('/ask');
+  }
 
   useEffect(() => {
     if (!menuOpen) {
@@ -74,7 +81,13 @@ export function WebHeader(): React.JSX.Element {
       <div className="header-actions">
         <WebLanguageSelector compact hideCompactLabel />
         <AuthDialog />
-        <Link className="button secondary header-cta" href="/ask">
+        <Link
+          className="button secondary header-cta"
+          href="/ask"
+          onFocus={prewarmAskPredicta}
+          onPointerEnter={prewarmAskPredicta}
+          onTouchStart={prewarmAskPredicta}
+        >
           {shellLabels.actions.askPredicta}
         </Link>
       </div>
@@ -127,7 +140,13 @@ export function WebHeader(): React.JSX.Element {
                 <Link
                   className="button secondary"
                   href="/ask"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => {
+                    prewarmAskPredicta();
+                    setMenuOpen(false);
+                  }}
+                  onFocus={prewarmAskPredicta}
+                  onPointerEnter={prewarmAskPredicta}
+                  onTouchStart={prewarmAskPredicta}
                 >
                   {shellLabels.actions.askPredicta}
                 </Link>

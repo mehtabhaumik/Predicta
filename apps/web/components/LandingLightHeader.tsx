@@ -1,18 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
 } from '../lib/lightweight-public-copy';
+import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { LightweightLanguageSelector } from './LightweightLanguageSelector';
 
 export function LandingLightHeader(): React.JSX.Element {
   const { language } = useLightweightLanguagePreference();
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const labels = getLightweightAppShellLabels(language);
@@ -27,6 +29,11 @@ export function LandingLightHeader(): React.JSX.Element {
     { href: '/dashboard/report', label: labels.nav.reports },
     { href: '/pricing', label: labels.nav.premium },
   ];
+
+  function prewarmAskPredicta(): void {
+    preloadAskPredictaRuntime();
+    router.prefetch('/ask');
+  }
 
   useEffect(() => {
     if (!menuOpen) {
@@ -81,7 +88,13 @@ export function LandingLightHeader(): React.JSX.Element {
       </nav>
       <div className="header-actions">
         <LightweightLanguageSelector compact hideCompactLabel />
-        <Link className="button secondary header-cta" href="/ask">
+        <Link
+          className="button secondary header-cta"
+          href="/ask"
+          onFocus={prewarmAskPredicta}
+          onPointerEnter={prewarmAskPredicta}
+          onTouchStart={prewarmAskPredicta}
+        >
           {labels.actions.askPredicta}
         </Link>
       </div>
@@ -110,7 +123,13 @@ export function LandingLightHeader(): React.JSX.Element {
                   <Link
                     className="mobile-menu-primary-ask"
                     href="/ask"
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => {
+                      prewarmAskPredicta();
+                      setMenuOpen(false);
+                    }}
+                    onFocus={prewarmAskPredicta}
+                    onPointerEnter={prewarmAskPredicta}
+                    onTouchStart={prewarmAskPredicta}
                   >
                     {labels.actions.askPredicta}
                   </Link>

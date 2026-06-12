@@ -169,6 +169,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
             <Link
               href={buildAskHref(item)}
               key={item}
+              onFocus={preloadFullPredictaChat}
               onPointerEnter={preloadFullPredictaChat}
               onTouchStart={preloadFullPredictaChat}
             >
