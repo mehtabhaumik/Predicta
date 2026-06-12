@@ -1,25 +1,24 @@
 'use client';
 
 import Link from 'next/link';
-import { getAccuracyMethodCopy } from '@pridicta/config/accuracyMethod';
-import { getLanguageLabels } from '@pridicta/config/language';
 import { Card } from '../../components/Card';
-import { StatusPill } from '../../components/StatusPill';
 import { LandingLightFooter } from '../../components/LandingLightFooter';
 import { LandingLightHeader } from '../../components/LandingLightHeader';
-import { useLanguagePreference } from '../../lib/language-preference';
+import { getLightweightAccuracyMethodCopy } from '../../lib/lightweight-accuracy-method-copy';
+import { getLightweightLanguageLabels } from '../../lib/lightweight-public-copy';
+import { useLightweightLanguagePreference } from '../../lib/use-lightweight-language-preference';
 
 export function AccuracyMethodPageClient(): React.JSX.Element {
-  const { language } = useLanguagePreference();
-  const copy = getAccuracyMethodCopy(language);
-  const labels = getLanguageLabels(language);
+  const { language } = useLightweightLanguagePreference();
+  const copy = getLightweightAccuracyMethodCopy(language);
+  const labels = getLightweightLanguageLabels(language);
 
   return (
     <>
       <LandingLightHeader />
       <main className="method-page">
         <div className="page-heading compact method-heading">
-          <StatusPill label={copy.hero.eyebrow} tone="premium" />
+          <span className="status-pill status-pill-premium">{copy.hero.eyebrow}</span>
           <h1 className="gradient-text">{copy.hero.title}</h1>
           <p>{copy.hero.body}</p>
         </div>

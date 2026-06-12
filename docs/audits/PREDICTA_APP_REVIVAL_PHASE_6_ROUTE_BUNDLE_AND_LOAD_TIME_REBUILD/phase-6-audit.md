@@ -156,6 +156,52 @@ Supplemental verification:
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
 - `git diff --check`: PASS.
 
+## Supplemental Accuracy Method Public Route Budget Repair
+
+Date: 2026-06-12
+
+The current Phase 6 budget gate caught a public-route performance drift:
+`/accuracy-method` measured `142 KB` page-specific JS against the strict
+`140 KB` public-route budget. This is small in size but important in product
+terms because the app-revival contract treats late-feeling public links and
+heavy public pages as release blockers.
+
+Implementation lock:
+
+- Replaced full `@pridicta/config` package imports inside
+  `AccuracyMethodPageClient` with a route-local lightweight copy helper.
+- Kept accuracy/method translations sourced from the dedicated config
+  translation JSON-backed module.
+- Kept the shared public lightweight copy helper free of route-specific
+  accuracy-method payload so landing, Ask, pricing, checkout, safety, founder,
+  feedback, and legal routes do not pay for that copy.
+- Removed the small `StatusPill` component import from the accuracy page and
+  rendered the existing status-pill classes directly.
+
+Performance evidence:
+
+- Before repair: `/accuracy-method` page-specific JS was `142 KB` against the
+  `140 KB` budget.
+- After repair: `/accuracy-method` page-specific JS is `137 KB` against the
+  `140 KB` budget.
+- Public pages that briefly regressed during a shared-helper experiment were
+  restored to `119 KB` page-specific JS for checkout, feedback, founder,
+  pricing, and safety.
+
+Supplemental verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `corepack pnpm test:app-revival-phase-6`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/accuracy-method,/pricing,/safety,/legal,/feedback corepack pnpm test:ui-text-overflow`: PASS, 28 route and viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/accuracy-method,/pricing,/safety,/legal,/feedback corepack pnpm test:ui-personal-space`: PASS, 56 route and viewport checks.
+- Browser runtime smoke on `/accuracy-method`: Gujarati content rendered from
+  the active language preference, two `/ask` links existed, the Kundli and
+  Safety CTAs remained present, and no horizontal overflow was detected.
+- `git diff --check`: PASS.
+
 ## Supplemental Ask Predicta Intent Preload Lock
 
 Date: 2026-06-12
