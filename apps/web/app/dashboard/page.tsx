@@ -108,19 +108,15 @@ export default function DashboardPage(): React.JSX.Element {
               <button className="button" type="submit">
                 {copy.libraryAskHelpCta}
               </button>
-              <Link
-                className="button secondary"
-                href={askHref}
-                onFocus={() => prewarmDashboardAsk(askHref)}
-                onPointerEnter={() => prewarmDashboardAsk(askHref)}
-                onTouchStart={() => prewarmDashboardAsk(askHref)}
-              >
-                {copy.primaryPredictaPrimary}
-              </Link>
             </div>
           </form>
-          <p>{copy.primaryPredictaBody}</p>
-          <span>{copy.primaryPredictaProof}</span>
+          <details className="library-proof-drawer">
+            <summary>
+              <span>{copy.primaryPredictaProof}</span>
+              <strong>{copy.outcomeDrawerCta}</strong>
+            </summary>
+            <p>{copy.primaryPredictaBody}</p>
+          </details>
         </div>
         <div className="primary-predicta-actions">
           {!activeKundli ? (
@@ -135,20 +131,18 @@ export default function DashboardPage(): React.JSX.Element {
         </div>
       </section>
 
-      <section className="library-outcome-panel glass-panel">
-        <div className="library-outcome-head">
+      <details className="library-outcome-panel library-outcome-drawer glass-panel">
+        <summary className="library-outcome-head">
           <div>
             <div className="section-title">{copy.outcomeEyebrow}</div>
             <h2>{copy.outcomeTitle}</h2>
           </div>
-          <details className="library-outcome-help">
-            <summary>
-              <span>{copy.outcomeDrawerTitle}</span>
-              <strong>{copy.outcomeDrawerCta}</strong>
-            </summary>
-            <p>{copy.outcomeDrawerBody}</p>
-          </details>
-        </div>
+          <span>
+            <small>{copy.outcomeDrawerTitle}</small>
+            <strong>{copy.outcomeDrawerCta}</strong>
+          </span>
+        </summary>
+        <p className="library-outcome-drawer-body">{copy.outcomeDrawerBody}</p>
         <div className="library-outcome-grid">
           {copy.outcomeQuestions.map(question => {
             const href = buildPredictaChatHref({
@@ -172,7 +166,7 @@ export default function DashboardPage(): React.JSX.Element {
             );
           })}
         </div>
-      </section>
+      </details>
 
       <section className="library-quick-strip glass-panel">
         <div>
