@@ -8,6 +8,7 @@ import {
   getLightweightCompetitorResponseCopy,
 } from '../../lib/lightweight-public-copy';
 import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
+import { preloadAskPredictaRuntime } from '../../lib/predicta-chat-runtime-preload';
 import { useLightweightKundliSnapshot } from '../../lib/use-lightweight-kundli-snapshot';
 import { useLightweightLanguagePreference } from '../../lib/use-lightweight-language-preference';
 
@@ -33,6 +34,12 @@ export default function DashboardPage(): React.JSX.Element {
     sourceScreen: 'My Kundlis',
   });
 
+  function prewarmDashboardAsk(href = askHref) {
+    preloadAskPredictaRuntime();
+    router.prefetch('/ask');
+    router.prefetch(href);
+  }
+
   function handleQuestionSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -43,21 +50,22 @@ export default function DashboardPage(): React.JSX.Element {
         : activeKundli
           ? copy.libraryAskActivePrompt
           : copy.libraryAskNewPrompt;
-    router.push(
-      buildPredictaChatHref({
-        kundliId: activeKundli?.id,
-        prompt,
-        sourceScreen: 'My Kundlis',
-      }),
-    );
+    const nextHref = buildPredictaChatHref({
+      kundliId: activeKundli?.id,
+      prompt,
+      sourceScreen: 'My Kundlis',
+    });
+    prewarmDashboardAsk(nextHref);
+    router.push(nextHref);
   }
 
   useEffect(() => {
+    prewarmDashboardAsk();
     setIsFamilyFriendsVisit(
       new URLSearchParams(window.location.search).get('source') ===
         'family-friends',
     );
-  }, []);
+  }, [askHref]);
 
   return (
     <section className="dashboard-page library-dashboard-page">
@@ -75,7 +83,10 @@ export default function DashboardPage(): React.JSX.Element {
 
       <form
         className="primary-predicta-panel library-predicta-panel glass-panel"
+        onFocus={() => prewarmDashboardAsk()}
+        onPointerEnter={() => prewarmDashboardAsk()}
         onSubmit={handleQuestionSubmit}
+        onTouchStart={() => prewarmDashboardAsk()}
       >
         <div className="primary-predicta-copy">
           <div className="section-title">
@@ -103,7 +114,13 @@ export default function DashboardPage(): React.JSX.Element {
           <button className="button" type="submit">
             {copy.primaryPredictaPrimary}
           </button>
-          <Link className="button secondary" href={askHref}>
+          <Link
+            className="button secondary"
+            href={askHref}
+            onFocus={() => prewarmDashboardAsk(askHref)}
+            onPointerEnter={() => prewarmDashboardAsk(askHref)}
+            onTouchStart={() => prewarmDashboardAsk(askHref)}
+          >
             {copy.libraryAskHelpCta}
           </Link>
           {!activeKundli ? (
@@ -133,20 +150,27 @@ export default function DashboardPage(): React.JSX.Element {
           </details>
         </div>
         <div className="library-outcome-grid">
-          {copy.outcomeQuestions.map(question => (
-            <Link
-              className="library-outcome-card"
-              href={buildPredictaChatHref({
-                kundliId: activeKundli?.id,
-                prompt: question.prompt,
-                sourceScreen: 'My Kundlis',
-              })}
-              key={question.title}
-            >
-              <strong>{question.title}</strong>
-              <span>{question.body}</span>
-            </Link>
-          ))}
+          {copy.outcomeQuestions.map(question => {
+            const href = buildPredictaChatHref({
+              kundliId: activeKundli?.id,
+              prompt: question.prompt,
+              sourceScreen: 'My Kundlis',
+            });
+
+            return (
+              <Link
+                className="library-outcome-card"
+                href={href}
+                key={question.title}
+                onFocus={() => prewarmDashboardAsk(href)}
+                onPointerEnter={() => prewarmDashboardAsk(href)}
+                onTouchStart={() => prewarmDashboardAsk(href)}
+              >
+                <strong>{question.title}</strong>
+                <span>{question.body}</span>
+              </Link>
+            );
+          })}
         </div>
       </section>
 

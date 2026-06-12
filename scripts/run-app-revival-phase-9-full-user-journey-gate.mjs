@@ -562,6 +562,7 @@ if (failures.length) {
 }
 
 console.log(`${phaseName} passed. Manifest: ${manifestPath}`);
+process.exit(0);
 
 async function runSourceContractChecks() {
   const checks = [];
