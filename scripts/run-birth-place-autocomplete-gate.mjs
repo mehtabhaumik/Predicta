@@ -59,7 +59,10 @@ try {
 
   const result = await runAutocompleteScenario(cdp);
   await navigateAndWait(cdp, `${baseUrl}/dashboard/kundli`);
+  const clickSuggestionResult = await runClickSuggestionAutocompleteScenario(cdp);
+  await navigateAndWait(cdp, `${baseUrl}/dashboard/kundli`);
   const humanTypingResult = await runHumanTypingAutocompleteScenario(cdp);
+  result.clickSuggestion = clickSuggestionResult;
   result.humanTyping = humanTypingResult;
 
   console.log(JSON.stringify(result, null, 2));
@@ -115,6 +118,35 @@ try {
     throw new Error('Birth-place input was not found during the human typing scenario.');
   }
 
+  if (!clickSuggestionResult.inputFound) {
+    throw new Error('Birth-place input was not found during the click suggestion scenario.');
+  }
+
+  if (!clickSuggestionResult.optionFound) {
+    throw new Error('Petlad suggestion option was not clickable during the click suggestion scenario.');
+  }
+
+  if (clickSuggestionResult.inputValue !== 'Petlad, Gujarat, India') {
+    throw new Error(
+      `Clicking the Petlad suggestion did not settle the input to "Petlad, Gujarat, India"; received "${clickSuggestionResult.inputValue}".`,
+    );
+  }
+
+  if (
+    clickSuggestionResult.suggestionsMounted ||
+    clickSuggestionResult.hasSearchingPlaces ||
+    clickSuggestionResult.hasMixedOptionAndSearching ||
+    clickSuggestionResult.hasMixedOptionAndSearchingText
+  ) {
+    throw new Error(
+      'Clicking a birth-place suggestion left the autocomplete panel, Searching places status, or mixed option/searching state visible.',
+    );
+  }
+
+  if (!clickSuggestionResult.refocusStayedClosed) {
+    throw new Error('Birth-place suggestions reopened after refocusing the clicked selected place.');
+  }
+
   if (humanTypingResult.inputValue !== 'Petlad, Gujarat, India') {
     throw new Error(
       `Human typing did not settle Petlad to "Petlad, Gujarat, India"; received "${humanTypingResult.inputValue}".`,
@@ -157,6 +189,72 @@ try {
     recursive: true,
     retryDelay: 200,
   });
+}
+
+async function runClickSuggestionAutocompleteScenario(cdp) {
+  await waitForBirthPlaceInput(cdp);
+
+  const focusResponse = await cdp.send('Runtime.evaluate', {
+    expression: `(() => {
+      const input = document.querySelector('input[name="predicta-birth-place-search"]');
+
+      if (!input) {
+        return { inputFound: false };
+      }
+
+      input.focus();
+      const setter = Object.getOwnPropertyDescriptor(input.constructor.prototype, 'value')?.set;
+      setter.call(input, 'Petla');
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      return { inputFound: true };
+    })()`,
+    returnByValue: true,
+  });
+
+  if (!focusResponse.result?.value?.inputFound) {
+    return { inputFound: false };
+  }
+
+  await delay(240);
+
+  const beforeClickState = await collectAutocompleteState(cdp, {
+    optionPattern: /Petlad/i,
+  });
+
+  const clickResponse = await cdp.send('Runtime.evaluate', {
+    expression: `(() => {
+      const options = [...document.querySelectorAll('.birth-place-suggestions button')];
+      const option = options.find(item => /Petlad/i.test(item.textContent || ''));
+      option?.click();
+
+      return {
+        inputFound: Boolean(document.querySelector('input[name="predicta-birth-place-search"]')),
+        optionFound: Boolean(option),
+      };
+    })()`,
+    returnByValue: true,
+  });
+
+  await delay(900);
+
+  const afterClickState = await collectAutocompleteState(cdp, {
+    optionPattern: /Petlad/i,
+  });
+
+  return {
+    ...afterClickState,
+    beforeClickHasMixedOptionAndSearching:
+      beforeClickState.hasMixedOptionAndSearching,
+    beforeClickHasMixedOptionAndSearchingText:
+      beforeClickState.hasMixedOptionAndSearchingText,
+    beforeClickHasSearchingPlaces: beforeClickState.hasSearchingPlaces,
+    beforeClickSuggestionsMounted: beforeClickState.suggestionsMounted,
+    beforeClickSuggestionsText: beforeClickState.suggestionsText,
+    inputFound: clickResponse.result?.value?.inputFound ?? afterClickState.inputFound,
+    optionFound: clickResponse.result?.value?.optionFound ?? false,
+    ...(await collectRefocusState(cdp)),
+  };
 }
 
 async function runHumanTypingAutocompleteScenario(cdp) {

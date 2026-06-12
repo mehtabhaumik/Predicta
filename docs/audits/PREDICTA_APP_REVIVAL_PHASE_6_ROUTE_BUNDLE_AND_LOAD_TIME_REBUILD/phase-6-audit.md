@@ -190,6 +190,41 @@ Result:
 Green. My Astrology stays ready to open Predicta quickly without eagerly
 importing the full chat runtime on initial library load.
 
+## Supplemental Birth-Place Autocomplete Regression Lock
+
+Date: 2026-06-12
+
+The birth-place picker could still leave an autocomplete surface visible after a
+valid place appeared, especially when a suggestion and stale loading/search state
+overlapped during user interaction. That creates a trust-breaking form defect:
+the user sees a resolved city but the UI still behaves like it is searching.
+
+Implementation lock:
+
+- Hardened the custom birth-place input against browser-native autofill by using
+  a non-semantic autocomplete token.
+- Added an invariant that any visible local/remote suggestion cancels
+  `Searching places...`.
+- Kept search-status rendering impossible when visible suggestions exist.
+- Expanded `scripts/run-birth-place-autocomplete-gate.mjs` with a real
+  click-suggestion scenario, not only exact typing/autosettle coverage.
+
+Verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_AUTOCOMPLETE_BASE_URL=http://127.0.0.1:3009 node scripts/run-birth-place-autocomplete-gate.mjs`: PASS; typed Petlad, clicked Petlad, human-typed Petlad, refocused selected place, no stale suggestion/search overlay remained.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/dashboard/kundli corepack pnpm test:ui-text-overflow`: PASS.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/dashboard/kundli corepack pnpm test:ui-personal-space`: PASS.
+- `git diff --check`: PASS.
+
+Result:
+
+Green. Selecting or auto-resolving a birth place now closes the autocomplete
+surface cleanly, and the UI cannot show a place suggestion together with stale
+searching copy.
+
 ## Supplemental Accuracy Method Public Route Budget Repair
 
 Date: 2026-06-12

@@ -374,6 +374,16 @@ export function WebKundliWizard(): React.JSX.Element {
   }, [isBirthPlaceSearchSettled, normalizedBirthPlaceQuery]);
 
   useEffect(() => {
+    if (!isSearchingPlaces) {
+      return;
+    }
+
+    if (localBirthPlaceMatches.length > 0 || placeSuggestions.length > 0) {
+      setIsSearchingPlaces(false);
+    }
+  }, [isSearchingPlaces, localBirthPlaceMatches.length, placeSuggestions.length]);
+
+  useEffect(() => {
     if (!isBirthPlaceInputFocused && !isPlaceSuggestionsOpen) {
       return undefined;
     }
@@ -802,7 +812,9 @@ export function WebKundliWizard(): React.JSX.Element {
           ? 'searching'
           : 'closed';
   const shouldShowBirthPlaceSuggestions = birthPlaceOverlayMode === 'suggestions';
-  const shouldShowBirthPlaceSearchStatus = birthPlaceOverlayMode === 'searching';
+  const shouldShowBirthPlaceSearchStatus =
+    birthPlaceOverlayMode === 'searching' &&
+    visibleBirthPlaceSuggestions.length === 0;
   const shouldShowBirthPlaceOverlay = birthPlaceOverlayMode !== 'closed';
   const readyFlow = kundli ? (
     <KundliReadyFlow
@@ -898,7 +910,7 @@ export function WebKundliWizard(): React.JSX.Element {
                 aria-describedby="birth-place-help"
                 aria-autocomplete="list"
                 autoCapitalize="none"
-                autoComplete="off"
+                autoComplete="new-password"
                 autoCorrect="off"
                 data-1p-ignore="true"
                 data-form-type="other"
