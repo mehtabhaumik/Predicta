@@ -6,8 +6,8 @@ const nativeCopyPath = 'packages/config/src/translations/nativeCopy.json';
 const reportLabelsPath = 'packages/pdf/src/translations/reportLabels.json';
 
 const auditedSourceFiles = [
-  'apps/web/app/checkout/page.tsx',
-  'apps/web/app/pricing/page.tsx',
+  'apps/web/app/checkout/CheckoutPageRuntime.tsx',
+  'apps/web/app/pricing/PricingPageRuntime.tsx',
   'apps/web/app/dashboard/report/page.tsx',
   'apps/web/components/WebDossierPreview.tsx',
   'apps/web/components/WebProfileSettings.tsx',
@@ -95,17 +95,17 @@ assertLocalizedNativeEntry('native.apps.web.app.checkout.page.tsx.bde26162c6', '
 assertLocalizedNativeEntry('signature.mobile.captureUnavailable.hi', 'hi');
 assertLocalizedNativeEntry('signature.mobile.captureUnavailable.gu', 'gu');
 assertFileContains(
-  'apps/web/app/checkout/page.tsx',
+  'apps/web/app/checkout/CheckoutPageRuntime.tsx',
   'supportSubject: getNativeCopy',
   'checkout support subject must come from native JSON for Hindi/Gujarati',
 );
 assertFileContains(
-  'apps/web/app/checkout/page.tsx',
+  'apps/web/app/checkout/CheckoutPageRuntime.tsx',
   'gatewayDisabledBody: getNativeCopy',
   'checkout disabled gateway copy must come from native JSON for Hindi/Gujarati',
 );
 assertFileContains(
-  'apps/web/app/pricing/page.tsx',
+  'apps/web/app/pricing/PricingPageRuntime.tsx',
   'getNativeCopy',
   'pricing page must use native JSON-backed copy',
 );

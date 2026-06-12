@@ -31,7 +31,6 @@ import {
   getOneTimeProduct,
   getReportPurchaseGuide,
   getReportMarketplaceProducts,
-  getReportPreviewAlignment,
   type ReportPurchaseGuide,
   type ReportMarketplaceProduct,
 } from '@pridicta/config/pricing';
@@ -58,6 +57,11 @@ import type {
 } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import {
+  getLocalizedReportLaneCopy,
+  getLocalizedReportMarketplaceCopy,
+  getLocalizedReportPreviewAlignment,
+} from '../lib/report-preview-alignment-copy';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 import {
   loadWebAutoSaveMemory,
@@ -250,6 +254,7 @@ export function WebDossierPreview(): React.JSX.Element {
   const [isAccessLoading, setIsAccessLoading] = useState(false);
   const labels = getLanguageLabels(appLanguage);
   const reportLabels = getLanguageLabels(reportLanguage);
+  const marketplaceCopy = getLocalizedReportMarketplaceCopy(appLanguage);
   const marketplaceProducts = useMemo(() => getReportMarketplaceProducts(), []);
   const purchaseGuide = useMemo(() => getReportPurchaseGuide(), []);
   const selectedReport =
@@ -267,8 +272,8 @@ export function WebDossierPreview(): React.JSX.Element {
     appLanguage,
   );
   const selectedReportPreviewAlignment = useMemo(
-    () => getReportPreviewAlignment(selectedReportId),
-    [selectedReportId],
+    () => getLocalizedReportPreviewAlignment(selectedReportId, appLanguage),
+    [appLanguage, selectedReportId],
   );
   const localizedReportTitle = getLocalizedReportProduct(
     selectedReport,
@@ -289,22 +294,33 @@ export function WebDossierPreview(): React.JSX.Element {
       ? REPORT_SYNTHESIS_LANE
       : REPORT_SCHOOL_LANES.find(lane => lane.id === selectedReport.school) ??
         REPORT_SCHOOL_LANES[0];
+  const localizedSelectedReportLane = getLocalizedReportLaneCopy(
+    selectedReportLane,
+    appLanguage,
+  );
+  const localizedSynthesisLane = getLocalizedReportLaneCopy(
+    REPORT_SYNTHESIS_LANE,
+    appLanguage,
+  );
   const reportLaneNavItems = useMemo(
     () => [
       ...REPORT_SCHOOL_LANES.map(lane => ({
         anchorId: `report-lane-${lane.id.toLowerCase()}`,
-        label: lane.id === 'VEDIC' ? 'Vedic' : lane.title.replace(' Reports', ''),
+        label: getLocalizedReportLaneCopy(lane, appLanguage).navTitle,
         lane,
         productId: lane.productIds[0],
       })),
       {
         anchorId: 'report-lane-life-atlas',
-        label: 'Life Atlas',
+        label: getLocalizedReportLaneCopy(
+          REPORT_SYNTHESIS_LANE,
+          appLanguage,
+        ).navTitle,
         lane: REPORT_SYNTHESIS_LANE,
         productId: 'LIFE_ATLAS' as ReportMarketplaceProduct['id'],
       },
     ],
-    [],
+    [appLanguage],
   );
 
   const openReportLane = (item: (typeof reportLaneNavItems)[number]) => {
@@ -520,7 +536,7 @@ export function WebDossierPreview(): React.JSX.Element {
     key: getReportSectionKey(section, index),
     section,
   }));
-  const plannedSectionOptions = getComprehensiveReportSections(reportLanguage).map(
+  const plannedSectionOptions = getComprehensiveReportSections(appLanguage).map(
     (section, index) => ({
       key: `planned-${index}-${section.eyebrow}-${section.title}`,
       section: {
@@ -858,7 +874,10 @@ export function WebDossierPreview(): React.JSX.Element {
 
     const isVedicReport = product.school === 'VEDIC';
     const summarySections = visibleSections.slice(0, 8);
-    const previewAlignment = getReportPreviewAlignment(product.id);
+    const previewAlignment = getLocalizedReportPreviewAlignment(
+      product.id,
+      appLanguage,
+    );
 
     return (
       <div
@@ -873,10 +892,10 @@ export function WebDossierPreview(): React.JSX.Element {
         <div className="report-inline-composer-top">
           <div>
             <div className="section-title">
-              {selectedReportLane.title} · {builderCopy.selectedReport}
+              {localizedSelectedReportLane.title} · {builderCopy.selectedReport}
             </div>
             <h3>{localizedSelectedReport.title}</h3>
-            <p>{localizedSelectedReport.userWillLearn}</p>
+            <p>{previewAlignment.compactPromise}</p>
             <p className="report-preview-focus-line">
               {previewAlignment.focusLine}
             </p>
@@ -936,18 +955,18 @@ export function WebDossierPreview(): React.JSX.Element {
           data-report-final-phase10-preview="compact"
         >
           <div>
-            <span>What you will learn</span>
+            <span>{marketplaceCopy.whatYouWillLearn}</span>
             <strong>{previewAlignment.compactPromise}</strong>
-            <p>{localizedSelectedReport.userWillLearn}</p>
+            <p>{localizedSelectedReport.outcome}</p>
           </div>
-          <ul aria-label="Focused report preview">
+          <ul aria-label={marketplaceCopy.focusedReportPreview}>
             {previewAlignment.previewBullets.map(item => (
               <li key={item}>{item}</li>
             ))}
           </ul>
           <div className="report-premium-value-row">
-            <span>Premium adds</span>
-            <p>{localizedSelectedReport.premiumAdds}</p>
+            <span>{marketplaceCopy.premiumValueLabel}</span>
+            <p>{localizedSelectedReport.premiumDepth}</p>
           </div>
           <p>{previewAlignment.downloadNudge}</p>
         </div>
@@ -959,15 +978,14 @@ export function WebDossierPreview(): React.JSX.Element {
               data-competitor-response-phase5-vedic-builder="value-first"
             >
               <div>
-                <span>Recommended by Predicta</span>
+                <span>{marketplaceCopy.recommendedByPredicta}</span>
                 <strong>
                   {builderMode === 'EVERYTHING'
-                    ? 'Complete Vedic bundle'
-                    : 'Custom Vedic bundle'}
+                    ? builderCopy.everythingTitle
+                    : builderCopy.customTitle}
                 </strong>
                 <p>
-                  Predicta chooses the sections needed to answer this report
-                  question first. Customize only if you want a narrower PDF.
+                  {marketplaceCopy.recommendedBody}
                 </p>
               </div>
               <div className="report-builder-count">
@@ -977,14 +995,20 @@ export function WebDossierPreview(): React.JSX.Element {
                 </strong>
               </div>
             </div>
-            <div className="report-inline-chip-grid" aria-label="Selected Vedic sections">
+            <div
+              className="report-inline-chip-grid"
+              aria-label={marketplaceCopy.selectedVedicSections}
+            >
               {summarySections.map(section => (
                 <span key={`${section.eyebrow}-${section.title}`}>
                   {section.title}
                 </span>
               ))}
               {visibleSections.length > summarySections.length ? (
-                <span>+{visibleSections.length - summarySections.length} more</span>
+                <span>
+                  +{visibleSections.length - summarySections.length}{' '}
+                  {marketplaceCopy.moreSectionsSuffix}
+                </span>
               ) : null}
             </div>
             <details className="report-drawer report-inline-customize">
@@ -1035,14 +1059,14 @@ export function WebDossierPreview(): React.JSX.Element {
                     onClick={() => toggleSection(key)}
                     type="button"
                   >
-                    <span>{formatReportSectionEyebrow(section.eyebrow, reportLanguage)}</span>
+                    <span>{formatReportSectionEyebrow(section.eyebrow, appLanguage)}</span>
                     <strong>{section.title}</strong>
                     <small>
                       {kundli
                         ? formatReportSectionMeta({
                             confidence: section.confidence ?? 'medium',
-                            language: reportLanguage,
-                            labels: reportLabels,
+                            language: appLanguage,
+                            labels,
                             tier: section.tier ?? 'free',
                           })
                         : builderCopy.createKundliToSelect}
@@ -1056,7 +1080,7 @@ export function WebDossierPreview(): React.JSX.Element {
           <div className="report-depth-grid inline">
             <div>
               <span>{builderCopy.freePreview}</span>
-              <p>{localizedSelectedReport.freeDepth} {localizedSelectedReport.userWillLearn}</p>
+              <p>{localizedSelectedReport.freeDepth} {previewAlignment.compactPromise}</p>
             </div>
             <div>
               <span>{builderCopy.premiumDepth}</span>
@@ -1064,8 +1088,8 @@ export function WebDossierPreview(): React.JSX.Element {
                 {isAccessLoading
                   ? resultCopy.loadingBody
                   : hasDetailedReportAccess
-                    ? `${localizedSelectedReport.premiumDepth} ${localizedSelectedReport.premiumAdds}`
-                    : `${resultCopy.premiumLockedBody} ${localizedSelectedReport.premiumAdds}`}
+                    ? localizedSelectedReport.premiumDepth
+                    : `${resultCopy.premiumLockedBody} ${localizedSelectedReport.premiumDepth}`}
               </p>
             </div>
           </div>
@@ -1248,7 +1272,7 @@ export function WebDossierPreview(): React.JSX.Element {
             <span>{localizedSelectedReport.badge}</span>
             <strong>{localizedSelectedReport.title}</strong>
             <em>{localizedSelectedReport.outcome}</em>
-            <small>{localizedSelectedReport.userWillLearn}</small>
+            <small>{selectedReportPreviewAlignment.compactPromise}</small>
             <small>{localizedSelectedReport.bestFor}</small>
             <small>{selectedReportPreviewAlignment.focusLine}</small>
           </div>
@@ -1276,11 +1300,13 @@ export function WebDossierPreview(): React.JSX.Element {
           onClick={() => setReportMarketplaceOpen(current => !current)}
           type="button"
         >
-          {isReportMarketplaceOpen ? 'Hide report worlds' : 'Change report world'}
+          {isReportMarketplaceOpen
+            ? marketplaceCopy.changeWorldHide
+            : marketplaceCopy.changeWorldShow}
         </button>
 
         <nav
-          aria-label="Report school navigation"
+          aria-label={marketplaceCopy.subnavAria}
           className="report-school-subnav"
         >
           {reportLaneNavItems.map(item => {
@@ -1310,11 +1336,8 @@ export function WebDossierPreview(): React.JSX.Element {
           open={isReportMarketplaceOpen}
         >
           <summary>
-            <span>School-separated marketplace</span>
-            <strong>
-              Choose a different Vedic, KP, Jaimini, Numerology, Signature, or Life
-              Atlas report
-            </strong>
+            <span>{marketplaceCopy.selectorTitle}</span>
+            <strong>{marketplaceCopy.selectorBody}</strong>
           </summary>
           <div className="report-marketplace-expanded">
 
@@ -1343,7 +1366,7 @@ export function WebDossierPreview(): React.JSX.Element {
         </details>
 
         <section
-          aria-label="Choose your report world"
+          aria-label={marketplaceCopy.headingTitle}
           className="report-school-marketplace"
         >
           <article
@@ -1356,9 +1379,9 @@ export function WebDossierPreview(): React.JSX.Element {
           >
             <div className="report-school-lane-header">
               <div>
-                <span>{REPORT_SYNTHESIS_LANE.promise}</span>
-                <h4>{REPORT_SYNTHESIS_LANE.title}</h4>
-                <p>{REPORT_SYNTHESIS_LANE.bestFor}</p>
+                <span>{localizedSynthesisLane.promise}</span>
+                <h4>{localizedSynthesisLane.title}</h4>
+                <p>{localizedSynthesisLane.bestFor}</p>
               </div>
               <strong
                 className={
@@ -1367,51 +1390,45 @@ export function WebDossierPreview(): React.JSX.Element {
                     : 'report-lane-readiness pending'
                 }
               >
-                {kundli ? 'Profile ready' : 'Needs Kundli'}
+                {kundli ? marketplaceCopy.profileReady : marketplaceCopy.needsKundli}
               </strong>
             </div>
             <div className="report-lane-depth-row">
               <div>
-                <span>Free/basic</span>
-                <p>{REPORT_SYNTHESIS_LANE.freeDepth}</p>
+                <span>{marketplaceCopy.freeBasic}</span>
+                <p>{localizedSynthesisLane.freeDepth}</p>
               </div>
               <div>
-                <span>Premium/paid</span>
-                <p>{REPORT_SYNTHESIS_LANE.premiumDepth}</p>
+                <span>{marketplaceCopy.premiumPaid}</span>
+                <p>{localizedSynthesisLane.premiumDepth}</p>
               </div>
               <div>
-                <span>Required input</span>
+                <span>{marketplaceCopy.requiredInput}</span>
                 <p>
                   {kundli
-                    ? 'Core Vedic, KP, Jaimini, and Numerology inputs can be synthesized. Signature remains optional enrichment only.'
-                    : REPORT_SYNTHESIS_LANE.readinessRequirement}
+                    ? marketplaceCopy.readySynthesis
+                    : localizedSynthesisLane.readinessRequirement}
                 </p>
               </div>
             </div>
             <div className="report-lane-boundary">
-              <span>Synthesis boundary</span>
-              <p>{REPORT_SYNTHESIS_LANE.boundary}</p>
+              <span>{marketplaceCopy.synthesisBoundary}</span>
+              <p>{localizedSynthesisLane.boundary}</p>
             </div>
             <div
               className="predicta-world-phase4-guidance"
               data-competitor-response-phase4-answer-first="life-atlas"
             >
-              <p className="section-title">START HERE</p>
-              <h2>Your Life Atlas should feel like a mirror, not a method lesson.</h2>
-              <p>
-                Predicta starts with your current life chapter, hidden thread,
-                and the direction your life keeps asking you to grow into.
-                Vedic, KP, Jaimini, Numerology, and optional confirmed Signature
-                evidence stay underneath the story so the report guides first
-                and proves second.
-              </p>
+              <p className="section-title">{marketplaceCopy.startHere}</p>
+              <h2>{marketplaceCopy.lifeAtlasGuidanceTitle}</h2>
+              <p>{marketplaceCopy.lifeAtlasGuidanceBody}</p>
               <div className="action-row">
                 <button
                   className="button primary"
                   onClick={() => setSelectedReportId('LIFE_ATLAS')}
                   type="button"
                 >
-                  Select Life Atlas
+                  {marketplaceCopy.selectLifeAtlas}
                 </button>
                 <button
                   className="button secondary"
@@ -1422,7 +1439,7 @@ export function WebDossierPreview(): React.JSX.Element {
                   }}
                   type="button"
                 >
-                  Compare Life Atlas options
+                  {marketplaceCopy.viewLifeAtlasOptions}
                 </button>
               </div>
             </div>
@@ -1463,6 +1480,8 @@ export function WebDossierPreview(): React.JSX.Element {
                     product,
                     appLanguage,
                   );
+                  const productPreviewAlignment =
+                    getLocalizedReportPreviewAlignment(product.id, appLanguage);
 
                   return (
                     <Fragment key={product.id}>
@@ -1479,7 +1498,7 @@ export function WebDossierPreview(): React.JSX.Element {
                         <span>{localizedProduct.badge}</span>
                         <strong>{localizedProduct.title}</strong>
                         <em>{localizedProduct.outcome}</em>
-                        <small>{localizedProduct.userWillLearn}</small>
+                        <small>{productPreviewAlignment.compactPromise}</small>
                         <small>{localizedProduct.bestFor}</small>
                       </button>
                       {renderInlineReportComposer(product)}
@@ -1490,15 +1509,15 @@ export function WebDossierPreview(): React.JSX.Element {
           </article>
 
           <div className="report-school-heading">
-            <div className="section-title">School-separated reports</div>
-            <h3>Choose your report world</h3>
-            <p>
-              Each lane keeps its own method clean. Choose Vedic, KP, Jaimini,
-              Numerology, or Signature without accidentally buying a mixed bag
-              report.
-            </p>
+            <div className="section-title">{marketplaceCopy.headingEyebrow}</div>
+            <h3>{marketplaceCopy.headingTitle}</h3>
+            <p>{marketplaceCopy.headingBody}</p>
           </div>
           {REPORT_SCHOOL_LANES.map(lane => {
+            const localizedLane = getLocalizedReportLaneCopy(
+              lane,
+              appLanguage,
+            );
             const laneProducts = marketplaceProducts.filter(
               product =>
                 product.school === lane.id &&
@@ -1524,9 +1543,9 @@ export function WebDossierPreview(): React.JSX.Element {
               >
                 <div className="report-school-lane-header">
                   <div>
-                    <span>{lane.promise}</span>
-                    <h4>{lane.title}</h4>
-                    <p>{lane.bestFor}</p>
+                    <span>{localizedLane.promise}</span>
+                    <h4>{localizedLane.title}</h4>
+                    <p>{localizedLane.bestFor}</p>
                   </div>
                   <strong
                     className={
@@ -1540,21 +1559,21 @@ export function WebDossierPreview(): React.JSX.Element {
                 </div>
                 <div className="report-lane-depth-row">
                   <div>
-                    <span>Free/basic</span>
-                    <p>{lane.freeDepth}</p>
+                    <span>{marketplaceCopy.freeBasic}</span>
+                    <p>{localizedLane.freeDepth}</p>
                   </div>
                   <div>
-                    <span>Premium/paid</span>
-                    <p>{lane.premiumDepth}</p>
+                    <span>{marketplaceCopy.premiumPaid}</span>
+                    <p>{localizedLane.premiumDepth}</p>
                   </div>
                   <div>
-                    <span>Required input</span>
+                    <span>{marketplaceCopy.requiredInput}</span>
                     <p>{readiness.detail}</p>
                   </div>
                 </div>
                 <div className="report-lane-boundary">
-                  <span>Method boundary</span>
-                  <p>{lane.boundary}</p>
+                  <span>{marketplaceCopy.methodBoundary}</span>
+                  <p>{localizedLane.boundary}</p>
                 </div>
                 <div className="report-product-grid lane-products">
                   {laneProducts.map(product => {
@@ -1562,6 +1581,8 @@ export function WebDossierPreview(): React.JSX.Element {
                       product,
                       appLanguage,
                     );
+                    const productPreviewAlignment =
+                      getLocalizedReportPreviewAlignment(product.id, appLanguage);
 
                     return (
                       <Fragment key={product.id}>
@@ -1578,7 +1599,7 @@ export function WebDossierPreview(): React.JSX.Element {
                           <span>{localizedProduct.badge}</span>
                           <strong>{localizedProduct.title}</strong>
                           <em>{localizedProduct.outcome}</em>
-                          <small>{localizedProduct.userWillLearn}</small>
+                          <small>{productPreviewAlignment.compactPromise}</small>
                           <small>{localizedProduct.bestFor}</small>
                         </button>
                         {renderInlineReportComposer(product)}
@@ -3219,45 +3240,45 @@ function getReportLaneReadiness({
   label: string;
   ready: boolean;
 } {
+  const marketplaceCopy = getLocalizedReportMarketplaceCopy(language);
+  const localizedLane = getLocalizedReportLaneCopy(lane, language);
+
   if (lane.id === 'SIGNATURE') {
     if (!kundli) {
       return {
-        detail:
-          'Pending: create or select a Kundli/profile, then add a signature sample for Signature report generation.',
-        label: 'Needs profile',
+        detail: marketplaceCopy.readinessSignatureNeedsProfileDetail,
+        label: marketplaceCopy.needsProfile,
         ready: false,
       };
     }
 
     if (hasReadySignatureReport(signatureAnalysis)) {
       return {
-        detail: 'Signature traits are available for this session.',
-        label: 'Ready',
+        detail: marketplaceCopy.readinessSignatureReadyDetail,
+        label: marketplaceCopy.ready,
         ready: true,
       };
     }
 
     return {
-      detail:
-        'Pending: upload, draw, or confirm a signature sample before generating a Signature report.',
-      label: 'Needs signature',
+      detail: marketplaceCopy.readinessSignatureNeedsSignatureDetail,
+      label: marketplaceCopy.needsSignature,
       ready: false,
     };
   }
 
   if (!kundli) {
     return {
-      detail: `Pending: ${lane.readinessRequirement}`,
-      label: 'Needs Kundli',
+      detail: `${marketplaceCopy.readinessPendingPrefix}: ${localizedLane.readinessRequirement}`,
+      label: marketplaceCopy.needsKundli,
       ready: false,
     };
   }
 
   if (lane.id === 'KP') {
     return {
-      detail:
-        'Active Kundli found. For best KP accuracy, choose one clear event question before report generation.',
-      label: 'Kundli ready',
+      detail: marketplaceCopy.readinessKpReadyDetail,
+      label: marketplaceCopy.profileReady,
       ready: true,
     };
   }
@@ -3279,16 +3300,18 @@ function getReportLaneReadiness({
   if (lane.id === 'NUMEROLOGY') {
     return {
       detail: kundli.birthDetails.name
-        ? 'Saved name and birth date are available for Numerology.'
-        : 'Pending: add a name and birth date for Numerology.',
-      label: kundli.birthDetails.name ? 'Profile ready' : 'Needs profile',
+        ? marketplaceCopy.readinessNumerologyReadyDetail
+        : marketplaceCopy.readinessNumerologyNeedsProfileDetail,
+      label: kundli.birthDetails.name
+        ? marketplaceCopy.profileReady
+        : marketplaceCopy.needsProfile,
       ready: Boolean(kundli.birthDetails.name),
     };
   }
 
   return {
-    detail: 'Active Kundli found for Vedic report preparation.',
-    label: 'Kundli ready',
+    detail: marketplaceCopy.readinessVedicReadyDetail,
+    label: marketplaceCopy.profileReady,
     ready: true,
   };
 }

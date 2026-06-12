@@ -1,0 +1,575 @@
+{
+  "copy": {
+    "en": {
+      "CAREER": {
+        "compactPromise": "Preview what is opening or slowing down in work, the likely pressure point, and the next practical career move.",
+        "downloadNudge": "Download the Career report when you want D10-backed timing, trigger clues, and a sharper action plan.",
+        "focusLine": "Career prediction first; D10 and house proof stays behind the answer.",
+        "previewBullets": ["Career opening", "Pressure point", "Next move"]
+      },
+      "COMPATIBILITY": {
+        "compactPromise": "Preview where the bond is supportive, where friction needs maturity, and what family discussion should focus on.",
+        "downloadNudge": "Download the Compatibility report for Ashtakoota, Manglik, D1/D9 comparison, timing tone, and family-ready guidance.",
+        "focusLine": "Relationship clarity first; matching proof follows.",
+        "previewBullets": ["Bond support", "Maturity caution", "Family guidance"]
+      },
+      "DASHA": {
+        "compactPromise": "Preview what this life period is asking from you, what it can open, and what should not be rushed.",
+        "downloadNudge": "Download the Dasha report for Mahadasha, Antardasha, Pratyantardasha, activation windows, and practical period guidance.",
+        "focusLine": "Current life chapter first; period proof follows.",
+        "previewBullets": ["Life chapter", "Active pressure", "Timing cue"]
+      },
+      "JAIMINI": {
+        "compactPromise": "Preview the destiny role life keeps asking you to mature into, your visible identity signal, and the current chapter.",
+        "downloadNudge": "Download the Jaimini report for Swamsa/Karakamsha, karaka council, Arudha/Upapada, and Chara Dasha depth.",
+        "focusLine": "Destiny chapter and role prediction first; karaka proof follows.",
+        "previewBullets": ["Destiny role", "Visible identity", "Current chapter"]
+      },
+      "KP": {
+        "compactPromise": "Preview the event answer, what can trigger or delay it, and how ready the timing looks right now.",
+        "downloadNudge": "Download the KP report for the answer-first reading plus cusp chains, significators, ruling planets, and proof appendix.",
+        "focusLine": "KP event answer first; proof appendix second.",
+        "previewBullets": ["Event answer", "Trigger/delay", "Timing readiness"]
+      },
+      "KUNDLI": {
+        "compactPromise": "Preview the main life signal, current timing, and one grounded direction before the report opens the full evidence.",
+        "downloadNudge": "Download the Kundli report for focus charts, house evidence, Mahadasha, classical tables, Kundli Karma, and one remedy path.",
+        "focusLine": "Whole-chart prediction first; chart proof follows.",
+        "previewBullets": ["Main life signal", "Current timing", "Remedy path"]
+      },
+      "LIFE_ATLAS": {
+        "compactPromise": "Preview the life path synthesis, hidden thread, current chapter, destiny direction, and next honest step.",
+        "downloadNudge": "Download the Life Atlas when you want the flagship non-technical life story, practical timing, and closing letter.",
+        "focusLine": "Life direction first; evidence stays late in the PDF.",
+        "previewBullets": ["Life path", "Destiny direction", "Current chapter"]
+      },
+      "MARRIAGE": {
+        "compactPromise": "Preview relationship maturity, partner pattern, timing tone, and what needs patience without fear-heavy language.",
+        "downloadNudge": "Download the Marriage report for D1/D9 synthesis, timing windows, compatibility cautions, and safe guidance.",
+        "focusLine": "Marriage guidance first; proof and cautions stay calm.",
+        "previewBullets": ["Marriage signal", "Partner pattern", "Timing tone"]
+      },
+      "NUMEROLOGY": {
+        "compactPromise": "Preview what your name rhythm and current number cycle are asking you to do now.",
+        "downloadNudge": "Download the Numerology report for mandala, name scanner, missing/repeated grid, timeline, and refinement depth.",
+        "focusLine": "Cycle and name rhythm guidance first; calculation proof follows.",
+        "previewBullets": ["Name rhythm", "Current cycle", "Action rhythm"]
+      },
+      "REMEDIES": {
+        "compactPromise": "Preview the safest correction direction, one grounded practice, and what not to repeat or fear.",
+        "downloadNudge": "Download the Remedies report for planet-specific path, consistency rhythm, safety notes, and a consolidated plan.",
+        "focusLine": "What to do calmly; no duplicated remedy clutter.",
+        "previewBullets": ["Safe correction", "Practice rhythm", "Avoid list"]
+      },
+      "SADESATI": {
+        "compactPromise": "Preview the Saturn pressure, current phase, discipline need, and where support is still available.",
+        "downloadNudge": "Download the Sade Sati report for phase detail, Saturn dates, Ashtakavarga support, and a fear-free remedy plan.",
+        "focusLine": "Saturn prediction without panic.",
+        "previewBullets": ["Saturn phase", "Discipline need", "Support path"]
+      },
+      "SIGNATURE": {
+        "compactPromise": "Preview confirmed visible traits, expression rhythm, consistency, and one authentic practice without hard prediction.",
+        "downloadNudge": "Download the Signature report only after confirmed traits are ready; raw signature images are not stored in the report by default.",
+        "focusLine": "Reflective expression guidance only; no personality certainty.",
+        "previewBullets": ["Trait map", "Expression rhythm", "Practice plan"]
+      },
+      "VEDIC": {
+        "compactPromise": "Preview the Vedic prediction, focus charts, current timing, karma conditions, and one remedy direction.",
+        "downloadNudge": "Download the Vedic report for full Parashari coverage, vargas, Mahadasha, Chalit, Kundli Karma, tables, and remedy plan.",
+        "focusLine": "Parashari prediction first; proof follows in the PDF.",
+        "previewBullets": ["Focus charts", "Timing meaning", "Karma signal"]
+      },
+      "WEALTH": {
+        "compactPromise": "Preview income/gains signal, savings discipline, financial pressure, and timing tone without overpromising money outcomes.",
+        "downloadNudge": "Download the Wealth report for D2, money houses, timing windows, discipline map, and planning guidance.",
+        "focusLine": "Money guidance first; no guaranteed wealth claims.",
+        "previewBullets": ["Income signal", "Savings caution", "Timing cue"]
+      }
+    },
+    "hi": {
+      "CAREER": {
+        "compactPromise": "काम में क्या खुल रहा है या धीमा पड़ रहा है, दबाव बिंदु और अगला व्यावहारिक करियर कदम देखें.",
+        "downloadNudge": "D10 आधारित समय, संकेत और तेज कार्य-योजना चाहिए तो करियर रिपोर्ट डाउनलोड करें.",
+        "focusLine": "करियर भविष्यवाणी पहले; D10 और भाव प्रमाण उत्तर के बाद.",
+        "previewBullets": ["करियर अवसर", "दबाव बिंदु", "अगला कदम"]
+      },
+      "COMPATIBILITY": {
+        "compactPromise": "बंधन कहां सहायक है, कहां परिपक्वता चाहिए, और परिवार चर्चा का केंद्र क्या हो, यह देखें.",
+        "downloadNudge": "अष्टकूट, मांगलिक, D1/D9 तुलना, समय स्वर और परिवार-तैयार मार्गदर्शन के लिए कम्पैटिबिलिटी रिपोर्ट डाउनलोड करें.",
+        "focusLine": "रिश्ते की स्पष्टता पहले; मिलान प्रमाण बाद में.",
+        "previewBullets": ["बंधन समर्थन", "परिपक्वता सावधानी", "परिवार मार्गदर्शन"]
+      },
+      "DASHA": {
+        "compactPromise": "यह जीवन अवधि आपसे क्या मांग रही है, क्या खोल सकती है, और क्या जल्दबाजी नहीं करनी चाहिए, यह देखें.",
+        "downloadNudge": "महादशा, अंतरदशा, प्रत्यंतरदशा, सक्रिय समय और व्यावहारिक अवधि मार्गदर्शन के लिए दशा रिपोर्ट डाउनलोड करें.",
+        "focusLine": "वर्तमान जीवन अध्याय पहले; अवधि प्रमाण बाद में.",
+        "previewBullets": ["जीवन अध्याय", "सक्रिय दबाव", "समय संकेत"]
+      },
+      "JAIMINI": {
+        "compactPromise": "जीवन जिस भाग्य-भूमिका में आपको परिपक्व कर रहा है, आपकी दिखाई देने वाली पहचान और वर्तमान अध्याय देखें.",
+        "downloadNudge": "स्वांश/कारकांश, कारक परिषद, आरूढ़/उपपद और चर दशा गहराई के लिए जैमिनी रिपोर्ट डाउनलोड करें.",
+        "focusLine": "भाग्य अध्याय और भूमिका भविष्यवाणी पहले; कारक प्रमाण बाद में.",
+        "previewBullets": ["भाग्य भूमिका", "दिखती पहचान", "वर्तमान अध्याय"]
+      },
+      "KP": {
+        "compactPromise": "घटना का उत्तर, क्या उसे शुरू या विलंब कर सकता है, और समय कितना तैयार दिखता है, यह देखें.",
+        "downloadNudge": "उत्तर-पहले रीडिंग, कस्प चेन, सिग्निफिकेटर, रूलिंग ग्रह और प्रमाण परिशिष्ट के लिए KP रिपोर्ट डाउनलोड करें.",
+        "focusLine": "KP घटना उत्तर पहले; प्रमाण परिशिष्ट बाद में.",
+        "previewBullets": ["घटना उत्तर", "कारण/विलंब", "समय तैयारी"]
+      },
+      "KUNDLI": {
+        "compactPromise": "मुख्य जीवन संकेत, वर्तमान समय और एक स्थिर दिशा देखें, फिर रिपोर्ट पूरा प्रमाण खोलेगी.",
+        "downloadNudge": "फोकस चार्ट, भाव प्रमाण, महादशा, शास्त्रीय तालिकाएं, कुंडली कर्म और एक उपाय पथ के लिए कुंडली रिपोर्ट डाउनलोड करें.",
+        "focusLine": "पूरी कुंडली की भविष्यवाणी पहले; चार्ट प्रमाण बाद में.",
+        "previewBullets": ["मुख्य जीवन संकेत", "वर्तमान समय", "उपाय पथ"]
+      },
+      "LIFE_ATLAS": {
+        "compactPromise": "जीवन-पथ समन्वय, छिपी कड़ी, वर्तमान अध्याय, भाग्य-दिशा और अगला सच्चा कदम देखें.",
+        "downloadNudge": "फ्लैगशिप गैर-तकनीकी जीवन कहानी, व्यावहारिक समय और समापन पत्र चाहिए तो Life Atlas डाउनलोड करें.",
+        "focusLine": "जीवन दिशा पहले; प्रमाण PDF में बाद में.",
+        "previewBullets": ["जीवन पथ", "भाग्य दिशा", "वर्तमान अध्याय"]
+      },
+      "MARRIAGE": {
+        "compactPromise": "रिश्ते की परिपक्वता, साथी पैटर्न, समय स्वर और जहां धैर्य चाहिए वह बिना डर के देखें.",
+        "downloadNudge": "D1/D9 समन्वय, समय खिड़की, मिलान सावधानी और सुरक्षित मार्गदर्शन के लिए विवाह रिपोर्ट डाउनलोड करें.",
+        "focusLine": "विवाह मार्गदर्शन पहले; प्रमाण और सावधानी शांत रहती है.",
+        "previewBullets": ["विवाह संकेत", "साथी पैटर्न", "समय स्वर"]
+      },
+      "NUMEROLOGY": {
+        "compactPromise": "आपकी नाम-लय और वर्तमान संख्या चक्र अभी आपसे क्या करने को कह रहे हैं, यह देखें.",
+        "downloadNudge": "मंडल, नाम स्कैनर, अनुपस्थित/दोहराए अंक-मानचित्र, समयरेखा और नाम-सुधार गहराई के लिए अंक ज्योतिष रिपोर्ट डाउनलोड करें.",
+        "focusLine": "चक्र और नाम-लय मार्गदर्शन पहले; गणना प्रमाण बाद में.",
+        "previewBullets": ["नाम लय", "वर्तमान चक्र", "कार्य लय"]
+      },
+      "REMEDIES": {
+        "compactPromise": "सबसे सुरक्षित सुधार दिशा, एक स्थिर अभ्यास और क्या दोहराना या डरना नहीं है, यह देखें.",
+        "downloadNudge": "ग्रह-विशेष पथ, नियमितता लय, सुरक्षा नोट और एकीकृत योजना के लिए उपाय रिपोर्ट डाउनलोड करें.",
+        "focusLine": "शांत होकर क्या करना है; दोहराए हुए उपाय नहीं.",
+        "previewBullets": ["सुरक्षित सुधार", "अभ्यास लय", "बचाव सूची"]
+      },
+      "SADESATI": {
+        "compactPromise": "शनि दबाव, वर्तमान चरण, अनुशासन जरूरत और जहां समर्थन अभी भी है, यह देखें.",
+        "downloadNudge": "चरण विवरण, शनि तारीखें, अष्टकवर्ग समर्थन और डर-रहित उपाय योजना के लिए साढ़े साती रिपोर्ट डाउनलोड करें.",
+        "focusLine": "शनि भविष्यवाणी बिना घबराहट.",
+        "previewBullets": ["शनि चरण", "अनुशासन जरूरत", "समर्थन पथ"]
+      },
+      "SIGNATURE": {
+        "compactPromise": "पुष्ट दिखने वाले गुण, अभिव्यक्ति लय, नियमितता और एक सच्चा अभ्यास देखें, कठोर भविष्यवाणी नहीं.",
+        "downloadNudge": "हस्ताक्षर रिपोर्ट तभी डाउनलोड करें जब पुष्ट गुण तैयार हों; कच्ची हस्ताक्षर छवि रिपोर्ट में सामान्य रूप से सुरक्षित नहीं रखी जाती.",
+        "focusLine": "केवल आत्म-अभिव्यक्ति मार्गदर्शन; व्यक्तित्व की पक्की घोषणा नहीं.",
+        "previewBullets": ["गुण मानचित्र", "अभिव्यक्ति लय", "अभ्यास योजना"]
+      },
+      "VEDIC": {
+        "compactPromise": "वैदिक भविष्यवाणी, फोकस चार्ट, वर्तमान समय, कर्म स्थितियां और एक उपाय दिशा देखें.",
+        "downloadNudge": "पूर्ण पाराशरी विस्तार, वर्ग चार्ट, महादशा, चलित, Kundli Karma, तालिकाएं और उपाय योजना के लिए वैदिक रिपोर्ट डाउनलोड करें.",
+        "focusLine": "पाराशरी भविष्यवाणी पहले; प्रमाण PDF में बाद में.",
+        "previewBullets": ["फोकस चार्ट", "समय अर्थ", "कर्म संकेत"]
+      },
+      "WEALTH": {
+        "compactPromise": "आय/लाभ संकेत, बचत अनुशासन, आर्थिक दबाव और समय स्वर देखें, धन की गारंटी नहीं.",
+        "downloadNudge": "D2, धन भाव, समय खिड़की, अनुशासन मानचित्र और योजना मार्गदर्शन के लिए धन रिपोर्ट डाउनलोड करें.",
+        "focusLine": "धन मार्गदर्शन पहले; धन की गारंटी वाले दावे नहीं.",
+        "previewBullets": ["आय संकेत", "बचत सावधानी", "समय संकेत"]
+      }
+    },
+    "gu": {
+      "CAREER": {
+        "compactPromise": "કામમાં શું ખુલતું કે ધીમું પડતું દેખાય છે, દબાણ બિંદુ અને આગળનું વ્યવહારુ કરિયર પગલું જુઓ.",
+        "downloadNudge": "D10 આધારિત સમય, સંકેતો અને વધુ સ્પષ્ટ કાર્ય-યોજનાની જરૂર હોય ત્યારે કરિયર રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "કરિયર આગાહી પહેલા; D10 અને ભાવ પુરાવો જવાબ પછી.",
+        "previewBullets": ["કરિયર તક", "દબાણ બિંદુ", "આગળનું પગલું"]
+      },
+      "COMPATIBILITY": {
+        "compactPromise": "બંધન ક્યાં સહાયક છે, ક્યાં પરિપક્વતા જોઈએ અને પરિવાર ચર્ચાનો કેન્દ્ર શું હોવો જોઈએ તે જુઓ.",
+        "downloadNudge": "અષ્ટકૂટ, માંગલિક, D1/D9 તુલના, સમય સ્વર અને પરિવાર-તૈયાર માર્ગદર્શન માટે સુસંગતતા રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "સંબંધની સ્પષ્ટતા પહેલા; મેળાપ પુરાવો પછી.",
+        "previewBullets": ["બંધન સહારો", "પરિપક્વતા સાવચેતી", "પરિવાર માર્ગદર્શન"]
+      },
+      "DASHA": {
+        "compactPromise": "આ જીવન અવધિ તમારી પાસેથી શું માંગે છે, શું ખોલી શકે છે અને શું ઉતાવળ ન કરવી તે જુઓ.",
+        "downloadNudge": "મહાદશા, અંતરદશા, પ્રત્યંતરદશા, સક્રિય સમય અને વ્યવહારુ અવધિ માર્ગદર્શન માટે દશા રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "વર્તમાન જીવન અધ્યાય પહેલા; અવધિ પુરાવો પછી.",
+        "previewBullets": ["જીવન અધ્યાય", "સક્રિય દબાણ", "સમય સંકેત"]
+      },
+      "JAIMINI": {
+        "compactPromise": "જીવન તમને કઈ ભાગ્ય-ભૂમિકામાં પરિપક્વ કરવાનું કહે છે, તમારી દેખાતી ઓળખ અને વર્તમાન અધ્યાય જુઓ.",
+        "downloadNudge": "સ્વાંશ/કારકાંશ, કારક પરિષદ, આરુઢ/ઉપપદ અને ચર દશા ઊંડાણ માટે જૈમિની રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "ભાગ્ય અધ્યાય અને ભૂમિકા આગાહી પહેલા; કારક પુરાવો પછી.",
+        "previewBullets": ["ભાગ્ય ભૂમિકા", "દેખાતી ઓળખ", "વર્તમાન અધ્યાય"]
+      },
+      "KP": {
+        "compactPromise": "ઘટનાનો જવાબ, શું તેને શરૂ કે મોડું કરી શકે છે અને સમય કેટલો તૈયાર દેખાય છે તે જુઓ.",
+        "downloadNudge": "જવાબ-પહેલા રીડિંગ, કસ્પ ચેન, સિગ્નિફિકેટર, રૂલિંગ ગ્રહ અને પુરાવા પરિશિષ્ટ માટે KP રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "KP ઘટના જવાબ પહેલા; પુરાવા પરિશિષ્ટ પછી.",
+        "previewBullets": ["ઘટના જવાબ", "કારણ/વિલંબ", "સમય તૈયારી"]
+      },
+      "KUNDLI": {
+        "compactPromise": "મુખ્ય જીવન સંકેત, વર્તમાન સમય અને એક સ્થિર દિશા જુઓ, પછી રિપોર્ટ સંપૂર્ણ પુરાવો ખોલશે.",
+        "downloadNudge": "ફોકસ ચાર્ટ, ભાવ પુરાવો, મહાદશા, શાસ્ત્રીય કોષ્ટકો, કુંડળી કર્મ અને એક ઉપાય માર્ગ માટે કુંડળી રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "સંપૂર્ણ કુંડળીની આગાહી પહેલા; ચાર્ટ પુરાવો પછી.",
+        "previewBullets": ["મુખ્ય જીવન સંકેત", "વર્તમાન સમય", "ઉપાય માર્ગ"]
+      },
+      "LIFE_ATLAS": {
+        "compactPromise": "જીવન-પથ સમન્વય, છૂપાયેલો ધાગો, વર્તમાન અધ્યાય, ભાગ્ય-દિશા અને આગળનું સાચું પગલું જુઓ.",
+        "downloadNudge": "ફ્લેગશિપ બિન-તકનીકી જીવનકથા, વ્યવહારુ સમય અને સમાપન પત્ર જોઈએ ત્યારે Life Atlas ડાઉનલોડ કરો.",
+        "focusLine": "જીવન દિશા પહેલા; પુરાવો PDFમાં પછી.",
+        "previewBullets": ["જીવન પથ", "ભાગ્ય દિશા", "વર્તમાન અધ્યાય"]
+      },
+      "MARRIAGE": {
+        "compactPromise": "સંબંધની પરિપક્વતા, સાથી પેટર્ન, સમય સ્વર અને જ્યાં ધીરજ જોઈએ તે ડર વગર જુઓ.",
+        "downloadNudge": "D1/D9 સમન્વય, સમય વિન્ડો, સુસંગતતા સાવચેતીઓ અને સુરક્ષિત માર્ગદર્શન માટે લગ્ન રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "લગ્ન માર્ગદર્શન પહેલા; પુરાવો અને સાવચેતી શાંત રહે.",
+        "previewBullets": ["લગ્ન સંકેત", "સાથી પેટર્ન", "સમય સ્વર"]
+      },
+      "NUMEROLOGY": {
+        "compactPromise": "તમારી નામ-લય અને વર્તમાન અંક ચક્ર હાલમાં શું કરવા કહે છે તે જુઓ.",
+        "downloadNudge": "મંડલ, નામ સ્કેનર, ગેરહાજર/પુનરાવર્તિત અંક-નકશો, સમયરેખા અને નામ-સુધાર ઊંડાણ માટે અંક જ્યોતિષ રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "ચક્ર અને નામ-લય માર્ગદર્શન પહેલા; ગણતરી પુરાવો પછી.",
+        "previewBullets": ["નામ લય", "વર્તમાન ચક્ર", "કાર્ય લય"]
+      },
+      "REMEDIES": {
+        "compactPromise": "સૌથી સુરક્ષિત સુધાર દિશા, એક સ્થિર અભ્યાસ અને શું ફરી ન કરવું કે ડરવું નહીં તે જુઓ.",
+        "downloadNudge": "ગ્રહ-વિશેષ માર્ગ, નિયમિતતા લય, સુરક્ષા નોંધો અને એકીકૃત યોજના માટે ઉપાય રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "શાંતિથી શું કરવું; ડુપ્લિકેટ ઉપાય ગૂંચવણ નહીં.",
+        "previewBullets": ["સુરક્ષિત સુધાર", "અભ્યાસ લય", "બચાવ યાદી"]
+      },
+      "SADESATI": {
+        "compactPromise": "શનિ દબાણ, વર્તમાન તબક્કો, શિસ્ત જરૂર અને ક્યાં સહારો હજુ ઉપલબ્ધ છે તે જુઓ.",
+        "downloadNudge": "તબક્કા વિગત, શનિ તારીખો, અષ્ટકવર્ગ સહારો અને ડર-રહિત ઉપાય યોજના માટે સાડે સાતી રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "શનિ આગાહી ગભરાટ વગર.",
+        "previewBullets": ["શનિ તબક્કો", "શિસ્ત જરૂર", "સહારો માર્ગ"]
+      },
+      "SIGNATURE": {
+        "compactPromise": "પુષ્ટ દેખાતા ગુણ, અભિવ્યક્તિ લય, નિયમિતતા અને એક સાચો અભ્યાસ જુઓ, કઠોર આગાહી નહીં.",
+        "downloadNudge": "હસ્તાક્ષર ગુણ તૈયાર હોય ત્યારે જ હસ્તાક્ષર રિપોર્ટ ડાઉનલોડ કરો; કાચી હસ્તાક્ષર છબી રિપોર્ટમાં સામાન્ય રીતે સાચવાતી નથી.",
+        "focusLine": "માત્ર આત્મ-અભિવ્યક્તિ માર્ગદર્શન; વ્યક્તિત્વની પક્કી જાહેરાત નહીં.",
+        "previewBullets": ["ગુણ નકશો", "અભિવ્યક્તિ લય", "અભ્યાસ યોજના"]
+      },
+      "VEDIC": {
+        "compactPromise": "વેદિક આગાહી, ફોકસ ચાર્ટ, વર્તમાન સમય, કર્મ સ્થિતિઓ અને એક ઉપાય દિશા જુઓ.",
+        "downloadNudge": "પૂર્ણ પારાશરી વિસ્તાર, વર્ગ ચાર્ટ, મહાદશા, ચલિત, Kundli Karma, કોષ્ટકો અને ઉપાય યોજના માટે વેદિક રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "પારાશરી આગાહી પહેલા; પુરાવો PDFમાં પછી.",
+        "previewBullets": ["ફોકસ ચાર્ટ", "સમય અર્થ", "કર્મ સંકેત"]
+      },
+      "WEALTH": {
+        "compactPromise": "આવક/લાભ સંકેત, બચત શિસ્ત, આર્થિક દબાણ અને સમય સ્વર જુઓ, પૈસાની ગેરંટી નહીં.",
+        "downloadNudge": "D2, ધન ભાવ, સમય વિન્ડો, શિસ્ત નકશો અને આયોજન માર્ગદર્શન માટે ધન રિપોર્ટ ડાઉનલોડ કરો.",
+        "focusLine": "ધન માર્ગદર્શન પહેલા; પૈસાની ગેરંટીવાળા દાવા નહીં.",
+        "previewBullets": ["આવક સંકેત", "બચત સાવચેતી", "સમય સંકેત"]
+      }
+    }
+  },
+  "marketplace": {
+    "en": {
+      "changeWorldHide": "Hide report worlds",
+      "changeWorldShow": "Change report world",
+      "focusedReportPreview": "Focused report preview",
+      "freeBasic": "Free/basic",
+      "headingBody": "Each lane keeps its own method clean. Choose Vedic, KP, Jaimini, Numerology, or Signature without accidentally buying a mixed bag report.",
+      "headingEyebrow": "School-separated reports",
+      "headingTitle": "Choose your report world",
+      "lifeAtlasGuidanceBody": "Predicta starts with your current life chapter, hidden thread, gifts, lessons, and next honest step before any evidence appendix.",
+      "lifeAtlasGuidanceTitle": "Your Life Atlas should feel like a mirror, not a method lesson.",
+      "methodBoundary": "Method boundary",
+      "moreSectionsSuffix": "more",
+      "needsKundli": "Needs Kundli",
+      "needsProfile": "Needs profile",
+      "needsSignature": "Needs signature",
+      "premiumPaid": "Premium/paid",
+      "premiumValueLabel": "Premium adds",
+      "profileReady": "Profile ready",
+      "ready": "Ready",
+      "readySynthesis": "Core Vedic, KP, Jaimini, and Numerology inputs can be synthesized. Signature remains optional enrichment only.",
+      "readinessKpReadyDetail": "Active Kundli found. For best KP accuracy, choose one clear event question before report generation.",
+      "readinessNumerologyNeedsProfileDetail": "Pending: add a name and birth date for Numerology.",
+      "readinessNumerologyReadyDetail": "Saved name and birth date are available for Numerology.",
+      "readinessPendingPrefix": "Pending",
+      "readinessSignatureNeedsProfileDetail": "Pending: create or select a Kundli/profile, then add a signature sample for Signature report generation.",
+      "readinessSignatureNeedsSignatureDetail": "Pending: upload, draw, or confirm a signature sample before generating a Signature report.",
+      "readinessSignatureReadyDetail": "Signature traits are available for this session.",
+      "readinessVedicReadyDetail": "Active Kundli found for Vedic report preparation.",
+      "recommendedBody": "Predicta chooses the sections needed to answer this report question first. Customize only if you want a narrower PDF.",
+      "recommendedByPredicta": "Recommended by Predicta",
+      "requiredInput": "Required input",
+      "selectorBody": "Choose a different Vedic, KP, Jaimini, Numerology, Signature, or Life Atlas report",
+      "selectorTitle": "School-separated marketplace",
+      "selectLifeAtlas": "Select Life Atlas",
+      "selectedVedicSections": "Selected Vedic sections",
+      "startHere": "START HERE",
+      "subnavAria": "Report school navigation",
+      "synthesisBoundary": "Synthesis boundary",
+      "viewLifeAtlasOptions": "Compare Life Atlas options",
+      "whatYouWillLearn": "What you will learn"
+    },
+    "hi": {
+      "changeWorldHide": "रिपोर्ट जगत छिपाएं",
+      "changeWorldShow": "रिपोर्ट जगत बदलें",
+      "focusedReportPreview": "केंद्रित रिपोर्ट झलक",
+      "freeBasic": "फ्री/बेसिक",
+      "headingBody": "हर लेन अपनी पद्धति साफ रखती है. वैदिक, KP, जैमिनी, अंक ज्योतिष या हस्ताक्षर रिपोर्ट चुनें, बिना अनजाने में मिश्रित रिपोर्ट लेने के.",
+      "headingEyebrow": "अलग-अलग पद्धति रिपोर्ट",
+      "headingTitle": "अपना रिपोर्ट जगत चुनें",
+      "lifeAtlasGuidanceBody": "Predicta पहले आपका वर्तमान जीवन अध्याय, छिपी कड़ी, गुण, सीख और अगला सच्चा कदम दिखाती है; प्रमाण परिशिष्ट बाद में आता है.",
+      "lifeAtlasGuidanceTitle": "आपका Life Atlas दर्पण जैसा लगे, पद्धति-पाठ जैसा नहीं.",
+      "methodBoundary": "पद्धति सीमा",
+      "moreSectionsSuffix": "और",
+      "needsKundli": "कुंडली चाहिए",
+      "needsProfile": "प्रोफाइल चाहिए",
+      "needsSignature": "हस्ताक्षर चाहिए",
+      "premiumPaid": "प्रीमियम/पेड",
+      "premiumValueLabel": "प्रीमियम में जुड़ता है",
+      "profileReady": "प्रोफाइल तैयार",
+      "ready": "तैयार",
+      "readySynthesis": "मुख्य वैदिक, KP, जैमिनी और अंक ज्योतिष इनपुट जोड़े जा सकते हैं. हस्ताक्षर केवल वैकल्पिक अतिरिक्त परत है.",
+      "readinessKpReadyDetail": "सक्रिय कुंडली मिल गई है. बेहतर KP सटीकता के लिए रिपोर्ट से पहले एक साफ घटना सवाल चुनें.",
+      "readinessNumerologyNeedsProfileDetail": "लंबित: अंक ज्योतिष के लिए नाम और जन्म तारीख जोड़ें.",
+      "readinessNumerologyReadyDetail": "अंक ज्योतिष के लिए नाम और जन्म तारीख उपलब्ध हैं.",
+      "readinessPendingPrefix": "लंबित",
+      "readinessSignatureNeedsProfileDetail": "लंबित: कुंडली/प्रोफाइल बनाएं या चुनें, फिर हस्ताक्षर रिपोर्ट के लिए हस्ताक्षर नमूना जोड़ें.",
+      "readinessSignatureNeedsSignatureDetail": "लंबित: हस्ताक्षर रिपोर्ट बनाने से पहले हस्ताक्षर अपलोड, ड्रॉ या पुष्ट करें.",
+      "readinessSignatureReadyDetail": "इस सत्र के लिए हस्ताक्षर गुण उपलब्ध हैं.",
+      "readinessVedicReadyDetail": "वैदिक रिपोर्ट तैयारी के लिए सक्रिय कुंडली मिल गई है.",
+      "recommendedBody": "Predicta इस रिपोर्ट प्रश्न का उत्तर देने के लिए जरूरी भाग पहले चुनती है. अगर आपको PDF छोटी चाहिए तभी कस्टमाइज करें.",
+      "recommendedByPredicta": "Predicta की सिफारिश",
+      "requiredInput": "जरूरी इनपुट",
+      "selectorBody": "अलग वैदिक, KP, जैमिनी, अंक ज्योतिष, हस्ताक्षर या Life Atlas रिपोर्ट चुनें",
+      "selectorTitle": "अलग-पद्धति रिपोर्ट बाजार",
+      "selectLifeAtlas": "Life Atlas चुनें",
+      "selectedVedicSections": "चुने हुए वैदिक भाग",
+      "startHere": "यहां से शुरू करें",
+      "subnavAria": "रिपोर्ट पद्धति नेविगेशन",
+      "synthesisBoundary": "समन्वय सीमा",
+      "viewLifeAtlasOptions": "Life Atlas विकल्प तुलना करें",
+      "whatYouWillLearn": "आप क्या जानेंगे"
+    },
+    "gu": {
+      "changeWorldHide": "રિપોર્ટ જગત છુપાવો",
+      "changeWorldShow": "રિપોર્ટ જગત બદલો",
+      "focusedReportPreview": "કેન્દ્રિત રિપોર્ટ ઝલક",
+      "freeBasic": "ફ્રી/બેસિક",
+      "headingBody": "દરેક લેન પોતાની પદ્ધતિ સ્વચ્છ રાખે છે. વેદિક, KP, જૈમિની, અંક જ્યોતિષ અથવા હસ્તાક્ષર રિપોર્ટ પસંદ કરો, મિશ્રિત રિપોર્ટ ભૂલથી લીધા વગર.",
+      "headingEyebrow": "અલગ પદ્ધતિ રિપોર્ટ્સ",
+      "headingTitle": "તમારું રિપોર્ટ જગત પસંદ કરો",
+      "lifeAtlasGuidanceBody": "Predicta પહેલા તમારો વર્તમાન જીવન અધ્યાય, છૂપાયેલો ધાગો, ગુણ, પાઠ અને આગળનું સાચું પગલું બતાવે છે; પુરાવા પરિશિષ્ટ પછી આવે છે.",
+      "lifeAtlasGuidanceTitle": "તમારું Life Atlas અરીસા જેવું લાગે, પદ્ધતિ પાઠ જેવું નહીં.",
+      "methodBoundary": "પદ્ધતિ સીમા",
+      "moreSectionsSuffix": "વધુ",
+      "needsKundli": "કુંડળી જોઈએ",
+      "needsProfile": "પ્રોફાઇલ જોઈએ",
+      "needsSignature": "હસ્તાક્ષર જોઈએ",
+      "premiumPaid": "પ્રીમિયમ/પેઇડ",
+      "premiumValueLabel": "પ્રીમિયમમાં ઉમેરાય છે",
+      "profileReady": "પ્રોફાઇલ તૈયાર",
+      "ready": "તૈયાર",
+      "readySynthesis": "મુખ્ય વેદિક, KP, જૈમિની અને અંક જ્યોતિષ ઇનપુટ જોડાઈ શકે છે. હસ્તાક્ષર માત્ર વૈકલ્પિક વધારાની પરત છે.",
+      "readinessKpReadyDetail": "સક્રિય કુંડળી મળી ગઈ છે. વધુ સારી KP ચોકસાઈ માટે રિપોર્ટ પહેલાં એક સ્પષ્ટ ઘટના પ્રશ્ન પસંદ કરો.",
+      "readinessNumerologyNeedsProfileDetail": "બાકી: અંક જ્યોતિષ માટે નામ અને જન્મ તારીખ ઉમેરો.",
+      "readinessNumerologyReadyDetail": "અંક જ્યોતિષ માટે નામ અને જન્મ તારીખ ઉપલબ્ધ છે.",
+      "readinessPendingPrefix": "બાકી",
+      "readinessSignatureNeedsProfileDetail": "બાકી: કુંડળી/પ્રોફાઇલ બનાવો કે પસંદ કરો, પછી હસ્તાક્ષર રિપોર્ટ માટે હસ્તાક્ષર નમૂનો ઉમેરો.",
+      "readinessSignatureNeedsSignatureDetail": "બાકી: હસ્તાક્ષર રિપોર્ટ બનાવવા પહેલાં હસ્તાક્ષર અપલોડ, દોરો અથવા પુષ્ટ કરો.",
+      "readinessSignatureReadyDetail": "આ સત્ર માટે હસ્તાક્ષર ગુણ ઉપલબ્ધ છે.",
+      "readinessVedicReadyDetail": "વેદિક રિપોર્ટ તૈયારી માટે સક્રિય કુંડળી મળી ગઈ છે.",
+      "recommendedBody": "Predicta આ રિપોર્ટ પ્રશ્નનો જવાબ આપવા જરૂરી ભાગો પહેલા પસંદ કરે છે. PDF નાની જોઈએ ત્યારે જ કસ્ટમાઇઝ કરો.",
+      "recommendedByPredicta": "Predicta ની ભલામણ",
+      "requiredInput": "જરૂરી ઇનપુટ",
+      "selectorBody": "અલગ વેદિક, KP, જૈમિની, અંક જ્યોતિષ, હસ્તાક્ષર અથવા Life Atlas રિપોર્ટ પસંદ કરો",
+      "selectorTitle": "અલગ-પદ્ધતિ રિપોર્ટ બજાર",
+      "selectLifeAtlas": "Life Atlas પસંદ કરો",
+      "selectedVedicSections": "પસંદ કરેલા વેદિક ભાગો",
+      "startHere": "અહીંથી શરૂ કરો",
+      "subnavAria": "રિપોર્ટ પદ્ધતિ નેવિગેશન",
+      "synthesisBoundary": "સમન્વય સીમા",
+      "viewLifeAtlasOptions": "Life Atlas વિકલ્પો સરખાવો",
+      "whatYouWillLearn": "તમે શું જાણશો"
+    }
+  },
+  "lanes": {
+    "en": {
+      "JAIMINI": {
+        "bestFor": "Learn the soul role, visible path, career dharma, relationship mirror, and active destiny chapter.",
+        "boundary": "Jaimini reports use karakas, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha where calculated evidence is available. They do not use KP cusp logic or unsupported story claims.",
+        "freeDepth": "Free gives the soul-role snapshot, visible identity, career direction, relationship mirror, and current destiny-chapter preview.",
+        "navTitle": "Jaimini",
+        "premiumDepth": "Premium gives full karaka council, Karakamsha/Swamsa, Arudha/Upapada, Chara Dasha life map, and practical guidance.",
+        "promise": "A classical soul-destiny lane with clear calculation boundaries.",
+        "readinessRequirement": "Needs a valid Kundli with birth date, time, and place for Jaimini calculation.",
+        "title": "Jaimini Reports"
+      },
+      "KP": {
+        "bestFor": "Learn whether a specific event looks supported, delayed, blocked, or unclear, then see the KP proof only after the answer.",
+        "boundary": "KP reports use cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, and transit triggers. They do not become Vedic personality reports.",
+        "freeDepth": "Free gives useful event promise and timing-readiness insight.",
+        "navTitle": "KP",
+        "premiumDepth": "Premium gives full event proof, significator hierarchy, confidence, limitations, and timing reasoning.",
+        "promise": "An event-answer lane for specific questions.",
+        "readinessRequirement": "Needs a valid Kundli; works best after the user selects or asks one clear event question.",
+        "title": "KP Reports"
+      },
+      "NUMEROLOGY": {
+        "bestFor": "Learn what the name and birth numbers emphasize, what cycle is active now, and how to use that rhythm.",
+        "boundary": "Numerology reports use number logic only. They do not include Kundli judgement unless a future synthesis report explicitly says so.",
+        "freeDepth": "Free gives core numbers, simple meaning, current cycle, strengths, cautions, and practical guidance.",
+        "navTitle": "Numerology",
+        "premiumDepth": "Premium adds detailed interpretation, timing calendar, compatibility, and name-spelling or brand-name comparison.",
+        "promise": "A number-led identity and timing lane.",
+        "readinessRequirement": "Needs a saved name and birth date from the active profile.",
+        "title": "Numerology Reports"
+      },
+      "SIGNATURE": {
+        "bestFor": "Learn what confirmed visible traits may reflect about expression, confidence rhythm, consistency, and improvement focus.",
+        "boundary": "Signature reports use confirmed visible traits only. They do not include Numerology or Vedic synthesis unless a future synthesis report explicitly says so.",
+        "freeDepth": "Free gives reflective visible-trait insight with privacy and safety framing.",
+        "navTitle": "Signature",
+        "premiumDepth": "Premium adds multi-sample comparison, before/after guidance, and a signature refinement plan.",
+        "promise": "A reflective self-expression lane, not forensic proof.",
+        "readinessRequirement": "Needs a signature sample or confirmed manual-observation state.",
+        "title": "Signature Reports"
+      },
+      "SYNTHESIS": {
+        "bestFor": "Learn the life chapter, hidden thread, gifts, lessons, soul-purpose direction, and next honest step in non-technical language.",
+        "boundary": "Predicta Life Atlas is the only approved all-school synthesis report. It is not a Vedic, KP, Jaimini, Numerology, or Signature report.",
+        "freeDepth": "Free gives a useful soul portrait, life journey summary, current chapter, gifts, lessons, and a closing letter.",
+        "navTitle": "Life Atlas",
+        "premiumDepth": "Premium adds deeper life narrative, soul-purpose synthesis, karmic pattern map, integration practices, and a memorable closing letter.",
+        "promise": "Flagship synthesis without technical clutter.",
+        "readinessRequirement": "Needs a valid Kundli/profile. Signature is optional enrichment only and missing signature does not block generation.",
+        "title": "Synthesis Reports"
+      },
+      "VEDIC": {
+        "bestFor": "Learn what the Kundli is saying about life direction, current timing, pressure points, and practical remedy direction.",
+        "boundary": "Vedic reports use Parashari Jyotish only. KP, Jaimini, Numerology, and Signature stay outside this lane.",
+        "freeDepth": "Free gives a useful chart-backed Vedic reading with clear limits and dignity.",
+        "navTitle": "Vedic",
+        "premiumDepth": "Premium adds deeper varga synthesis, timing windows, evidence tables, and remedy planning.",
+        "promise": "A classical Vedic report without method mixing.",
+        "readinessRequirement": "Needs a valid Kundli with birth date, time, and place.",
+        "title": "Vedic Reports"
+      }
+    },
+    "hi": {
+      "JAIMINI": {
+        "bestFor": "आत्म-भूमिका, दिखता मार्ग, करियर धर्म, रिश्ते का दर्पण और सक्रिय भाग्य अध्याय समझें.",
+        "boundary": "जैमिनी रिपोर्ट गणना उपलब्ध होने पर कारक, कारकांश, स्वांश, आरूढ़, उपपद, जैमिनी दृष्टि और चर दशा का उपयोग करती है. यह KP कस्प तर्क या असमर्थित कहानी-दावे नहीं मिलाती.",
+        "freeDepth": "फ्री में आत्म-भूमिका, दिखती पहचान, करियर दिशा, रिश्ते का दर्पण और वर्तमान भाग्य-अध्याय की झलक मिलती है.",
+        "navTitle": "जैमिनी",
+        "premiumDepth": "प्रीमियम में पूर्ण कारक परिषद, कारकांश/स्वांश, आरूढ़/उपपद, चर दशा जीवन-मानचित्र और व्यावहारिक मार्गदर्शन मिलता है.",
+        "promise": "स्पष्ट गणना सीमा वाली शास्त्रीय आत्म-भाग्य लेन.",
+        "readinessRequirement": "जैमिनी गणना के लिए जन्म तारीख, समय और स्थान वाली वैध कुंडली चाहिए.",
+        "title": "जैमिनी रिपोर्ट"
+      },
+      "KP": {
+        "bestFor": "जानें कि कोई खास घटना समर्थित, विलंबित, अटकी या अस्पष्ट दिखती है; उत्तर के बाद ही KP प्रमाण देखें.",
+        "boundary": "KP रिपोर्ट उपलब्ध होने पर कस्प, नक्षत्र स्वामी, उप स्वामी, उप-उप स्वामी, सिग्निफिकेटर, रूलिंग ग्रह, दशा समर्थन और गोचर संकेत का उपयोग करती है. यह वैदिक व्यक्तित्व रिपोर्ट नहीं बनती.",
+        "freeDepth": "फ्री में उपयोगी घटना-संकेत और समय-तैयारी की झलक मिलती है.",
+        "navTitle": "KP",
+        "premiumDepth": "प्रीमियम में पूरा घटना प्रमाण, सिग्निफिकेटर क्रम, विश्वास स्तर, सीमाएं और समय तर्क मिलता है.",
+        "promise": "खास सवालों के लिए घटना-उत्तर लेन.",
+        "readinessRequirement": "वैध कुंडली चाहिए; सबसे अच्छा तब काम करती है जब उपयोगकर्ता एक साफ घटना सवाल चुने या पूछे.",
+        "title": "KP रिपोर्ट"
+      },
+      "NUMEROLOGY": {
+        "bestFor": "नाम और जन्म अंक क्या जोर देते हैं, अभी कौन सा चक्र सक्रिय है और उस लय का उपयोग कैसे करें, यह समझें.",
+        "boundary": "अंक ज्योतिष रिपोर्ट केवल अंक तर्क का उपयोग करती है. भविष्य में कोई समन्वय रिपोर्ट साफ कहे तभी कुंडली निर्णय जोड़ा जाएगा.",
+        "freeDepth": "फ्री में मूल अंक, सरल अर्थ, वर्तमान चक्र, शक्तियां, सावधानियां और व्यावहारिक मार्गदर्शन मिलता है.",
+        "navTitle": "अंक ज्योतिष",
+        "premiumDepth": "प्रीमियम में विस्तृत अर्थ, समय कैलेंडर, सुयोग्यता और नाम-लेखन या ब्रांड-नाम तुलना मिलती है.",
+        "promise": "अंक-आधारित पहचान और समय लेन.",
+        "readinessRequirement": "सक्रिय प्रोफाइल से सुरक्षित नाम और जन्म तारीख चाहिए.",
+        "title": "अंक ज्योतिष रिपोर्ट"
+      },
+      "SIGNATURE": {
+        "bestFor": "पुष्ट दिखने वाले गुण अभिव्यक्ति, आत्मविश्वास लय, नियमितता और सुधार केंद्र के बारे में क्या संकेत दे सकते हैं, यह समझें.",
+        "boundary": "हस्ताक्षर रिपोर्ट केवल पुष्ट दिखने वाले गुणों का उपयोग करती है. भविष्य में कोई समन्वय रिपोर्ट साफ कहे तभी अंक ज्योतिष या वैदिक समन्वय जोड़ा जाएगा.",
+        "freeDepth": "फ्री में गोपनीयता और सुरक्षा के साथ दिखने वाले गुणों पर चिंतनात्मक मार्गदर्शन मिलता है.",
+        "navTitle": "हस्ताक्षर",
+        "premiumDepth": "प्रीमियम में कई नमूनों की तुलना, पहले/बाद मार्गदर्शन और हस्ताक्षर सुधार योजना मिलती है.",
+        "promise": "आत्म-अभिव्यक्ति लेन, फोरेंसिक प्रमाण नहीं.",
+        "readinessRequirement": "हस्ताक्षर नमूना या पुष्ट मैनुअल अवलोकन स्थिति चाहिए.",
+        "title": "हस्ताक्षर रिपोर्ट"
+      },
+      "SYNTHESIS": {
+        "bestFor": "जीवन अध्याय, छिपी कड़ी, गुण, सीख, आत्म-उद्देश्य दिशा और अगला सच्चा कदम गैर-तकनीकी भाषा में समझें.",
+        "boundary": "Predicta Life Atlas ही स्वीकृत सर्व-पद्धति समन्वय रिपोर्ट है. यह वैदिक, KP, जैमिनी, अंक ज्योतिष या हस्ताक्षर रिपोर्ट नहीं है.",
+        "freeDepth": "फ्री में उपयोगी आत्म-चित्र, जीवन यात्रा सार, वर्तमान अध्याय, गुण, सीख और समापन पत्र मिलता है.",
+        "navTitle": "Life Atlas",
+        "premiumDepth": "प्रीमियम में गहरी जीवन कथा, आत्म-उद्देश्य समन्वय, कर्म पैटर्न मानचित्र, अभ्यास और यादगार समापन पत्र मिलता है.",
+        "promise": "तकनीकी भीड़ के बिना फ्लैगशिप समन्वय.",
+        "readinessRequirement": "वैध कुंडली/प्रोफाइल चाहिए. हस्ताक्षर वैकल्पिक अतिरिक्त परत है; हस्ताक्षर न हो तो रिपोर्ट नहीं रुकती.",
+        "title": "समन्वय रिपोर्ट"
+      },
+      "VEDIC": {
+        "bestFor": "कुंडली जीवन दिशा, वर्तमान समय, दबाव बिंदु और व्यावहारिक उपाय दिशा के बारे में क्या कह रही है, यह समझें.",
+        "boundary": "वैदिक रिपोर्ट केवल पाराशरी ज्योतिष का उपयोग करती है. KP, जैमिनी, अंक ज्योतिष और हस्ताक्षर इस लेन से बाहर रहते हैं.",
+        "freeDepth": "फ्री में साफ सीमाओं और गरिमा के साथ उपयोगी चार्ट-आधारित वैदिक रीडिंग मिलती है.",
+        "navTitle": "वैदिक",
+        "premiumDepth": "प्रीमियम में गहरा वर्ग चार्ट समन्वय, समय खिड़कियां, प्रमाण तालिकाएं और उपाय योजना मिलती है.",
+        "promise": "बिना पद्धति मिश्रण की शास्त्रीय वैदिक रिपोर्ट.",
+        "readinessRequirement": "जन्म तारीख, समय और स्थान वाली वैध कुंडली चाहिए.",
+        "title": "वैदिक रिपोर्ट"
+      }
+    },
+    "gu": {
+      "JAIMINI": {
+        "bestFor": "આત્મ-ભૂમિકા, દેખાતો માર્ગ, કરિયર ધર્મ, સંબંધનો અરીસો અને સક્રિય ભાગ્ય અધ્યાય સમજો.",
+        "boundary": "જૈમિની રિપોર્ટ ગણતરી ઉપલબ્ધ હોય ત્યારે કારક, કારકાંશ, સ્વાંશ, આરુઢ, ઉપપદ, જૈમિની દૃષ્ટિ અને ચર દશાનો ઉપયોગ કરે છે. તે KP કસ્પ તર્ક અથવા આધાર વિનાના વાર્તા-દાવા ઉમેરતો નથી.",
+        "freeDepth": "ફ્રીમાં આત્મ-ભૂમિકા, દેખાતી ઓળખ, કરિયર દિશા, સંબંધનો અરીસો અને વર્તમાન ભાગ્ય-અધ્યાયની ઝલક મળે છે.",
+        "navTitle": "જૈમિની",
+        "premiumDepth": "પ્રીમિયમમાં સંપૂર્ણ કારક પરિષદ, કારકાંશ/સ્વાંશ, આરુઢ/ઉપપદ, ચર દશા જીવન-નકશો અને વ્યવહારુ માર્ગદર્શન મળે છે.",
+        "promise": "સ્પષ્ટ ગણતરી સીમાવાળી શાસ્ત્રીય આત્મ-ભાગ્ય લેન.",
+        "readinessRequirement": "જૈમિની ગણતરી માટે જન્મ તારીખ, સમય અને સ્થળવાળી માન્ય કુંડળી જોઈએ.",
+        "title": "જૈમિની રિપોર્ટ્સ"
+      },
+      "KP": {
+        "bestFor": "કોઈ ચોક્કસ ઘટના સમર્થિત, મોડેલી, અટકેલી કે અસ્પષ્ટ દેખાય છે તે જાણો; જવાબ પછી જ KP પુરાવો જુઓ.",
+        "boundary": "KP રિપોર્ટ ઉપલબ્ધ હોય ત્યારે કસ્પ, નક્ષત્ર સ્વામી, ઉપ સ્વામી, ઉપ-ઉપ સ્વામી, સિગ્નિફિકેટર, રૂલિંગ ગ્રહ, દશા સહારો અને ગોચર સંકેતનો ઉપયોગ કરે છે. તે વેદિક વ્યક્તિત્વ રિપોર્ટ નથી બનતો.",
+        "freeDepth": "ફ્રીમાં ઉપયોગી ઘટના સંકેત અને સમય-તૈયારીની ઝલક મળે છે.",
+        "navTitle": "KP",
+        "premiumDepth": "પ્રીમિયમમાં સંપૂર્ણ ઘટના પુરાવો, સિગ્નિફિકેટર ક્રમ, વિશ્વાસ સ્તર, મર્યાદાઓ અને સમય તર્ક મળે છે.",
+        "promise": "ચોક્કસ પ્રશ્નો માટે ઘટના-જવાબ લેન.",
+        "readinessRequirement": "માન્ય કુંડળી જોઈએ; ઉપયોગકર્તા એક સ્પષ્ટ ઘટના પ્રશ્ન પસંદ કરે કે પૂછે ત્યારે સૌથી સારું કામ કરે છે.",
+        "title": "KP રિપોર્ટ્સ"
+      },
+      "NUMEROLOGY": {
+        "bestFor": "નામ અને જન્મ અંક શું ભાર આપે છે, હમણાં કયું ચક્ર સક્રિય છે અને તે લયનો ઉપયોગ કેવી રીતે કરવો તે સમજો.",
+        "boundary": "અંક જ્યોતિષ રિપોર્ટ માત્ર અંક તર્કનો ઉપયોગ કરે છે. ભવિષ્યમાં કોઈ સમન્વય રિપોર્ટ સ્પષ્ટ કહે ત્યારે જ કુંડળી નિર્ણય જોડાશે.",
+        "freeDepth": "ફ્રીમાં મુખ્ય અંક, સરળ અર્થ, વર્તમાન ચક્ર, શક્તિઓ, સાવચેતી અને વ્યવહારુ માર્ગદર્શન મળે છે.",
+        "navTitle": "અંક જ્યોતિષ",
+        "premiumDepth": "પ્રીમિયમમાં વિગતવાર અર્થ, સમય કેલેન્ડર, સુસંગતતા અને નામ-લેખન અથવા બ્રાન્ડ-નામ તુલના મળે છે.",
+        "promise": "અંક-આધારિત ઓળખ અને સમય લેન.",
+        "readinessRequirement": "સક્રિય પ્રોફાઇલમાંથી સાચવેલું નામ અને જન્મ તારીખ જોઈએ.",
+        "title": "અંક જ્યોતિષ રિપોર્ટ્સ"
+      },
+      "SIGNATURE": {
+        "bestFor": "પુષ્ટ દેખાતા ગુણ અભિવ્યક્તિ, આત્મવિશ્વાસ લય, નિયમિતતા અને સુધાર કેન્દ્ર વિશે શું સૂચવી શકે છે તે સમજો.",
+        "boundary": "હસ્તાક્ષર રિપોર્ટ માત્ર પુષ્ટ દેખાતા ગુણોનો ઉપયોગ કરે છે. ભવિષ્યમાં કોઈ સમન્વય રિપોર્ટ સ્પષ્ટ કહે ત્યારે જ અંક જ્યોતિષ અથવા વેદિક સમન્વય જોડાશે.",
+        "freeDepth": "ફ્રીમાં ગોપનીયતા અને સુરક્ષા સાથે દેખાતા ગુણો પર ચિંતનાત્મક માર્ગદર્શન મળે છે.",
+        "navTitle": "હસ્તાક્ષર",
+        "premiumDepth": "પ્રીમિયમમાં ઘણા નમૂનાઓની તુલના, પહેલાં/પછી માર્ગદર્શન અને હસ્તાક્ષર સુધાર યોજના મળે છે.",
+        "promise": "આત્મ-અભિવ્યક્તિ લેન, ફોરેન્સિક પુરાવો નહીં.",
+        "readinessRequirement": "હસ્તાક્ષર નમૂનો અથવા પુષ્ટ મેન્યુઅલ અવલોકન સ્થિતિ જોઈએ.",
+        "title": "હસ્તાક્ષર રિપોર્ટ્સ"
+      },
+      "SYNTHESIS": {
+        "bestFor": "જીવન અધ્યાય, છૂપાયેલો ધાગો, ગુણ, પાઠ, આત્મ-ઉદ્દેશ્ય દિશા અને આગળનું સાચું પગલું બિન-તકનીકી ભાષામાં સમજો.",
+        "boundary": "Predicta Life Atlas જ સ્વીકૃત સર્વ-પદ્ધતિ સમન્વય રિપોર્ટ છે. તે વેદિક, KP, જૈમિની, અંક જ્યોતિષ અથવા હસ્તાક્ષર રિપોર્ટ નથી.",
+        "freeDepth": "ફ્રીમાં ઉપયોગી આત્મ-ચિત્ર, જીવન યાત્રા સાર, વર્તમાન અધ્યાય, ગુણ, પાઠ અને સમાપન પત્ર મળે છે.",
+        "navTitle": "Life Atlas",
+        "premiumDepth": "પ્રીમિયમમાં ઊંડી જીવનકથા, આત્મ-ઉદ્દેશ્ય સમન્વય, કર્મ પેટર્ન નકશો, અભ્યાસ અને યાદગાર સમાપન પત્ર મળે છે.",
+        "promise": "તકનીકી ભીડ વગર ફ્લેગશિપ સમન્વય.",
+        "readinessRequirement": "માન્ય કુંડળી/પ્રોફાઇલ જોઈએ. હસ્તાક્ષર વૈકલ્પિક વધારાની પરત છે; હસ્તાક્ષર ન હોય તો રિપોર્ટ અટકતો નથી.",
+        "title": "સમન્વય રિપોર્ટ્સ"
+      },
+      "VEDIC": {
+        "bestFor": "કુંડળી જીવન દિશા, વર્તમાન સમય, દબાણ બિંદુઓ અને વ્યવહારુ ઉપાય દિશા વિશે શું કહે છે તે સમજો.",
+        "boundary": "વેદિક રિપોર્ટ માત્ર પારાશરી જ્યોતિષનો ઉપયોગ કરે છે. KP, જૈમિની, અંક જ્યોતિષ અને હસ્તાક્ષર આ લેનની બહાર રહે છે.",
+        "freeDepth": "ફ્રીમાં સ્પષ્ટ મર્યાદા અને ગરિમા સાથે ઉપયોગી ચાર્ટ-આધારિત વેદિક રીડિંગ મળે છે.",
+        "navTitle": "વેદિક",
+        "premiumDepth": "પ્રીમિયમમાં ઊંડો વર્ગ ચાર્ટ સમન્વય, સમય વિન્ડો, પુરાવા કોષ્ટકો અને ઉપાય યોજના મળે છે.",
+        "promise": "પદ્ધતિ મિશ્રણ વગરનો શાસ્ત્રીય વેદિક રિપોર્ટ.",
+        "readinessRequirement": "જન્મ તારીખ, સમય અને સ્થળવાળી માન્ય કુંડળી જોઈએ.",
+        "title": "વેદિક રિપોર્ટ્સ"
+      }
+    }
+  }
+}
