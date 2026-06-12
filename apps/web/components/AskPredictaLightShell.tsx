@@ -1,38 +1,16 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import type { ComponentType } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { getLightweightCompetitorResponseCopy } from '../lib/lightweight-public-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
-
-type FullPredictaChatModule = {
-  default: typeof import('./WebPridictaChat').WebPridictaChat;
-};
-
-let fullPredictaChatPreload: Promise<FullPredictaChatModule> | undefined;
-
-function loadFullPredictaChat(): Promise<FullPredictaChatModule> {
-  fullPredictaChatPreload ??= import('./WebPridictaChat').then(module => ({
-    default: module.WebPridictaChat,
-  }));
-
-  return fullPredictaChatPreload;
-}
-
-function preloadFullPredictaChat(): void {
-  void loadFullPredictaChat();
-}
-
-const FullPredictaChat = dynamic(
-  loadFullPredictaChat,
-  {
-    loading: () => <AskPredictaLoadingCard />,
-    ssr: false,
-  },
-);
+import {
+  loadPredictaRuntime,
+  preloadPredictaRuntime,
+} from './AskPredictaRuntimeBridge';
 
 const CONTEXT_PARAMS = [
   'birthTimeDetective',
@@ -55,6 +33,8 @@ const CONTEXT_PARAMS = [
 export function AskPredictaLightShell(): React.JSX.Element {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const formRef = useRef<HTMLFormElement>(null);
+  const questionRef = useRef<HTMLTextAreaElement>(null);
   const { language } = useLightweightLanguagePreference();
   const landing = getLightweightCompetitorResponseCopy(language).landing;
   const incomingPrompt = searchParams.get('prompt') ?? '';
@@ -64,6 +44,8 @@ export function AskPredictaLightShell(): React.JSX.Element {
   );
   const [question, setQuestion] = useState(incomingPrompt);
   const [chatStarted, setChatStarted] = useState(hasIncomingContext);
+  const [PredictaRuntimeComponent, setPredictaRuntimeComponent] =
+    useState<ComponentType>();
   const [voiceNotice, setVoiceNotice] = useState(
     searchParams.get('inputMode') === 'voice',
   );
@@ -86,7 +68,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
 
     if (hasIncomingContext) {
       setChatStarted(true);
-      preloadFullPredictaChat();
+      preloadPredictaRuntime();
     }
   }, [hasIncomingContext, incomingPrompt]);
 
@@ -96,23 +78,53 @@ export function AskPredictaLightShell(): React.JSX.Element {
     }
 
     if ('requestIdleCallback' in window) {
-      const idleId = window.requestIdleCallback(preloadFullPredictaChat, {
+      const idleId = window.requestIdleCallback(preloadPredictaRuntime, {
         timeout: 1800,
       });
 
       return () => window.cancelIdleCallback(idleId);
     }
 
-    const timerId = globalThis.setTimeout(preloadFullPredictaChat, 900);
+    const timerId = globalThis.setTimeout(preloadPredictaRuntime, 900);
 
     return () => globalThis.clearTimeout(timerId);
   }, [hasIncomingContext]);
+
+  useEffect(() => {
+    if (!chatStarted) {
+      return undefined;
+    }
+
+    let isActive = true;
+
+    loadPredictaRuntime().then(module => {
+      if (isActive) {
+        setPredictaRuntimeComponent(() => module.default);
+      }
+    });
+
+    return () => {
+      isActive = false;
+    };
+  }, [chatStarted]);
+
+  useEffect(() => {
+    if (hasIncomingContext || incomingPrompt) {
+      return undefined;
+    }
+
+    const focusId = window.requestAnimationFrame(() => {
+      questionRef.current?.focus({ preventScroll: true });
+    });
+
+    return () => window.cancelAnimationFrame(focusId);
+  }, [hasIncomingContext, incomingPrompt]);
 
   function startChat(prompt: string, mode: 'text' | 'voice' = 'text'): void {
     const resolvedPrompt = prompt.trim() || landing.defaultAskPrompt;
     const nextUrl = buildAskHref(resolvedPrompt, mode);
 
-    preloadFullPredictaChat();
+    preloadPredictaRuntime();
     setVoiceNotice(mode === 'voice');
     setQuestion(resolvedPrompt);
     setChatStarted(true);
@@ -122,7 +134,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
   }
 
   function startVoiceCapture(): void {
-    preloadFullPredictaChat();
+    preloadPredictaRuntime();
     setVoiceNotice(true);
 
     const started = speechInput.startListening();
@@ -155,10 +167,11 @@ export function AskPredictaLightShell(): React.JSX.Element {
       }
     >
       <form
+        ref={formRef}
         className="ask-light-console glass-panel"
-        onFocus={preloadFullPredictaChat}
-        onPointerEnter={preloadFullPredictaChat}
-        onTouchStart={preloadFullPredictaChat}
+        onFocus={preloadPredictaRuntime}
+        onPointerEnter={preloadPredictaRuntime}
+        onTouchStart={preloadPredictaRuntime}
         onSubmit={event => {
           event.preventDefault();
           startChat(question);
@@ -172,8 +185,18 @@ export function AskPredictaLightShell(): React.JSX.Element {
         <label className="ask-light-field">
           <span>{landing.suggestedQuestionLabel}</span>
           <textarea
+            data-ask-autofocus="true"
             onChange={event => setQuestion(event.target.value)}
+            onKeyDown={event => {
+              if (event.key !== 'Enter' || event.shiftKey || event.nativeEvent.isComposing) {
+                return;
+              }
+
+              event.preventDefault();
+              formRef.current?.requestSubmit();
+            }}
             placeholder={landing.askPlaceholder}
+            ref={questionRef}
             rows={chatStarted ? 2 : 3}
             value={question}
           />
@@ -184,9 +207,9 @@ export function AskPredictaLightShell(): React.JSX.Element {
             <Link
               href={buildAskHref(item)}
               key={item}
-              onFocus={preloadFullPredictaChat}
-              onPointerEnter={preloadFullPredictaChat}
-              onTouchStart={preloadFullPredictaChat}
+              onFocus={preloadPredictaRuntime}
+              onPointerEnter={preloadPredictaRuntime}
+              onTouchStart={preloadPredictaRuntime}
             >
               {item}
             </Link>
@@ -228,7 +251,13 @@ export function AskPredictaLightShell(): React.JSX.Element {
         ) : null}
       </form>
 
-      {chatStarted ? <FullPredictaChat key={searchParams.toString()} /> : null}
+      {chatStarted ? (
+        PredictaRuntimeComponent ? (
+          <PredictaRuntimeComponent key={searchParams.toString()} />
+        ) : (
+          <AskPredictaLoadingCard />
+        )
+      ) : null}
     </section>
   );
 }

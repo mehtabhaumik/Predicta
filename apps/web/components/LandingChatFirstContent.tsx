@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
@@ -40,6 +40,7 @@ function buildAskPredictaHref(
 
 export function LandingChatFirstContent(): React.JSX.Element {
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
   const { language } = useLightweightLanguagePreference();
   const copy = getLightweightCompetitorResponseCopy(language);
   const landing = copy.landing;
@@ -103,6 +104,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
         </div>
 
         <form
+          ref={formRef}
           className="landing-ask-console glass-panel"
           onFocus={preloadAskPredictaRuntime}
           onPointerEnter={preloadAskPredictaRuntime}
@@ -116,6 +118,14 @@ export function LandingChatFirstContent(): React.JSX.Element {
             <span>{landing.suggestedQuestionLabel}</span>
             <textarea
               onChange={event => setQuestion(event.target.value)}
+              onKeyDown={event => {
+                if (event.key !== 'Enter' || event.shiftKey || event.nativeEvent.isComposing) {
+                  return;
+                }
+
+                event.preventDefault();
+                formRef.current?.requestSubmit();
+              }}
               placeholder={landing.askPlaceholder}
               rows={3}
               value={question}

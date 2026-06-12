@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:3017",
-  "generatedAt": "2026-06-12T21:36:00.652Z",
+  "generatedAt": "2026-06-12T22:10:00.098Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -327,7 +327,7 @@
       "horizontalOverflow": false,
       "landingTextarea": null,
       "localGridColumns": "",
-      "reportActionColumns": "",
+      "reportActionColumns": "260px",
       "touchIssueCount": 0,
       "voiceButton": null,
       "windowHeight": 780,
@@ -995,7 +995,7 @@
       "horizontalOverflow": false,
       "landingTextarea": null,
       "localGridColumns": "",
-      "reportActionColumns": "330px",
+      "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
       "windowHeight": 932,
@@ -1621,9 +1621,9 @@
         {
           "bottom": 1098,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 96,
+          "height": 94,
           "tag": "aside",
-          "top": 1002
+          "top": 1004
         }
       ],
       "horizontalOverflow": false,
@@ -1655,9 +1655,9 @@
         {
           "bottom": 1098,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 96,
+          "height": 94,
           "tag": "aside",
-          "top": 1002
+          "top": 1004
         }
       ],
       "horizontalOverflow": false,
@@ -1723,28 +1723,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 310,
+        "bottom": 313,
         "height": 119,
         "left": 77,
         "right": 947,
-        "top": 191,
+        "top": 194,
         "width": 870
       },
       "chipStrip": {
-        "bottom": 385,
-        "height": 42,
+        "bottom": 439,
+        "height": 94,
         "left": 77,
         "right": 947,
-        "top": 343,
+        "top": 345,
         "width": 870
       },
       "documentWidth": 1024,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 45,
+          "bottom": 53,
           "className": "ask-lean-header",
-          "height": 45,
+          "height": 53,
           "tag": "header",
           "top": 0
         }
@@ -1755,12 +1755,12 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 469,
-        "height": 52,
-        "left": 225,
-        "right": 345,
-        "top": 417,
-        "width": 121
+        "bottom": 521,
+        "height": 50,
+        "left": 232,
+        "right": 386,
+        "top": 471,
+        "width": 154
       },
       "windowHeight": 900,
       "windowWidth": 1024,
@@ -1785,9 +1785,9 @@
         {
           "bottom": 886,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 98,
+          "height": 96,
           "tag": "aside",
-          "top": 788
+          "top": 790
         }
       ],
       "horizontalOverflow": false,
@@ -1819,9 +1819,9 @@
         {
           "bottom": 886,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 98,
+          "height": 96,
           "tag": "aside",
-          "top": 788
+          "top": 790
         }
       ],
       "horizontalOverflow": false,
@@ -1853,9 +1853,9 @@
         {
           "bottom": 886,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 98,
+          "height": 96,
           "tag": "aside",
-          "top": 788
+          "top": 790
         }
       ],
       "horizontalOverflow": false,
@@ -1887,9 +1887,9 @@
         {
           "bottom": 886,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 98,
+          "height": 96,
           "tag": "aside",
-          "top": 788
+          "top": 790
         }
       ],
       "horizontalOverflow": false,
@@ -1921,9 +1921,9 @@
         {
           "bottom": 886,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 98,
+          "height": 96,
           "tag": "aside",
-          "top": 788
+          "top": 790
         }
       ],
       "horizontalOverflow": false,
@@ -1955,9 +1955,9 @@
         {
           "bottom": 886,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 98,
+          "height": 96,
           "tag": "aside",
-          "top": 788
+          "top": 790
         }
       ],
       "horizontalOverflow": false,
@@ -1989,15 +1989,15 @@
         {
           "bottom": 886,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 98,
+          "height": 96,
           "tag": "aside",
-          "top": 788
+          "top": 790
         }
       ],
       "horizontalOverflow": false,
       "landingTextarea": null,
       "localGridColumns": "",
-      "reportActionColumns": "none",
+      "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
       "windowHeight": 900,
@@ -2010,11 +2010,11 @@
     {
       "askTextarea": null,
       "chipStrip": {
-        "bottom": 567,
+        "bottom": 560,
         "height": 198,
         "left": 828,
         "right": 1279,
-        "top": 369,
+        "top": 362,
         "width": 451
       },
       "documentWidth": 1440,
@@ -2030,22 +2030,22 @@
       ],
       "horizontalOverflow": false,
       "landingTextarea": {
-        "bottom": 329,
+        "bottom": 322,
         "height": 112,
         "left": 828,
         "right": 1279,
-        "top": 217,
+        "top": 210,
         "width": 451
       },
       "localGridColumns": "",
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 659,
-        "height": 52,
+        "bottom": 649,
+        "height": 50,
         "left": 1060,
         "right": 1279,
-        "top": 607,
+        "top": 600,
         "width": 220
       },
       "windowHeight": 940,
@@ -2057,28 +2057,28 @@
     },
     {
       "askTextarea": {
-        "bottom": 323,
+        "bottom": 325,
         "height": 119,
         "left": 125,
         "right": 995,
-        "top": 204,
+        "top": 206,
         "width": 870
       },
       "chipStrip": {
-        "bottom": 403,
-        "height": 42,
+        "bottom": 457,
+        "height": 94,
         "left": 125,
         "right": 995,
-        "top": 361,
+        "top": 363,
         "width": 870
       },
       "documentWidth": 1440,
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 45,
+          "bottom": 53,
           "className": "ask-lean-header",
-          "height": 45,
+          "height": 53,
           "tag": "header",
           "top": 0
         }
@@ -2089,12 +2089,12 @@
       "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": {
-        "bottom": 493,
-        "height": 52,
-        "left": 273,
-        "right": 393,
-        "top": 441,
-        "width": 121
+        "bottom": 545,
+        "height": 50,
+        "left": 280,
+        "right": 434,
+        "top": 495,
+        "width": 154
       },
       "windowHeight": 940,
       "windowWidth": 1440,
@@ -2119,9 +2119,9 @@
         {
           "bottom": 920,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 104,
+          "height": 102,
           "tag": "aside",
-          "top": 816
+          "top": 818
         }
       ],
       "horizontalOverflow": false,
@@ -2153,9 +2153,9 @@
         {
           "bottom": 920,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 104,
+          "height": 102,
           "tag": "aside",
-          "top": 816
+          "top": 818
         }
       ],
       "horizontalOverflow": false,
@@ -2187,9 +2187,9 @@
         {
           "bottom": 920,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 104,
+          "height": 102,
           "tag": "aside",
-          "top": 816
+          "top": 818
         }
       ],
       "horizontalOverflow": false,
@@ -2221,9 +2221,9 @@
         {
           "bottom": 920,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 104,
+          "height": 102,
           "tag": "aside",
-          "top": 816
+          "top": 818
         }
       ],
       "horizontalOverflow": false,
@@ -2255,9 +2255,9 @@
         {
           "bottom": 920,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 104,
+          "height": 102,
           "tag": "aside",
-          "top": 816
+          "top": 818
         }
       ],
       "horizontalOverflow": false,
@@ -2289,9 +2289,9 @@
         {
           "bottom": 920,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 104,
+          "height": 102,
           "tag": "aside",
-          "top": 816
+          "top": 818
         }
       ],
       "horizontalOverflow": false,
@@ -2323,15 +2323,15 @@
         {
           "bottom": 920,
           "className": "dashboard-ask-dock glass-panel",
-          "height": 104,
+          "height": 102,
           "tag": "aside",
-          "top": 816
+          "top": 818
         }
       ],
       "horizontalOverflow": false,
       "landingTextarea": null,
       "localGridColumns": "",
-      "reportActionColumns": "none",
+      "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
       "windowHeight": 940,
