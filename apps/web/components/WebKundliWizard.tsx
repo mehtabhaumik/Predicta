@@ -594,7 +594,7 @@ export function WebKundliWizard(): React.JSX.Element {
     isBirthPlaceInputFocused &&
     isPlaceSuggestionsOpen &&
     isSearchingPlaces &&
-    visibleBirthPlaceSuggestions.length === 0;
+    placeSuggestions.length === 0;
   const shouldShowBirthPlaceOverlay =
     shouldShowBirthPlaceSuggestions || shouldShowBirthPlaceSearchStatus;
   const readyFlow = kundli ? (
@@ -711,6 +711,10 @@ export function WebKundliWizard(): React.JSX.Element {
                 }}
                 onFocus={() => {
                   setIsBirthPlaceInputFocused(true);
+                  if (isBirthPlaceSearchSettled) {
+                    closeBirthPlaceSuggestions();
+                    return;
+                  }
                   if (
                     birthPlaceQuery.trim().length >= 2 &&
                     !isBirthPlaceSearchSettled
@@ -774,6 +778,9 @@ export function WebKundliWizard(): React.JSX.Element {
                           key={`${option.place}-${option.latitude}-${option.longitude}`}
                           onPointerDown={event => {
                             event.preventDefault();
+                            selectBirthPlace(option);
+                          }}
+                          onClick={() => {
                             selectBirthPlace(option);
                           }}
                           onKeyDown={event => {
