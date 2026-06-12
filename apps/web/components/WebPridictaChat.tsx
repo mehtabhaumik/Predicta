@@ -1788,6 +1788,9 @@ export function WebPridictaChat({
             )}
           </p>
           <div className="auth-next-actions" aria-label={t('Predicta next steps')}>
+            <Link className="button secondary" href={buildChatLedKundliHref()}>
+              {t('Ask Predicta to Create')}
+            </Link>
             <Link className="button secondary" href="/dashboard/kundli">
               {t('Create Kundli')}
             </Link>
@@ -2866,12 +2869,41 @@ function WebChatRoomRecoveryCard({
         <Link className="button secondary" href="/dashboard/saved-kundlis">
           {copy.openLibrary}
         </Link>
-        <Link className="button" href="/dashboard/kundli">
+        <Link
+          className="button"
+          href={buildChatLedKundliHref({
+            school: room.school,
+            sourceScreen: room.sourceScreen,
+          })}
+        >
           {copy.createKundli}
         </Link>
       </div>
     </section>
   );
+}
+
+function buildChatLedKundliHref({
+  school,
+  sourceScreen = 'Ask Predicta',
+}: {
+  school?: PredictaSchool;
+  sourceScreen?: string;
+} = {}): string {
+  const params = new URLSearchParams();
+
+  params.set(
+    'prompt',
+    'Create my Kundli from chat. Ask me for birth date, birth time, and birth place one by one.',
+  );
+  params.set('sourceScreen', sourceScreen);
+  params.set('autoSend', 'true');
+
+  if (school) {
+    params.set('school', school);
+  }
+
+  return `/ask?${params.toString()}`;
 }
 
 function WebChatSessionSwitcher({
@@ -3853,11 +3885,10 @@ function buildFreeAiUpsellSuggestions(
       targetScreen: 'Pricing',
     })),
     {
-      href: '/dashboard/kundli',
       id: 'free-ai-zero-credit-kundli',
       label: 'Create Kundli',
-      prompt: 'Create Kundli without AI credit.',
-      targetScreen: 'Kundli',
+      prompt:
+        'Create my Kundli from chat without using an AI credit. Ask me for birth date, birth time, and birth place one by one.',
     },
     {
       href: '/dashboard/charts',

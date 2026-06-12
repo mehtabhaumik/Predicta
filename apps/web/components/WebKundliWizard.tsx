@@ -226,9 +226,7 @@ export function WebKundliWizard(): React.JSX.Element {
 
   function setBirthPlaceSuggestionResults(nextSuggestions: WebBirthPlace[]) {
     setPlaceSuggestions(nextSuggestions);
-    if (nextSuggestions.length > 0) {
-      setIsSearchingPlaces(false);
-    }
+    setIsSearchingPlaces(false);
   }
 
   function closeBirthPlaceSuggestions() {
@@ -603,9 +601,9 @@ export function WebKundliWizard(): React.JSX.Element {
     Boolean(immediatelySettledBirthPlace);
   const visibleBirthPlaceSuggestions = shouldSuppressBirthPlaceOverlay
     ? []
-    : (placeSuggestions.length > 0
-        ? placeSuggestions
-        : localBirthPlaceMatches
+    : (localBirthPlaceMatches.length > 0
+        ? localBirthPlaceMatches
+        : placeSuggestions
       ).slice(0, 6);
   const shouldShowBirthPlaceSuggestions =
     !shouldSuppressBirthPlaceOverlay &&
@@ -618,7 +616,9 @@ export function WebKundliWizard(): React.JSX.Element {
     isBirthPlaceInputFocused &&
     isPlaceSuggestionsOpen &&
     isSearchingPlaces &&
-    visibleBirthPlaceSuggestions.length === 0;
+    visibleBirthPlaceSuggestions.length === 0 &&
+    localBirthPlaceMatches.length === 0 &&
+    placeSuggestions.length === 0;
   const shouldShowBirthPlaceOverlay =
     shouldShowBirthPlaceSuggestions || shouldShowBirthPlaceSearchStatus;
   const readyFlow = kundli ? (
@@ -725,9 +725,11 @@ export function WebKundliWizard(): React.JSX.Element {
                 spellCheck={false}
                 onChange={event => {
                   resetFlow();
+                  placeSearchRequestRef.current += 1;
                   const nextQuery = event.target.value;
                   const normalizedNextQuery =
                     normalizeBirthPlaceLabel(nextQuery);
+                  resetBirthPlaceSearchUi();
                   setIsBirthPlaceInputFocused(true);
                   setBirthPlaceQuery(nextQuery);
                   setSelectedPlace(undefined);
@@ -746,8 +748,20 @@ export function WebKundliWizard(): React.JSX.Element {
                     closeBirthPlaceSuggestions();
                     return;
                   }
+                  const nextLocalMatches = searchLocalWebBirthPlaces(nextQuery).slice(
+                    0,
+                    6,
+                  );
+
+                  if (nextLocalMatches.length > 0) {
+                    setBirthPlaceSuggestionResults(nextLocalMatches);
+                    setIsPlaceSuggestionsOpen(true);
+                    return;
+                  }
+
                   setAcceptedBirthPlaceQuery('');
                   setIsPlaceSuggestionsOpen(normalizedNextQuery.length >= 2);
+                  setIsSearchingPlaces(normalizedNextQuery.length >= 2);
                 }}
                 onFocus={() => {
                   setIsBirthPlaceInputFocused(true);
