@@ -159,103 +159,121 @@ export function LandingChatFirstContent(): React.JSX.Element {
         <span>{landing.benchmarkBar}</span>
       </section>
 
-      <section
-        aria-labelledby="landing-worlds-title"
-        className="landing-world-panel glass-panel"
-        id="predicta-worlds"
-      >
-        <div className="landing-world-panel-copy">
-          <div className="section-title">{landing.worldsEyebrow}</div>
-          <h2 id="landing-worlds-title">{landing.worldsTitle}</h2>
-          <p>{landing.worldsBody}</p>
-        </div>
-        <div className="landing-world-actions">
+      <section className="landing-support-drawer" aria-label={landing.worldsTitle}>
+        <details className="landing-support-panel glass-panel" id="predicta-worlds">
+          <summary>
+            <span>
+              <small>{landing.worldsEyebrow}</small>
+              <strong>{landing.worldsTitle}</strong>
+            </span>
+            <em>{landing.worldsPrimaryCta}</em>
+          </summary>
+          <div className="landing-support-panel-body">
+            <div className="landing-world-panel-copy">
+              <p>{landing.worldsBody}</p>
+            </div>
+            <div className="landing-world-actions">
+              <Link
+                className="button"
+                href={buildAskPredictaHref(landing.worldsAskPrompt)}
+                onFocus={preloadAskPredictaRuntime}
+                onPointerEnter={preloadAskPredictaRuntime}
+                onTouchStart={preloadAskPredictaRuntime}
+              >
+                {landing.worldsPrimaryCta}
+              </Link>
+              <Link className="button secondary" href="/dashboard">
+                {landing.worldsSecondaryCta}
+              </Link>
+            </div>
+            <div aria-label={labels.groups.worlds} className="landing-world-grid">
+              {evidenceRooms.map((link, index) => (
+                <Link className="landing-world-card" href={link.href} key={link.href}>
+                  <strong>{link.label}</strong>
+                  <span>{landing.worldEvidenceItems[index] ?? landing.worldsBody}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </details>
+
+        <details className="landing-support-panel glass-panel">
+          <summary>
+            <span>
+              <small>{landing.capabilityEyebrow}</small>
+              <strong>{landing.capabilityTitle}</strong>
+            </span>
+            <em>{copy.hero.primary}</em>
+          </summary>
+          <div className="landing-support-panel-body">
+            <p>{landing.capabilityIntro}</p>
+            <div className="landing-simple-grid">
+              {landing.capabilities.map(item => (
+                <article className="soft-panel" key={item.title}>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </details>
+
+        <details className="landing-support-panel glass-panel">
+          <summary>
+            <span>
+              <small>{landing.reportsEyebrow}</small>
+              <strong>{landing.reportsTitle}</strong>
+            </span>
+            <em>{landing.previewReport}</em>
+          </summary>
+          <div className="landing-support-panel-body landing-report-card">
+            <p>{landing.reportsIntro}</p>
+            <strong>{landing.reportCoverTitle}</strong>
+            <p>{landing.reportCopyBody}</p>
+            <Link className="button secondary" href="/dashboard/report">
+              {landing.previewReport}
+            </Link>
+          </div>
+        </details>
+
+        <details className="landing-support-panel glass-panel">
+          <summary>
+            <span>
+              <small>{landing.intelligenceEyebrow}</small>
+              <strong>{landing.intelligenceTitle}</strong>
+            </span>
+            <em>{landing.intelligencePanelTitle}</em>
+          </summary>
+          <div className="landing-support-panel-body landing-intelligence-panel">
+            <div>
+              <p>{landing.intelligenceIntro}</p>
+              <h3>{landing.intelligencePanelTitle}</h3>
+              <p>{landing.intelligencePanelBody}</p>
+            </div>
+            <ul>
+              {landing.intelligenceItems.map(item => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </details>
+
+        <section className="final-cta glass-panel landing-final-cta">
+          <div>
+            <div className="section-title">{landing.plansEyebrow}</div>
+            <h2>{landing.plansTitle}</h2>
+            <p>{landing.plansIntro}</p>
+          </div>
           <Link
             className="button"
-            href={buildAskPredictaHref(landing.worldsAskPrompt)}
+            href={buildAskPredictaHref(DEFAULT_ASK_PROMPT)}
             onFocus={preloadAskPredictaRuntime}
             onPointerEnter={preloadAskPredictaRuntime}
             onTouchStart={preloadAskPredictaRuntime}
           >
-            {landing.worldsPrimaryCta}
+            {copy.hero.primary}
           </Link>
-          <Link className="button secondary" href="/dashboard">
-            {landing.worldsSecondaryCta}
-          </Link>
-        </div>
-        <div aria-label={labels.groups.worlds} className="landing-world-grid">
-          {evidenceRooms.map((link, index) => (
-            <Link className="landing-world-card" href={link.href} key={link.href}>
-              <strong>{link.label}</strong>
-              <span>{landing.worldEvidenceItems[index] ?? landing.worldsBody}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="landing-simple-section">
-        <div className="section-heading">
-          <div className="section-title">{landing.capabilityEyebrow}</div>
-          <h2>{landing.capabilityTitle}</h2>
-          <p>{landing.capabilityIntro}</p>
-        </div>
-        <div className="landing-simple-grid">
-          {landing.capabilities.map(item => (
-            <article className="soft-panel" key={item.title}>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="landing-simple-section landing-intelligence-summary">
-        <div className="section-heading">
-          <div className="section-title">{landing.intelligenceEyebrow}</div>
-          <h2>{landing.intelligenceTitle}</h2>
-          <p>{landing.intelligenceIntro}</p>
-        </div>
-        <div className="landing-intelligence-panel glass-panel">
-          <div>
-            <h3>{landing.intelligencePanelTitle}</h3>
-            <p>{landing.intelligencePanelBody}</p>
-          </div>
-          <ul>
-            {landing.intelligenceItems.map(item => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="landing-simple-section landing-report-summary">
-        <div className="landing-report-card glass-panel">
-          <span>{landing.reportsEyebrow}</span>
-          <h2>{landing.reportsTitle}</h2>
-          <p>{landing.reportsIntro}</p>
-          <strong>{landing.reportCoverTitle}</strong>
-          <p>{landing.reportCopyBody}</p>
-          <Link className="button secondary" href="/dashboard/report">
-            {landing.previewReport}
-          </Link>
-        </div>
-      </section>
-
-      <section className="final-cta glass-panel landing-final-cta">
-        <div>
-          <div className="section-title">{landing.plansEyebrow}</div>
-          <h2>{landing.plansTitle}</h2>
-          <p>{landing.plansIntro}</p>
-        </div>
-        <Link
-          className="button"
-          href={buildAskPredictaHref(DEFAULT_ASK_PROMPT)}
-          onFocus={preloadAskPredictaRuntime}
-          onPointerEnter={preloadAskPredictaRuntime}
-          onTouchStart={preloadAskPredictaRuntime}
-        >
-          {copy.hero.primary}
-        </Link>
+        </section>
       </section>
     </main>
   );
