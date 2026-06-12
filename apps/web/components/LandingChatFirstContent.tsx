@@ -44,13 +44,12 @@ export function LandingChatFirstContent(): React.JSX.Element {
       setVoiceStatus('captured');
     },
   });
-  const worldLinks = [
+  const evidenceRooms = [
     { href: '/dashboard/vedic', label: labels.nav.vedic },
     { href: '/dashboard/kp', label: labels.nav.kp },
     { href: '/dashboard/jaimini', label: labels.nav.jaimini },
     { href: '/dashboard/numerology', label: labels.nav.numerology },
     { href: '/dashboard/signature', label: labels.nav.signature },
-    { href: '/dashboard/report', label: labels.nav.reports },
   ];
 
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {
@@ -136,17 +135,33 @@ export function LandingChatFirstContent(): React.JSX.Element {
         <span>{landing.benchmarkBar}</span>
       </section>
 
-      <nav
-        aria-label={labels.groups.worlds}
-        className="landing-world-links"
+      <section
+        aria-labelledby="landing-worlds-title"
+        className="landing-world-panel glass-panel"
         id="predicta-worlds"
       >
-        {worldLinks.map(link => (
-          <Link href={link.href} key={link.href}>
-            {link.label}
+        <div className="landing-world-panel-copy">
+          <div className="section-title">{landing.worldsEyebrow}</div>
+          <h2 id="landing-worlds-title">{landing.worldsTitle}</h2>
+          <p>{landing.worldsBody}</p>
+        </div>
+        <div className="landing-world-actions">
+          <Link className="button" href={buildAskPredictaHref(landing.worldsAskPrompt)}>
+            {landing.worldsPrimaryCta}
           </Link>
-        ))}
-      </nav>
+          <Link className="button secondary" href="/dashboard">
+            {landing.worldsSecondaryCta}
+          </Link>
+        </div>
+        <div aria-label={labels.groups.worlds} className="landing-world-grid">
+          {evidenceRooms.map((link, index) => (
+            <Link className="landing-world-card" href={link.href} key={link.href}>
+              <strong>{link.label}</strong>
+              <span>{landing.worldEvidenceItems[index] ?? landing.worldsBody}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <section className="landing-simple-section">
         <div className="section-heading">

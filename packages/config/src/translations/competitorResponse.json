@@ -43,6 +43,19 @@
           "Is foreign travel or relocation active for me?",
           "What should I focus on this month?"
         ],
+        "worldsEyebrow": "Evidence rooms",
+        "worldsTitle": "Predicta chooses the method. You stay with the question.",
+        "worldsBody": "Vedic, KP, Jaimini, Numerology, and Signature are still available, but they should support Predicta instead of forcing you to navigate the app first.",
+        "worldsAskPrompt": "Tell me which astrology method fits my question and answer me in plain guidance first.",
+        "worldsPrimaryCta": "Ask Predicta to choose",
+        "worldsSecondaryCta": "Open my library",
+        "worldEvidenceItems": [
+          "Kundli, dasha, gochar, yog, Dosh, Shrap, Lal Kitab, and remedies.",
+          "Precise event timing through cusps, sub-lords, significators, and proof.",
+          "Soul path, karakas, destiny direction, and Jaimini evidence.",
+          "Name/date rhythm, personal cycles, number map, and timing color.",
+          "Confirmed visible traits for reflective self-expression guidance."
+        ],
         "capabilities": [
           {
             "title": "Kundli creation",
@@ -266,6 +279,19 @@
           "क्या विदेश यात्रा या स्थानांतरण सक्रिय है?",
           "इस महीने मुझे किस पर ध्यान देना चाहिए?"
         ],
+        "worldsEyebrow": "प्रमाण कक्ष",
+        "worldsTitle": "विधि प्रेडिक्टा चुनेगी. आप प्रश्न पर रहें.",
+        "worldsBody": "वैदिक, कृष्णमूर्ति पद्धति, जैमिनी, अंक ज्योतिष और हस्ताक्षर अभी भी उपलब्ध हैं, लेकिन वे पहले ऐप घुमाने के बजाय प्रेडिक्टा को सहारा दें.",
+        "worldsAskPrompt": "मेरे प्रश्न के लिए कौन सी ज्योतिष विधि सही है यह बताएं और पहले सरल मार्गदर्शन दें.",
+        "worldsPrimaryCta": "प्रेडिक्टा से विधि चुनवाएं",
+        "worldsSecondaryCta": "मेरी लाइब्रेरी खोलें",
+        "worldEvidenceItems": [
+          "कुंडली, दशा, गोचर, योग, Dosh, Shrap, लाल किताब और उपाय.",
+          "cusp, sub-lord, significator और proof से सटीक घटना-समय.",
+          "कारक, destiny direction, आत्म-पथ और जैमिनी प्रमाण.",
+          "नाम/तारीख rhythm, personal cycles, number map और timing color.",
+          "पुष्टि किए visible traits से reflective self-expression guidance."
+        ],
         "capabilities": [
           {
             "title": "कुंडली निर्माण",
@@ -488,6 +514,19 @@
           "મારા લગ્નનો સમય ક્યારે મજબૂત બનશે?",
           "શું વિદેશ મુસાફરી અથવા સ્થળાંતર સક્રિય છે?",
           "આ મહિને મારે શું ધ્યાનમાં લેવું જોઈએ?"
+        ],
+        "worldsEyebrow": "પુરાવા કક્ષ",
+        "worldsTitle": "પદ્ધતિ પ્રેડિક્ટા પસંદ કરશે. તમે પ્રશ્ન પર રહો.",
+        "worldsBody": "વેદિક, કૃષ્ણમૂર્તિ પદ્ધતિ, જૈમિની, અંક જ્યોતિષ અને હસ્તાક્ષર હજુ ઉપલબ્ધ છે, પણ તે પહેલાં એપમાં ભટકાવવાને બદલે પ્રેડિક્ટાને સહારો આપે.",
+        "worldsAskPrompt": "મારા પ્રશ્ન માટે કઈ જ્યોતિષ પદ્ધતિ યોગ્ય છે તે કહો અને પહેલા સરળ માર્ગદર્શન આપો.",
+        "worldsPrimaryCta": "પ્રેડિક્ટાને પદ્ધતિ પસંદ કરાવો",
+        "worldsSecondaryCta": "મારી લાઇબ્રેરી ખોલો",
+        "worldEvidenceItems": [
+          "કુંડળી, દશા, ગોચર, યોગ, Dosh, Shrap, લાલ કિતાબ અને ઉપાયો.",
+          "cusp, sub-lord, significator અને proof દ્વારા ચોક્કસ ઘટના સમય.",
+          "કારક, destiny direction, આત્મ-પથ અને જૈમિની પુરાવો.",
+          "નામ/તારીખ rhythm, personal cycles, number map અને timing color.",
+          "પુષ્ટિ કરેલા visible traits પરથી reflective self-expression guidance."
         ],
         "capabilities": [
           {
