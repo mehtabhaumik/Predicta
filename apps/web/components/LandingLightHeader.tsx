@@ -18,19 +18,12 @@ export function LandingLightHeader(): React.JSX.Element {
   const labels = getLightweightAppShellLabels(language);
   const responseCopy = getLightweightCompetitorResponseCopy(language);
   const primaryMenuLinks = [
-    { href: '/dashboard', label: labels.nav.dashboard },
+    { href: '/accuracy-method', label: labels.nav.accuracyMethod },
     { href: '/dashboard/report', label: labels.nav.reports },
     { href: '/pricing', label: labels.nav.premium },
   ];
-  const worldMenuLinks = [
-    { href: '/dashboard/vedic', label: labels.nav.vedic },
-    { href: '/dashboard/kp', label: labels.nav.kp },
-    { href: '/dashboard/jaimini', label: labels.nav.jaimini },
-    { href: '/dashboard/numerology', label: labels.nav.numerology },
-    { href: '/dashboard/signature', label: labels.nav.signature },
-  ];
   const desktopLinks = [
-    { href: '/#predicta-worlds', label: labels.groups.worlds },
+    { href: '/accuracy-method', label: labels.nav.accuracyMethod },
     { href: '/dashboard/report', label: labels.nav.reports },
     { href: '/pricing', label: labels.nav.premium },
   ];
@@ -129,21 +122,6 @@ export function LandingLightHeader(): React.JSX.Element {
                     }),
                   )}
                 </div>
-                <details className="mobile-menu-world-drawer">
-                  <summary>
-                    <span>{labels.groups.worlds}</span>
-                    <strong aria-hidden="true">+</strong>
-                  </summary>
-                  <div>
-                    {worldMenuLinks.map(link =>
-                      renderMobileNavLink({
-                        link,
-                        onClick: () => setMenuOpen(false),
-                        pathname,
-                      }),
-                    )}
-                  </div>
-                </details>
               </nav>
               <div className="mobile-menu-actions">
                 <LightweightLanguageSelector compact />

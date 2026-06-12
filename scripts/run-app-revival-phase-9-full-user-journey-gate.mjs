@@ -375,14 +375,26 @@ try {
       path: location.pathname,
       url: location.href,
     }))()`);
-    const requiredLinks = ['/ask', '/dashboard/vedic', '/dashboard/kp', '/dashboard/jaimini', '/dashboard/numerology', '/dashboard/signature', '/dashboard/report', '/pricing'];
+    const requiredLinks = ['/ask', '/accuracy-method', '/dashboard/report', '/pricing'];
+    const forbiddenPublicMenuLinks = [
+      '/dashboard',
+      '/dashboard/vedic',
+      '/dashboard/kp',
+      '/dashboard/jaimini',
+      '/dashboard/numerology',
+      '/dashboard/signature',
+    ];
     const missingLinks = requiredLinks.filter(href => !menuAudit.links.some(link => link.href === href));
+    const forbiddenLinks = forbiddenPublicMenuLinks.filter(href => menuAudit.links.some(link => link.href === href));
     const localFailures = [];
     if (!menuAudit.hasMenu) {
       localFailures.push('mobile menu did not open');
     }
     if (missingLinks.length) {
       localFailures.push(`mobile menu missing links: ${missingLinks.join(', ')}`);
+    }
+    if (forbiddenLinks.length) {
+      localFailures.push(`mobile menu exposes specialist/control-panel links: ${forbiddenLinks.join(', ')}`);
     }
     if (menuAudit.horizontalOverflow) {
       localFailures.push('mobile menu has horizontal overflow');
@@ -393,8 +405,8 @@ try {
     return { audit: { askAudit, menuAudit }, failures: localFailures };
   });
 
-  await runLanguageScenario('language-hindi', 'hi', ['वैदिक', 'जैमिनी', 'अंक ज्योतिष', 'हस्ताक्षर', 'रिपोर्ट', 'प्रीमियम']);
-  await runLanguageScenario('language-gujarati', 'gu', ['વેદિક', 'જૈમિની', 'અંક જ્યોતિષ', 'હસ્તાક્ષર', 'રિપોર્ટ', 'પ્રીમિયમ']);
+  await runLanguageScenario('language-hindi', 'hi', ['प्रेडिक्टा से पूछें', 'सटीकता और विधि', 'रिपोर्ट', 'प्रीमियम']);
+  await runLanguageScenario('language-gujarati', 'gu', ['પ્રેડિક્ટાને પૂછો', 'ચોકસાઈ અને પદ્ધતિ', 'રિપોર્ટ', 'પ્રીમિયમ']);
 } finally {
   chrome.kill('SIGTERM');
   await waitForProcessExit(chrome, 2_000).catch(() => undefined);
@@ -547,15 +559,16 @@ async function runLanguageScenario(name, language, expectedLabels) {
     await delay(400);
     const audit = await evaluate(cdp, `(() => {
       const text = document.body.textContent || '';
+      const menuText = document.querySelector('.mobile-menu-panel')?.textContent || '';
       return {
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
-        menuText: document.querySelector('.mobile-menu-panel')?.textContent || '',
+        menuText,
         text,
       };
     })()`);
     const localFailures = [];
     for (const label of expectedLabels) {
-      if (!audit.text.includes(label)) {
+      if (!audit.menuText.includes(label)) {
         localFailures.push(`${name} missing translated label: ${label}`);
       }
     }

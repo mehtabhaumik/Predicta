@@ -6,7 +6,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Landing&prompt=Will+I+get+a+better+job+opportunity+soon%3F",
       "text": "Will I get a better job opportunity soon?",
-      "elapsedMs": 104,
+      "elapsedMs": 103,
       "from": "/",
       "name": "landing primary ask entry",
       "url": "/ask?sourceScreen=Landing&prompt=Will+I+get+a+better+job+opportunity+soon%3F"
@@ -15,7 +15,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=My+Kundlis&prompt=Help+me+from+my+selected+Kundli.",
       "text": "Ask Predicta",
-      "elapsedMs": 104,
+      "elapsedMs": 113,
       "from": "/dashboard",
       "name": "dashboard ask predicta link",
       "url": "/ask?sourceScreen=My+Kundlis&prompt=Help+me+from+my+selected+Kundli."
@@ -24,7 +24,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI",
       "text": "Ask Predicta",
-      "elapsedMs": 104,
+      "elapsedMs": 103,
       "from": "/dashboard/vedic",
       "name": "vedic evidence room ask link",
       "url": "/ask?sourceScreen=Vedic+Predicta&prompt=Help+me+from+my+selected+Kundli.&school=PARASHARI"
@@ -33,13 +33,13 @@
       "clicked": true,
       "href": "/checkout?productId=pridicta_10_questions",
       "text": "Choose 10 AI Questions",
-      "elapsedMs": 104,
+      "elapsedMs": 103,
       "from": "/pricing",
       "name": "pricing checkout link",
       "url": "/checkout?productId=pridicta_10_questions"
     }
   ],
-  "generatedAt": "2026-06-12T05:06:59.121Z",
+  "generatedAt": "2026-06-12T05:23:28.687Z",
   "hrefLengthBudget": 900,
   "pageResults": [
     {
@@ -49,7 +49,7 @@
       "disabledActive": [],
       "hrefs": [
         "/",
-        "/#predicta-worlds",
+        "/accuracy-method",
         "/dashboard/report",
         "/pricing",
         "/ask",
@@ -76,6 +76,7 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/"
     },
@@ -94,6 +95,7 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/ask"
     },
@@ -105,6 +107,7 @@
           "className": "nav-link active",
           "href": "/dashboard",
           "inAskHeader": false,
+          "inPublicHeader": false,
           "text": "My Kundlis"
         }
       ],
@@ -148,6 +151,7 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/dashboard"
     },
@@ -159,6 +163,7 @@
           "className": "nav-link nav-link-compact active",
           "href": "/dashboard/vedic",
           "inAskHeader": false,
+          "inPublicHeader": false,
           "text": "Vedic Room"
         }
       ],
@@ -194,6 +199,7 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/dashboard/vedic"
     },
@@ -205,6 +211,7 @@
           "className": "nav-link nav-link-compact active",
           "href": "/dashboard/kp",
           "inAskHeader": false,
+          "inPublicHeader": false,
           "text": "KP Room"
         }
       ],
@@ -233,6 +240,7 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/dashboard/kp"
     },
@@ -244,6 +252,7 @@
           "className": "nav-link nav-link-compact active",
           "href": "/dashboard/jaimini",
           "inAskHeader": false,
+          "inPublicHeader": false,
           "text": "Jaimini Room"
         }
       ],
@@ -272,6 +281,7 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/dashboard/jaimini"
     },
@@ -283,6 +293,7 @@
           "className": "nav-link nav-link-compact active",
           "href": "/dashboard/numerology",
           "inAskHeader": false,
+          "inPublicHeader": false,
           "text": "Numerology Room"
         }
       ],
@@ -311,6 +322,7 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/dashboard/numerology"
     },
@@ -322,6 +334,7 @@
           "className": "nav-link nav-link-compact active",
           "href": "/dashboard/signature",
           "inAskHeader": false,
+          "inPublicHeader": false,
           "text": "Signature Room"
         }
       ],
@@ -350,6 +363,7 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/dashboard/signature"
     },
@@ -361,6 +375,7 @@
           "className": "nav-link active",
           "href": "/dashboard/report",
           "inAskHeader": false,
+          "inPublicHeader": false,
           "text": "Reports"
         }
       ],
@@ -397,6 +412,7 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/dashboard/report"
     },
@@ -408,6 +424,7 @@
           "className": "active",
           "href": "/pricing",
           "inAskHeader": false,
+          "inPublicHeader": true,
           "text": "Premium"
         }
       ],
@@ -416,7 +433,7 @@
       "disabledActive": [],
       "hrefs": [
         "/",
-        "/#predicta-worlds",
+        "/accuracy-method",
         "/dashboard/report",
         "/pricing",
         "/ask",
@@ -452,6 +469,7 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/pricing"
     },
@@ -463,6 +481,7 @@
           "className": "nav-link active",
           "href": "/dashboard/account",
           "inAskHeader": false,
+          "inPublicHeader": false,
           "text": "Account"
         },
         {
@@ -471,6 +490,7 @@
           "className": "nav-link active",
           "href": "/dashboard/redeem-pass",
           "inAskHeader": false,
+          "inPublicHeader": false,
           "text": "Redeem Pass"
         }
       ],
@@ -501,27 +521,28 @@
       "missing": [],
       "nestedInteractive": [],
       "oversizedHrefs": [],
+      "publicHeaderControlPanelLinks": [],
       "failures": [],
       "route": "/dashboard/redeem-pass"
     }
   ],
   "routeResults": [
     {
-      "elapsedMs": 23,
+      "elapsedMs": 25,
       "location": null,
       "route": "/",
       "status": 200,
       "url": "http://127.0.0.1:3009/"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 6,
       "location": null,
       "route": "/ask",
       "status": 200,
       "url": "http://127.0.0.1:3009/ask"
     },
     {
-      "elapsedMs": 27,
+      "elapsedMs": 30,
       "location": "/ask?legacyChatSmoke=1&prompt=Will+my+job+improve%3F&sourceScreen=Legacy+Dashboard+Chat",
       "route": "/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F",
       "status": 307,
@@ -570,21 +591,21 @@
       "url": "http://127.0.0.1:3009/dashboard/signature/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 6,
       "location": null,
       "route": "/pricing",
       "status": 200,
       "url": "http://127.0.0.1:3009/pricing"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 5,
       "location": null,
       "route": "/checkout?productId=pridicta_10_questions",
       "status": 200,
       "url": "http://127.0.0.1:3009/checkout?productId=pridicta_10_questions"
     },
     {
-      "elapsedMs": 6,
+      "elapsedMs": 8,
       "location": null,
       "route": "/accuracy-method",
       "status": 200,
@@ -612,21 +633,21 @@
       "url": "http://127.0.0.1:3009/feedback"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 3,
       "location": null,
       "route": "/dashboard",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/kundli",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/kundli"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 4,
       "location": null,
       "route": "/dashboard/vedic",
       "status": 200,
@@ -640,7 +661,7 @@
       "url": "http://127.0.0.1:3009/dashboard/kp"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/jaimini",
       "status": 200,
@@ -661,7 +682,7 @@
       "url": "http://127.0.0.1:3009/dashboard/signature"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/report",
       "status": 200,
@@ -675,21 +696,21 @@
       "url": "http://127.0.0.1:3009/dashboard/redeem-pass"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/saved-kundlis",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/saved-kundlis"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/family",
       "status": 200,
       "url": "http://127.0.0.1:3009/dashboard/family"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/settings",
       "status": 200,

@@ -110,18 +110,6 @@ export function WebHeader(): React.JSX.Element {
                 </div>
                 <div className="mobile-menu-nav-group">
                   <span className="mobile-menu-nav-title">
-                    {copy.worldsTitle}
-                  </span>
-                  {copy.worldLinks.map(link =>
-                    renderPublicMobileLink({
-                      link,
-                      onClick: () => setMenuOpen(false),
-                      pathname,
-                    }),
-                  )}
-                </div>
-                <div className="mobile-menu-nav-group">
-                  <span className="mobile-menu-nav-title">
                     {copy.supportTitle}
                   </span>
                   {copy.supportLinks.map(link =>
@@ -154,33 +142,20 @@ export function WebHeader(): React.JSX.Element {
 
 function buildPublicHeaderCopy(labels: ReturnType<typeof getAppShellLabels>): {
   brand: string;
-  dashboard: string;
   links: Array<{ href: string; label: string }>;
   menu: string;
   supportLinks: Array<{ href: string; label: string }>;
   supportTitle: string;
-  worldLinks: Array<{ href: string; label: string }>;
-  worldsTitle: string;
 } {
   return {
     brand: labels.groups.predicta,
-    dashboard: labels.nav.dashboard,
     links: [
-      { href: '/#predicta-worlds', label: labels.groups.worlds },
+      { href: '/accuracy-method', label: labels.nav.accuracyMethod },
       { href: '/dashboard/report', label: labels.nav.reports },
       { href: '/pricing', label: labels.nav.premium },
     ],
     menu: labels.actions.openMenu,
-    worldLinks: [
-      { href: '/dashboard/vedic', label: labels.nav.vedic },
-      { href: '/dashboard/kp', label: labels.nav.kp },
-      { href: '/dashboard/jaimini', label: labels.nav.jaimini },
-      { href: '/dashboard/numerology', label: labels.nav.numerology },
-      { href: '/dashboard/signature', label: labels.nav.signature },
-    ],
-    worldsTitle: labels.groups.worlds,
     supportLinks: [
-      { href: '/accuracy-method', label: labels.nav.accuracyMethod },
       { href: '/safety', label: labels.nav.safetyPromise },
       { href: '/founder', label: labels.nav.founderVision },
       { href: '/feedback', label: labels.nav.feedback },

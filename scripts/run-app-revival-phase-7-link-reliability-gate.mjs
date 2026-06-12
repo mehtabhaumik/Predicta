@@ -331,8 +331,19 @@ async function auditPageLinks(cdp, check) {
         inAskHeader:
           isAskRoute &&
           /\\bask-lean-header\\b/u.test(anchor.closest('header')?.className || ''),
+        inPublicHeader:
+          /\\bweb-header\\b/u.test(anchor.closest('header')?.className || ''),
         text: (anchor.textContent || '').replace(/\\s+/g, ' ').trim(),
       }));
+      const publicHeaderForbiddenHrefs = new Set([
+        '/#predicta-worlds',
+        '/dashboard',
+        '/dashboard/vedic',
+        '/dashboard/kp',
+        '/dashboard/jaimini',
+        '/dashboard/numerology',
+        '/dashboard/signature',
+      ]);
       const hrefs = anchors.map(anchor => anchor.href);
       const disabledActive = anchors.filter(anchor =>
         anchor.ariaDisabled === 'true' ||
@@ -358,6 +369,9 @@ async function auditPageLinks(cdp, check) {
       const askHeaderDashboardLinks = anchors.filter(
         anchor => anchor.inAskHeader && anchor.href === '/dashboard'
       );
+      const publicHeaderControlPanelLinks = anchors.filter(
+        anchor => anchor.inPublicHeader && publicHeaderForbiddenHrefs.has(anchor.href)
+      );
 
       return {
         activeLinks: anchors.filter(anchor => anchor.ariaCurrent),
@@ -368,6 +382,7 @@ async function auditPageLinks(cdp, check) {
         missing,
         nestedInteractive,
         oversizedHrefs,
+        publicHeaderControlPanelLinks,
       };
     })()`,
     returnByValue: true,
@@ -401,6 +416,12 @@ async function auditPageLinks(cdp, check) {
   for (const item of result.askHeaderDashboardLinks ?? []) {
     pageFailures.push(
       `${check.route}: Ask header exposes dashboard/library exit "${item.text || item.href}".`,
+    );
+  }
+
+  for (const item of result.publicHeaderControlPanelLinks ?? []) {
+    pageFailures.push(
+      `${check.route}: public header exposes control-panel/specialist link "${item.text || item.href}".`,
     );
   }
 
