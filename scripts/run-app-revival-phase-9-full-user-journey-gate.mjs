@@ -427,21 +427,25 @@ try {
 
   await runScenario('dashboard-primary-ask-doorway', mobileViewport, async cdp => {
     await navigateAndWait(cdp, `${baseUrl}/dashboard`);
-    await waitForCondition(cdp, `Boolean(document.querySelector('.library-predicta-panel .primary-predicta-actions a[href^="/ask"]'))`, 8_000);
+    await waitForCondition(cdp, `Boolean(document.querySelector('.library-question-composer button[type="submit"]'))`, 8_000);
     const before = await evaluate(cdp, `(() => {
-      const askLink = document.querySelector('.library-predicta-panel .primary-predicta-actions a[href^="/ask"]');
-      const actionLinks = [...document.querySelectorAll('.library-predicta-panel .primary-predicta-actions a[href]')]
+      const composer = document.querySelector('.library-question-composer');
+      const composerRect = composer?.getBoundingClientRect();
+      const askLink = document.querySelector('.library-question-composer a[href^="/ask"]');
+      const submitButton = document.querySelector('.library-question-composer button[type="submit"]');
+      const actionLinks = [...document.querySelectorAll('.library-question-composer a[href]')]
         .map(link => link.getAttribute('href'));
       return {
         actionLinks,
         hasComposer: Boolean(document.querySelector('.library-question-composer textarea')),
-        hasPrimaryAsk: Boolean(askLink),
-        hasProofDrawer: Boolean(document.querySelector('.library-proof-drawer')),
+        hasPrimaryAsk: Boolean(askLink) || Boolean(submitButton),
+        hasSubmitButton: Boolean(submitButton),
+        composerTop: composerRect ? Math.round(composerRect.top) : null,
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         primaryHref: askLink?.getAttribute('href') || '',
       };
     })()`);
-    await click(cdp, '.library-predicta-panel .primary-predicta-actions a[href^="/ask"]');
+    await click(cdp, '.library-question-composer button[type="submit"]');
     await waitForCondition(cdp, `location.pathname === '/ask'`, 8_000);
     const after = await evaluate(cdp, `(() => ({
       hasAskShell: Boolean(document.querySelector('.ask-light-shell')),
@@ -451,11 +455,14 @@ try {
       url: location.href,
     }))()`);
     const localFailures = [];
-    if (before.hasComposer || before.hasProofDrawer) {
-      localFailures.push('dashboard still exposes an embedded composer or method drawer instead of a clean Ask doorway');
+    if (!before.hasComposer || !before.hasSubmitButton) {
+      localFailures.push('dashboard does not expose the chat-first question composer');
     }
-    if (!before.hasPrimaryAsk || !before.primaryHref.startsWith('/ask')) {
-      localFailures.push('dashboard does not expose a direct primary Ask Predicta link');
+    if (!before.hasPrimaryAsk) {
+      localFailures.push('dashboard does not expose a direct primary Ask Predicta action');
+    }
+    if (typeof before.composerTop !== 'number' || before.composerTop > 360) {
+      localFailures.push('dashboard question composer is too low on the mobile first screen');
     }
     if (before.horizontalOverflow || after.horizontalOverflow) {
       localFailures.push('dashboard primary Ask doorway has horizontal overflow');

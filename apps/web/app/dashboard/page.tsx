@@ -25,6 +25,7 @@ export default function DashboardPage(): React.JSX.Element {
   const labels = getLightweightAppShellLabels(language);
   const { activeKundli, savedCount } = useLightweightKundliSnapshot();
   const [isFamilyFriendsVisit, setIsFamilyFriendsVisit] = useState(false);
+  const [questionDraft, setQuestionDraft] = useState('');
   const hasSavedKundli = Boolean(activeKundli) || savedCount > 0;
   const askHref = buildPredictaChatHref({
     kundliId: activeKundli?.id,
@@ -38,6 +39,28 @@ export default function DashboardPage(): React.JSX.Element {
     preloadAskPredictaRuntime();
     router.prefetch('/ask');
     router.prefetch(href);
+  }
+
+  function buildDashboardQuestionHref(question?: string): string {
+    const prompt = question?.trim()
+      ? question.trim()
+      : activeKundli
+        ? copy.libraryAskActivePrompt
+        : copy.libraryAskNewPrompt;
+
+    return buildPredictaChatHref({
+      kundliId: activeKundli?.id,
+      prompt,
+      sourceScreen: 'My Kundlis',
+    });
+  }
+
+  function submitDashboardQuestion(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const href = buildDashboardQuestionHref(questionDraft);
+    prewarmDashboardAsk(href);
+    router.push(href);
   }
 
   useEffect(() => {
@@ -54,14 +77,6 @@ export default function DashboardPage(): React.JSX.Element {
         <FriendsFamilyWelcome hasKundli={Boolean(activeKundli)} />
       ) : null}
 
-      <div className="page-heading library-dashboard-heading">
-        <div className="section-title">{copy.libraryEyebrow}</div>
-        <h1 className="gradient-text">
-          {activeKundli ? copy.libraryReadyTitle : copy.libraryEmptyTitle}
-        </h1>
-        <p>{activeKundli ? copy.libraryReadyBody : copy.libraryEmptyBody}</p>
-      </div>
-
       <section
         className="primary-predicta-panel library-predicta-panel glass-panel"
         onFocus={() => prewarmDashboardAsk()}
@@ -73,18 +88,41 @@ export default function DashboardPage(): React.JSX.Element {
             {copy.primaryPredictaEyebrow}
           </div>
           <h2>{copy.primaryPredictaTitle}</h2>
+          <form
+            className="library-question-composer"
+            onSubmit={submitDashboardQuestion}
+          >
+            <span>{copy.libraryQuestionLabel}</span>
+            <textarea
+              aria-label={copy.libraryQuestionLabel}
+              onChange={event => setQuestionDraft(event.target.value)}
+              onFocus={() => prewarmDashboardAsk(buildDashboardQuestionHref(questionDraft))}
+              onPointerEnter={() =>
+                prewarmDashboardAsk(buildDashboardQuestionHref(questionDraft))
+              }
+              placeholder={copy.libraryQuestionPlaceholder}
+              rows={3}
+              value={questionDraft}
+            />
+            <div className="library-question-composer-actions">
+              <button className="button" type="submit">
+                {copy.libraryAskHelpCta}
+              </button>
+              <Link
+                className="button secondary"
+                href={askHref}
+                onFocus={() => prewarmDashboardAsk(askHref)}
+                onPointerEnter={() => prewarmDashboardAsk(askHref)}
+                onTouchStart={() => prewarmDashboardAsk(askHref)}
+              >
+                {copy.primaryPredictaPrimary}
+              </Link>
+            </div>
+          </form>
           <p>{copy.primaryPredictaBody}</p>
+          <span>{copy.primaryPredictaProof}</span>
         </div>
         <div className="primary-predicta-actions">
-          <Link
-            className="button"
-            href={askHref}
-            onFocus={() => prewarmDashboardAsk(askHref)}
-            onPointerEnter={() => prewarmDashboardAsk(askHref)}
-            onTouchStart={() => prewarmDashboardAsk(askHref)}
-          >
-            {copy.primaryPredictaPrimary}
-          </Link>
           {!activeKundli ? (
             <Link className="button secondary" href="/dashboard/kundli">
               {copy.libraryCreateKundli}
@@ -96,6 +134,14 @@ export default function DashboardPage(): React.JSX.Element {
           )}
         </div>
       </section>
+
+      <div className="page-heading library-dashboard-heading">
+        <div className="section-title">{copy.libraryEyebrow}</div>
+        <h1 className="gradient-text">
+          {activeKundli ? copy.libraryReadyTitle : copy.libraryEmptyTitle}
+        </h1>
+        <p>{activeKundli ? copy.libraryReadyBody : copy.libraryEmptyBody}</p>
+      </div>
 
       <section className="library-outcome-panel glass-panel">
         <div className="library-outcome-head">
