@@ -670,8 +670,9 @@ export function WebDossierPreview(): React.JSX.Element {
   }, [selectedReportId, builderMode, mode, selectedSectionCount]);
 
   function openReportPreview({
+    requireSignedIn = false,
     showDialog = true,
-  }: { showDialog?: boolean } = {}): boolean {
+  }: { requireSignedIn?: boolean; showDialog?: boolean } = {}): boolean {
     if (!kundli) {
       setCopyState('needKundli');
       window.setTimeout(() => setCopyState('idle'), 3200);
@@ -691,6 +692,14 @@ export function WebDossierPreview(): React.JSX.Element {
     if (builderMode === 'CUSTOM' && !visibleSections.length) {
       setCopyState('empty');
       window.setTimeout(() => setCopyState('idle'), 1800);
+      return false;
+    }
+
+    if (requireSignedIn && !user?.uid) {
+      setReportPreviewOpen(true);
+      setDownloadDialogOpen(false);
+      setReportSurfaceState('signin');
+      scrollToGeneratedResult();
       return false;
     }
 
@@ -718,8 +727,17 @@ export function WebDossierPreview(): React.JSX.Element {
     setReportPreviewOpen(true);
     setDownloadDialogOpen(showDialog);
     setReportSurfaceState('ready');
-    scrollToGeneratedResult();
+    if (!showDialog) {
+      scrollToGeneratedResult();
+    }
     return true;
+  }
+
+  function startSelectedReportDownload(): void {
+    openReportPreview({
+      requireSignedIn: true,
+      showDialog: true,
+    });
   }
 
   async function downloadReportPdf() {
@@ -928,7 +946,7 @@ export function WebDossierPreview(): React.JSX.Element {
         <div className="report-inline-actions">
           <PredictaButton
             disabled={signatureReportBlocked}
-            onClick={() => openReportPreview()}
+            onClick={startSelectedReportDownload}
             type="button"
             variant="primary"
           >
@@ -948,6 +966,21 @@ export function WebDossierPreview(): React.JSX.Element {
             {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
           </PredictaButton>
         </div>
+
+        {copyState === 'needKundli' ? (
+          <p className="report-inline-status important">
+            {builderCopy.needKundli}{' '}
+            <a href="/dashboard/kundli">{builderCopy.createKundliCta}</a>
+          </p>
+        ) : copyState === 'empty' ? (
+          <p className="report-inline-status important">
+            {builderCopy.emptySelection}
+          </p>
+        ) : reportDownloadError ? (
+          <p className="report-inline-status important">
+            {reportDownloadError}
+          </p>
+        ) : null}
 
         <div
           className="report-app-preview-bridge report-value-alignment-bridge"
@@ -1626,7 +1659,7 @@ export function WebDossierPreview(): React.JSX.Element {
           </div>
           <PredictaButton
             disabled={signatureReportBlocked}
-            onClick={() => openReportPreview()}
+            onClick={startSelectedReportDownload}
             type="button"
             variant="primary"
           >

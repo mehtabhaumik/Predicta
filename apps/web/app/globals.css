@@ -15064,6 +15064,29 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   gap: 12px;
 }
 
+.report-inline-status {
+  background: rgba(255, 195, 77, 0.1);
+  border: 1px solid rgba(255, 195, 77, 0.24);
+  border-radius: 16px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.45;
+  margin: -2px 0 0;
+  padding: 12px 14px;
+}
+
+.report-inline-status a {
+  color: #4dafff;
+  font-weight: 950;
+  text-decoration: none;
+}
+
+.report-inline-status a:hover,
+.report-inline-status a:focus-visible {
+  text-decoration: underline;
+}
+
 .report-app-preview-bridge {
   background:
     radial-gradient(circle at top left, rgba(77, 175, 255, 0.16), transparent 42%),
@@ -25798,6 +25821,10 @@ select::-ms-expand {
   .report-selected-product-card small,
   .report-inline-composer.primary .report-inline-composer-top p,
   .report-inline-composer.primary .report-inline-composer-top small {
+    display: none;
+  }
+
+  .report-selected-product-card {
     display: none;
   }
 
