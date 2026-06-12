@@ -1,6 +1,6 @@
 {
   "baseUrl": "http://127.0.0.1:3009",
-  "generatedAt": "2026-06-12T08:49:00.363Z",
+  "generatedAt": "2026-06-12T09:00:41.820Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -106,9 +106,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 163,
+          "bottom": 98,
           "className": "dashboard-topbar glass-panel",
-          "height": 145,
+          "height": 80,
           "tag": "div",
           "top": 18
         }
@@ -398,9 +398,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 163,
+          "bottom": 98,
           "className": "dashboard-topbar glass-panel",
-          "height": 145,
+          "height": 80,
           "tag": "div",
           "top": 18
         }
@@ -690,9 +690,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 163,
+          "bottom": 98,
           "className": "dashboard-topbar glass-panel",
-          "height": 145,
+          "height": 80,
           "tag": "div",
           "top": 18
         }
@@ -982,9 +982,9 @@
       "failures": [],
       "fixedElements": [
         {
-          "bottom": 163,
+          "bottom": 98,
           "className": "dashboard-topbar glass-panel",
-          "height": 145,
+          "height": 80,
           "tag": "div",
           "top": 18
         }

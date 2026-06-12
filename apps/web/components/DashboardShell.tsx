@@ -278,6 +278,7 @@ export function DashboardShell({
 }): React.JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
+  const isDashboardHomeRoute = pathname === '/dashboard';
   const isChatRoute =
     pathname === '/dashboard/chat' ||
     (pathname.startsWith('/dashboard/') && pathname.endsWith('/chat'));
@@ -357,12 +358,17 @@ export function DashboardShell({
     onClose: () => setMenuOpen(false),
   });
 
+  const shellClassName = [
+    'dashboard-shell',
+    isChatRoute ? 'chat-route' : undefined,
+    !isChatRoute && showAskDock ? 'has-ask-dock' : undefined,
+    !isChatRoute && isDashboardHomeRoute ? 'dashboard-home-route' : undefined,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <div
-      className={`dashboard-shell ${
-        isChatRoute ? 'chat-route' : showAskDock ? 'has-ask-dock' : ''
-      }`}
-    >
+    <div className={shellClassName}>
       <SidebarNav
         activeSection={activeSection}
         adminLabel={shellLabels.nav.admin}
