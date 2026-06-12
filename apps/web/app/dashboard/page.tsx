@@ -118,6 +118,38 @@ export default function DashboardPage(): React.JSX.Element {
         </div>
       </form>
 
+      <section className="library-outcome-panel glass-panel">
+        <div className="library-outcome-head">
+          <div>
+            <div className="section-title">{copy.outcomeEyebrow}</div>
+            <h2>{copy.outcomeTitle}</h2>
+          </div>
+          <details className="library-outcome-help">
+            <summary>
+              <span>{copy.outcomeDrawerTitle}</span>
+              <strong>{copy.outcomeDrawerCta}</strong>
+            </summary>
+            <p>{copy.outcomeDrawerBody}</p>
+          </details>
+        </div>
+        <div className="library-outcome-grid">
+          {copy.outcomeQuestions.map(question => (
+            <Link
+              className="library-outcome-card"
+              href={buildPredictaChatHref({
+                kundliId: activeKundli?.id,
+                prompt: question.prompt,
+                sourceScreen: 'My Kundlis',
+              })}
+              key={question.title}
+            >
+              <strong>{question.title}</strong>
+              <span>{question.body}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {hasSavedKundli ? (
         <section className="library-status-panel glass-panel">
           <div>

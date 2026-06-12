@@ -183,6 +183,38 @@
         "outcomeDrawerTitle": "How this works",
         "outcomeDrawerCta": "Open",
         "outcomeDrawerBody": "Pick a life area. Predicta will use your Kundli when available, give the prediction first, and show proof only where it helps.",
+        "outcomeQuestions": [
+          {
+            "title": "Career move",
+            "body": "Will my job, promotion, or role change improve soon?",
+            "prompt": "Use my selected Kundli and tell me what is most likely next for my career, promotion, job change, or role change. Give the prediction first, then timing and proof only if useful."
+          },
+          {
+            "title": "Marriage timing",
+            "body": "What does my chart say about marriage or relationship timing?",
+            "prompt": "Use my selected Kundli and tell me the most likely marriage or relationship timing pattern. Give the prediction first, then the main supporting evidence only if useful."
+          },
+          {
+            "title": "Money pressure",
+            "body": "What should I know about money, savings, or financial pressure?",
+            "prompt": "Use my selected Kundli and tell me the most important money prediction right now: earning, savings, pressure, or opportunity. Give the answer first, then timing and proof only if useful."
+          },
+          {
+            "title": "Foreign opportunity",
+            "body": "Is travel, relocation, visa, or foreign work likely?",
+            "prompt": "Use my selected Kundli and check foreign travel, relocation, visa, or overseas work opportunity. Give the direct likelihood, timing window, likely trigger, and only then proof if useful."
+          },
+          {
+            "title": "Family matter",
+            "body": "What is the next wise step for a family or home issue?",
+            "prompt": "Use my selected Kundli and give direct guidance for family, home, parents, or domestic stability. Start with the practical prediction and next step."
+          },
+          {
+            "title": "Life direction",
+            "body": "What should I focus on in this chapter of life?",
+            "prompt": "Use my selected Kundli and tell me the most important life-direction guidance for this chapter. Give the answer first, then timing and evidence only if helpful."
+          }
+        ],
         "savedEyebrow": "SAVED WORK",
         "savedTitle": "Your Kundlis stay under your control.",
         "savedDrawerTitle": "What is saved?",
@@ -425,6 +457,38 @@
         "outcomeDrawerTitle": "यह कैसे काम करता है",
         "outcomeDrawerCta": "खोलें",
         "outcomeDrawerBody": "जीवन क्षेत्र चुनें. प्रेडिक्टा उपलब्ध कुंडली का उपयोग करेगी, पहले भविष्यवाणी देगी और जहां काम आए वहां प्रमाण दिखाएगी.",
+        "outcomeQuestions": [
+          {
+            "title": "करियर बदलाव",
+            "body": "नौकरी, प्रमोशन या भूमिका में सुधार जल्द दिखता है?",
+            "prompt": "मेरी चुनी हुई कुंडली का उपयोग करके करियर, प्रमोशन, नौकरी बदलने या भूमिका बदलने का सबसे संभावित संकेत बताएं. पहले भविष्यवाणी दें, फिर समय और प्रमाण केवल जरूरत हो तो."
+          },
+          {
+            "title": "विवाह समय",
+            "body": "विवाह या रिश्ते के समय के बारे में चार्ट क्या कहता है?",
+            "prompt": "मेरी चुनी हुई कुंडली का उपयोग करके विवाह या रिश्ते के समय का सबसे संभावित पैटर्न बताएं. पहले भविष्यवाणी दें, फिर मुख्य प्रमाण केवल जरूरत हो तो."
+          },
+          {
+            "title": "धन दबाव",
+            "body": "धन, बचत या आर्थिक दबाव पर अभी क्या जानना चाहिए?",
+            "prompt": "मेरी चुनी हुई कुंडली का उपयोग करके अभी धन की सबसे जरूरी भविष्यवाणी बताएं: कमाई, बचत, दबाव या अवसर. पहले उत्तर दें, फिर समय और प्रमाण केवल जरूरत हो तो."
+          },
+          {
+            "title": "विदेश अवसर",
+            "body": "यात्रा, relocation, visa या foreign work की संभावना है?",
+            "prompt": "मेरी चुनी हुई कुंडली से foreign travel, relocation, visa या overseas work opportunity देखें. सीधी संभावना, समय-खिड़की, संभावित trigger दें, फिर प्रमाण केवल जरूरत हो तो."
+          },
+          {
+            "title": "परिवार विषय",
+            "body": "घर या परिवार के मामले में अगला सही कदम क्या है?",
+            "prompt": "मेरी चुनी हुई कुंडली का उपयोग करके परिवार, घर, माता-पिता या घरेलू स्थिरता पर सीधा मार्गदर्शन दें. व्यावहारिक भविष्यवाणी और अगला कदम पहले बताएं."
+          },
+          {
+            "title": "जीवन दिशा",
+            "body": "जीवन के इस अध्याय में मुझे किस पर ध्यान देना चाहिए?",
+            "prompt": "मेरी चुनी हुई कुंडली का उपयोग करके इस जीवन अध्याय के लिए सबसे जरूरी दिशा बताएं. पहले उत्तर दें, फिर समय और प्रमाण केवल मददगार हो तो."
+          }
+        ],
         "savedEyebrow": "सेव काम",
         "savedTitle": "आपकी कुंडलियां आपके नियंत्रण में रहती हैं.",
         "savedDrawerTitle": "क्या सेव होता है?",
@@ -667,6 +731,38 @@
         "outcomeDrawerTitle": "આ કેવી રીતે કામ કરે છે",
         "outcomeDrawerCta": "ખોલો",
         "outcomeDrawerBody": "જીવન ક્ષેત્ર પસંદ કરો. પ્રેડિક્ટા ઉપલબ્ધ કુંડળી વાપરશે, પહેલા આગાહી આપશે અને જ્યાં મદદરૂપ હોય ત્યાં પુરાવો બતાવશે.",
+        "outcomeQuestions": [
+          {
+            "title": "કરિયર બદલાવ",
+            "body": "નોકરી, પ્રમોશન અથવા ભૂમિકામાં સુધારો જલદી દેખાય છે?",
+            "prompt": "મારી પસંદ કરેલી કુંડળી વાપરીને કરિયર, પ્રમોશન, નોકરી બદલાવ અથવા ભૂમિકા બદલાવ વિશે સૌથી સંભવિત સંકેત કહો. પહેલા આગાહી આપો, પછી સમય અને પુરાવો માત્ર ઉપયોગી હોય તો."
+          },
+          {
+            "title": "લગ્ન સમય",
+            "body": "લગ્ન અથવા સંબંધના સમય વિશે ચાર્ટ શું કહે છે?",
+            "prompt": "મારી પસંદ કરેલી કુંડળી વાપરીને લગ્ન અથવા સંબંધના સમયનો સૌથી સંભવિત પેટર્ન કહો. પહેલા આગાહી આપો, પછી મુખ્ય પુરાવો માત્ર ઉપયોગી હોય તો."
+          },
+          {
+            "title": "પૈસા દબાણ",
+            "body": "પૈસા, બચત અથવા આર્થિક દબાણ વિશે હમણાં શું જાણવું જોઈએ?",
+            "prompt": "મારી પસંદ કરેલી કુંડળી વાપરીને હમણાં પૈસા વિશે સૌથી જરૂરી આગાહી કહો: આવક, બચત, દબાણ અથવા તક. પહેલા ઉત્તર આપો, પછી સમય અને પુરાવો માત્ર ઉપયોગી હોય તો."
+          },
+          {
+            "title": "વિદેશ તક",
+            "body": "મુસાફરી, relocation, visa અથવા foreign work શક્ય છે?",
+            "prompt": "મારી પસંદ કરેલી કુંડળીથી foreign travel, relocation, visa અથવા overseas work opportunity તપાસો. સીધી શક્યતા, સમય વિન્ડો, શક્ય trigger આપો, પછી પુરાવો માત્ર ઉપયોગી હોય તો."
+          },
+          {
+            "title": "પરિવાર વિષય",
+            "body": "ઘર અથવા પરિવારના મુદ્દે આગળનું સમજદાર પગલું શું છે?",
+            "prompt": "મારી પસંદ કરેલી કુંડળી વાપરીને પરિવાર, ઘર, માતા-પિતા અથવા ઘરેલુ સ્થિરતા વિશે સીધું માર્ગદર્શન આપો. વ્યવહારુ આગાહી અને આગળનું પગલું પહેલા કહો."
+          },
+          {
+            "title": "જીવન દિશા",
+            "body": "જીવનના આ અધ્યાયમાં મારે કયા પર ધ્યાન આપવું જોઈએ?",
+            "prompt": "મારી પસંદ કરેલી કુંડળી વાપરીને આ જીવન અધ્યાય માટે સૌથી જરૂરી દિશા કહો. પહેલા ઉત્તર આપો, પછી સમય અને પુરાવો મદદરૂપ હોય તો."
+          }
+        ],
         "savedEyebrow": "સેવ કામ",
         "savedTitle": "તમારી કુંડળીઓ તમારા નિયંત્રણમાં રહે છે.",
         "savedDrawerTitle": "શું સેવ થાય છે?",
