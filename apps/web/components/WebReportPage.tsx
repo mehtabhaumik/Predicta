@@ -37,8 +37,9 @@ export function WebReportPage(): React.JSX.Element {
   }
 
   useEffect(() => {
-    prewarmReportAsk();
-  }, [askReportHref]);
+    router.prefetch('/ask');
+    router.prefetch(askReportHref);
+  }, [askReportHref, router]);
 
   return (
     <section className="dashboard-page">
