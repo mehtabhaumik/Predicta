@@ -3,6 +3,7 @@ import {
   SPECIALIST_ROOM_FALLBACK_COPY,
   SPECIALIST_ROOM_FALLBACK_LANGUAGES,
   type SpecialistRoomFallbackKey,
+  type SpecialistRoomFallbackLanguage,
 } from '../lib/lightweight-specialist-room-fallback-copy';
 
 type SpecialistRoomPanelFallbackProps = {
@@ -15,10 +16,14 @@ function buildFallbackAskHref(
     school?: string;
     sourceScreen: string;
   },
+  language: SpecialistRoomFallbackLanguage,
+  room: SpecialistRoomFallbackKey,
 ): string {
+  const canonicalRoomCopy = getSpecialistRoomFallbackRoomCopy('en', room);
   const params = new URLSearchParams({
     autoSend: 'true',
-    prompt: copy.prompt,
+    prompt: canonicalRoomCopy.prompt,
+    selectedLanguage: language,
     sourceScreen: copy.sourceScreen,
   });
 
@@ -68,13 +73,22 @@ export function SpecialistRoomPanelFallback({
           return (
             <a
               className={`button predicta-i18n-link predicta-i18n-link-${language}`}
-              href={buildFallbackAskHref(roomCopy)}
+              href={buildFallbackAskHref(roomCopy, language, room)}
               key={language}
             >
               {copy.askCta}
             </a>
           );
         })}
+        {room === 'report' ? (
+          <a className="button secondary" href="/dashboard/kundli">
+            {SPECIALIST_ROOM_FALLBACK_LANGUAGES.map(language => (
+              <span className={`predicta-i18n predicta-i18n-${language}`} key={language}>
+                {SPECIALIST_ROOM_FALLBACK_COPY[language].createKundliCta}
+              </span>
+            ))}
+          </a>
+        ) : null}
         <span aria-live="polite" className="specialist-room-fallback-status">
           {SPECIALIST_ROOM_FALLBACK_LANGUAGES.map(language => (
             <span className={`predicta-i18n predicta-i18n-${language}`} key={language}>

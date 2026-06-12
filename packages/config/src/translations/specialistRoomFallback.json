@@ -3,6 +3,7 @@
     "en": {
       "loadingLabel": "Opening room",
       "askCta": "Ask Predicta now",
+      "createKundliCta": "Create Kundli",
       "openingCta": "Opening the room",
       "rooms": {
         "generic": {
@@ -113,6 +114,7 @@
     "hi": {
       "loadingLabel": "कक्ष खुल रहा है",
       "askCta": "अभी प्रेडिक्टा से पूछें",
+      "createKundliCta": "कुंडली बनाएं",
       "openingCta": "कक्ष खुल रहा है",
       "rooms": {
         "generic": {
@@ -223,6 +225,7 @@
     "gu": {
       "loadingLabel": "કક્ષ ખુલી રહ્યો છે",
       "askCta": "હમણાં પ્રેડિક્ટાને પૂછો",
+      "createKundliCta": "કુંડળી બનાવો",
       "openingCta": "કક્ષ ખુલી રહ્યો છે",
       "rooms": {
         "generic": {
