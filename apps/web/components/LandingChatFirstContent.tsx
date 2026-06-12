@@ -202,7 +202,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
           <h2>{landing.plansTitle}</h2>
           <p>{landing.plansIntro}</p>
         </div>
-        <Link className="button" href="/pricing">
+        <Link className="button" href={buildAskPredictaHref(DEFAULT_ASK_PROMPT)}>
           {copy.hero.primary}
         </Link>
       </section>

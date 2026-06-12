@@ -316,3 +316,26 @@ space than the visible logo and tagline.
 - `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
 - `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard corepack pnpm test:ui-text-overflow`: PASS, `12` route/viewport checks.
 - `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
+
+## Supplemental Generic Entry CTA Lock
+
+Date: 2026-06-12
+
+The landing page final CTA used the generic `Enter Predicta` label but routed to
+`/pricing`. That made the final entry point behave like a monetization doorway
+instead of opening the primary Ask Predicta experience.
+
+### Changes
+
+- Routed the landing final `Enter Predicta` CTA to the same `/ask` seeded prompt
+  flow used by the main Ask Predicta entry points.
+- Re-audited founder and feedback generic entry CTAs; both already route to
+  `/ask`, so they were left unchanged.
+
+### Evidence
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/founder,/feedback,/pricing corepack pnpm test:ui-text-overflow`: PASS, `16` route/viewport checks.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/founder,/feedback,/pricing corepack pnpm test:ui-personal-space`: PASS, `56` route/viewport checks.
