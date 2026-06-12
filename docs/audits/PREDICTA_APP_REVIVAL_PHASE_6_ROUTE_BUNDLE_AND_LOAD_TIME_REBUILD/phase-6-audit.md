@@ -156,6 +156,40 @@ Supplemental verification:
 - `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
 - `git diff --check`: PASS.
 
+## Supplemental My Astrology Mount-Time Chat Runtime Deferral Lock
+
+Date: 2026-06-12
+
+My Astrology still preloaded the full Predicta chat runtime on mount. That made
+the secondary saved-work surface carry the chat brain before the user showed
+intent, even though the Ask route itself stayed responsive.
+
+Implementation lock:
+
+- Split dashboard Ask warming into route prefetch and full runtime prewarm.
+- `/dashboard` now prefetches `/ask` and the current Ask URL on mount only.
+- Full `WebPridictaChat` runtime import now happens only on focus, hover,
+  touch, or submit.
+
+Performance / verification:
+
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm build:web`: PASS; `/dashboard` remains `133 kB` First Load JS.
+- Static regression assertion: PASS; mount only prefetches and intent still
+  preloads.
+- `corepack pnpm test:app-revival-phase-6`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/kundli,/dashboard/saved-kundlis,/dashboard/report corepack pnpm test:ui-text-overflow`: PASS.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 PREDICTA_PERSONAL_SPACE_ROUTES=/,/ask,/dashboard,/dashboard/kundli,/dashboard/saved-kundlis,/dashboard/report corepack pnpm test:ui-personal-space`: PASS.
+- `git diff --check`: PASS.
+
+Result:
+
+Green. My Astrology stays ready to open Predicta quickly without eagerly
+importing the full chat runtime on initial library load.
+
 ## Supplemental Accuracy Method Public Route Budget Repair
 
 Date: 2026-06-12

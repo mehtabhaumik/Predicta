@@ -35,10 +35,14 @@ export default function DashboardPage(): React.JSX.Element {
     sourceScreen: 'My Kundlis',
   });
 
-  function prewarmDashboardAsk(href = askHref) {
-    preloadAskPredictaRuntime();
+  function prefetchDashboardAsk(href = askHref) {
     router.prefetch('/ask');
     router.prefetch(href);
+  }
+
+  function prewarmDashboardAsk(href = askHref) {
+    preloadAskPredictaRuntime();
+    prefetchDashboardAsk(href);
   }
 
   function buildDashboardQuestionHref(question?: string): string {
@@ -64,7 +68,7 @@ export default function DashboardPage(): React.JSX.Element {
   }
 
   useEffect(() => {
-    prewarmDashboardAsk();
+    prefetchDashboardAsk();
     setIsFamilyFriendsVisit(
       new URLSearchParams(window.location.search).get('source') ===
         'family-friends',
