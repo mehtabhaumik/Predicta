@@ -364,6 +364,42 @@ export function WebKundliWizard(): React.JSX.Element {
   }
 
   useEffect(() => {
+    if (!isBirthPlaceSearchSettled) {
+      return;
+    }
+
+    // A resolved place must always win over stale local/remote search results.
+    setIsBirthPlaceInputFocused(false);
+    resetBirthPlaceSearchUi();
+  }, [isBirthPlaceSearchSettled, normalizedBirthPlaceQuery]);
+
+  useEffect(() => {
+    if (!isBirthPlaceInputFocused && !isPlaceSuggestionsOpen) {
+      return undefined;
+    }
+
+    function handleOutsidePointerDown(event: PointerEvent) {
+      const target = event.target;
+
+      if (
+        target instanceof Node &&
+        birthPlaceSearchRef.current?.contains(target)
+      ) {
+        return;
+      }
+
+      setIsBirthPlaceInputFocused(false);
+      closeBirthPlaceSuggestions();
+    }
+
+    document.addEventListener('pointerdown', handleOutsidePointerDown, true);
+
+    return () => {
+      document.removeEventListener('pointerdown', handleOutsidePointerDown, true);
+    };
+  }, [isBirthPlaceInputFocused, isPlaceSuggestionsOpen]);
+
+  useEffect(() => {
     setKundli(loadWebKundli());
     const editKundliId = new URLSearchParams(window.location.search).get(
       'editKundliId',
