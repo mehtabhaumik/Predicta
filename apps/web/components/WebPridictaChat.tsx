@@ -320,6 +320,8 @@ export function WebPridictaChat({
   const [conversationCopyState, setConversationCopyState] = useState<
     'idle' | 'copied'
   >('idle');
+  const hasConversationUtilityActions =
+    messages.some(message => message.role === 'user') || messages.length > 1;
   const lastPredictaMessageId = [...messages]
     .reverse()
     .find(message => message.role === 'pridicta')?.id;
@@ -1814,41 +1816,43 @@ export function WebPridictaChat({
             <strong>{roomTitle}</strong>
             <p>{roomBody}</p>
           </div>
-          <details className="chat-utility-menu">
-            <summary aria-label={chatExportCopy.tools}>
-              <span>{chatExportCopy.tools}</span>
-            </summary>
-            <div
-              className="chat-utility-menu-panel"
-              aria-label={chatExportCopy.conversationActions}
-            >
-              <button
-                className="chat-export-button"
-                onClick={() => {
-                  void copyConversationTranscript(setConversationCopyState);
-                }}
-                type="button"
+          {hasConversationUtilityActions ? (
+            <details className="chat-utility-menu">
+              <summary aria-label={chatExportCopy.tools}>
+                <span>{chatExportCopy.tools}</span>
+              </summary>
+              <div
+                className="chat-utility-menu-panel"
+                aria-label={chatExportCopy.conversationActions}
               >
-                {conversationCopyState === 'copied'
-                  ? chatExportCopy.copied
-                  : chatExportCopy.copyConversation}
-              </button>
-              <button
-                className="chat-export-button"
-                onClick={openPrintableWebChatTranscript}
-                type="button"
-              >
-                {chatExportCopy.savePdf}
-              </button>
-              <button
-                className="chat-export-button"
-                onClick={startNewChat}
-                type="button"
-              >
-                {chatExportCopy.newChat}
-              </button>
-            </div>
-          </details>
+                <button
+                  className="chat-export-button"
+                  onClick={() => {
+                    void copyConversationTranscript(setConversationCopyState);
+                  }}
+                  type="button"
+                >
+                  {conversationCopyState === 'copied'
+                    ? chatExportCopy.copied
+                    : chatExportCopy.copyConversation}
+                </button>
+                <button
+                  className="chat-export-button"
+                  onClick={openPrintableWebChatTranscript}
+                  type="button"
+                >
+                  {chatExportCopy.savePdf}
+                </button>
+                <button
+                  className="chat-export-button"
+                  onClick={startNewChat}
+                  type="button"
+                >
+                  {chatExportCopy.newChat}
+                </button>
+              </div>
+            </details>
+          ) : null}
         </div>
         <WebChatSessionSwitcher
           activeSessionId={activeChatSessionId}

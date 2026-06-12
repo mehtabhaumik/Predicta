@@ -920,13 +920,15 @@ async function waitForChrome(debugPort) {
   throw lastError ?? new Error('Chrome did not start.');
 }
 
-function connectWebSocket(url) {
+function connectWebSocket(url, attempt = 1) {
   return new Promise((resolve, reject) => {
     const socket = new WebSocket(url);
+    let settled = false;
     let id = 0;
     const pending = new Map();
 
     socket.addEventListener('open', () => {
+      settled = true;
       resolve({
         close: () => socket.close(),
         send(method, params = {}) {
@@ -965,7 +967,26 @@ function connectWebSocket(url) {
       }
     });
 
-    socket.addEventListener('error', () => reject(new Error('CDP socket error')));
+    const failBeforeOpen = reason => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      if (attempt < 5) {
+        setTimeout(() => {
+          connectWebSocket(url, attempt + 1).then(resolve, reject);
+        }, 150 * attempt);
+        return;
+      }
+      reject(new Error(reason));
+    };
+
+    socket.addEventListener('error', () => {
+      failBeforeOpen(`CDP socket error after ${attempt} attempts`);
+    });
+    socket.addEventListener('close', () => {
+      failBeforeOpen(`CDP socket closed before opening after ${attempt} attempts`);
+    });
   });
 }
 
