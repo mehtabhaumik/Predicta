@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { getLightweightCompetitorResponseCopy } from '../lib/lightweight-public-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
+import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 
 const FullPredictaChat = dynamic(
   () =>
@@ -54,6 +55,17 @@ export function AskPredictaLightShell(): React.JSX.Element {
   const [voiceNotice, setVoiceNotice] = useState(
     searchParams.get('inputMode') === 'voice',
   );
+  const [voiceStatus, setVoiceStatus] = useState<
+    'captured' | 'idle' | 'listening' | 'unsupported'
+  >('idle');
+  const speechInput = useLightweightSpeechInput({
+    language,
+    onTranscript: transcript => {
+      setQuestion(transcript);
+      setVoiceNotice(true);
+      setVoiceStatus('captured');
+    },
+  });
 
   useEffect(() => {
     if (incomingPrompt) {
@@ -75,6 +87,13 @@ export function AskPredictaLightShell(): React.JSX.Element {
     router.replace(nextUrl, {
       scroll: false,
     });
+  }
+
+  function startVoiceCapture(): void {
+    setVoiceNotice(true);
+
+    const started = speechInput.startListening();
+    setVoiceStatus(started ? 'listening' : 'unsupported');
   }
 
   function buildAskHref(prompt: string, mode: 'text' | 'voice' = 'text'): string {
@@ -139,12 +158,17 @@ export function AskPredictaLightShell(): React.JSX.Element {
           <button className="button" type="submit">
             {landing.askSubmit}
           </button>
-          <Link
-            className="button secondary"
-            href={buildAskHref(question || DEFAULT_ASK_PROMPT, 'voice')}
+          <button
+            className={
+              speechInput.isListening
+                ? 'button secondary ask-voice-button is-listening'
+                : 'button secondary ask-voice-button'
+            }
+            onClick={startVoiceCapture}
+            type="button"
           >
             {landing.voiceLabel}
-          </Link>
+          </button>
         </div>
 
         <p className="ask-light-support-copy">{landing.askBody}</p>
@@ -154,7 +178,15 @@ export function AskPredictaLightShell(): React.JSX.Element {
           <span>{landing.existingKundliHint}</span>
         </div>
         {voiceNotice ? (
-          <p className="ask-light-voice-note">{landing.voiceHint}</p>
+          <p className="ask-light-voice-note">
+            {voiceStatus === 'unsupported'
+              ? landing.voiceUnsupported
+              : voiceStatus === 'captured'
+                ? landing.voiceCaptured
+                : speechInput.isListening || voiceStatus === 'listening'
+                  ? landing.voiceListening
+                  : landing.voiceHint}
+          </p>
         ) : null}
       </form>
 

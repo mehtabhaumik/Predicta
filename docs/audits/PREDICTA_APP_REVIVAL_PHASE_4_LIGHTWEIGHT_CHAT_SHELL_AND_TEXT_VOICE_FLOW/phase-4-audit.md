@@ -118,3 +118,45 @@ Date: 2026-06-11
 
 Green. Ask Predicta handoffs no longer present a dead empty panel during lazy
 chat loading, and the loading copy remains localization-auditable.
+
+## Supplemental Real Voice Capture Lock
+
+Date: 2026-06-12
+
+### Implemented
+
+- Replaced the first-screen `Speak instead` link behavior with real browser
+  speech-to-text capture on both the landing Ask console and `/ask`.
+- Added a lightweight speech hook that uses browser `SpeechRecognition` /
+  `webkitSpeechRecognition` only after the user taps the voice button, keeping
+  the first screen dependency-free and within route budget.
+- Captured voice now fills the question textarea and shows a localized receipt
+  before the user sends the question to Predicta.
+- Unsupported browsers get a localized fallback message and can continue typing
+  without dead-end behavior.
+- Voice copy for English, Hindi, and Gujarati lives in
+  `competitorResponse.json`, not in component logic.
+
+### Supplemental Verification
+
+- `node -e "const fs=require('fs'); JSON.parse(fs.readFileSync('packages/config/src/translations/competitorResponse.json','utf8')); console.log('competitorResponse json ok')"`: PASS.
+- `corepack pnpm --filter @pridicta/web typecheck`: PASS.
+- `corepack pnpm test:global-translation-coverage`: PASS.
+- `corepack pnpm build:web`: PASS. `/` and `/ask` remain at about `129 kB`
+  First Load JS.
+- `corepack pnpm test:app-revival-phase-6`: PASS.
+- `PREDICTA_LINK_RELIABILITY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-7`: PASS.
+- `PREDICTA_FULL_JOURNEY_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-9`: PASS.
+- `PREDICTA_MOBILE_APP_FEEL_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:app-revival-phase-8`: PASS.
+- `PREDICTA_UI_OVERFLOW_BASE_URL=http://127.0.0.1:3009 PREDICTA_UI_OVERFLOW_ROUTES=/,/ask,/dashboard,/dashboard/vedic,/dashboard/report,/dashboard/kundli corepack pnpm test:ui-text-overflow`: PASS.
+- `PREDICTA_PERSONAL_SPACE_BASE_URL=http://127.0.0.1:3009 corepack pnpm test:ui-personal-space`: PASS.
+- Targeted Chrome voice smoke with fake `SpeechRecognition`: PASS. Clicking
+  `/ask` `Speak instead` filled the textarea with
+  `Will I get a better job opportunity soon?` and showed
+  `Voice captured. Review the question, then ask Predicta.`
+- `git diff --check`: PASS.
+
+### Supplemental Result
+
+Green. The revived first screen now behaves like an actual text-and-voice
+astrology doorway instead of a placeholder voice mode.

@@ -8,6 +8,7 @@ import {
   getLightweightCompetitorResponseCopy,
 } from '../lib/lightweight-public-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
+import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 
 const DEFAULT_ASK_PROMPT =
   'Help me create my Kundli first, then answer my astrology question clearly.';
@@ -33,6 +34,16 @@ export function LandingChatFirstContent(): React.JSX.Element {
   const landing = copy.landing;
   const labels = getLightweightAppShellLabels(language);
   const [question, setQuestion] = useState('');
+  const [voiceStatus, setVoiceStatus] = useState<
+    'captured' | 'idle' | 'listening' | 'unsupported'
+  >('idle');
+  const speechInput = useLightweightSpeechInput({
+    language,
+    onTranscript: transcript => {
+      setQuestion(transcript);
+      setVoiceStatus('captured');
+    },
+  });
   const worldLinks = [
     { href: '/dashboard/vedic', label: labels.nav.vedic },
     { href: '/dashboard/kp', label: labels.nav.kp },
@@ -44,6 +55,11 @@ export function LandingChatFirstContent(): React.JSX.Element {
 
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {
     router.push(buildAskPredictaHref(prompt, mode));
+  }
+
+  function startVoiceCapture(): void {
+    const started = speechInput.startListening();
+    setVoiceStatus(started ? 'listening' : 'unsupported');
   }
 
   return (
@@ -87,18 +103,32 @@ export function LandingChatFirstContent(): React.JSX.Element {
             <Link className="button" href={buildAskPredictaHref(question)}>
               {landing.askSubmit}
             </Link>
-            <Link
-              className="button secondary"
-              href={buildAskPredictaHref(question || DEFAULT_ASK_PROMPT, 'voice')}
+            <button
+              className={
+                speechInput.isListening
+                  ? 'button secondary ask-voice-button is-listening'
+                  : 'button secondary ask-voice-button'
+              }
+              onClick={startVoiceCapture}
+              type="button"
             >
               {landing.voiceLabel}
-            </Link>
+            </button>
           </div>
 
           <div className="landing-ask-hints">
             <span>{landing.noKundliHint}</span>
             <span>{landing.existingKundliHint}</span>
           </div>
+          {voiceStatus !== 'idle' ? (
+            <p className="landing-voice-note">
+              {voiceStatus === 'unsupported'
+                ? landing.voiceUnsupported
+                : voiceStatus === 'captured'
+                  ? landing.voiceCaptured
+                  : landing.voiceListening}
+            </p>
+          ) : null}
         </form>
       </section>
 
