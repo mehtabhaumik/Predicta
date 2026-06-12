@@ -90,6 +90,24 @@ export function AskPredictaLightShell(): React.JSX.Element {
     }
   }, [hasIncomingContext, incomingPrompt]);
 
+  useEffect(() => {
+    if (hasIncomingContext) {
+      return undefined;
+    }
+
+    if ('requestIdleCallback' in window) {
+      const idleId = window.requestIdleCallback(preloadFullPredictaChat, {
+        timeout: 1800,
+      });
+
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timerId = globalThis.setTimeout(preloadFullPredictaChat, 900);
+
+    return () => globalThis.clearTimeout(timerId);
+  }, [hasIncomingContext]);
+
   function startChat(prompt: string, mode: 'text' | 'voice' = 'text'): void {
     const resolvedPrompt = prompt.trim() || landing.defaultAskPrompt;
     const nextUrl = buildAskHref(resolvedPrompt, mode);
