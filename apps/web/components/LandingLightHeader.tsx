@@ -7,7 +7,6 @@ import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
 } from '../lib/lightweight-public-copy';
-import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { LightweightLanguageSelector } from './LightweightLanguageSelector';
 
@@ -32,7 +31,6 @@ export function LandingLightHeader(): React.JSX.Element {
   ];
 
   function prewarmAskPredicta(): void {
-    preloadAskPredictaRuntime();
     router.prefetch('/ask');
   }
 

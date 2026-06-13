@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getLightweightAppShellLabels } from '../lib/lightweight-public-copy';
-import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 
 export function LandingLightFooter(): React.JSX.Element {
@@ -19,7 +18,6 @@ export function LandingLightFooter(): React.JSX.Element {
   ];
 
   function prewarmAskPredicta(): void {
-    preloadAskPredictaRuntime();
     router.prefetch('/ask');
   }
 

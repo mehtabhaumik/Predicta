@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useLanguagePreference } from '../lib/language-preference';
-import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { AuthDialog } from './AuthDialog';
 import { PredictaMediaAsset } from './ui/DesignSystemPrimitives';
 import { WebLanguageSelector } from './WebLanguageSelector';
@@ -21,7 +20,6 @@ export function WebHeader(): React.JSX.Element {
   const responseCopy = getCompetitorResponseCopy(language);
 
   function prewarmAskPredicta(): void {
-    preloadAskPredictaRuntime();
     router.prefetch('/ask');
   }
 

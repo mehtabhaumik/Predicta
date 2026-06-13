@@ -7,7 +7,6 @@ import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
 } from '../lib/lightweight-public-copy';
-import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 import type { PredictaSchool } from '@pridicta/types';
@@ -72,12 +71,10 @@ export function LandingChatFirstContent(): React.JSX.Element {
   }, [router]);
 
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {
-    preloadAskPredictaRuntime();
     router.push(buildAskPredictaHref(prompt, landing.defaultAskPrompt, mode));
   }
 
   function startVoiceCapture(): void {
-    preloadAskPredictaRuntime();
     const started = speechInput.startListening();
     setVoiceStatus(started ? 'listening' : 'unsupported');
   }
@@ -94,13 +91,10 @@ export function LandingChatFirstContent(): React.JSX.Element {
         <form
           ref={formRef}
           className="landing-ask-console glass-panel"
-          onFocus={preloadAskPredictaRuntime}
-          onPointerEnter={preloadAskPredictaRuntime}
           onSubmit={event => {
             event.preventDefault();
             openAskPredicta(question);
           }}
-          onTouchStart={preloadAskPredictaRuntime}
         >
           <label className="landing-ask-field">
             <span>{landing.suggestedQuestionLabel}</span>
@@ -125,9 +119,6 @@ export function LandingChatFirstContent(): React.JSX.Element {
               <Link
                 href={buildAskPredictaHref(item, landing.defaultAskPrompt)}
                 key={item}
-                onFocus={preloadAskPredictaRuntime}
-                onPointerEnter={preloadAskPredictaRuntime}
-                onTouchStart={preloadAskPredictaRuntime}
               >
                 {item}
               </Link>
@@ -137,10 +128,6 @@ export function LandingChatFirstContent(): React.JSX.Element {
           <div className="landing-ask-actions">
             <button
               className="button"
-              onClick={() => preloadAskPredictaRuntime()}
-              onFocus={preloadAskPredictaRuntime}
-              onPointerEnter={preloadAskPredictaRuntime}
-              onTouchStart={preloadAskPredictaRuntime}
               type="submit"
             >
               {landing.askSubmit}
@@ -198,9 +185,6 @@ export function LandingChatFirstContent(): React.JSX.Element {
                   landing.worldsAskPrompt,
                   landing.defaultAskPrompt,
                 )}
-                onFocus={preloadAskPredictaRuntime}
-                onPointerEnter={preloadAskPredictaRuntime}
-                onTouchStart={preloadAskPredictaRuntime}
               >
                 {landing.worldsPrimaryCta}
               </Link>
@@ -219,9 +203,6 @@ export function LandingChatFirstContent(): React.JSX.Element {
                     link.school,
                   )}
                   key={link.school}
-                  onFocus={preloadAskPredictaRuntime}
-                  onPointerEnter={preloadAskPredictaRuntime}
-                  onTouchStart={preloadAskPredictaRuntime}
                 >
                   <strong>{link.label}</strong>
                   <span>{landing.worldEvidenceItems[index] ?? landing.worldsBody}</span>
@@ -301,9 +282,6 @@ export function LandingChatFirstContent(): React.JSX.Element {
           <Link
             className="button"
             href={buildAskPredictaHref('', landing.defaultAskPrompt)}
-            onFocus={preloadAskPredictaRuntime}
-            onPointerEnter={preloadAskPredictaRuntime}
-            onTouchStart={preloadAskPredictaRuntime}
           >
             {copy.hero.primary}
           </Link>
