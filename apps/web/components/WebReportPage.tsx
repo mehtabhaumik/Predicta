@@ -76,6 +76,11 @@ export function WebReportPage(): React.JSX.Element {
 function ReportComposerLoading(): React.JSX.Element {
   const { language } = useLanguagePreference();
   const copy = getCompetitorResponseCopy(language).reportPage;
+  const askReportHref = buildPredictaChatHref({
+    prompt: copy.questionPlaceholder,
+    reportFocus: 'report_selection',
+    sourceScreen: 'Reports',
+  });
 
   return (
     <section
@@ -91,7 +96,7 @@ function ReportComposerLoading(): React.JSX.Element {
           <Link className="button" href="/dashboard/kundli">
             {copy.createKundliCta}
           </Link>
-          <Link className="button secondary" href="/ask?sourceScreen=Reports">
+          <Link className="button secondary" href={askReportHref}>
             {copy.askPredictaCta}
           </Link>
         </div>
