@@ -1020,8 +1020,8 @@ export function WebKundliWizard(): React.JSX.Element {
                 aria-expanded={shouldShowBirthPlaceOverlay}
                 ref={birthPlaceInputRef}
                 spellCheck={false}
-                onChange={event => {
-                  handleBirthPlaceQueryInput(event.target.value);
+                onInput={event => {
+                  handleBirthPlaceQueryInput(event.currentTarget.value);
                 }}
                 onFocus={() => {
                   const nativeValue = birthPlaceInputRef.current?.value ?? '';
