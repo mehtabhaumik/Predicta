@@ -266,7 +266,7 @@
         "askPredictaCta": "Ask Predicta",
         "questionEyebrow": "Ask before downloading",
         "questionTitle": "Tell Predicta what you want the report to answer.",
-        "questionBody": "If you are unsure which report lane fits, ask in plain language first. Predicta will suggest the right report and keep the full builder below for direct downloads.",
+        "questionBody": "If you are unsure which report lane fits, ask in plain language first. Predicta will suggest the right report and keep the download choices below.",
         "questionLabel": "Your report question",
         "questionPlaceholder": "Which report should I download for career, marriage, money, family, timing, or life direction?",
         "suggestedQuestionLabel": "Suggested report questions",
@@ -277,10 +277,10 @@
           "I want a practical report for money, work, and remedies."
         ],
         "askReportCta": "Ask which report fits",
-        "openBuilderCta": "Open report builder",
-        "loadingEyebrow": "Preparing your report composer",
-        "loadingTitle": "Predicta is opening the right report lane.",
-        "loadingBody": "The page is ready. The builder is loading separately so navigation stays quick and calm."
+        "openBuilderCta": "Choose a report",
+        "loadingEyebrow": "Preparing report choices",
+        "loadingTitle": "Predicta is preparing the right report options.",
+        "loadingBody": "The page is ready. Report choices load separately so navigation stays quick and calm."
       }
     },
     "hi": {
@@ -548,7 +548,7 @@
         "askPredictaCta": "प्रेडिक्टा से पूछें",
         "questionEyebrow": "डाउनलोड से पहले पूछें",
         "questionTitle": "प्रेडिक्टा को बताएं कि रिपोर्ट से आपको क्या उत्तर चाहिए.",
-        "questionBody": "अगर समझ न आए कि कौन सा रिपोर्ट मार्ग सही है, तो पहले सरल भाषा में पूछें. प्रेडिक्टा सही रिपोर्ट सुझाएगी और सीधा डाउनलोड करने के लिए पूरा बिल्डर नीचे रहेगा.",
+        "questionBody": "अगर समझ न आए कि कौन सा रिपोर्ट मार्ग सही है, तो पहले सरल भाषा में पूछें. प्रेडिक्टा सही रिपोर्ट सुझाएगी और डाउनलोड विकल्प नीचे रहेंगे.",
         "questionLabel": "आपका रिपोर्ट प्रश्न",
         "questionPlaceholder": "करियर, विवाह, धन, परिवार, समय या जीवन दिशा के लिए कौन सी रिपोर्ट डाउनलोड करूं?",
         "suggestedQuestionLabel": "सुझाए गए रिपोर्ट प्रश्न",
@@ -559,10 +559,10 @@
           "मुझे धन, काम और उपायों के लिए व्यावहारिक रिपोर्ट चाहिए."
         ],
         "askReportCta": "पूछें कौन सी रिपोर्ट सही है",
-        "openBuilderCta": "रिपोर्ट बिल्डर खोलें",
-        "loadingEyebrow": "आपका रिपोर्ट कंपोज़र तैयार हो रहा है",
-        "loadingTitle": "प्रेडिक्टा सही रिपोर्ट मार्ग खोल रही है.",
-        "loadingBody": "पेज तैयार है. बिल्डर अलग से लोड हो रहा है ताकि नेविगेशन तेज और शांत रहे."
+        "openBuilderCta": "रिपोर्ट चुनें",
+        "loadingEyebrow": "रिपोर्ट विकल्प तैयार हो रहे हैं",
+        "loadingTitle": "प्रेडिक्टा सही रिपोर्ट विकल्प तैयार कर रही है.",
+        "loadingBody": "पेज तैयार है. रिपोर्ट विकल्प अलग से लोड होते हैं ताकि नेविगेशन तेज और शांत रहे."
       }
     },
     "gu": {
@@ -830,7 +830,7 @@
         "askPredictaCta": "પ્રેડિક્ટાને પૂછો",
         "questionEyebrow": "ડાઉનલોડ પહેલાં પૂછો",
         "questionTitle": "પ્રેડિક્ટાને કહો કે રિપોર્ટમાંથી તમને શું જવાબ જોઈએ છે.",
-        "questionBody": "કયો રિપોર્ટ માર્ગ યોગ્ય છે તેની ખાતરી ન હોય તો પહેલા સરળ ભાષામાં પૂછો. પ્રેડિક્ટા યોગ્ય રિપોર્ટ સૂચવશે અને સીધા ડાઉનલોડ માટે આખો બિલ્ડર નીચે રહેશે.",
+        "questionBody": "કયો રિપોર્ટ માર્ગ યોગ્ય છે તેની ખાતરી ન હોય તો પહેલા સરળ ભાષામાં પૂછો. પ્રેડિક્ટા યોગ્ય રિપોર્ટ સૂચવશે અને ડાઉનલોડ વિકલ્પો નીચે રહેશે.",
         "questionLabel": "તમારો રિપોર્ટ પ્રશ્ન",
         "questionPlaceholder": "કરિયર, લગ્ન, પૈસા, પરિવાર, સમય અથવા જીવન દિશા માટે કયો રિપોર્ટ ડાઉનલોડ કરું?",
         "suggestedQuestionLabel": "સૂચવાયેલા રિપોર્ટ પ્રશ્નો",
@@ -841,10 +841,10 @@
           "મારે પૈસા, કામ અને ઉપાયો માટે વ્યવહારુ રિપોર્ટ જોઈએ છે."
         ],
         "askReportCta": "કયો રિપોર્ટ યોગ્ય છે તે પૂછો",
-        "openBuilderCta": "રિપોર્ટ બિલ્ડર ખોલો",
-        "loadingEyebrow": "તમારો રિપોર્ટ કમ્પોઝર તૈયાર થઈ રહ્યો છે",
-        "loadingTitle": "પ્રેડિક્ટા યોગ્ય રિપોર્ટ માર્ગ ખોલી રહી છે.",
-        "loadingBody": "પેજ તૈયાર છે. બિલ્ડર અલગથી લોડ થઈ રહ્યો છે જેથી નેવિગેશન ઝડપી અને શાંત રહે."
+        "openBuilderCta": "રિપોર્ટ પસંદ કરો",
+        "loadingEyebrow": "રિપોર્ટ વિકલ્પો તૈયાર થઈ રહ્યા છે",
+        "loadingTitle": "પ્રેડિક્ટા યોગ્ય રિપોર્ટ વિકલ્પો તૈયાર કરી રહી છે.",
+        "loadingBody": "પેજ તૈયાર છે. રિપોર્ટ વિકલ્પો અલગથી લોડ થાય છે જેથી નેવિગેશન ઝડપી અને શાંત રહે."
       }
     }
   }

@@ -1,10 +1,10 @@
 {
   "copy": {
     "en": {
-      "loadingLabel": "Opening room",
+      "loadingLabel": "Preparing",
       "askCta": "Ask Predicta now",
       "createKundliCta": "Create Kundli",
-      "openingCta": "Opening the room",
+      "openingCta": "Preparing",
       "rooms": {
         "generic": {
           "eyebrow": "Predicta is opening this room",
@@ -54,10 +54,10 @@
           "school": "SIGNATURE"
         },
         "report": {
-          "eyebrow": "Report composer",
-          "title": "Predicta is opening the report builder.",
-          "body": "Ask what report you need first, or wait a moment for the download composer to open with the right report lane.",
-          "sourceScreen": "Report Composer",
+          "eyebrow": "Reports",
+          "title": "Predicta is preparing your report choices.",
+          "body": "Ask what you want clarity on first, or choose a report as soon as your options appear.",
+          "sourceScreen": "Reports",
           "prompt": "Help me choose the right Predicta report and tell me what I should download."
         },
         "premium": {
@@ -112,10 +112,10 @@
       }
     },
     "hi": {
-      "loadingLabel": "कक्ष खुल रहा है",
+      "loadingLabel": "तैयार हो रहा है",
       "askCta": "अभी प्रेडिक्टा से पूछें",
       "createKundliCta": "कुंडली बनाएं",
-      "openingCta": "कक्ष खुल रहा है",
+      "openingCta": "तैयार हो रहा है",
       "rooms": {
         "generic": {
           "eyebrow": "प्रेडिक्टा यह कक्ष खोल रही है",
@@ -165,10 +165,10 @@
           "school": "SIGNATURE"
         },
         "report": {
-          "eyebrow": "रिपोर्ट कंपोज़र",
-          "title": "प्रेडिक्टा रिपोर्ट बिल्डर खोल रही है.",
-          "body": "पहले पूछें कि कौनसी रिपोर्ट चाहिए, या सही रिपोर्ट मार्ग खुलने तक एक क्षण प्रतीक्षा करें.",
-          "sourceScreen": "Report Composer",
+          "eyebrow": "रिपोर्ट्स",
+          "title": "प्रेडिक्टा आपके रिपोर्ट विकल्प तैयार कर रही है.",
+          "body": "पहले पूछें कि आपको किस बात पर स्पष्टता चाहिए, या विकल्प आते ही रिपोर्ट चुनें.",
+          "sourceScreen": "Reports",
           "prompt": "मुझे सही प्रेडिक्टा रिपोर्ट चुनने में मदद करें और बताएं कि मुझे क्या डाउनलोड करना चाहिए."
         },
         "premium": {
@@ -223,10 +223,10 @@
       }
     },
     "gu": {
-      "loadingLabel": "કક્ષ ખુલી રહ્યો છે",
+      "loadingLabel": "તૈયાર થઈ રહ્યું છે",
       "askCta": "હમણાં પ્રેડિક્ટાને પૂછો",
       "createKundliCta": "કુંડળી બનાવો",
-      "openingCta": "કક્ષ ખુલી રહ્યો છે",
+      "openingCta": "તૈયાર થઈ રહ્યું છે",
       "rooms": {
         "generic": {
           "eyebrow": "પ્રેડિક્ટા આ કક્ષ ખોલી રહી છે",
@@ -276,10 +276,10 @@
           "school": "SIGNATURE"
         },
         "report": {
-          "eyebrow": "રિપોર્ટ કમ્પોઝર",
-          "title": "પ્રેડિક્ટા રિપોર્ટ બિલ્ડર ખોલી રહી છે.",
-          "body": "પહેલા કયો રિપોર્ટ જોઈએ તે પૂછો, અથવા સાચો રિપોર્ટ માર્ગ ખુલે ત્યાં સુધી થોડું રાહ જુઓ.",
-          "sourceScreen": "Report Composer",
+          "eyebrow": "રિપોર્ટ્સ",
+          "title": "પ્રેડિક્ટા તમારા રિપોર્ટ વિકલ્પો તૈયાર કરી રહી છે.",
+          "body": "પહેલા તમને કઈ બાબતે સ્પષ્ટતા જોઈએ છે તે પૂછો, અથવા વિકલ્પો દેખાય ત્યારે રિપોર્ટ પસંદ કરો.",
+          "sourceScreen": "Reports",
           "prompt": "મને યોગ્ય પ્રેડિક્ટા રિપોર્ટ પસંદ કરવામાં મદદ કરો અને શું ડાઉનલોડ કરવું તે કહો."
         },
         "premium": {

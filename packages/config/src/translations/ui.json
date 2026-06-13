@@ -5583,8 +5583,8 @@
     },
     "ui.global.private.notes.are.blocked.from.this.customer.reply.com.0cb4e327": {
       "en": ". Private notes are blocked from this customer reply composer.",
-      "hi": ". इस ग्राहक उत्तर कंपोजर से निजी नोट ब्लॉक कर दिए गए हैं।",
-      "gu": ". આ ગ્રાહક જવાબ કંપોઝર તરફથી ખાનગી નોંધો અવરોધિત છે."
+      "hi": ". इस ग्राहक उत्तर बॉक्स से निजी नोट नहीं भेजे जाते।",
+      "gu": ". આ ગ્રાહક જવાબ બોક્સમાંથી ખાનગી નોંધો મોકલાતી નથી."
     },
     "ui.global.active.lesson.80c25e99": {
       "en": "Active lesson",
@@ -5618,8 +5618,8 @@
     },
     "ui.global.admin.reply.composer.92545885": {
       "en": "Admin reply composer",
-      "hi": "व्यवस्थापक उत्तर संगीतकार",
-      "gu": "એડમિન જવાબ સંગીતકાર"
+      "hi": "एडमिन उत्तर बॉक्स",
+      "gu": "એડમિન જવાબ બોક્સ"
     },
     "ui.global.advanced.jyotish.dde7212a": {
       "en": "ADVANCED JYOTISH",
@@ -7797,9 +7797,9 @@
       "gu": "જવાબમાં ઘંટી"
     },
     "ui.global.reply.composer.26186cf0": {
-      "en": "REPLY COMPOSER",
-      "hi": "उत्तर संगीतकार",
-      "gu": "કંપોઝરને જવાબ આપો"
+      "en": "REPLY EDITOR",
+      "hi": "उत्तर लिखें",
+      "gu": "જવાબ લખો"
     },
     "ui.global.repeated.patterns.support.zones.no.blame.8753da8e": {
       "en": "Repeated patterns, support zones, no blame",
@@ -7807,9 +7807,9 @@
       "gu": "પુનરાવર્તિત પેટર્ન, સપોર્ટ ઝોન, કોઈ દોષ નથી"
     },
     "ui.global.report.composer.c4e039ee": {
-      "en": "REPORT COMPOSER",
-      "hi": "रिपोर्ट संगीतकार",
-      "gu": "રિપોર્ટ કંપોઝર"
+      "en": "REPORTS",
+      "hi": "रिपोर्ट्स",
+      "gu": "રિપોર્ટ્સ"
     },
     "ui.global.report.language.f6c2d7f1": {
       "en": "REPORT LANGUAGE",

@@ -557,7 +557,7 @@ function ThreadDetail({
       <section className="admin-support-composer" aria-label="Admin reply composer">
         <div className="admin-support-composer-head">
           <div>
-            <span className="section-title">REPLY COMPOSER</span>
+            <span className="section-title">REPLY EDITOR</span>
             <h3>Use a template, edit it, then send.</h3>
             <p>
               Suggested template: {suggestedTemplate.heading}. Private notes are

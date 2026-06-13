@@ -269,7 +269,7 @@ function getTopbarPredictaSourceScreen(
   }
 
   if (activeSection.id === 'reports') {
-    return 'Report Composer';
+    return 'Reports';
   }
 
   if (activeSection.id === 'account') {
@@ -673,7 +673,7 @@ function getAskDockSectionLabel(activeSection: SidebarSection): string {
   }
 
   if (activeSection.id === 'reports') {
-    return 'Report Composer';
+    return 'Reports';
   }
 
   if (activeSection.id === 'account') {

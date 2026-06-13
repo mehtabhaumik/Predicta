@@ -660,7 +660,7 @@ export function ReportScreen({
 
       <GlowCard className="mt-6" delay={80}>
         <AppText tone="secondary" variant="caption">
-          REPORT COMPOSER
+          REPORTS
         </AppText>
         <AppText className="mt-2" variant="subtitle">
           Your selected report is ready
