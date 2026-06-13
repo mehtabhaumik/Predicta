@@ -34,6 +34,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
   const searchParams = useSearchParams();
   const formRef = useRef<HTMLFormElement>(null);
   const questionRef = useRef<HTMLTextAreaElement>(null);
+  const voiceAutoStartedRef = useRef(false);
   const { language } = useLightweightLanguagePreference();
   const landing = getLightweightCompetitorResponseCopy(language).landing;
   const incomingPrompt = searchParams.get('prompt') ?? '';
@@ -53,6 +54,15 @@ export function AskPredictaLightShell(): React.JSX.Element {
   >('idle');
   const speechInput = useLightweightSpeechInput({
     language,
+    onFinalTranscript: transcript => {
+      if (voiceAutoStartedRef.current || chatStarted) {
+        return;
+      }
+
+      voiceAutoStartedRef.current = true;
+      setVoiceStatus('captured');
+      startChat(transcript, 'voice');
+    },
     onTranscript: transcript => {
       setQuestion(transcript);
       setVoiceNotice(true);
@@ -113,6 +123,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
   }
 
   function startVoiceCapture(): void {
+    voiceAutoStartedRef.current = false;
     setVoiceNotice(true);
 
     const started = speechInput.startListening();

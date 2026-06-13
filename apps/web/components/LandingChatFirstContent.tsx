@@ -40,6 +40,7 @@ function buildAskPredictaHref(
 export function LandingChatFirstContent(): React.JSX.Element {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
+  const voiceAutoStartedRef = useRef(false);
   const { language } = useLightweightLanguagePreference();
   const copy = getLightweightCompetitorResponseCopy(language);
   const landing = copy.landing;
@@ -50,6 +51,15 @@ export function LandingChatFirstContent(): React.JSX.Element {
   >('idle');
   const speechInput = useLightweightSpeechInput({
     language,
+    onFinalTranscript: transcript => {
+      if (voiceAutoStartedRef.current) {
+        return;
+      }
+
+      voiceAutoStartedRef.current = true;
+      setVoiceStatus('captured');
+      openAskPredicta(transcript, 'voice');
+    },
     onTranscript: transcript => {
       setQuestion(transcript);
       setVoiceStatus('captured');
@@ -75,6 +85,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
   }
 
   function startVoiceCapture(): void {
+    voiceAutoStartedRef.current = false;
     const started = speechInput.startListening();
     setVoiceStatus(started ? 'listening' : 'unsupported');
   }

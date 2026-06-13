@@ -44,6 +44,7 @@ declare global {
 
 type UseLightweightSpeechInputOptions = {
   language: SupportedLanguage;
+  onFinalTranscript?: (transcript: string) => void;
   onTranscript: (transcript: string) => void;
 };
 
@@ -62,6 +63,7 @@ const SPEECH_LANGUAGE_BY_APP_LANGUAGE: Record<SupportedLanguage, string> = {
 
 export function useLightweightSpeechInput({
   language,
+  onFinalTranscript,
   onTranscript,
 }: UseLightweightSpeechInputOptions): UseLightweightSpeechInputResult {
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
@@ -120,6 +122,9 @@ export function useLightweightSpeechInput({
 
       const finalResult = event.results[event.results.length - 1];
       if (finalResult?.isFinal) {
+        if (cleanedTranscript) {
+          onFinalTranscript?.(cleanedTranscript);
+        }
         recognition.stop();
       }
     };
@@ -134,7 +139,7 @@ export function useLightweightSpeechInput({
       setIsListening(false);
       return false;
     }
-  }, [language, onTranscript]);
+  }, [language, onFinalTranscript, onTranscript]);
 
   useEffect(() => stopListening, [stopListening]);
 
