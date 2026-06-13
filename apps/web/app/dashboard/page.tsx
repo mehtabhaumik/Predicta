@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
@@ -10,6 +10,7 @@ import {
 import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
 import { useLightweightKundliSnapshot } from '../../lib/use-lightweight-kundli-snapshot';
 import { useLightweightLanguagePreference } from '../../lib/use-lightweight-language-preference';
+import { useLightweightSpeechInput } from '../../lib/use-lightweight-speech-input';
 
 type LibraryLink = {
   body: string;
@@ -19,12 +20,18 @@ type LibraryLink = {
 
 export default function DashboardPage(): React.JSX.Element {
   const router = useRouter();
+  const voiceAutoStartedRef = useRef(false);
   const { language } = useLightweightLanguagePreference();
-  const copy = getLightweightCompetitorResponseCopy(language).dashboard;
+  const competitorCopy = getLightweightCompetitorResponseCopy(language);
+  const copy = competitorCopy.dashboard;
+  const voiceCopy = competitorCopy.landing;
   const labels = getLightweightAppShellLabels(language);
   const { activeKundli, savedCount } = useLightweightKundliSnapshot();
   const [isFamilyFriendsVisit, setIsFamilyFriendsVisit] = useState(false);
   const [questionDraft, setQuestionDraft] = useState('');
+  const [voiceStatus, setVoiceStatus] = useState<
+    'captured' | 'idle' | 'listening' | 'unsupported'
+  >('idle');
   const hasSavedKundli = Boolean(activeKundli) || savedCount > 0;
   const askHref = buildPredictaChatHref({
     kundliId: activeKundli?.id,
@@ -39,7 +46,10 @@ export default function DashboardPage(): React.JSX.Element {
     router.prefetch(href);
   }
 
-  function buildDashboardQuestionHref(question?: string): string {
+  function buildDashboardQuestionHref(
+    question?: string,
+    mode: 'text' | 'voice' = 'text',
+  ): string {
     const prompt = question?.trim()
       ? question.trim()
       : activeKundli
@@ -48,6 +58,7 @@ export default function DashboardPage(): React.JSX.Element {
 
     return buildPredictaChatHref({
       kundliId: activeKundli?.id,
+      inputMode: mode,
       prompt,
       sourceScreen: 'My Kundlis',
     });
@@ -60,6 +71,32 @@ export default function DashboardPage(): React.JSX.Element {
     prefetchDashboardAsk(href);
     router.push(href);
   }
+
+  function startDashboardVoiceCapture(): void {
+    voiceAutoStartedRef.current = false;
+
+    const started = speechInput.startListening();
+    setVoiceStatus(started ? 'listening' : 'unsupported');
+  }
+
+  const speechInput = useLightweightSpeechInput({
+    language,
+    onFinalTranscript: transcript => {
+      if (voiceAutoStartedRef.current) {
+        return;
+      }
+
+      voiceAutoStartedRef.current = true;
+      setVoiceStatus('captured');
+      const href = buildDashboardQuestionHref(transcript, 'voice');
+      prefetchDashboardAsk(href);
+      router.push(href);
+    },
+    onTranscript: transcript => {
+      setQuestionDraft(transcript);
+      setVoiceStatus('captured');
+    },
+  });
 
   useEffect(() => {
     prefetchDashboardAsk();
@@ -106,8 +143,28 @@ export default function DashboardPage(): React.JSX.Element {
               <button className="button" type="submit">
                 {copy.libraryAskHelpCta}
               </button>
+              <button
+                className={
+                  speechInput.isListening
+                    ? 'button secondary ask-voice-button is-listening'
+                    : 'button secondary ask-voice-button'
+                }
+                onClick={startDashboardVoiceCapture}
+                type="button"
+              >
+                {voiceCopy.voiceLabel}
+              </button>
             </div>
           </form>
+          {voiceStatus !== 'idle' ? (
+            <p className="library-voice-note">
+              {voiceStatus === 'unsupported'
+                ? voiceCopy.voiceUnsupported
+                : voiceStatus === 'captured'
+                  ? voiceCopy.voiceCaptured
+                  : voiceCopy.voiceListening}
+            </p>
+          ) : null}
           <details className="library-proof-drawer">
             <summary>
               <span>{copy.primaryPredictaProof}</span>

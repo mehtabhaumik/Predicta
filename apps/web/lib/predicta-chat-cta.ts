@@ -24,6 +24,7 @@ export type PredictaChatCtaContext = {
   from?: PredictaSchool;
   handoffMode?: 'main_synthesis' | 'room_safe';
   handoffQuestion?: string;
+  inputMode?: 'text' | 'voice';
   kundli?: KundliData;
   kundliId?: string;
   prompt?: string;
@@ -73,6 +74,12 @@ export function buildPredictaChatHref(context: PredictaChatCtaContext): string {
   setParam(params, 'evidenceSourceLabel', context.evidenceSourceLabel);
   setParam(params, 'handoffMode', context.handoffMode);
   setParam(params, 'prompt', context.prompt ?? context.selectedSection);
+  setParam(
+    params,
+    'autoSend',
+    context.prompt || context.selectedSection ? 'true' : undefined,
+  );
+  setParam(params, 'inputMode', context.inputMode === 'voice' ? 'voice' : undefined);
   setParam(params, 'kundliId', activeKundliId);
   setParam(params, 'chartName', context.chartName);
   setParam(params, 'chartType', context.chartType);
