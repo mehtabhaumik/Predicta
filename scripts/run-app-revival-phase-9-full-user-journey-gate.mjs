@@ -162,6 +162,9 @@ try {
     if (!audit.hasPreservedPrompt) {
       localFailures.push('legacy /dashboard/chat redirect did not preserve the user prompt');
     }
+    if (/Legacy\+|Legacy%20|Dashboard\+Chat|Dashboard%20Chat/u.test(audit.search)) {
+      localFailures.push('legacy /dashboard/chat redirect leaked stale dashboard-chat source context');
+    }
     if (audit.horizontalOverflow) {
       localFailures.push('legacy /dashboard/chat redirect has horizontal overflow');
     }
@@ -189,6 +192,9 @@ try {
     }
     if (audit.school !== 'KP') {
       localFailures.push(`legacy specialist chat did not preserve school=KP, got ${audit.school}`);
+    }
+    if (/Legacy\+|Legacy%20|Dashboard\+Chat|Dashboard%20Chat/u.test(audit.search)) {
+      localFailures.push('legacy specialist chat leaked stale legacy source context');
     }
     if (audit.hasDashboardShell) {
       localFailures.push('legacy specialist chat still rendered the dashboard shell');

@@ -35,6 +35,8 @@ export async function redirectLegacyChatToAsk({
 
   if (!params.has('sourceScreen')) {
     params.set('sourceScreen', defaults.sourceScreen);
+  } else if (isLegacyChatSourceScreen(params.get('sourceScreen'))) {
+    params.set('sourceScreen', defaults.sourceScreen);
   }
 
   if (defaults.school && !params.has('school')) {
@@ -54,4 +56,14 @@ export async function redirectLegacyChatToAsk({
   }
 
   redirect(`/ask?${params.toString()}`);
+}
+
+function isLegacyChatSourceScreen(value: string | null): boolean {
+  if (!value) {
+    return false;
+  }
+
+  const normalized = value.toLowerCase();
+
+  return normalized.startsWith('legacy ') || normalized.includes('dashboard chat');
 }
