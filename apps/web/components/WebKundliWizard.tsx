@@ -2073,8 +2073,12 @@ function isExactBirthPlaceSelection(
     .filter(Boolean)
     .join(', ');
   const cityCountry = [place.city, place.country].filter(Boolean).join(', ');
+  const labelCity = place.label.split(',')[0]?.trim();
+  const placeCity = place.place.split(',')[0]?.trim();
   const candidateLabels = [
     place.city,
+    labelCity,
+    placeCity,
     place.label,
     place.place,
     cityStateCountry,
