@@ -358,6 +358,8 @@ async function auditPageLinks(cdp, check) {
         inAskHeader:
           isAskRoute &&
           /\\bask-lean-header\\b/u.test(anchor.closest('header')?.className || ''),
+        inDashboardTopbar:
+          Boolean(anchor.closest('.dashboard-topbar-actions')),
         inPublicHeader:
           /\\bweb-header\\b/u.test(anchor.closest('header')?.className || ''),
         text: (anchor.textContent || '').replace(/\\s+/g, ' ').trim(),
@@ -425,11 +427,23 @@ async function auditPageLinks(cdp, check) {
               return params.get('sourceScreen') === 'My Kundlis';
             })
           : [];
+      const dashboardTopbarAutoSendAskLinks =
+        ${JSON.stringify(check.route.startsWith('/dashboard'))}
+          ? anchors.filter(anchor => {
+              if (!anchor.inDashboardTopbar || !anchor.href.startsWith('/ask')) {
+                return false;
+              }
+
+              const params = new URLSearchParams(anchor.href.split('?')[1] || '');
+              return params.has('prompt') || params.get('autoSend') === 'true';
+            })
+          : [];
 
       return {
         activeLinks: anchors.filter(anchor => anchor.ariaCurrent),
         askHeaderDashboardLinks,
         anchorCount: anchors.length,
+        dashboardTopbarAutoSendAskLinks,
         disabledActive,
         hrefs,
         missing,
@@ -489,6 +503,12 @@ async function auditPageLinks(cdp, check) {
   for (const item of result.staleDashboardLibraryHandoffs ?? []) {
     pageFailures.push(
       `${check.route}: primary dashboard Ask handoff still identifies as My Kundlis near "${item.text || item.href}".`,
+    );
+  }
+
+  for (const item of result.dashboardTopbarAutoSendAskLinks ?? []) {
+    pageFailures.push(
+      `${check.route}: topbar Ask Predicta should open chat directly, not auto-send "${item.text || item.href}".`,
     );
   }
 

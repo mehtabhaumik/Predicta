@@ -334,7 +334,6 @@ export function DashboardShell({
   const askDockSectionLabel = getAskDockSectionLabel(shellLabels, activeSection);
   const askPredictaHref = buildPredictaChatHref({
     kundliId: activeKundliId,
-    prompt: shellLabels.actions.selectedKundliPrompt,
     school: getTopbarPredictaSchool(activeSection.id),
     sourceScreen: getTopbarPredictaSourceScreen(shellLabels, activeSection),
   });
