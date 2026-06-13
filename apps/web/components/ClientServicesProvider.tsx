@@ -3,10 +3,12 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 import type React from 'react';
+import { flushSync } from 'react-dom';
 import { usePathname, useRouter } from 'next/navigation';
 import { applyPredictaDocumentLanguage } from '../lib/document-language';
 import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
 import { PREDICTA_NAVIGATION_FEEDBACK_EVENT } from '../lib/navigation-feedback';
+import { getLightweightAppShellLabels } from '../lib/lightweight-app-shell-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 
@@ -37,10 +39,17 @@ export function ClientServicesProvider(): React.JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
   const [isNavigating, setIsNavigating] = useState(false);
+  const [navigationTargetLabel, setNavigationTargetLabel] = useState('');
   const [areAccountServicesReady, setAreAccountServicesReady] = useState(false);
   const navigationTimeoutRef = useRef<number | undefined>(undefined);
   const warmedHrefsRef = useRef<Set<string>>(new Set());
   const { language } = useLightweightLanguagePreference();
+  const shellLabels = getLightweightAppShellLabels(language);
+
+  function clearNavigationFeedback(): void {
+    setIsNavigating(false);
+    setNavigationTargetLabel('');
+  }
 
   function warmAskRuntimeIfNeeded(href: string): void {
     if (href === '/ask' || href.startsWith('/ask?')) {
@@ -162,7 +171,11 @@ export function ClientServicesProvider(): React.JSX.Element {
       router.prefetch(href);
     }
 
-    function startNavigationFeedback(href: string): void {
+    function resolveAnchorLabel(anchor: HTMLAnchorElement): string {
+      return anchor.textContent?.replace(/\s+/g, ' ').trim() || shellLabels.groups.predicta;
+    }
+
+    function startNavigationFeedback(href: string, targetLabel = shellLabels.groups.predicta): void {
       warmInternalHref(href);
       warmAskRuntimeIfNeeded(href);
 
@@ -177,10 +190,13 @@ export function ClientServicesProvider(): React.JSX.Element {
         return;
       }
 
-      setIsNavigating(true);
+      flushSync(() => {
+        setIsNavigating(true);
+        setNavigationTargetLabel(targetLabel);
+      });
       window.clearTimeout(navigationTimeoutRef.current);
       navigationTimeoutRef.current = window.setTimeout(() => {
-        setIsNavigating(false);
+        clearNavigationFeedback();
       }, 2400);
     }
 
@@ -194,6 +210,11 @@ export function ClientServicesProvider(): React.JSX.Element {
       const href = getInternalHref(anchor);
 
       if (href) {
+        if (event.type === 'pointerdown' || event.type === 'touchstart') {
+          startNavigationFeedback(href, resolveAnchorLabel(anchor));
+          return;
+        }
+
         warmInternalHref(href);
         warmAskRuntimeIfNeeded(href);
       }
@@ -223,7 +244,7 @@ export function ClientServicesProvider(): React.JSX.Element {
         return;
       }
 
-      startNavigationFeedback(href);
+      startNavigationFeedback(href, resolveAnchorLabel(anchor));
     }
 
     function showProgrammaticNavigationFeedback(event: Event): void {
@@ -258,11 +279,20 @@ export function ClientServicesProvider(): React.JSX.Element {
       );
       window.clearTimeout(navigationTimeoutRef.current);
     };
-  }, [router]);
+  }, [router, shellLabels.groups.predicta]);
 
   useEffect(() => {
-    setIsNavigating(false);
     window.clearTimeout(navigationTimeoutRef.current);
+    if (!isNavigating) {
+      setNavigationTargetLabel('');
+      return;
+    }
+
+    // Keep the receipt visible briefly after route commit so fast links still
+    // feel acknowledged instead of flickering away before users can read it.
+    navigationTimeoutRef.current = window.setTimeout(() => {
+      clearNavigationFeedback();
+    }, 760);
   }, [pathname]);
 
   return (
@@ -277,6 +307,17 @@ export function ClientServicesProvider(): React.JSX.Element {
       >
         <span />
       </div>
+      {isNavigating ? (
+        <div
+          aria-live="polite"
+          className="predicta-navigation-receipt is-active"
+          role="status"
+        >
+          <span>{shellLabels.actions.navigationOpeningPrefix}</span>
+          <strong>{navigationTargetLabel || shellLabels.groups.predicta}</strong>
+          <small>{shellLabels.actions.navigationOpeningBody}</small>
+        </div>
+      ) : null}
       {areAccountServicesReady ? <ClientAccountServicesProvider /> : null}
     </>
   );

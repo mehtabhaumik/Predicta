@@ -795,6 +795,58 @@ function runInternalAnchorSourceContract() {
     }
   }
 
+  const clientServicesPath = 'apps/web/components/ClientServicesProvider.tsx';
+  const clientServicesSource = readFileSync(clientServicesPath, 'utf8');
+
+  const requiredNavigationReceiptContracts = [
+    {
+      label: 'immediate React commit for tap receipt',
+      snippet: "import { flushSync } from 'react-dom';",
+    },
+    {
+      label: 'localized receipt prefix copy',
+      snippet: 'shellLabels.actions.navigationOpeningPrefix',
+    },
+    {
+      label: 'localized receipt body copy',
+      snippet: 'shellLabels.actions.navigationOpeningBody',
+    },
+    {
+      label: 'clicked destination label in receipt',
+      snippet: 'navigationTargetLabel',
+    },
+    {
+      label: 'pointerdown starts visible navigation feedback',
+      snippet: "event.type === 'pointerdown'",
+    },
+    {
+      label: 'touchstart starts visible navigation feedback',
+      snippet: "event.type === 'touchstart'",
+    },
+    {
+      label: 'receipt is mounted only while navigation is active',
+      snippet: '{isNavigating ? (',
+    },
+    {
+      label: 'receipt is a polite status only when active',
+      snippet: 'className="predicta-navigation-receipt is-active"',
+    },
+  ];
+
+  for (const contract of requiredNavigationReceiptContracts) {
+    if (!clientServicesSource.includes(contract.snippet)) {
+      sourceFailures.push(
+        `${clientServicesPath}: missing ${contract.label}; expected source snippet "${contract.snippet}".`,
+      );
+    }
+  }
+
+  if (/className="predicta-navigation-receipt(?! is-active)"/u.test(clientServicesSource)) {
+    sourceFailures.push(
+      `${clientServicesPath}: navigation receipt must not stay mounted as an inactive status region.`,
+    );
+  }
+
   return sourceFailures;
 }
 

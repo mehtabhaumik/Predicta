@@ -51,6 +51,8 @@ export type AppShellLabels = {
     close: string;
     openMenu: string;
     closeMenu: string;
+    navigationOpeningBody: string;
+    navigationOpeningPrefix: string;
     selectedKundliPrompt: string;
   };
   groups: {

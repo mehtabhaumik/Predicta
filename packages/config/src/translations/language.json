@@ -106,6 +106,8 @@
         "askDockTitle": "Predicta understands this page.",
         "close": "Close",
         "closeMenu": "Close navigation menu",
+        "navigationOpeningBody": "Your tap worked. Predicta is carrying you there now.",
+        "navigationOpeningPrefix": "Opening",
         "openMenu": "Open navigation menu",
         "selectedKundliPrompt": "Use my selected Kundli and tell me the most important prediction or next best step right now. Start with the direct answer."
       },
@@ -205,6 +207,8 @@
         "askDockTitle": "प्रेडिक्टा इस पेज को समझती है.",
         "close": "बंद करें",
         "closeMenu": "नेविगेशन मेनू बंद करें",
+        "navigationOpeningBody": "आपका टैप काम कर गया. प्रेडिक्टा आपको वहीं ले जा रही है.",
+        "navigationOpeningPrefix": "खुल रहा है",
         "openMenu": "नेविगेशन मेनू खोलें",
         "selectedKundliPrompt": "मेरी चुनी हुई कुंडली देखकर अभी की सबसे महत्वपूर्ण भविष्यवाणी या अगला सही कदम बताएं. पहले सीधा उत्तर दें."
       },
@@ -304,6 +308,8 @@
         "askDockTitle": "પ્રેડિક્ટા આ પેજને સમજે છે.",
         "close": "બંધ કરો",
         "closeMenu": "નેવિગેશન મેનૂ બંધ કરો",
+        "navigationOpeningBody": "તમારો ટેપ કામ કરી ગયો. પ્રેડિક્ટા તમને ત્યાં લઈ જઈ રહી છે.",
+        "navigationOpeningPrefix": "ખુલી રહ્યું છે",
         "openMenu": "નેવિગેશન મેનૂ ખોલો",
         "selectedKundliPrompt": "મારી પસંદ કરેલી કુંડળી જોઈને અત્યારે સૌથી મહત્વપૂર્ણ આગાહી અથવા આગળનું યોગ્ય પગલું કહો. પહેલા સીધો જવાબ આપો."
       },
