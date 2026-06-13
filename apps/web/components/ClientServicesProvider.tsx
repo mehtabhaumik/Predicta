@@ -9,6 +9,18 @@ import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 
+const CORE_NAV_PREFETCH_HREFS = [
+  '/ask',
+  '/dashboard?view=library',
+  '/dashboard/vedic',
+  '/dashboard/kp',
+  '/dashboard/jaimini',
+  '/dashboard/numerology',
+  '/dashboard/signature',
+  '/dashboard/report',
+  '/pricing',
+] as const;
+
 const ClientAccountServicesProvider = dynamic(
   () =>
     import('./ClientAccountServicesProvider').then(module => ({
@@ -72,11 +84,16 @@ export function ClientServicesProvider(): React.JSX.Element {
       router.prefetch(href);
     }
 
-    const warmCoreRoutes = () => {
+    const warmAskRoute = () => {
       warmInternalHref('/ask');
     };
 
-    warmCoreRoutes();
+    const warmCoreRoutes = () => {
+      CORE_NAV_PREFETCH_HREFS.forEach(warmInternalHref);
+      prewarmPredictaRuntime();
+    };
+
+    warmAskRoute();
 
     const idleHandle =
       'requestIdleCallback' in window
