@@ -25,6 +25,7 @@ export function ClientServicesProvider(): React.JSX.Element {
   const [isNavigating, setIsNavigating] = useState(false);
   const [areAccountServicesReady, setAreAccountServicesReady] = useState(false);
   const navigationTimeoutRef = useRef<number | undefined>(undefined);
+  const warmedHrefsRef = useRef<Set<string>>(new Set());
   const { language } = useLightweightLanguagePreference();
 
   useEffect(() => {
@@ -55,9 +56,20 @@ export function ClientServicesProvider(): React.JSX.Element {
   }, [language, pathname]);
 
   useEffect(() => {
+    function warmInternalHref(href: string): void {
+      if (warmedHrefsRef.current.has(href)) {
+        return;
+      }
+
+      warmedHrefsRef.current.add(href);
+      router.prefetch(href);
+    }
+
     const warmCoreRoutes = () => {
-      router.prefetch('/ask');
+      warmInternalHref('/ask');
     };
+
+    warmCoreRoutes();
 
     const idleHandle =
       'requestIdleCallback' in window
@@ -117,6 +129,11 @@ export function ClientServicesProvider(): React.JSX.Element {
     }
 
     function warmInternalHref(href: string): void {
+      if (warmedHrefsRef.current.has(href)) {
+        return;
+      }
+
+      warmedHrefsRef.current.add(href);
       router.prefetch(href);
     }
 
@@ -178,12 +195,14 @@ export function ClientServicesProvider(): React.JSX.Element {
       }, 2400);
     }
 
+    document.addEventListener('pointerover', warmLink, { capture: true, passive: true });
     document.addEventListener('pointerdown', warmLink, { capture: true, passive: true });
     document.addEventListener('focusin', warmLink, { capture: true });
     document.addEventListener('touchstart', warmLink, { capture: true, passive: true });
     document.addEventListener('click', showNavigationFeedback, { capture: true });
 
     return () => {
+      document.removeEventListener('pointerover', warmLink, { capture: true });
       document.removeEventListener('pointerdown', warmLink, { capture: true });
       document.removeEventListener('focusin', warmLink, { capture: true });
       document.removeEventListener('touchstart', warmLink, { capture: true });
