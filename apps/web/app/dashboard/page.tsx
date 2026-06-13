@@ -34,18 +34,24 @@ export default function DashboardPage(): React.JSX.Element {
     'captured' | 'idle' | 'listening' | 'unsupported'
   >('idle');
   const hasSavedKundli = Boolean(activeKundli) || savedCount > 0;
+  const askSourceScreen = labels.nav.library;
   const askHref = buildPredictaChatHref({
     kundliId: activeKundli?.id,
     prompt: activeKundli
       ? copy.libraryAskActivePrompt
       : copy.libraryAskNewPrompt,
-    sourceScreen: 'My Kundlis',
+    sourceScreen: askSourceScreen,
   });
 
-  function prefetchDashboardAsk(href = askHref) {
+  function prefetchDashboardAsk(
+    href = askHref,
+    options: { prewarmRuntime?: boolean } = {},
+  ) {
     router.prefetch('/ask');
     router.prefetch(href);
-    prewarmPredictaRuntime();
+    if (options.prewarmRuntime ?? true) {
+      prewarmPredictaRuntime();
+    }
   }
 
   function buildDashboardQuestionHref(
@@ -62,7 +68,7 @@ export default function DashboardPage(): React.JSX.Element {
       kundliId: activeKundli?.id,
       inputMode: mode,
       prompt,
-      sourceScreen: 'My Kundlis',
+      sourceScreen: askSourceScreen,
     });
   }
 
@@ -101,7 +107,7 @@ export default function DashboardPage(): React.JSX.Element {
   });
 
   useEffect(() => {
-    prefetchDashboardAsk();
+    prefetchDashboardAsk(askHref, { prewarmRuntime: false });
     setIsFamilyFriendsVisit(
       new URLSearchParams(window.location.search).get('source') ===
         'family-friends',
@@ -149,7 +155,7 @@ export default function DashboardPage(): React.JSX.Element {
                 const href = buildPredictaChatHref({
                   kundliId: activeKundli?.id,
                   prompt: question.prompt,
-                  sourceScreen: 'My Kundlis',
+                  sourceScreen: askSourceScreen,
                 });
 
                 return (
