@@ -145,7 +145,7 @@ export default function DashboardPage(): React.JSX.Element {
               aria-label={copy.outcomeTitle}
               className="library-question-shortcuts"
             >
-              {copy.outcomeQuestions.slice(0, 4).map(question => {
+              {copy.outcomeQuestions.slice(0, 6).map(question => {
                 const href = buildPredictaChatHref({
                   kundliId: activeKundli?.id,
                   prompt: question.prompt,
@@ -210,41 +210,6 @@ export default function DashboardPage(): React.JSX.Element {
               {copy.libraryOpenSavedWork}
             </Link>
           )}
-        </div>
-      </section>
-
-      <section className="library-outcome-panel glass-panel">
-        <div className="library-outcome-head">
-          <div>
-            <div className="section-title">{copy.outcomeEyebrow}</div>
-            <h2>{copy.outcomeTitle}</h2>
-            <p className="library-outcome-drawer-body">{copy.outcomeDrawerBody}</p>
-          </div>
-        </div>
-        <div className="library-outcome-grid">
-          {copy.outcomeQuestions.map(question => {
-            const href = buildPredictaChatHref({
-              kundliId: activeKundli?.id,
-              prompt: question.prompt,
-              sourceScreen: 'My Kundlis',
-            });
-
-            return (
-              <Link
-                aria-label={`${question.title}: ${question.body}`}
-                className="library-outcome-card"
-                href={href}
-                key={question.title}
-                onFocus={() => prefetchDashboardAsk(href)}
-                onPointerEnter={() => prefetchDashboardAsk(href)}
-                onTouchStart={() => prefetchDashboardAsk(href)}
-              >
-                <strong>{question.title}</strong>
-                {' '}
-                <span>{question.body}</span>
-              </Link>
-            );
-          })}
         </div>
       </section>
 
