@@ -264,7 +264,23 @@ function getTopbarPredictaSourceScreen(
     return 'Signature Predicta';
   }
 
-  return 'My Kundlis';
+  if (activeSection.id === 'library') {
+    return 'Predicta Dashboard';
+  }
+
+  if (activeSection.id === 'reports') {
+    return 'Report Composer';
+  }
+
+  if (activeSection.id === 'account') {
+    return 'Account and Access';
+  }
+
+  if (activeSection.id === 'predicta') {
+    return 'Ask Predicta';
+  }
+
+  return activeSection.label || 'Predicta Dashboard';
 }
 
 export function DashboardShell({
