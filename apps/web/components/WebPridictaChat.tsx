@@ -5736,8 +5736,8 @@ function sanitizeChatCopy(text: string): string {
     'g',
   );
   return text
-    .replace(/Dashboard Header context loaded hai\./g, 'I picked this up from your dashboard.')
-    .replace(/Dashboard Header context loaded\./g, 'I picked this up from your dashboard.')
+    .replace(/Dashboard Header context loaded hai\./g, 'I picked this up from My Astrology.')
+    .replace(/Dashboard Header context loaded\./g, 'I picked this up from My Astrology.')
     .replace(/Focus: Help me from my active Kundli\./g, 'We are looking at: Help me from my selected Kundli.')
     .replace(oldHindiContextLine, getNativeCopy("native.apps.web.components.WebPridictaChat.tsx.616b4154a4"))
     .replace(/I will answer from this context and your active Kundli\. Press Ask or type your follow-up\./g, 'I will use your selected Kundli here. Press Ask or type your follow-up.')

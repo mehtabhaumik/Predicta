@@ -299,7 +299,7 @@ export function WebDashboardAstrologyCockpit({
                 prompt: `Explain why my current Gochar feels ${gochar.dominantWeight}. Focus on ${activeRadarItem?.label ?? 'the strongest transit axis'} and give me practical next steps.`,
                 school: 'PARASHARI',
                 selectedSection: 'Current Gochar radar',
-                sourceScreen: 'Dashboard Gochar Radar',
+                sourceScreen: 'My Astrology Gochar Radar',
               })}
             >
               {t('Ask why this feels challenging')}
@@ -349,7 +349,7 @@ export function WebDashboardAstrologyCockpit({
                 'Read my numerology profile with name number, birth number, destiny number, and current personal timing.',
               school: 'NUMEROLOGY',
               selectedSection: 'Numerology rhythm',
-              sourceScreen: 'Dashboard Numerology',
+              sourceScreen: 'My Astrology Numerology',
             })}
           >
             {t('Ask Numerology Predicta')}
@@ -392,7 +392,7 @@ export function WebDashboardAstrologyCockpit({
                     kundli,
                     prompt: personalPanchang.askPrompt,
                     selectedSection: 'Personal Panchang',
-                    sourceScreen: 'Dashboard Personal Panchang',
+                    sourceScreen: 'My Astrology Personal Panchang',
                   })
                 : '/dashboard/kundli'
             }
@@ -420,7 +420,7 @@ export function WebDashboardAstrologyCockpit({
                       kundli,
                       prompt: `Explain my ${axis.label} Purushartha balance with chart proof, timing, karmic pattern, and one practical step.`,
                       selectedSection: `${axis.label} Purushartha`,
-                      sourceScreen: 'Dashboard Purushartha',
+                      sourceScreen: 'My Astrology Purushartha',
                     })
                   : '/dashboard/kundli'
               }
@@ -454,7 +454,7 @@ export function WebDashboardAstrologyCockpit({
                       kundli,
                       prompt: card.prompt,
                       selectedSection: card.label,
-                      sourceScreen: 'Dashboard Chart Focus',
+                      sourceScreen: 'My Astrology Chart Focus',
                     })
                   : '/dashboard/kundli'
               }
@@ -482,7 +482,7 @@ export function WebDashboardAstrologyCockpit({
           href={buildPredictaChatHref({
             kundli,
             prompt: 'Read my selected Kundli and suggest the best next focus.',
-            sourceScreen: 'Dashboard',
+            sourceScreen: 'My Astrology',
           })}
         >
           Ask Predicta
