@@ -9,7 +9,6 @@ import { useLightweightLanguagePreference } from '../lib/use-lightweight-languag
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 import {
   loadPredictaRuntime,
-  preloadPredictaRuntime,
 } from './AskPredictaRuntimeBridge';
 
 const CONTEXT_PARAMS = [
@@ -68,27 +67,8 @@ export function AskPredictaLightShell(): React.JSX.Element {
 
     if (hasIncomingContext) {
       setChatStarted(true);
-      preloadPredictaRuntime();
     }
   }, [hasIncomingContext, incomingPrompt]);
-
-  useEffect(() => {
-    if (hasIncomingContext) {
-      return undefined;
-    }
-
-    if ('requestIdleCallback' in window) {
-      const idleId = window.requestIdleCallback(preloadPredictaRuntime, {
-        timeout: 1800,
-      });
-
-      return () => window.cancelIdleCallback(idleId);
-    }
-
-    const timerId = globalThis.setTimeout(preloadPredictaRuntime, 900);
-
-    return () => globalThis.clearTimeout(timerId);
-  }, [hasIncomingContext]);
 
   useEffect(() => {
     if (!chatStarted) {
@@ -124,7 +104,6 @@ export function AskPredictaLightShell(): React.JSX.Element {
     const resolvedPrompt = prompt.trim() || landing.defaultAskPrompt;
     const nextUrl = buildAskHref(resolvedPrompt, mode);
 
-    preloadPredictaRuntime();
     setVoiceNotice(mode === 'voice');
     setQuestion(resolvedPrompt);
     setChatStarted(true);
@@ -134,7 +113,6 @@ export function AskPredictaLightShell(): React.JSX.Element {
   }
 
   function startVoiceCapture(): void {
-    preloadPredictaRuntime();
     setVoiceNotice(true);
 
     const started = speechInput.startListening();
@@ -169,9 +147,6 @@ export function AskPredictaLightShell(): React.JSX.Element {
       <form
         ref={formRef}
         className="ask-light-console glass-panel"
-        onFocus={preloadPredictaRuntime}
-        onPointerEnter={preloadPredictaRuntime}
-        onTouchStart={preloadPredictaRuntime}
         onSubmit={event => {
           event.preventDefault();
           startChat(question);
@@ -207,9 +182,6 @@ export function AskPredictaLightShell(): React.JSX.Element {
             <Link
               href={buildAskHref(item)}
               key={item}
-              onFocus={preloadPredictaRuntime}
-              onPointerEnter={preloadPredictaRuntime}
-              onTouchStart={preloadPredictaRuntime}
             >
               {item}
             </Link>
