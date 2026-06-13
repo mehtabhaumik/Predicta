@@ -140,6 +140,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
     setVoiceNotice(mode === 'voice');
     setQuestion(resolvedPrompt);
     setChatStarted(true);
+    window.history.replaceState(null, '', nextUrl);
     router.replace(nextUrl, {
       scroll: false,
     });

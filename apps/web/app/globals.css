@@ -1883,6 +1883,13 @@ button:disabled,
   flex: 1 1 180px;
 }
 
+@media (min-width: 769px) {
+  .landing-ask-actions .button + .button,
+  .landing-world-actions .button + .button {
+    margin-left: 12px;
+  }
+}
+
 .ask-voice-button.is-listening {
   border-color: rgba(83, 224, 210, 0.42);
   box-shadow:

@@ -99,7 +99,12 @@ try {
 
   await runScenario('new-visitor-asks-question', mobileViewport, async cdp => {
     await navigateAndWait(cdp, `${baseUrl}/ask`);
-    await click(cdp, '.ask-light-chips a[href^="/ask?"]');
+    await setTextareaValue(
+      cdp,
+      '.ask-light-field textarea',
+      'Will my job improve in the next few months?',
+    );
+    await click(cdp, '.ask-light-actions button[type="submit"]');
     await waitForCondition(cdp, `Boolean(document.querySelector('.auth-required-panel, .chat-workspace, .chat-panel, .predicta-chat-loading'))`, 6_000);
     const audit = await evaluate(cdp, `(() => ({
       chatStarted: Boolean(document.querySelector('.ask-light-shell-started')),

@@ -1799,9 +1799,9 @@ export function WebPridictaChat({
   if (!chatAuthReady) {
     return (
       <section className="glass-panel auth-required-panel" aria-live="polite">
-        <div className="section-title">ACCOUNT CHECK</div>
-        <h2>Checking your Predicta account...</h2>
-        <p>Predicta is confirming sign-in before opening private chat.</p>
+        <div className="section-title">{t('ACCOUNT CHECK')}</div>
+        <h2>{t('Checking your Predicta account...')}</h2>
+        <p>{t('Predicta is confirming sign-in before opening private chat.')}</p>
       </section>
     );
   }
@@ -1820,11 +1820,12 @@ export function WebPridictaChat({
 
     return (
       <section className="glass-panel auth-required-panel">
-        <div className="section-title">ACCOUNT REQUIRED</div>
-        <h2>Sign in before chatting with Predicta.</h2>
+        <div className="section-title">{t('ACCOUNT REQUIRED')}</div>
+        <h2>{t('Sign in before chatting with Predicta.')}</h2>
         <p>
-          AI chat, saved Kundlis, reports, and Family Vault now stay attached to
-          your private account.
+          {t(
+            'AI chat, saved Kundlis, reports, and Family Vault now stay attached to your private account.',
+          )}
         </p>
         {preAuthQuestion ? (
           <div className="auth-preserved-question">
@@ -1932,7 +1933,7 @@ export function WebPridictaChat({
           </small>
           {kundli?.birthDetails.timeConfidence === 'rectified' ? (
             <small className="chat-rectified-time-label">
-              Rectified time: {kundli.birthDetails.time}
+              {t('Rectified time')}: {kundli.birthDetails.time}
             </small>
           ) : null}
         </div>
@@ -1941,7 +1942,7 @@ export function WebPridictaChat({
           compact
           kundli={kundli}
           sourceScreen="Chat"
-          title="Using Kundli"
+          title={t('Using Kundli')}
         />
         {!kundli && room ? (
           <WebChatRoomRecoveryCard language={language} room={room} />
@@ -1960,7 +1961,7 @@ export function WebPridictaChat({
               }`}
               key={message.id}
             >
-              <span>{message.role === 'user' ? 'You' : 'Predicta'}</span>
+              <span>{message.role === 'user' ? t('You') : 'Predicta'}</span>
               {message.role === 'pridicta' ? (
                 <>
                   <WebChatReplyText text={message.text} />
@@ -2043,7 +2044,7 @@ export function WebPridictaChat({
         </div>
         <div className="chat-input-row">
           <textarea
-            aria-label="Ask Predicta"
+            aria-label={t('Ask Predicta')}
             disabled={isSending}
             onChange={event => setInput(event.target.value)}
             onKeyDown={event => {
@@ -4512,11 +4513,11 @@ function getFriendlySourceName(source?: string): string {
     .trim();
 
   if (!normalized || normalized === 'Dashboard') {
-    return 'My Kundlis';
+    return 'Kundli Home';
   }
 
   if (/dashboard/i.test(normalized)) {
-    return 'My Kundlis';
+    return 'Kundli Home';
   }
 
   return normalized;
