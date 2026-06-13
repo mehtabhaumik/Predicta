@@ -104,7 +104,7 @@
         "close": "Close",
         "closeMenu": "Close navigation menu",
         "openMenu": "Open navigation menu",
-        "selectedKundliPrompt": "Help me from my selected Kundli."
+        "selectedKundliPrompt": "Use my selected Kundli and tell me the most important prediction or next best step right now. Start with the direct answer."
       },
       "groups": {
         "account": "Account",
@@ -200,7 +200,7 @@
         "close": "बंद करें",
         "closeMenu": "नेविगेशन मेनू बंद करें",
         "openMenu": "नेविगेशन मेनू खोलें",
-        "selectedKundliPrompt": "मेरी चुनी हुई कुंडली से मेरी मदद करें."
+        "selectedKundliPrompt": "मेरी चुनी हुई कुंडली देखकर अभी की सबसे महत्वपूर्ण भविष्यवाणी या अगला सही कदम बताएं. पहले सीधा उत्तर दें."
       },
       "groups": {
         "account": "खाता",
@@ -296,7 +296,7 @@
         "close": "બંધ કરો",
         "closeMenu": "નેવિગેશન મેનૂ બંધ કરો",
         "openMenu": "નેવિગેશન મેનૂ ખોલો",
-        "selectedKundliPrompt": "મારી પસંદ કરેલી કુંડળીથી મારી મદદ કરો."
+        "selectedKundliPrompt": "મારી પસંદ કરેલી કુંડળી જોઈને અત્યારે સૌથી મહત્વપૂર્ણ આગાહી અથવા આગળનું યોગ્ય પગલું કહો. પહેલા સીધો જવાબ આપો."
       },
       "groups": {
         "account": "ખાતું",
