@@ -1,7 +1,6 @@
 'use client';
 
-import { getNativeCopy } from '@pridicta/config';
-import { translateUiText } from '@pridicta/config/uiTranslations';
+import { getAppShellLabels, getNativeCopy } from '@pridicta/config';
 import Link from 'next/link';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
@@ -196,6 +195,7 @@ export function WebFooter({
   variant?: 'dashboard' | 'public';
 }): React.JSX.Element {
   const { language } = useLanguagePreference();
+  const shellLabels = getAppShellLabels(language);
   const copy = footerCopy[language] ?? footerCopy.en;
   const sections = copy.sections;
 
@@ -204,13 +204,13 @@ export function WebFooter({
       <footer className={`web-footer web-footer-compact ${className}`.trim()}>
         <div className="web-footer-compact-row">
           <div className="web-footer-compact-brand">
-            <Link aria-label="Predicta home" className="web-footer-logo" href="/">
+            <Link aria-label={shellLabels.nav.home} className="web-footer-logo" href="/">
               PREDICTA
             </Link>
             <span>{copy.compactLead}</span>
           </div>
           <nav
-            aria-label={translateUiText('My Astrology footer navigation', language)}
+            aria-label={shellLabels.groups.sections}
             className="web-footer-compact-links"
           >
             {copy.compactLinks.map(link => (
@@ -232,7 +232,7 @@ export function WebFooter({
     <footer className={`web-footer ${className}`.trim()}>
       <div className="web-footer-inner">
         <div className="web-footer-brand">
-          <Link aria-label="Predicta home" className="web-footer-logo" href="/">
+          <Link aria-label={shellLabels.nav.home} className="web-footer-logo" href="/">
             PREDICTA
           </Link>
           <p className="web-footer-tagline">
@@ -243,7 +243,7 @@ export function WebFooter({
           </p>
         </div>
 
-        <nav aria-label="Footer navigation" className="web-footer-grid">
+        <nav aria-label={shellLabels.groups.sections} className="web-footer-grid">
           {sections.map(section => (
             <div className="web-footer-column" key={section.heading}>
               <h2>{section.heading}</h2>

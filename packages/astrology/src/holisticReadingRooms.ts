@@ -132,7 +132,7 @@ export function composeHolisticReadingRooms(
     guardrails: [
       'Rooms combine chart proof, timing, karma pattern, remedy, practical action, and safety boundaries.',
       'No room gives guaranteed outcomes or replaces qualified professional help.',
-      'KP and Nadi remain separate schools; these rooms are Parashari holistic rooms.',
+      'KP and Jaimini remain separate schools; these rooms are Parashari holistic rooms.',
     ],
     rooms,
     status: 'ready',

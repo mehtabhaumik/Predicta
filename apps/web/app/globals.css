@@ -1430,6 +1430,55 @@ button:disabled,
   padding-inline: 12px;
 }
 
+@media (min-width: 1381px) and (max-width: 1520px) {
+  .web-header {
+    column-gap: clamp(22px, 2.2vw, 36px);
+    grid-template-columns: minmax(260px, 0.82fr) minmax(0, 1fr) auto;
+  }
+
+  .brand-lockup,
+  .dashboard-brand {
+    min-width: 0;
+  }
+
+  .brand-lockup {
+    max-width: 300px;
+  }
+
+  .brand-lockup span {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .brand-lockup strong,
+  .brand-lockup small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .header-nav {
+    gap: clamp(12px, 1.2vw, 20px);
+    justify-content: center;
+    overflow-x: auto;
+    padding-left: clamp(22px, 2.4vw, 36px);
+    scrollbar-width: none;
+  }
+
+  .header-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .header-nav a,
+  .header-nav span {
+    padding-inline: 10px;
+  }
+
+  .header-actions {
+    gap: 10px;
+  }
+}
+
 .mobile-menu {
   display: none;
   isolation: isolate;
