@@ -2,6 +2,7 @@
 
 import {
   formatNativeCopy,
+  formatPredictaWebChatCopy,
   getMonetizationReportRequirementCopy,
   getNativeCopy,
   getPredictaWebChatCopy,
@@ -2348,14 +2349,13 @@ function buildKundliEditConfirmReply(
   command: Extract<KundliChatCommand, { kind: 'edit-field' }>,
   nextBirthDetails: BirthDetails,
 ): string {
-  const changeLine = formatKundliChange(command.field, nextBirthDetails);
-  if (language === 'hi') {
-    return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.9d29c9a076", [kundli.birthDetails.name, changeLine]);
-  }
-  if (language === 'gu') {
-    return `Hu ${kundli.birthDetails.name} ni Kundli ma aa change kari shaku chhu:\n${changeLine}\n\nDate, time, ke place badlase to chart fari calculate thashe. Reply karo: "update existing", "save as new", ke "cancel".`;
-  }
-  return `I can make this change to ${kundli.birthDetails.name}'s Kundli:\n${changeLine}\n\nChanging date, time, or place recalculates the chart. Reply "update existing", "save as new", or "cancel".`;
+  const copy = getPredictaWebChatCopy(language).kundliManagement;
+  const changeLine = formatKundliChange(language, command.field, nextBirthDetails);
+
+  return formatPredictaWebChatCopy(copy.editConfirm, {
+    changeLine,
+    name: kundli.birthDetails.name,
+  });
 }
 
 function buildKundliDeleteConfirmReminder(language: SupportedLanguage): string {
@@ -2387,22 +2387,28 @@ function buildKundliDeletedReply(
   deletedName: string,
   nextActive?: KundliData,
 ): string {
+  const copy = getPredictaWebChatCopy(language).kundliManagement;
+
   if (language === 'hi') {
     const nextLine = nextActive
-      ? ` Active Kundli ab ${nextActive.birthDetails.name} hai.`
+      ? formatPredictaWebChatCopy(copy.activeKundliSuffix, {
+          name: nextActive.birthDetails.name,
+        })
       : '';
-    return `${deletedName} ki Kundli Meri Kundliyon se delete ho gayi.${nextLine}`;
-  }
-  if (language === 'gu') {
-    const nextLine = nextActive
-      ? formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.84cda36140", [nextActive.birthDetails.name])
-      : '';
-    return formatNativeCopy("native.apps.web.components.WebPridictaChat.tsx.603784e73c", [deletedName, nextLine]);
+    return formatPredictaWebChatCopy(copy.deleted, {
+      name: deletedName,
+      nextLine,
+    });
   }
   const nextLine = nextActive
-    ? ` Active Kundli: ${nextActive.birthDetails.name}.`
+    ? formatPredictaWebChatCopy(copy.activeKundliSuffix, {
+        name: nextActive.birthDetails.name,
+      })
     : '';
-  return `${deletedName}'s Kundli has been deleted from My Kundlis.${nextLine}`;
+  return formatPredictaWebChatCopy(copy.deleted, {
+    name: deletedName,
+    nextLine,
+  });
 }
 
 function buildKundliEditedReply(
@@ -2411,45 +2417,51 @@ function buildKundliEditedReply(
   field: KundliEditField | undefined,
   decision: 'save-as-new' | 'update-existing',
 ): string {
+  const copy = getPredictaWebChatCopy(language).kundliManagement;
   const action =
-    decision === 'update-existing' ? 'updated' : 'saved as a new Kundli';
+    decision === 'update-existing'
+      ? copy.updatedAction
+      : copy.savedAsNewAction;
 
-  if (language === 'hi') {
-    return `${kundli.birthDetails.name} ki Kundli ${action}. ${fieldLabel(field)} change apply ho gaya.`;
-  }
-  if (language === 'gu') {
-    return `${kundli.birthDetails.name} ni Kundli ${action}. ${fieldLabel(field)} change apply thai gayo.`;
-  }
-  return `${kundli.birthDetails.name}'s Kundli has been ${action}. The ${fieldLabel(field)} change is active.`;
+  return formatPredictaWebChatCopy(copy.updated, {
+    action,
+    field: fieldLabel(language, field),
+    name: kundli.birthDetails.name,
+  });
 }
 
 function formatKundliChange(
+  language: SupportedLanguage,
   field: KundliEditField,
   birthDetails: BirthDetails,
 ): string {
+  const labels = getPredictaWebChatCopy(language).kundliManagement.fieldLabels;
+
   if (field === 'time') {
-    return `Birth time: ${birthDetails.time}`;
+    return `${labels.time}: ${birthDetails.time}`;
   }
   if (field === 'date') {
-    return `Date of birth: ${birthDetails.date}`;
+    return `${labels.date}: ${birthDetails.date}`;
   }
   if (field === 'place') {
-    return `Birth place: ${birthDetails.place}`;
+    return `${labels.place}: ${birthDetails.place}`;
   }
-  return `Name: ${birthDetails.name}`;
+  return `${labels.name}: ${birthDetails.name}`;
 }
 
-function fieldLabel(field?: KundliEditField): string {
+function fieldLabel(language: SupportedLanguage, field?: KundliEditField): string {
+  const labels = getPredictaWebChatCopy(language).kundliManagement.fieldLabels;
+
   if (field === 'time') {
-    return 'birth time';
+    return labels.time;
   }
   if (field === 'date') {
-    return 'date of birth';
+    return labels.date;
   }
   if (field === 'place') {
-    return 'birth place';
+    return labels.place;
   }
-  return 'name';
+  return labels.name;
 }
 
 async function copyChatMessage(
@@ -3090,35 +3102,15 @@ function getStarRatingCopy(language: SupportedLanguage): {
   thanks: string;
   title: string;
 } {
-  if (language === 'hi') {
-    return {
-      body: 'Ek quick rating se mujhe samajh aayega ki reply useful tha ya nahi. Typing ki zaroorat nahi.',
-      groupLabel: 'Predicta reply rating',
-      later: 'Baad mein',
-      ratingLabel: rating => `${rating} star rating dein`,
-      thanks: 'Thank you. Is session ke liye rating save ho gayi.',
-      title: 'Yeh answer kaisa laga?',
-    };
-  }
-
-  if (language === 'gu') {
-    return {
-      body: 'Ek quick rating thi mane samajh padse ke reply useful hato ke nahi. Typing ni jaroor nathi.',
-      groupLabel: 'Predicta reply rating',
-      later: 'Pachhi',
-      ratingLabel: rating => `${rating} star rating aapo`,
-      thanks: 'Thank you. Aa session mate rating save thai gayi.',
-      title: 'Aa answer kevo lagyo?',
-    };
-  }
-
+  const copy = getPredictaWebChatCopy(language).feedback;
   return {
-    body: 'One quick rating helps Predicta improve. No extra typing needed.',
-    groupLabel: 'Predicta reply rating',
-    later: 'Later',
-    ratingLabel: rating => `Rate ${rating} stars`,
-    thanks: 'Thank you. I saved this rating for this session.',
-    title: 'How was this answer?',
+    body: copy.ratingBody,
+    groupLabel: copy.ratingGroupLabel,
+    later: copy.ratingLater,
+    ratingLabel: rating =>
+      formatPredictaWebChatCopy(copy.ratingLabel, { rating }),
+    thanks: copy.ratingThanks,
+    title: copy.ratingTitle,
   };
 }
 
@@ -3188,32 +3180,13 @@ function getReplyFeedbackCopy(language: SupportedLanguage): {
   helpfulLabel: string;
   notHelpfulLabel: string;
 } {
-  if (language === 'hi') {
-    return {
-      copiedLabel: 'Copy ho gaya',
-      copyLabel: 'Predicta reply copy karein',
-      groupLabel: 'Predicta reply ke actions',
-      helpfulLabel: 'Yeh reply helpful tha',
-      notHelpfulLabel: 'Yeh reply helpful nahi tha',
-    };
-  }
-
-  if (language === 'gu') {
-    return {
-      copiedLabel: 'Copy thai gayu',
-      copyLabel: 'Predicta reply copy karo',
-      groupLabel: 'Predicta reply actions',
-      helpfulLabel: 'Aa reply helpful hato',
-      notHelpfulLabel: 'Aa reply helpful n hato',
-    };
-  }
-
+  const copy = getPredictaWebChatCopy(language).feedback;
   return {
-    copiedLabel: 'Copied',
-    copyLabel: 'Copy Predicta reply',
-    groupLabel: 'Predicta reply actions',
-    helpfulLabel: 'Mark reply helpful',
-    notHelpfulLabel: 'Mark reply not helpful',
+    copiedLabel: copy.copiedLabel,
+    copyLabel: copy.copyLabel,
+    groupLabel: copy.groupLabel,
+    helpfulLabel: copy.helpfulLabel,
+    notHelpfulLabel: copy.notHelpfulLabel,
   };
 }
 

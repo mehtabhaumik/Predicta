@@ -468,6 +468,43 @@ export function WebKundliWizard(): React.JSX.Element {
   }, [isBirthPlaceSearchSettled, normalizedBirthPlaceQuery]);
 
   useEffect(() => {
+    if (!isBirthPlaceInputFocused) {
+      return undefined;
+    }
+
+    const reconcileNativeBirthPlaceValue = () => {
+      const nativeValue = birthPlaceInputRef.current?.value ?? '';
+      const normalizedNativeValue = normalizeBirthPlaceLabel(nativeValue);
+
+      if (!normalizedNativeValue) {
+        return;
+      }
+
+      if (normalizedNativeValue !== normalizeBirthPlaceLabel(birthPlaceQuery)) {
+        handleBirthPlaceQueryInput(nativeValue);
+        return;
+      }
+
+      if (!isResolvedBirthPlaceQuery(nativeValue)) {
+        settleBirthPlaceQueryIfPossible(nativeValue);
+      }
+    };
+
+    const intervalId = window.setInterval(reconcileNativeBirthPlaceValue, 120);
+    reconcileNativeBirthPlaceValue();
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [
+    acceptedBirthPlaceQuery,
+    birthPlaceQuery,
+    isBirthPlaceInputFocused,
+    selectedPlace,
+    settledBirthPlaceQuery,
+  ]);
+
+  useEffect(() => {
     if (!isSearchingPlaces) {
       return;
     }
