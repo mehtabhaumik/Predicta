@@ -127,6 +127,9 @@ export function WebKundliWizard(): React.JSX.Element {
     editingRecord?.isOwnerProfile ?? (!editingKundliId && savedKundliRecords.length === 0);
   const shouldShowRelationshipSelector = !isOwnerProfile;
   const selectedPlaceLabel = selectedPlace ? getBirthPlaceLabel(selectedPlace) : '';
+  const selectedBirthPlaceKey = selectedPlace
+    ? getWebBirthPlaceIdentityKey(selectedPlace)
+    : '';
   const normalizedBirthPlaceQuery = normalizeBirthPlaceLabel(birthPlaceQuery);
   const localBirthPlaceMatches = useMemo(
     () =>
@@ -307,9 +310,20 @@ export function WebKundliWizard(): React.JSX.Element {
       return;
     }
 
-    setPlaceSuggestions(nextSuggestions);
+    const unresolvedSuggestions = nextSuggestions.filter(option => {
+      if (
+        selectedBirthPlaceKey &&
+        getWebBirthPlaceIdentityKey(option) === selectedBirthPlaceKey
+      ) {
+        return false;
+      }
+
+      return !isResolvedBirthPlaceQuery(getBirthPlaceLabel(option));
+    });
+
+    setPlaceSuggestions(unresolvedSuggestions);
     setIsSearchingPlaces(false);
-    setIsPlaceSuggestionsOpen(nextSuggestions.length > 0);
+    setIsPlaceSuggestionsOpen(unresolvedSuggestions.length > 0);
   }
 
   function closeBirthPlaceSuggestions() {
@@ -747,7 +761,6 @@ export function WebKundliWizard(): React.JSX.Element {
         const fallbackMatches = searchLocalWebBirthPlaces(query).slice(0, 6);
         setBirthPlaceSuggestionResults(fallbackMatches, query);
         setIsSearchingPlaces(false);
-        setIsPlaceSuggestionsOpen(fallbackMatches.length > 0);
       }, 4000);
 
       void searchWebBirthPlaces(query).then(places => {
@@ -771,7 +784,6 @@ export function WebKundliWizard(): React.JSX.Element {
         const fallbackMatches = searchLocalWebBirthPlaces(query).slice(0, 6);
         setBirthPlaceSuggestionResults(fallbackMatches, query);
         setIsSearchingPlaces(false);
-        setIsPlaceSuggestionsOpen(fallbackMatches.length > 0);
       }).finally(() => {
         if (remoteSearchTimeout) {
           window.clearTimeout(remoteSearchTimeout);
@@ -1053,7 +1065,18 @@ export function WebKundliWizard(): React.JSX.Element {
     : (localBirthPlaceMatches.length > 0
         ? localBirthPlaceMatches
         : placeSuggestions
-      ).slice(0, 6);
+      )
+        .filter(option => {
+          if (
+            selectedBirthPlaceKey &&
+            getWebBirthPlaceIdentityKey(option) === selectedBirthPlaceKey
+          ) {
+            return false;
+          }
+
+          return !isResolvedBirthPlaceQuery(getBirthPlaceLabel(option));
+        })
+        .slice(0, 6);
   const hasVisibleBirthPlaceSuggestions = visibleBirthPlaceSuggestions.length > 0;
   const shouldShowBirthPlaceSuggestions =
     canShowBirthPlaceOverlay &&
@@ -2021,6 +2044,15 @@ function birthDetailsToWebPlace(birthDetails: BirthDetails): WebBirthPlace {
     state: resolved?.state,
     timezone: birthDetails.timezone,
   };
+}
+
+function getWebBirthPlaceIdentityKey(place: WebBirthPlace): string {
+  return [
+    normalizeBirthPlaceLabel(place.place),
+    normalizeBirthPlaceLabel(place.label),
+    String(place.latitude),
+    String(place.longitude),
+  ].join('|');
 }
 
 function isExactBirthPlaceSelection(
