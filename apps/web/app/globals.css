@@ -707,6 +707,10 @@ summary.predicta-feedback-target {
   width: 58%;
 }
 
+.predicta-route-progress:not(.is-active) span {
+  display: none;
+}
+
 .predicta-route-progress.is-active {
   opacity: 1;
   transform: translateY(0);
@@ -714,6 +718,7 @@ summary.predicta-feedback-target {
 
 .predicta-route-progress.is-active span {
   animation: predictaRouteProgressSweep 950ms ease-in-out infinite;
+  display: block;
 }
 
 .gradient-text {

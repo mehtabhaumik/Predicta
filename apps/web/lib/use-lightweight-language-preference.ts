@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import {
   LIGHTWEIGHT_LANGUAGE_STORAGE_KEY,
   normalizeLightweightLanguage,
-} from './lightweight-public-copy';
+} from './lightweight-language-core';
 
 const LANGUAGE_CHANGE_EVENT = 'pridicta-language-change';
 
