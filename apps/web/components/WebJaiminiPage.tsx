@@ -1,6 +1,5 @@
 import { WebEvidenceRoomEntry } from './WebEvidenceRoomEntry';
 import { WebEvidenceRoomDeferredSection } from './WebEvidenceRoomDeferredSection';
-import { WebJaiminiPredictaLoader } from './WebJaiminiPredictaLoader';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
 export function WebJaiminiPage(): React.JSX.Element {
@@ -16,9 +15,7 @@ export function WebJaiminiPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <WebEvidenceRoomEntry askHref={askHref} room="jaimini" />
-      <WebEvidenceRoomDeferredSection room="jaimini">
-        <WebJaiminiPredictaLoader />
-      </WebEvidenceRoomDeferredSection>
+      <WebEvidenceRoomDeferredSection room="jaimini" />
     </section>
   );
 }

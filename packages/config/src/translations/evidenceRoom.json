@@ -1,0 +1,161 @@
+{
+  "generic": {
+    "badge": {
+      "en": "Specialist reading",
+      "hi": "विशेषज्ञ रीडिंग",
+      "gu": "વિશેષજ્ઞ રીડિંગ"
+    },
+    "detailsBelow": {
+      "en": "Proof is available here, but the answer stays first.",
+      "hi": "प्रमाण यहाँ उपलब्ध है, लेकिन उत्तर पहले रहता है।",
+      "gu": "પુરાવો અહીં ઉપલબ્ધ છે, પરંતુ જવાબ પહેલો રહે છે."
+    },
+    "openDetailedRoom": {
+      "en": "Open charts and proof",
+      "hi": "चार्ट और प्रमाण खोलें",
+      "gu": "ચાર્ટ અને પુરાવો ખોલો"
+    },
+    "openDetailedRoomHint": {
+      "en": "For deeper evidence, report options, and specialist tools.",
+      "hi": "गहरे प्रमाण, रिपोर्ट विकल्प और विशेषज्ञ टूल्स के लिए।",
+      "gu": "ઊંડા પુરાવા, રિપોર્ટ વિકલ્પો અને વિશેષજ્ઞ સાધનો માટે."
+    },
+    "openEvidence": {
+      "en": "Why Predicta says this",
+      "hi": "प्रेडिक्टा ऐसा क्यों कहती है",
+      "gu": "પ્રેડિક્ટા આવું કેમ કહે છે"
+    }
+  },
+  "jaimini": {
+    "action": {
+      "en": "Ask about my destiny direction.",
+      "hi": "मेरी नियति दिशा के बारे में पूछें।",
+      "gu": "મારી નિયતિ દિશા વિશે પૂછો."
+    },
+    "body": {
+      "en": "Predicta turns karakas and destiny markers into the life chapter you are actually living now.",
+      "hi": "प्रेडिक्टा कारक और नियति संकेतों को आपके वर्तमान जीवन अध्याय में बदलती है।",
+      "gu": "પ્રેડિક્ટા કારક અને નિયતિ સંકેતોને તમે હાલ જીવી રહ્યા છો તે જીવન અધ્યાયમાં બદલે છે."
+    },
+    "evidence": {
+      "en": "Atmakaraka, Amatyakaraka, Arudha, Karakamsha, rashi drishti, and Jaimini timing stay as proof.",
+      "hi": "आत्मकारक, अमात्यकारक, आरूढ़, करकाम्श, राशि दृष्टि और जैमिनी टाइमिंग प्रमाण के रूप में रहते हैं।",
+      "gu": "આત્મકારક, અમાત્યકારક, આરુઢ, કરકામ્ષ, રાશિ દૃષ્ટિ અને જૈમિની ટાઈમિંગ પુરાવા તરીકે રહે છે."
+    },
+    "title": {
+      "en": "Your destiny direction.",
+      "hi": "आपकी नियति दिशा।",
+      "gu": "તમારી નિયતિ દિશા."
+    }
+  },
+  "kp": {
+    "action": {
+      "en": "Ask my KP event question.",
+      "hi": "मेरा KP घटना प्रश्न पूछें।",
+      "gu": "મારો KP ઘટના પ્રશ્ન પૂછો."
+    },
+    "body": {
+      "en": "Predicta sharpens vague questions, gives the answer first, then keeps KP proof behind it.",
+      "hi": "प्रेडिक्टा अस्पष्ट प्रश्न को साफ करती है, पहले उत्तर देती है, फिर KP प्रमाण पीछे रखती है।",
+      "gu": "પ્રેડિક્ટા અસ્પષ્ટ પ્રશ્નને સ્પષ્ટ કરે છે, પહેલા જવાબ આપે છે, પછી KP પુરાવો પાછળ રાખે છે."
+    },
+    "evidence": {
+      "en": "Cusps, sub-lords, significators, ruling planets, dasha support, and timing triggers stay as proof.",
+      "hi": "कस्प, सब-लॉर्ड, सिग्निफिकेटर, रूलिंग प्लैनेट, दशा समर्थन और टाइमिंग ट्रिगर प्रमाण के रूप में रहते हैं।",
+      "gu": "કસ્પ, સબ-લોર્ડ, સિગ્નિફિકેટર, રૂલિંગ પ્લેનેટ, દશા સપોર્ટ અને ટાઈમિંગ ટ્રિગર પુરાવા તરીકે રહે છે."
+    },
+    "title": {
+      "en": "Ask one event. Get timing.",
+      "hi": "एक घटना पूछें। समय जानें।",
+      "gu": "એક ઘટના પૂછો. સમય જાણો."
+    }
+  },
+  "kundliKarma": {
+    "action": {
+      "en": "Ask what pressure or support is active.",
+      "hi": "पूछें कि कौन-सा दबाव या समर्थन सक्रिय है।",
+      "gu": "કયો દબાણ કે સહારો સક્રિય છે તે પૂછો."
+    },
+    "body": {
+      "en": "Predicta ranks Dosh, Shrap, Yog, and Lal Kitab signals into one calm action plan.",
+      "hi": "प्रेडिक्टा दोष, श्राप, योग और लाल किताब संकेतों को एक शांत कार्ययोजना में क्रम देती है।",
+      "gu": "પ્રેડિક્ટા દોષ, શ્રાપ, યોગ અને લાલ કિતાબ સંકેતોને એક શાંત કાર્યયોજનામાં ગોઠવે છે."
+    },
+    "evidence": {
+      "en": "Dosh, Shrap, supportive Yog, challenging Yog, Lal Kitab rin, planet-in-house readings, and consolidated remedies stay as proof.",
+      "hi": "दोष, श्राप, सहायक योग, चुनौतीपूर्ण योग, लाल किताब ऋण, भाव में ग्रह पठन और समेकित उपाय प्रमाण के रूप में रहते हैं।",
+      "gu": "દોષ, શ્રાપ, સહાયક યોગ, પડકારરૂપ યોગ, લાલ કિતાબ ઋણ, ભાવમાં ગ્રહ વાંચન અને એકીકૃત ઉપાય પુરાવા તરીકે રહે છે."
+    },
+    "title": {
+      "en": "Pressure, support, remedy.",
+      "hi": "दबाव, समर्थन, उपाय।",
+      "gu": "દબાણ, સહારો, ઉપાય."
+    }
+  },
+  "numerology": {
+    "action": {
+      "en": "Ask what my numbers say now.",
+      "hi": "पूछें कि मेरे अंक अभी क्या कह रहे हैं।",
+      "gu": "મારા અંક હવે શું કહે છે તે પૂછો."
+    },
+    "body": {
+      "en": "Predicta reads your name, birth code, and current cycle as guidance, not a number lesson.",
+      "hi": "प्रेडिक्टा आपके नाम, जन्म कोड और वर्तमान चक्र को मार्गदर्शन की तरह पढ़ती है, अंक पाठ की तरह नहीं।",
+      "gu": "પ્રેડિક્ટા તમારું નામ, જન્મ કોડ અને હાલનો ચક્ર માર્ગદર્શન તરીકે વાંચે છે, અંક પાઠ તરીકે નહીં."
+    },
+    "evidence": {
+      "en": "Name number, birth number, destiny number, personal year, personal month, personal day, and number grid stay as proof.",
+      "hi": "नाम नंबर, जन्म नंबर, भाग्य नंबर, निजी वर्ष, निजी महीना, निजी दिन और नंबर ग्रिड प्रमाण के रूप में रहते हैं।",
+      "gu": "નામ નંબર, જન્મ નંબર, ભાગ્ય નંબર, વ્યક્તિગત વર્ષ, વ્યક્તિગત મહિનો, વ્યક્તિગત દિવસ અને નંબર ગ્રિડ પુરાવા તરીકે રહે છે."
+    },
+    "title": {
+      "en": "Your number rhythm now.",
+      "hi": "आपकी वर्तमान अंक-लय।",
+      "gu": "તમારી હાલની અંક-લય."
+    }
+  },
+  "signature": {
+    "action": {
+      "en": "Ask about my confirmed signature traits.",
+      "hi": "मेरे पुष्ट हस्ताक्षर लक्षणों के बारे में पूछें।",
+      "gu": "મારા પુષ્ટિ થયેલા સહી લક્ષણો વિશે પૂછો."
+    },
+    "body": {
+      "en": "Upload or draw a real signature. Predicta reads only confirmed visible traits, never identity proof.",
+      "hi": "वास्तविक हस्ताक्षर अपलोड या ड्रॉ करें। प्रेडिक्टा केवल पुष्ट दिखाई देने वाले लक्षण पढ़ती है, पहचान प्रमाण नहीं।",
+      "gu": "વાસ્તવિક સહી અપલોડ કરો અથવા દોરો. પ્રેડિક્ટા ફક્ત પુષ્ટિ થયેલા દેખાતા લક્ષણો વાંચે છે, ઓળખ પુરાવો નહીં."
+    },
+    "evidence": {
+      "en": "Baseline, slant, pressure, size, rhythm, legibility, spacing, underline, flourish, and confidence labels stay as proof.",
+      "hi": "बेसलाइन, झुकाव, दबाव, आकार, लय, पठनीयता, स्पेसिंग, अंडरलाइन, फ्लोरिश और विश्वास लेबल प्रमाण के रूप में रहते हैं।",
+      "gu": "બેઝલાઈન, ઢાળ, દબાણ, કદ, લય, વાંચનીયતા, અંતર, અન્ડરલાઈન, ફ્લોરિશ અને વિશ્વાસ લેબલ પુરાવા તરીકે રહે છે."
+    },
+    "title": {
+      "en": "Your visible expression.",
+      "hi": "आपकी दिखती अभिव्यक्ति।",
+      "gu": "તમારી દેખાતી અભિવ્યક્તિ."
+    }
+  },
+  "vedic": {
+    "action": {
+      "en": "Ask for my main Vedic guidance now.",
+      "hi": "अभी मेरा मुख्य वैदिक मार्गदर्शन पूछें।",
+      "gu": "હમણાં મારું મુખ્ય વૈદિક માર્ગદર્શન પૂછો."
+    },
+    "body": {
+      "en": "Predicta reads support, pressure, timing, and the next wise move before showing the chart proof.",
+      "hi": "प्रेडिक्टा चार्ट प्रमाण दिखाने से पहले समर्थन, दबाव, समय और अगला समझदार कदम पढ़ती है।",
+      "gu": "પ્રેડિક્ટા ચાર્ટ પુરાવો બતાવે તે પહેલાં સહારો, દબાણ, સમય અને આગળનું યોગ્ય પગલું વાંચે છે."
+    },
+    "evidence": {
+      "en": "D1, Moon, D9, D10, Chalit, dasha, gochar, yog, Dosh, Shrap, Lal Kitab, and remedies stay as proof.",
+      "hi": "D1, चंद्र, D9, D10, चलित, दशा, गोचर, योग, दोष, श्राप, लाल किताब और उपाय प्रमाण के रूप में रहते हैं।",
+      "gu": "D1, ચંદ્ર, D9, D10, ચલિત, દશા, ગોચર, યોગ, દોષ, શ્રાપ, લાલ કિતાબ અને ઉપાય પુરાવા તરીકે રહે છે."
+    },
+    "title": {
+      "en": "Your Vedic signal, plainly.",
+      "hi": "आपका वैदिक संकेत, सीधे शब्दों में।",
+      "gu": "તમારો વૈદિક સંકેત, સીધી રીતે."
+    }
+  }
+}

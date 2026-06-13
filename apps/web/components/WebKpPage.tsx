@@ -1,4 +1,3 @@
-import { WebKpPredictaLoader } from './WebKpPredictaLoader';
 import { WebEvidenceRoomEntry } from './WebEvidenceRoomEntry';
 import { WebEvidenceRoomDeferredSection } from './WebEvidenceRoomDeferredSection';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
@@ -15,9 +14,7 @@ export function WebKpPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <WebEvidenceRoomEntry askHref={askHref} room="kp" />
-      <WebEvidenceRoomDeferredSection room="kp">
-        <WebKpPredictaLoader />
-      </WebEvidenceRoomDeferredSection>
+      <WebEvidenceRoomDeferredSection room="kp" />
     </section>
   );
 }

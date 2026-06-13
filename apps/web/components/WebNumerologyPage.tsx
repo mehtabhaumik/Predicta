@@ -1,6 +1,5 @@
 import { WebEvidenceRoomEntry } from './WebEvidenceRoomEntry';
 import { WebEvidenceRoomDeferredSection } from './WebEvidenceRoomDeferredSection';
-import { WebNumerologyPredictaLoader } from './WebNumerologyPredictaLoader';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 
 export function WebNumerologyPage(): React.JSX.Element {
@@ -16,9 +15,7 @@ export function WebNumerologyPage(): React.JSX.Element {
   return (
     <section className="dashboard-page">
       <WebEvidenceRoomEntry askHref={askHref} room="numerology" />
-      <WebEvidenceRoomDeferredSection room="numerology">
-        <WebNumerologyPredictaLoader />
-      </WebEvidenceRoomDeferredSection>
+      <WebEvidenceRoomDeferredSection room="numerology" />
     </section>
   );
 }

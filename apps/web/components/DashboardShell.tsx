@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { canSeeAdminRoute } from '@pridicta/access';
-import { translateUiText } from '@pridicta/config/uiTranslations';
 import type {
   PredictaSchool,
   ResolvedAccess,
@@ -15,7 +14,7 @@ import { announcePredictaNavigation } from '../lib/navigation-feedback';
 import {
   getLightweightAppShellLabels,
   type LightweightAppShellLabels,
-} from '../lib/lightweight-public-copy';
+} from '../lib/lightweight-app-shell-copy';
 import { isOwnerConsoleEnabled } from '../lib/owner-surface';
 import { useDialogFocusTrap } from '../lib/use-dialog-focus-trap';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
@@ -411,7 +410,7 @@ export function DashboardShell({
         brandSubtitle={shellLabels.topbarDescription}
         commonGroups={commonGroups}
         homeAriaLabel={shellLabels.nav.home}
-        navAriaLabel={translateUiText('My Astrology navigation', language)}
+        navAriaLabel={shellLabels.groups.worlds}
         onPredictaIntent={() => prefetchAskPredicta(askPredictaHref)}
         ownerLabel={shellLabels.groups.owner}
         sectionLabel={shellLabels.groups.thisSection}
@@ -466,7 +465,7 @@ export function DashboardShell({
             role="presentation"
           >
             <aside
-              aria-label={translateUiText('My Astrology menu', language)}
+              aria-label={shellLabels.actions.openMenu}
               aria-modal="true"
               className="dashboard-mobile-drawer"
               onClick={event => event.stopPropagation()}
@@ -490,7 +489,7 @@ export function DashboardShell({
                 <LightweightLanguageSelector compact />
               </div>
               <nav
-                aria-label={translateUiText('My Astrology menu links', language)}
+                aria-label={shellLabels.groups.sections}
                 className="dashboard-mobile-revival-nav"
               >
                 <Link

@@ -1,11 +1,13 @@
 'use client';
 
-import { translateUiKey } from '@pridicta/config/uiTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
+import {
+  getEvidenceRoomCopy,
+  getEvidenceRoomGenericCopy,
+} from '../lib/evidence-room-copy';
 
 type EvidenceRoomId =
   | 'jaimini'
@@ -26,11 +28,10 @@ export function WebEvidenceRoomEntry({
 }: WebEvidenceRoomEntryProps): React.JSX.Element {
   const router = useRouter();
   const { language } = useLanguagePreference();
-  const t = (key: string) => translateUiKey(key, language);
-  const title = getRoomCopy(room, 'title', language);
-  const body = getRoomCopy(room, 'body', language);
-  const action = getRoomCopy(room, 'action', language);
-  const evidence = getRoomCopy(room, 'evidence', language);
+  const title = getEvidenceRoomCopy(room, 'title', language);
+  const body = getEvidenceRoomCopy(room, 'body', language);
+  const action = getEvidenceRoomCopy(room, 'action', language);
+  const evidence = getEvidenceRoomCopy(room, 'evidence', language);
 
   function prefetchAsk(): void {
     router.prefetch(askHref);
@@ -47,7 +48,9 @@ export function WebEvidenceRoomEntry({
       data-app-revival-phase5-evidence-room={room}
     >
       <div className="evidence-room-entry-copy">
-        <div className="section-title">{t('ui.evidenceRoom.generic.badge')}</div>
+        <div className="section-title">
+          {getEvidenceRoomGenericCopy('badge', language)}
+        </div>
         <h1>{title}</h1>
       </div>
 
@@ -63,8 +66,8 @@ export function WebEvidenceRoomEntry({
         </Link>
         <details className="evidence-room-proof-drawer">
           <summary>
-            <span>{t('ui.evidenceRoom.generic.openEvidence')}</span>
-            <strong>{t('ui.evidenceRoom.generic.detailsBelow')}</strong>
+            <span>{getEvidenceRoomGenericCopy('openEvidence', language)}</span>
+            <strong>{getEvidenceRoomGenericCopy('detailsBelow', language)}</strong>
           </summary>
           <p>{body}</p>
           <p>{evidence}</p>
@@ -72,12 +75,4 @@ export function WebEvidenceRoomEntry({
       </div>
     </section>
   );
-}
-
-function getRoomCopy(
-  room: EvidenceRoomId,
-  field: 'action' | 'body' | 'evidence' | 'title',
-  language: SupportedLanguage,
-): string {
-  return translateUiKey(`ui.evidenceRoom.${room}.${field}`, language);
 }

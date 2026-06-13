@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import {
   getLightweightLanguageLabels,
   LIGHTWEIGHT_LANGUAGE_OPTIONS,
-} from '../lib/lightweight-public-copy';
+} from '../lib/lightweight-app-shell-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 
 export function LightweightLanguageSelector({

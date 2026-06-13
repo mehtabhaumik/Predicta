@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { RedeemedGuestPass } from '@pridicta/types';
-import { getLightweightAppShellLabels } from '../lib/lightweight-public-copy';
+import { getLightweightAppShellLabels } from '../lib/lightweight-app-shell-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { PASS_USAGE_UPDATED_EVENT } from '../lib/web-pass-cost-guardrails';
 
