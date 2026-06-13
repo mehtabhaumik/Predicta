@@ -153,6 +153,7 @@ for (const file of listSourceFiles(roots)) {
   const source = readFileSync(file, 'utf8');
   assertNoHardcodedNativeScript(file, source);
   assertNoDirectTranslationJsonImport(file, source);
+  assertNoPricingPageLocalTranslationState(file, source);
   scanJsxCopy(file, source);
 }
 
@@ -256,6 +257,22 @@ function assertNoDirectTranslationJsonImport(file, source) {
     !file.startsWith('packages/pdf/src/')
   ) {
     failures.push(`${file}: imports translation JSON directly instead of using a localization adapter`);
+  }
+}
+
+function assertNoPricingPageLocalTranslationState(file, source) {
+  if (file !== 'apps/web/app/pricing/PricingPageRuntime.tsx') {
+    return;
+  }
+  const forbiddenPatterns = [
+    ['const pricingPageCopy', 'pricing page copy must live in packages/config/src/translations/pricingPage.json'],
+    ['getNativeCopy(', 'pricing page must use the pricingPageCopy adapter instead of nativeCopy lookups'],
+    ['PREMIUM_FEATURE_STORY', 'pricing premium story must be localized through pricingPageCopy'],
+  ];
+  for (const [pattern, message] of forbiddenPatterns) {
+    if (source.includes(pattern)) {
+      failures.push(`${file}: ${message}`);
+    }
   }
 }
 

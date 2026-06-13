@@ -30,6 +30,9 @@ const allowedNativeCopyLatinTerms = new Set([
 ]);
 
 const allowedTranslationAdapters = new Set([
+  'apps/web/lib/evidence-room-copy.ts',
+  'apps/web/lib/lightweight-specialist-room-fallback-copy.ts',
+  'apps/web/lib/report-preview-alignment-copy.ts',
   'packages/config/src/accuracyMethod.ts',
   'packages/config/src/competitorResponse.ts',
   'packages/config/src/eventOracle.ts',
@@ -39,6 +42,9 @@ const allowedTranslationAdapters = new Set([
   'packages/config/src/language.ts',
   'packages/config/src/monetizationCopy.ts',
   'packages/config/src/nativeCopy.ts',
+  'packages/config/src/predictaUx.ts',
+  'packages/config/src/predictaWebChat.ts',
+  'packages/config/src/pricingPageCopy.ts',
   'packages/config/src/testimonialTrust.ts',
   'packages/config/src/uiTranslations.ts',
   'packages/config/src/webGrowthAdvantage.ts',

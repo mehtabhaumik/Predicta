@@ -1,0 +1,249 @@
+{
+  "version": 1,
+  "copy": {
+    "en": {
+      "back": "Back to Predicta",
+      "body": "Choose the paid option only when Predicta has already helped and you want clearer timing, a prepared report, family context, or more guided depth.",
+      "choiceCards": [
+        {
+          "body": "Best when you want ongoing Predicta guidance, monthly timing, remedies, saved chats, and family profiles.",
+          "cta": "See plans",
+          "href": "#subscriptions",
+          "label": "Subscription",
+          "title": "I want guidance every month"
+        },
+        {
+          "body": "Best when you want one polished Kundli, career, wealth, marriage, Sade Sati, or compatibility PDF.",
+          "cta": "Choose one report",
+          "href": "#one-time",
+          "label": "One report",
+          "title": "I need one answer prepared well"
+        },
+        {
+          "body": "Best when friends or family want to test Premium depth for one day before committing.",
+          "cta": "Try Day Pass",
+          "href": "/checkout?productId=pridicta_day_pass_24h",
+          "label": "24-hour trial",
+          "title": "I want to try everything today"
+        }
+      ],
+      "choiceEyebrow": "Choose by need",
+      "choiceTitle": "Do not buy a plan. Pick the outcome you want.",
+      "differenceCards": [
+        {
+          "body": "Create Kundli, see charts, ask limited questions, and download a useful report preview.",
+          "title": "Free"
+        },
+        {
+          "body": "Use Premium for monthly timing, chart synthesis, remedies, saved memory, family context, and detailed PDFs.",
+          "title": "Premium"
+        },
+        {
+          "body": "Use a Day Pass or one report when you need depth for a specific moment without subscribing.",
+          "title": "One-time"
+        }
+      ],
+      "differenceEyebrow": "What changes",
+      "differenceTitle": "Free gives clarity. Premium gives depth.",
+      "legalBody": "Predicta Premium is deeper astrology guidance, not medical, legal, financial, or emergency advice. Subscriptions and one-time reports should stay clear before purchase.",
+      "legalTitle": "Clear limits, no fear selling.",
+      "oneTimeBody": "Use these when one clear life question needs a prepared answer without a subscription.",
+      "oneTimeTitle": "One-time purchases",
+      "pill": "No unlimited claims",
+      "planFeatures": [
+        "Deeper Predicta answers with chart proof",
+        "Life Calendar and timing windows",
+        "Detailed PDFs for serious questions",
+        "Family profiles, saved chats, and continuity"
+      ],
+      "readPolicies": "Read Policies",
+      "selectPrefix": "Choose",
+      "storyBody": "Premium is for users who want Predicta to prepare, remember, compare, and explain more deeply.",
+      "storyEyebrow": "Premium story",
+      "storyTitle": "Create your Kundli. Understand your life. Ask better questions. Get beautiful reports.",
+      "title": "Pay only when you know what you need."
+    },
+    "hi": {
+      "back": "प्रेडिक्टा पर वापस",
+      "body": "भुगतान वाला विकल्प तभी चुनें जब प्रेडिक्टा मदद कर चुकी हो और आपको समय, तैयार रिपोर्ट, परिवार संदर्भ या ज्यादा गहराई चाहिए.",
+      "choiceCards": [
+        {
+          "body": "जब हर महीने प्रेडिक्टा मार्गदर्शन, समय, उपाय, सेव चैट और परिवार प्रोफाइल चाहिए.",
+          "cta": "सदस्यता देखें",
+          "href": "#subscriptions",
+          "label": "सदस्यता",
+          "title": "मुझे हर महीने मार्गदर्शन चाहिए"
+        },
+        {
+          "body": "जब कुंडली, करियर, धन, विवाह, साढ़े साती या अनुकूलता की एक सुंदर पीडीएफ चाहिए.",
+          "cta": "एक रिपोर्ट चुनें",
+          "href": "#one-time",
+          "label": "एक रिपोर्ट",
+          "title": "मुझे एक जवाब अच्छे से तैयार चाहिए"
+        },
+        {
+          "body": "जब दोस्त या परिवार निर्णय से पहले एक दिन प्रीमियम गहराई आजमाना चाहें.",
+          "cta": "दिन पास आजमाएं",
+          "href": "/checkout?productId=pridicta_day_pass_24h",
+          "label": "24 घंटे परीक्षण",
+          "title": "मुझे आज सब आजमाना है"
+        }
+      ],
+      "choiceEyebrow": "जरूरत से चुनें",
+      "choiceTitle": "योजना मत खरीदें. जो परिणाम चाहिए, वह चुनें.",
+      "differenceCards": [
+        {
+          "body": "कुंडली बनाएं, चार्ट देखें, सीमित सवाल पूछें, और उपयोगी रिपोर्ट झलक डाउनलोड करें.",
+          "title": "मुफ्त"
+        },
+        {
+          "body": "मासिक समय, चार्ट सार, उपाय, सेव स्मृति, परिवार संदर्भ और विस्तृत पीडीएफ के लिए प्रीमियम लें.",
+          "title": "प्रीमियम"
+        },
+        {
+          "body": "सदस्यता नहीं चाहिए तो विशिष्ट क्षण के लिए दिवसीय पास या एक रिपोर्ट लें.",
+          "title": "एक बार खरीदें"
+        }
+      ],
+      "differenceEyebrow": "क्या बदलता है",
+      "differenceTitle": "मुफ्त स्पष्टता देता है. प्रीमियम गहराई देता है.",
+      "legalBody": "प्रेडिक्टा प्रीमियम गहरा ज्योतिष मार्गदर्शन है, डॉक्टर, वकील, वित्तीय सलाहकार या आपात मदद का विकल्प नहीं. खरीदारी से पहले सदस्यता और एक बार की रिपोर्ट साफ समझ में आनी चाहिए.",
+      "legalTitle": "साफ सीमाएं, डर बेचने वाला तरीका नहीं.",
+      "oneTimeBody": "जब एक जीवन प्रश्न का तैयार उत्तर चाहिए और सदस्यता नहीं चाहिए.",
+      "oneTimeTitle": "एक बार की खरीदारी",
+      "pill": "असीमित दावे नहीं",
+      "planFeatures": [
+        "चार्ट प्रमाण के साथ गहरे प्रेडिक्टा जवाब",
+        "जीवन कैलेंडर और समय खिड़कियाँ",
+        "गंभीर प्रश्न के लिए विस्तृत पीडीएफ",
+        "परिवार प्रोफाइल, सहेजी गई चैट और निरंतरता"
+      ],
+      "readPolicies": "नीतियां पढ़ें",
+      "selectPrefix": "चुनें",
+      "storyBody": "प्रीमियम उन उपयोगकर्ताओं के लिए है जिन्हें प्रेडिक्टा से तैयारी, स्मृति, तुलना और गहरी व्याख्या चाहिए.",
+      "storyEyebrow": "प्रीमियम कहानी",
+      "storyTitle": "कुंडली बनाएं. जीवन समझें. बेहतर सवाल पूछें. सुंदर रिपोर्ट पाएं.",
+      "title": "तभी भुगतान करें जब जरूरत साफ हो."
+    },
+    "gu": {
+      "back": "પ્રેડિક્ટા પર પાછા",
+      "body": "ચુકવણીવાળો વિકલ્પ ત્યારે પસંદ કરો જ્યારે પ્રેડિક્ટા મદદ કરી ચૂકી હોય અને તમને સમય, તૈયાર રિપોર્ટ, પરિવાર સંદર્ભ અથવા વધુ ઊંડાઈ જોઈએ.",
+      "choiceCards": [
+        {
+          "body": "જ્યારે દર મહિને પ્રેડિક્ટા માર્ગદર્શન, સમય, ઉપાયો, સેવ ચેટ અને પરિવાર પ્રોફાઇલ જોઈએ.",
+          "cta": "સભ્યપદ જુઓ",
+          "href": "#subscriptions",
+          "label": "સભ્યપદ",
+          "title": "મારે દર મહિને માર્ગદર્શન જોઈએ"
+        },
+        {
+          "body": "જ્યારે કુંડળી, કારકિર્દી, ધન, લગ્ન, સાડેસાતી અથવા અનુકૂળતા માટે એક સુંદર પીડીએફ જોઈએ.",
+          "cta": "એક રિપોર્ટ પસંદ કરો",
+          "href": "#one-time",
+          "label": "એક રિપોર્ટ",
+          "title": "મારે એક જવાબ સારી રીતે તૈયાર જોઈએ"
+        },
+        {
+          "body": "જ્યારે મિત્રો અથવા પરિવાર નિર્ણય પહેલાં એક દિવસ પ્રીમિયમ ઊંડાઈ અજમાવવા માંગે.",
+          "cta": "દિવસ પાસ અજમાવો",
+          "href": "/checkout?productId=pridicta_day_pass_24h",
+          "label": "24 કલાક પરીક્ષણ",
+          "title": "મારે આજે બધું અજમાવવું છે"
+        }
+      ],
+      "choiceEyebrow": "જરૂર મુજબ પસંદ કરો",
+      "choiceTitle": "યોજના ન ખરીદો. જે પરિણામ જોઈએ તે પસંદ કરો.",
+      "differenceCards": [
+        {
+          "body": "કુંડળી બનાવો, ચાર્ટ જુઓ, મર્યાદિત પ્રશ્નો પૂછો, અને ઉપયોગી રિપોર્ટ ઝલક ડાઉનલોડ કરો.",
+          "title": "મફત"
+        },
+        {
+          "body": "માસિક સમય, ચાર્ટ સાર, ઉપાયો, સેવ સ્મૃતિ, પરિવાર સંદર્ભ અને વિગતવાર પીડીએફ માટે પ્રીમિયમ લો.",
+          "title": "પ્રીમિયમ"
+        },
+        {
+          "body": "સભ્યપદ ન જોઈએ તો ખાસ સમય માટે દિવસ પાસ અથવા એક રિપોર્ટ લો.",
+          "title": "એક વાર ખરીદો"
+        }
+      ],
+      "differenceEyebrow": "શું બદલાય છે",
+      "differenceTitle": "મફત સ્પષ્ટતા આપે છે. પ્રીમિયમ ઊંડાઈ આપે છે.",
+      "legalBody": "પ્રેડિક્ટા પ્રીમિયમ ઊંડું જ્યોતિષ માર્ગદર્શન છે, ડૉક્ટર, વકીલ, નાણાકીય સલાહકાર અથવા આપાત મદદનો વિકલ્પ નથી. ખરીદી પહેલાં સભ્યતા અને એક વારની રિપોર્ટ સ્પષ્ટ સમજાય તે જરૂરી છે.",
+      "legalTitle": "સ્પષ્ટ મર્યાદા, ડર વેચવાનું નહીં.",
+      "oneTimeBody": "જ્યારે એક જીવન પ્રશ્ન નો તૈયાર જવાબ જોઈએ અને સભ્યતા ન જોઈએ.",
+      "oneTimeTitle": "એક વારની ખરીદી",
+      "pill": "અસીમ દાવા નહીં",
+      "planFeatures": [
+        "ચાર્ટ પુરાવા સાથે ઊંડા પ્રેડિક્ટા જવાબ",
+        "જીવન કેલેન્ડર અને સમય ખિડકીઓ",
+        "ગંભીર પ્રશ્નો માટે વિગતવાર પીડીએફ",
+        "પરિવાર પ્રોફાઇલ, સાચવેલી ચેટ અને સતતતા"
+      ],
+      "readPolicies": "નીતિઓ વાંચો",
+      "selectPrefix": "પસંદ કરો",
+      "storyBody": "પ્રીમિયમ એ ઉપયોગકર્તાઓ માટે છે જેને પ્રેડિક્ટા પાસેથી તૈયારી, સ્મૃતિ, તુલના અને ઊંડી સમજ જોઈએ.",
+      "storyEyebrow": "પ્રીમિયમ વાર્તા",
+      "storyTitle": "કુંડળી બનાવો. જીવન સમજો. સારા પ્રશ્નો પૂછો. સુંદર રિપોર્ટ્સ મેળવો.",
+      "title": "જરૂર સ્પષ્ટ હોય ત્યારે જ ચૂકવણી કરો."
+    }
+  },
+  "plans": {
+    "en": {
+      "WEEKLY": { "billingCopy": "/ week", "label": "Weekly" },
+      "MONTHLY": { "billingCopy": "/ month", "label": "Monthly" },
+      "QUARTERLY": { "billingCopy": "/ 3 months", "label": "Quarterly" },
+      "YEARLY": { "badge": "Founder price", "billingCopy": "/ year", "label": "Yearly" }
+    },
+    "hi": {
+      "WEEKLY": { "billingCopy": "प्रति सप्ताह", "label": "साप्ताहिक" },
+      "MONTHLY": { "billingCopy": "प्रति माह", "label": "मासिक" },
+      "QUARTERLY": { "billingCopy": "हर 3 महीने", "label": "त्रैमासिक", "monthlyEquivalent": "लगभग प्रति माह" },
+      "YEARLY": { "badge": "संस्थापक मूल्य", "billingCopy": "प्रति वर्ष", "label": "वार्षिक", "monthlyEquivalent": "लगभग प्रति माह" }
+    },
+    "gu": {
+      "WEEKLY": { "billingCopy": "દર અઠવાડિયે", "label": "સાપ્તાહિક" },
+      "MONTHLY": { "billingCopy": "દર મહિને", "label": "માસિક" },
+      "QUARTERLY": { "billingCopy": "દર 3 મહિને", "label": "ત્રિમાસિક", "monthlyEquivalent": "લગભગ દર મહિને" },
+      "YEARLY": { "badge": "સ્થાપક મૂલ્ય", "billingCopy": "દર વર્ષે", "label": "વાર્ષિક", "monthlyEquivalent": "લગભગ દર મહિને" }
+    }
+  },
+  "premiumFeatureStory": {
+    "en": [
+      {
+        "body": "Turn a serious question into chart proof, confidence, timing context, and next steps.",
+        "title": "Get a deeper answer"
+      },
+      {
+        "body": "See the month-by-month dasha and transit windows behind the current life phase.",
+        "title": "Plan timing clearly"
+      },
+      {
+        "body": "Keep family Kundlis together, compare patterns, and ask Predicta with the right profile selected.",
+        "title": "Understand family charts"
+      },
+      {
+        "body": "Create focused PDFs for Kundli, Career, Marriage, Wealth, Child, and Remedies.",
+        "title": "Create polished reports"
+      },
+      {
+        "body": "Open varga, dasha, transit, Ashtakavarga, and evidence tables when you want the full reasoning.",
+        "title": "Check the deeper proof"
+      }
+    ],
+    "hi": [
+      { "body": "प्रीमियम जवाब चार्ट कारण, भरोसा स्तर और समय संदर्भ दिखाते हैं.", "title": "प्रमाण के साथ पूछें" },
+      { "body": "दशा और गोचर का महीने-दर-महीने जीवन कैलेंडर.", "title": "जीवन कैलेंडर" },
+      { "body": "कई पारिवारिक कुंडलियां निजी रूप से सेव और तुलना करें.", "title": "परिवार वॉल्ट" },
+      { "body": "कुंडली, करियर, विवाह, धन, संतान और उपाय के केंद्रित पैक.", "title": "प्रीमियम रिपोर्ट पैक" },
+      { "body": "वर्ग चार्ट, दशा, गोचर, अष्टकवर्ग और प्रमाण तालिकाएं देखें.", "title": "गंभीर ज्योतिष मोड" }
+    ],
+    "gu": [
+      { "body": "પ્રીમિયમ જવાબ ચાર્ટ કારણો, વિશ્વાસ સ્તર અને સમય સંદર્ભ બતાવે છે.", "title": "પુરાવા સાથે પૂછો" },
+      { "body": "દશા અને ગોચરનું મહિના પ્રમાણે જીવન કેલેન્ડર.", "title": "જીવન કેલેન્ડર" },
+      { "body": "ઘણી પરિવાર કુંડળીઓ ખાનગી રીતે સેવ અને સરખાવો.", "title": "પરિવાર વોલ્ટ" },
+      { "body": "કુંડળી, કારકિર્દી, લગ્ન, ધન, સંતાન અને ઉપાયો માટે કેન્દ્રિત પેક.", "title": "પ્રીમિયમ રિપોર્ટ પેક" },
+      { "body": "વર્ગ ચાર્ટ, દશા, ગોચર, અષ્ટકવર્ગ અને પુરાવા કોષ્ટકો જુઓ.", "title": "ગંભીર જ્યોતિષ મોડ" }
+    ]
+  }
+}

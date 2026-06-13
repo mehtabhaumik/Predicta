@@ -20,6 +20,7 @@ export * from './predictaMemory';
 export * from './trust';
 export * from './uiTranslations';
 export * from './pricing';
+export * from './pricingPageCopy';
 export * from './proof';
 export * from './safetyUx';
 export * from './testimonialTrust';
