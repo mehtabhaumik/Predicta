@@ -1,4 +1,12 @@
-import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs';
 import { get as httpGet, request as httpRequest } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -172,6 +180,10 @@ const failures = [];
 const routeResults = [];
 const pageResults = [];
 const clickResults = [];
+
+for (const sourceFailure of runInternalAnchorSourceContract()) {
+  failures.push(sourceFailure);
+}
 
 for (const route of routeChecks) {
   const result = await fetchRoute(route);
@@ -762,6 +774,48 @@ function expectedSchoolForLegacyChatRoute(route) {
   if (route.startsWith('/dashboard/numerology/chat')) return 'NUMEROLOGY';
   if (route.startsWith('/dashboard/signature/chat')) return 'SIGNATURE';
   return undefined;
+}
+
+function runInternalAnchorSourceContract() {
+  const sourceRoots = ['apps/web/app', 'apps/web/components'];
+  const sourceFailures = [];
+  const rawInternalAnchorPattern =
+    /<a\b(?=[^>]*\bhref=(?:"\/(?:ask|dashboard)(?=[/?#"])[^"]*"|\{(?:askHref|askPredictaHref|askFromPageHref|buildFallbackAskHref\([^}]+\))\}))/gu;
+
+  for (const sourceRoot of sourceRoots) {
+    for (const filePath of listSourceFiles(sourceRoot)) {
+      const source = readFileSync(filePath, 'utf8');
+      const matches = source.match(rawInternalAnchorPattern) ?? [];
+
+      for (const match of matches) {
+        sourceFailures.push(
+          `${filePath}: internal app navigation must use Link/PredictaButton, not raw anchor "${match.slice(0, 120)}".`,
+        );
+      }
+    }
+  }
+
+  return sourceFailures;
+}
+
+function listSourceFiles(root) {
+  const entries = [];
+
+  for (const entry of readdirSync(root)) {
+    const filePath = `${root}/${entry}`;
+    const stats = statSync(filePath);
+
+    if (stats.isDirectory()) {
+      entries.push(...listSourceFiles(filePath));
+      continue;
+    }
+
+    if (/\.(?:ts|tsx)$/u.test(filePath)) {
+      entries.push(filePath);
+    }
+  }
+
+  return entries;
 }
 
 function isAskRedirectLocation(location) {

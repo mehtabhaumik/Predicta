@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import {
   getSpecialistRoomFallbackRoomCopy,
   SPECIALIST_ROOM_FALLBACK_COPY,
@@ -55,13 +56,13 @@ export function SpecialistRoomPanelFallback({
       <h1>{roomCopy.title}</h1>
       <p>{roomCopy.body}</p>
       <div className="specialist-room-fallback-actions">
-        <a className="button" href={buildFallbackAskHref(roomCopy, fallbackLanguage)}>
+        <Link className="button" href={buildFallbackAskHref(roomCopy, fallbackLanguage)}>
           {copy.askCta}
-        </a>
+        </Link>
         {room === 'report' ? (
-          <a className="button secondary" href="/dashboard/kundli">
+          <Link className="button secondary" href="/dashboard/kundli">
             {copy.createKundliCta}
-          </a>
+          </Link>
         ) : null}
         <span aria-live="polite" className="specialist-room-fallback-status">
           {copy.openingCta}

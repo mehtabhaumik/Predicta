@@ -667,9 +667,9 @@ export function WebKpPredictaPanel({
               <span>{t(kpQuestionDraft.label)}</span>
               <strong>{t(kpQuestionDraft.refinedQuestion)}</strong>
               <p>{t(kpQuestionDraft.guidance)}</p>
-              <a className="button" href={askHref}>
+              <Link className="button" href={askHref}>
                 {t('Ask KP Predicta')}
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -778,12 +778,12 @@ export function WebKpPredictaPanel({
             ))}
           </div>
           <div className="action-row">
-            <a
+            <Link
               className="button"
               href={askHref}
             >
               {t('Ask KP Predicta')}
-            </a>
+            </Link>
             <Link className="button secondary" href="/pricing">
               {t('See KP Premium Depth')}
             </Link>

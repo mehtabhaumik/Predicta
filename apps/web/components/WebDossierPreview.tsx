@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import {
   formatNativeCopy,
   getMonetizationReportCreditLabel,
@@ -980,7 +981,7 @@ export function WebDossierPreview(): React.JSX.Element {
         {copyState === 'needKundli' ? (
           <p className="report-inline-status important">
             {builderCopy.needKundli}{' '}
-            <a href="/dashboard/kundli">{builderCopy.createKundliCta}</a>
+            <Link href="/dashboard/kundli">{builderCopy.createKundliCta}</Link>
           </p>
         ) : copyState === 'empty' ? (
           <p className="report-inline-status important">
@@ -1258,7 +1259,7 @@ export function WebDossierPreview(): React.JSX.Element {
         ) : copyState === 'needKundli' ? (
           <p className="report-builder-note important">
             {builderCopy.needKundli}{' '}
-            <a href="/dashboard/kundli">{builderCopy.createKundliCta}</a>
+            <Link href="/dashboard/kundli">{builderCopy.createKundliCta}</Link>
           </p>
         ) : (
           <p className="report-builder-note">{builderCopy.note}</p>
