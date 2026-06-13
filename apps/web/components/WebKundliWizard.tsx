@@ -1102,15 +1102,18 @@ export function WebKundliWizard(): React.JSX.Element {
                     return;
                   }
 
+                  const focusQuery = nativeValue || birthPlaceQuery;
+                  if (
+                    isResolvedBirthPlaceQuery(focusQuery) ||
+                    isBirthPlaceSearchSettled ||
+                    settleBirthPlaceQueryIfPossible(focusQuery)
+                  ) {
+                    setIsBirthPlaceInputFocused(false);
+                    closeBirthPlaceSuggestions();
+                    return;
+                  }
+
                   setIsBirthPlaceInputFocused(true);
-                  if (settleBirthPlaceQueryIfPossible()) {
-                    closeBirthPlaceSuggestions();
-                    return;
-                  }
-                  if (isBirthPlaceSearchSettled) {
-                    closeBirthPlaceSuggestions();
-                    return;
-                  }
                   if (
                     birthPlaceQuery.trim().length >= 2 &&
                     !isBirthPlaceSearchSettled
