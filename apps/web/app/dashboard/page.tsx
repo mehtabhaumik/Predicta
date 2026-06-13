@@ -141,9 +141,34 @@ export default function DashboardPage(): React.JSX.Element {
               rows={3}
               value={questionDraft}
             />
+            <div
+              aria-label={copy.outcomeTitle}
+              className="library-question-shortcuts"
+            >
+              {copy.outcomeQuestions.slice(0, 4).map(question => {
+                const href = buildPredictaChatHref({
+                  kundliId: activeKundli?.id,
+                  prompt: question.prompt,
+                  sourceScreen: 'My Kundlis',
+                });
+
+                return (
+                  <Link
+                    className="library-question-chip"
+                    href={href}
+                    key={question.title}
+                    onFocus={() => prefetchDashboardAsk(href)}
+                    onPointerEnter={() => prefetchDashboardAsk(href)}
+                    onTouchStart={() => prefetchDashboardAsk(href)}
+                  >
+                    {question.title}
+                  </Link>
+                );
+              })}
+            </div>
             <div className="library-question-composer-actions">
               <button className="button" type="submit">
-                {copy.libraryAskHelpCta}
+                {copy.primaryPredictaPrimary}
               </button>
               <button
                 className={

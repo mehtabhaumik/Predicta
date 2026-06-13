@@ -4068,6 +4068,50 @@ button:disabled,
   outline: none;
 }
 
+.library-question-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.library-question-chip {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(77, 175, 255, 0.12), rgba(255, 77, 166, 0.055)),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(244, 241, 255, 0.12);
+  border-radius: 999px;
+  color: rgba(244, 241, 255, 0.86);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 900;
+  justify-content: center;
+  line-height: 1.2;
+  max-width: 100%;
+  min-height: 36px;
+  min-width: 0;
+  padding: 8px 12px;
+  text-decoration: none;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+  white-space: normal;
+}
+
+.library-question-chip:hover,
+.library-question-chip:focus-visible {
+  background:
+    linear-gradient(135deg, rgba(77, 175, 255, 0.18), rgba(255, 77, 166, 0.09)),
+    rgba(255, 255, 255, 0.065);
+  border-color: rgba(77, 175, 255, 0.38);
+  color: var(--text);
+  outline: none;
+  transform: translateY(-1px);
+}
+
 .library-question-composer-actions {
   align-items: stretch;
   display: flex;
@@ -19260,6 +19304,19 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
 
   .primary-predicta-actions .button {
     justify-content: center;
+    width: 100%;
+  }
+
+  .library-question-shortcuts {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .library-question-chip {
+    border-radius: 14px;
+    justify-content: flex-start;
+    min-height: var(--predicta-touch-target);
+    padding-inline: 14px;
     width: 100%;
   }
 }

@@ -1,6 +1,6 @@
 {
-  "baseUrl": "http://127.0.0.1:3022",
-  "generatedAt": "2026-06-13T10:11:16.153Z",
+  "baseUrl": "http://127.0.0.1:3009",
+  "generatedAt": "2026-06-13T10:40:17.787Z",
   "minBoundaryGap": 6,
   "minSiblingGap": 8,
   "routeChecks": [
