@@ -14,6 +14,16 @@ export type PredictaWebChatCopy = {
   };
   kundliCreatedQuickOptions: string;
   placeClarificationReply: string;
+  postKundliSuggestions: Array<{
+    id:
+      | 'dasha-after-kundli'
+      | 'gochar-after-kundli'
+      | 'my-kundlis-after-kundli'
+      | 'report-after-kundli'
+      | 'today-after-kundli';
+    label: string;
+    prompt: string;
+  }>;
 };
 
 const COPY = predictaWebChatTranslations.copy as Record<

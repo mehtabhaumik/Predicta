@@ -12,7 +12,34 @@
         "nakshatra": "Nakshatra"
       },
       "kundliCreatedQuickOptions": "Use the quick options below to read today's guidance here, see Gochar, understand Mahadasha, create a report, or open My Kundlis.",
-      "placeClarificationReply": "I will create the Kundli right here. I just need the birth place a little clearer: city, state, country."
+      "placeClarificationReply": "I will create the Kundli right here. I just need the birth place a little clearer: city, state, country.",
+      "postKundliSuggestions": [
+        {
+          "id": "today-after-kundli",
+          "label": "Today's guidance",
+          "prompt": "Use my newly created Kundli and show today's Gochar, best action, caution, and emotional weather."
+        },
+        {
+          "id": "gochar-after-kundli",
+          "label": "Show Gochar",
+          "prompt": "Use my Kundli and give me a useful current Gochar reading with opportunities, cautions, timing, and proof."
+        },
+        {
+          "id": "dasha-after-kundli",
+          "label": "Explain Mahadasha",
+          "prompt": "Explain my current Mahadasha and Antardasha simply with chart proof."
+        },
+        {
+          "id": "report-after-kundli",
+          "label": "Create report",
+          "prompt": "Create a useful free report preview from my Kundli and explain what Premium would add."
+        },
+        {
+          "id": "my-kundlis-after-kundli",
+          "label": "Kundli summary",
+          "prompt": "Show a short summary of my newly created Kundli and tell me what I can ask next."
+        }
+      ]
     },
     "hi": {
       "chatPlaceholder": "जन्म विवरण लिखें या बनी हुई कुंडली से सवाल पूछें...",
@@ -26,7 +53,34 @@
         "nakshatra": "नक्षत्र"
       },
       "kundliCreatedQuickOptions": "नीचे दिए गए त्वरित विकल्पों से आज का मार्गदर्शन पढ़ सकते हैं, गोचर देख सकते हैं, महादशा समझ सकते हैं, रिपोर्ट बना सकते हैं या मेरी कुंडली खोल सकते हैं.",
-      "placeClarificationReply": "मैं कुंडली यहीं बना दूंगी. बस जन्म स्थान थोड़ा और स्पष्ट चाहिए: शहर, राज्य और देश लिख दें."
+      "placeClarificationReply": "मैं कुंडली यहीं बना दूंगी. बस जन्म स्थान थोड़ा और स्पष्ट चाहिए: शहर, राज्य और देश लिख दें.",
+      "postKundliSuggestions": [
+        {
+          "id": "today-after-kundli",
+          "label": "आज का मार्गदर्शन",
+          "prompt": "मेरी नई बनी कुंडली से आज का गोचर, सबसे अच्छा कदम, सावधानी और मन की स्थिति बताइए."
+        },
+        {
+          "id": "gochar-after-kundli",
+          "label": "गोचर देखें",
+          "prompt": "मेरी कुंडली से वर्तमान गोचर की उपयोगी रीडिंग दीजिए: अवसर, सावधानियां, समय और प्रमाण."
+        },
+        {
+          "id": "dasha-after-kundli",
+          "label": "महादशा समझाएं",
+          "prompt": "मेरी वर्तमान महादशा और अंतर्दशा को चार्ट प्रमाण के साथ सरल भाषा में समझाइए."
+        },
+        {
+          "id": "report-after-kundli",
+          "label": "रिपोर्ट बनाएं",
+          "prompt": "मेरी कुंडली से उपयोगी मुफ्त रिपोर्ट प्रीव्यू बनाइए और बताइए कि प्रीमियम रिपोर्ट में क्या गहराई मिलेगी."
+        },
+        {
+          "id": "my-kundlis-after-kundli",
+          "label": "कुंडली सारांश",
+          "prompt": "मेरी नई बनी कुंडली का छोटा सारांश दिखाइए और बताइए कि मैं आगे क्या पूछ सकता हूं."
+        }
+      ]
     },
     "gu": {
       "chatPlaceholder": "જન્મ વિગતો લખો અથવા બનેલી કુંડળી પરથી સવાલ પૂછો...",
@@ -40,7 +94,34 @@
         "nakshatra": "નક્ષત્ર"
       },
       "kundliCreatedQuickOptions": "નીચેના ઝડપી વિકલ્પોથી આજનું માર્ગદર્શન વાંચી શકો, ગોચર જોઈ શકો, મહાદશા સમજી શકો, રિપોર્ટ બનાવી શકો અથવા મારી કુંડળી ખોલી શકો.",
-      "placeClarificationReply": "હું કુંડળી અહીં જ બનાવી દઈશ. ફક્ત જન્મ સ્થળ થોડું વધુ સ્પષ્ટ જોઈએ: શહેર, રાજ્ય અને દેશ લખો."
+      "placeClarificationReply": "હું કુંડળી અહીં જ બનાવી દઈશ. ફક્ત જન્મ સ્થળ થોડું વધુ સ્પષ્ટ જોઈએ: શહેર, રાજ્ય અને દેશ લખો.",
+      "postKundliSuggestions": [
+        {
+          "id": "today-after-kundli",
+          "label": "આજનું માર્ગદર્શન",
+          "prompt": "મારી નવી બનેલી કુંડળી પરથી આજનું ગોચર, શ્રેષ્ઠ પગલું, સાવચેતી અને મનની સ્થિતિ કહો."
+        },
+        {
+          "id": "gochar-after-kundli",
+          "label": "ગોચર જુઓ",
+          "prompt": "મારી કુંડળી પરથી વર્તમાન ગોચરની ઉપયોગી રીડિંગ આપો: તક, સાવચેતી, સમય અને પુરાવો."
+        },
+        {
+          "id": "dasha-after-kundli",
+          "label": "મહાદશા સમજાવો",
+          "prompt": "મારી વર્તમાન મહાદશા અને અંતર્દશા ચાર્ટ પુરાવા સાથે સરળ ભાષામાં સમજાવો."
+        },
+        {
+          "id": "report-after-kundli",
+          "label": "રિપોર્ટ બનાવો",
+          "prompt": "મારી કુંડળી પરથી ઉપયોગી મફત રિપોર્ટ પ્રીવ્યુ બનાવો અને પ્રીમિયમ રિપોર્ટમાં શું વધુ ઊંડાણ મળશે તે કહો."
+        },
+        {
+          "id": "my-kundlis-after-kundli",
+          "label": "કુંડળી સારાંશ",
+          "prompt": "મારી નવી બનેલી કુંડળીનો નાનો સારાંશ બતાવો અને હું આગળ શું પૂછી શકું તે કહો."
+        }
+      ]
     }
   }
 }
