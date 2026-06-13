@@ -9621,7 +9621,7 @@
     },
     "native.apps.web.components.WebKundliWizard.tsx.3daa0a51c7": {
       "kind": "text",
-      "value": "પ્રેડિક્ટા ને પહેલા માત્ર ત્રણ બાબતો જોઈએ: તારીખ, સમય અને સ્થળ."
+      "value": "પ્રેડિક્ટાને પહેલા માત્ર ત્રણ બાબતો જોઈએ: તારીખ, સમય અને સ્થળ."
     },
     "native.apps.web.components.WebKundliWizard.tsx.3f1201483c": {
       "kind": "text",
@@ -9699,7 +9699,7 @@
     },
     "native.apps.web.components.WebKundliWizard.tsx.a8375c5abe": {
       "kind": "text",
-      "value": "ઉદાહરણ भरो"
+      "value": "ઉદાહરણ ભરો"
     },
     "native.apps.web.components.WebKundliWizard.tsx.aa9a542091": {
       "kind": "text",
@@ -20438,6 +20438,226 @@
     "audit1.phase6.vedic.moon.label.gu": {
       "kind": "text",
       "value": "ચંદ્ર"
+    },
+    "kundliWizard.activeKundliBody.gu": {
+      "kind": "text",
+      "value": "પહેલા એક માર્ગદર્શિત વાંચનથી શરૂ કરો, પછી ચાર્ટ્સ, સમય, રિપોર્ટ્સ અથવા ઉપાયમાં વધુ ઊંડા જાઓ."
+    },
+    "kundliWizard.activeKundliBody.hi": {
+      "kind": "text",
+      "value": "पहले एक मार्गदर्शित पढ़ाई से शुरू करें, फिर चार्ट, समय, रिपोर्ट या उपायों में गहराई से जाएं."
+    },
+    "kundliWizard.activeKundliHeading.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " ની કુંડળી તૈયાર છે."
+      ]
+    },
+    "kundliWizard.activeKundliHeading.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " की कुंडली तैयार है."
+      ]
+    },
+    "kundliWizard.activeKundliSection.gu": {
+      "kind": "text",
+      "value": "સક્રિય કુંડળી"
+    },
+    "kundliWizard.activeKundliSection.hi": {
+      "kind": "text",
+      "value": "सक्रिय कुंडली"
+    },
+    "kundliWizard.birthDateLabel.gu": {
+      "kind": "text",
+      "value": "જન્મ તારીખ"
+    },
+    "kundliWizard.birthDateLabel.hi": {
+      "kind": "text",
+      "value": "जन्म तारीख"
+    },
+    "kundliWizard.birthPlaceHelp.gu": {
+      "kind": "text",
+      "value": "સાચું શહેર પસંદ કરો જેથી ચાર્ટ સાચા સમયક્ષેત્રથી બને."
+    },
+    "kundliWizard.birthPlaceHelp.hi": {
+      "kind": "text",
+      "value": "सही शहर चुनें ताकि चार्ट सही समयक्षेत्र से बने."
+    },
+    "kundliWizard.birthPlaceLabel.gu": {
+      "kind": "text",
+      "value": "જન્મ સ્થળ"
+    },
+    "kundliWizard.birthPlaceLabel.hi": {
+      "kind": "text",
+      "value": "जन्म स्थान"
+    },
+    "kundliWizard.birthPlacePlaceholder.gu": {
+      "kind": "text",
+      "value": "શહેર, રાજ્ય, દેશ લખવાનું શરૂ કરો"
+    },
+    "kundliWizard.birthPlacePlaceholder.hi": {
+      "kind": "text",
+      "value": "शहर, राज्य, देश लिखना शुरू करें"
+    },
+    "kundliWizard.birthPlaceRequiredError.gu": {
+      "kind": "text",
+      "value": "સાચા સમયક્ષેત્ર અને કોઓર્ડિનેટ માટે સૂચનોમાંથી મેળ ખાતું જન્મ સ્થળ પસંદ કરો."
+    },
+    "kundliWizard.birthPlaceRequiredError.hi": {
+      "kind": "text",
+      "value": "सही समयक्षेत्र और निर्देशांक के लिए सुझावों में से मिलता हुआ जन्म स्थान चुनें."
+    },
+    "kundliWizard.birthTimeLabel.gu": {
+      "kind": "text",
+      "value": "જન્મ સમય"
+    },
+    "kundliWizard.birthTimeLabel.hi": {
+      "kind": "text",
+      "value": "जन्म समय"
+    },
+    "kundliWizard.createKundliBody.gu": {
+      "kind": "text",
+      "value": "જન્મ સ્થળ મેળાવો, સમયક્ષેત્રની ખાતરી કરો, અને પ્રેડિક્ટા ચાર્ટ ગણતરી કરે તે પહેલાં અંતિમ જન્મ વિગતો તપાસો."
+    },
+    "kundliWizard.createKundliBody.hi": {
+      "kind": "text",
+      "value": "जन्म स्थान मिलाएं, समयक्षेत्र की पुष्टि करें, और प्रेडिक्टा चार्ट गणना करने से पहले अंतिम जन्म विवरण जांचें."
+    },
+    "kundliWizard.createKundliHeading.gu": {
+      "kind": "text",
+      "value": "તમારી કુંડળી ધ્યાનથી બનાવો."
+    },
+    "kundliWizard.createKundliHeading.hi": {
+      "kind": "text",
+      "value": "अपनी कुंडली ध्यान से बनाएं."
+    },
+    "kundliWizard.creationDrawerBody.gu": {
+      "kind": "text",
+      "value": "પ્રેડિક્ટા પસંદ કરેલા જન્મ સ્થળને કોઓર્ડિનેટ અને સમયક્ષેત્ર સાથે મેળવે છે, ગણતરી પહેલાં ખાતરી લે છે, અને પછી તમને સેટઅપ પેજમાં અટકાવી રાખવાને બદલે સક્રિય વાંચન તરફ લઈ જાય છે."
+    },
+    "kundliWizard.creationDrawerBody.hi": {
+      "kind": "text",
+      "value": "प्रेडिक्टा चुने हुए जन्म स्थान को निर्देशांक और समयक्षेत्र से मिलाती है, गणना से पहले पुष्टि लेती है, और फिर आपको सेटअप पेज में रोकने के बजाय सक्रिय पढ़ाई की ओर ले जाती है."
+    },
+    "kundliWizard.creationDrawerTitle.gu": {
+      "kind": "text",
+      "value": "બનાવ્યા પછી શું થશે"
+    },
+    "kundliWizard.creationDrawerTitle.hi": {
+      "kind": "text",
+      "value": "बनने के बाद क्या होगा"
+    },
+    "kundliWizard.kundliSetupSection.gu": {
+      "kind": "text",
+      "value": "કુંડળી સેટઅપ"
+    },
+    "kundliWizard.kundliSetupSection.hi": {
+      "kind": "text",
+      "value": "कुंडली सेटअप"
+    },
+    "kundliWizard.nameLabel.gu": {
+      "kind": "text",
+      "value": "નામ"
+    },
+    "kundliWizard.nameLabel.hi": {
+      "kind": "text",
+      "value": "नाम"
+    },
+    "kundliWizard.namePlaceholder.gu": {
+      "kind": "text",
+      "value": "તમારું નામ"
+    },
+    "kundliWizard.namePlaceholder.hi": {
+      "kind": "text",
+      "value": "आपका नाम"
+    },
+    "kundliWizard.openLabel.gu": {
+      "kind": "text",
+      "value": "ખોલો"
+    },
+    "kundliWizard.openLabel.hi": {
+      "kind": "text",
+      "value": "खोलें"
+    },
+    "kundliWizard.requiredBirthDetailsError.gu": {
+      "kind": "text",
+      "value": "પહેલા નામ, જન્મ તારીખ અને જન્મ સમય ભરો."
+    },
+    "kundliWizard.requiredBirthDetailsError.hi": {
+      "kind": "text",
+      "value": "पहले नाम, जन्म तारीख और जन्म समय भरें."
+    },
+    "kundliWizard.reviewSavedKundliBody.gu": {
+      "kind": "text",
+      "value": "જન્મ તારીખ, સમય અથવા સ્થળમાં કોઈપણ ફેરફાર ચાર્ટ ફરી ગણશે. વિગતો ચોક્કસ લાગે પછી જ ખાતરી કરો."
+    },
+    "kundliWizard.reviewSavedKundliBody.hi": {
+      "kind": "text",
+      "value": "जन्म तारीख, समय या स्थान में कोई भी बदलाव चार्ट को फिर से गणना करेगा. विवरण सही लगने के बाद ही पुष्टि करें."
+    },
+    "kundliWizard.reviewSavedKundliHeading.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " ની જન્મ વિગતો ધ્યાનથી તપાસો."
+      ]
+    },
+    "kundliWizard.reviewSavedKundliHeading.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " के जन्म विवरण ध्यान से जांचें."
+      ]
+    },
+    "kundliWizard.reviewSavedKundliSection.gu": {
+      "kind": "text",
+      "value": "સાચવેલી કુંડળી તપાસો"
+    },
+    "kundliWizard.reviewSavedKundliSection.hi": {
+      "kind": "text",
+      "value": "सेव कुंडली जांचें"
+    },
+    "kundliWizard.trustDrawerBody.gu": {
+      "kind": "text",
+      "value": "ચાર્ટ પસંદ કરેલા શહેરના મેળ ખાતા સ્થળ, કોઓર્ડિનેટ અને સમયક્ષેત્રનો ઉપયોગ કરે છે. મુખ્ય વેદિક દૃશ્યમાં મૂળ ગ્રહો પહેલા રહે છે અને સહાયક સુધારાઓ બીજા સ્તર પર રહે છે."
+    },
+    "kundliWizard.trustDrawerBody.hi": {
+      "kind": "text",
+      "value": "चार्ट चुने हुए शहर के मिले हुए स्थान, निर्देशांक और समयक्षेत्र का उपयोग करता है. मुख्य वैदिक दृश्य में मूल ग्रह पहले रहते हैं और सहायक सुधार दूसरे स्तर पर रहते हैं."
+    },
+    "kundliWizard.trustDrawerTitle.gu": {
+      "kind": "text",
+      "value": "આ ચાર્ટ વિશ્વસનીય કેમ છે"
+    },
+    "kundliWizard.trustDrawerTitle.hi": {
+      "kind": "text",
+      "value": "यह चार्ट भरोसेमंद क्यों है"
+    },
+    "kundliWizard.updateDrawerBody.gu": {
+      "kind": "text",
+      "value": "સાચવેલી કુંડળી અપડેટ કરવાથી સુધારેલી વિગતો પરથી ચાર્ટ ફરી ગણાય છે. બે અલગ રેકોર્ડ સાચવવા હોય ત્યારે જ નવું સેવ કરો."
+    },
+    "kundliWizard.updateDrawerBody.hi": {
+      "kind": "text",
+      "value": "सेव कुंडली अपडेट करने से बदले हुए विवरण से चार्ट फिर गणना होता है. दो अलग रिकॉर्ड रखने हों तभी नया सेव करें."
+    },
+    "kundliWizard.updateDrawerTitle.gu": {
+      "kind": "text",
+      "value": "અપડેટ કેવી રીતે કામ કરે છે"
+    },
+    "kundliWizard.updateDrawerTitle.hi": {
+      "kind": "text",
+      "value": "अपडेट कैसे काम करता है"
+    },
+    "kundliWizard.yourFallbackName.gu": {
+      "kind": "text",
+      "value": "તમારી"
+    },
+    "kundliWizard.yourFallbackName.hi": {
+      "kind": "text",
+      "value": "आपकी"
     }
   }
 }

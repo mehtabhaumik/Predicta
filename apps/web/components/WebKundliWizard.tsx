@@ -787,7 +787,7 @@ export function WebKundliWizard(): React.JSX.Element {
     closeBirthPlaceSuggestions();
 
     if (!name.trim() || !date || !time) {
-      setError('Please fill name, birth date, and birth time first.');
+      setError(labels.requiredBirthDetailsError);
       return;
     }
 
@@ -798,7 +798,7 @@ export function WebKundliWizard(): React.JSX.Element {
 
     if (!details || !selectedPlace || !isSelectedPlaceCurrent) {
       setError(
-        'Choose a matching birth place from the suggestions so Predicta can use the correct timezone and coordinates.',
+        labels.birthPlaceRequiredError,
       );
       return;
     }
@@ -937,6 +937,7 @@ export function WebKundliWizard(): React.JSX.Element {
       <KundliRouteHeader
         editingKundliName={editingKundliName}
         kundli={kundli}
+        labels={labels}
       />
 
       {shouldShowReadyFirst ? readyFlow : null}
@@ -970,18 +971,18 @@ export function WebKundliWizard(): React.JSX.Element {
 
         <div className="kundli-form-grid">
           <label>
-            <span>Name</span>
+            <span>{labels.nameLabel}</span>
             <input
               onChange={event => {
                 resetFlow();
                 setName(event.target.value);
               }}
-              placeholder="Your name"
+              placeholder={labels.namePlaceholder}
               value={name}
             />
           </label>
           <label>
-            <span>Birth date</span>
+            <span>{labels.birthDateLabel}</span>
             <input
               onChange={event => {
                 resetFlow();
@@ -992,7 +993,7 @@ export function WebKundliWizard(): React.JSX.Element {
             />
           </label>
           <label>
-            <span>Birth time</span>
+            <span>{labels.birthTimeLabel}</span>
             <input
               onChange={event => {
                 resetFlow();
@@ -1003,7 +1004,7 @@ export function WebKundliWizard(): React.JSX.Element {
             />
           </label>
           <label>
-            <span>Birth place</span>
+            <span>{labels.birthPlaceLabel}</span>
             <div className="birth-place-search" ref={birthPlaceSearchRef}>
               <input
                 aria-describedby="birth-place-help"
@@ -1086,11 +1087,11 @@ export function WebKundliWizard(): React.JSX.Element {
                     closeBirthPlaceSuggestions();
                   }, 80);
                 }}
-                placeholder="Start typing city, state, country"
+                placeholder={labels.birthPlacePlaceholder}
                 value={birthPlaceQuery}
               />
               <small id="birth-place-help">
-                Select the matching city so the chart uses the right timezone.
+                {labels.birthPlaceHelp}
               </small>
               {shouldShowBirthPlaceOverlay ? (
                 <div className="birth-place-suggestions" role="listbox">
@@ -1497,9 +1498,11 @@ function KundliReadyFlow({
 function KundliRouteHeader({
   editingKundliName,
   kundli,
+  labels,
 }: {
   editingKundliName?: string;
   kundli?: KundliData;
+  labels: KundliWizardCopy;
 }): React.JSX.Element {
   const isEditing = Boolean(editingKundliName);
   const isReady = Boolean(kundli && !editingKundliName);
@@ -1507,39 +1510,45 @@ function KundliRouteHeader({
   return (
     <section className="page-heading compact kundli-route-heading">
       <div className="section-title">
-        {isEditing ? 'REVIEW SAVED KUNDLI' : isReady ? 'ACTIVE KUNDLI' : 'KUNDLI SETUP'}
+        {isEditing
+          ? labels.reviewSavedKundliSection
+          : isReady
+          ? labels.activeKundliSection
+          : labels.kundliSetupSection}
       </div>
       <h1 className="gradient-text">
         {isEditing
-          ? `Review ${editingKundliName}'s birth details carefully.`
+          ? labels.reviewSavedKundliHeading(editingKundliName ?? '')
           : isReady
-          ? `${kundli?.birthDetails.name || 'Your'} Kundli is ready.`
-          : 'Create your Kundli carefully.'}
+          ? labels.activeKundliHeading(
+              kundli?.birthDetails.name || labels.yourFallbackName,
+            )
+          : labels.createKundliHeading}
       </h1>
       <p>
         {isEditing
-          ? 'Any change to birth date, time, or place recalculates the chart. Confirm only after the details look exact.'
+          ? labels.reviewSavedKundliBody
           : isReady
-          ? 'Start from one guided reading, then move deeper into charts, timing, reports, or remedies.'
-          : 'Match the birth place, confirm the timezone, and review the final birth details before Predicta calculates the chart.'}
+          ? labels.activeKundliBody
+          : labels.createKundliBody}
       </p>
       <details className="info-drawer">
         <summary>
           <span>
             {isEditing
-              ? 'How updates work'
+              ? labels.updateDrawerTitle
               : isReady
-              ? 'Why this chart is trustworthy'
-              : 'What happens after creation'}
+              ? labels.trustDrawerTitle
+              : labels.creationDrawerTitle}
           </span>
-          <strong>Open</strong>
+          <strong>{labels.openLabel}</strong>
         </summary>
         <p>
           {isEditing
-            ? 'Updating a saved Kundli recalculates the chart from the edited details. Save as new only when you intentionally want two separate records.'
+            ? labels.updateDrawerBody
             : isReady
-            ? 'The chart uses the matched place, coordinates, and timezone from the selected city. The primary Vedic view keeps core grahas first and moves supporting refinements into a secondary layer.'
-            : 'Predicta matches the selected birth place to coordinates and timezone, asks for confirmation before calculation, and then moves you into an active-reading state instead of leaving you inside a setup-only page.'}
+            ? labels.trustDrawerBody
+            : labels.creationDrawerBody}
         </p>
       </details>
     </section>
@@ -1922,6 +1931,15 @@ function normalizeBirthPlaceLabel(value?: string): string {
 }
 
 type KundliWizardCopy = {
+  activeKundliBody: string;
+  activeKundliHeading: (name: string) => string;
+  activeKundliSection: string;
+  birthDateLabel: string;
+  birthPlaceHelp: string;
+  birthPlaceLabel: string;
+  birthPlacePlaceholder: string;
+  birthPlaceRequiredError: string;
+  birthTimeLabel: string;
   birthTimeApproximate: string;
   calculating: string;
   continueLabel: string;
@@ -1929,7 +1947,11 @@ type KundliWizardCopy = {
   createAnotherKundli: string;
   createAnotherKundliStep: string;
   createBirthDetailsBody: string;
+  createKundliBody: string;
+  createKundliHeading: string;
   createKundliStep: string;
+  creationDrawerBody: string;
+  creationDrawerTitle: string;
   editBirthDetailsBody: string;
   editSavedKundli: string;
   enterBirthDetails: string;
@@ -1943,10 +1965,35 @@ type KundliWizardCopy = {
   relationshipLabel: string;
   relationshipPlaceholder: string;
   relationshipRequiredError: string;
+  requiredBirthDetailsError: string;
+  reviewSavedKundliBody: string;
+  reviewSavedKundliHeading: (name: string) => string;
+  reviewSavedKundliSection: string;
+  kundliSetupSection: string;
+  nameLabel: string;
+  namePlaceholder: string;
+  openLabel: string;
+  trustDrawerBody: string;
+  trustDrawerTitle: string;
+  updateDrawerBody: string;
+  updateDrawerTitle: string;
+  yourFallbackName: string;
 };
 
 const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
   en: {
+    activeKundliBody:
+      'Start from one guided reading, then move deeper into charts, timing, reports, or remedies.',
+    activeKundliHeading: name => `${name} Kundli is ready.`,
+    activeKundliSection: 'ACTIVE KUNDLI',
+    birthDateLabel: 'Birth date',
+    birthPlaceHelp:
+      'Select the matching city so the chart uses the right timezone.',
+    birthPlaceLabel: 'Birth place',
+    birthPlacePlaceholder: 'Start typing city, state, country',
+    birthPlaceRequiredError:
+      'Choose a matching birth place from the suggestions so Predicta can use the correct timezone and coordinates.',
+    birthTimeLabel: 'Birth time',
     birthTimeApproximate: 'Birth time is approximate',
     calculating: 'Calculating...',
     continueLabel: 'Continue',
@@ -1956,7 +2003,13 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     createAnotherKundliStep: 'CREATE ANOTHER KUNDLI',
     createBirthDetailsBody:
       'Predicta needs only three things first: date, time, and place.',
+    createKundliBody:
+      'Match the birth place, confirm the timezone, and review the final birth details before Predicta calculates the chart.',
+    createKundliHeading: 'Create your Kundli carefully.',
     createKundliStep: 'STEP 1 · CREATE KUNDLI',
+    creationDrawerBody:
+      'Predicta matches the selected birth place to coordinates and timezone, asks for confirmation before calculation, and then moves you into an active-reading state instead of leaving you inside a setup-only page.',
+    creationDrawerTitle: 'What happens after creation',
     editBirthDetailsBody:
       'Change only what is wrong, then confirm before Predicta recalculates the Kundli.',
     editSavedKundli: 'EDIT SAVED KUNDLI',
@@ -1975,9 +2028,36 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     relationshipPlaceholder: 'Select relationship',
     relationshipRequiredError:
       'Select how this saved profile is related to you before creating or updating it.',
+    requiredBirthDetailsError:
+      'Please fill name, birth date, and birth time first.',
+    reviewSavedKundliBody:
+      'Any change to birth date, time, or place recalculates the chart. Confirm only after the details look exact.',
+    reviewSavedKundliHeading: name =>
+      `Review ${name}'s birth details carefully.`,
+    reviewSavedKundliSection: 'REVIEW SAVED KUNDLI',
     reviewBirthDetails: name => `Review ${name}'s birth details.`,
+    kundliSetupSection: 'KUNDLI SETUP',
+    nameLabel: 'Name',
+    namePlaceholder: 'Your name',
+    openLabel: 'Open',
+    trustDrawerBody:
+      'The chart uses the matched place, coordinates, and timezone from the selected city. The primary Vedic view keeps core grahas first and moves supporting refinements into a secondary layer.',
+    trustDrawerTitle: 'Why this chart is trustworthy',
+    updateDrawerBody:
+      'Updating a saved Kundli recalculates the chart from the edited details. Save as new only when you intentionally want two separate records.',
+    updateDrawerTitle: 'How updates work',
+    yourFallbackName: 'Your',
   },
   hi: {
+    activeKundliBody: getNativeCopy("kundliWizard.activeKundliBody.hi"),
+    activeKundliHeading: name => formatNativeCopy("kundliWizard.activeKundliHeading.hi", [name]),
+    activeKundliSection: getNativeCopy("kundliWizard.activeKundliSection.hi"),
+    birthDateLabel: getNativeCopy("kundliWizard.birthDateLabel.hi"),
+    birthPlaceHelp: getNativeCopy("kundliWizard.birthPlaceHelp.hi"),
+    birthPlaceLabel: getNativeCopy("kundliWizard.birthPlaceLabel.hi"),
+    birthPlacePlaceholder: getNativeCopy("kundliWizard.birthPlacePlaceholder.hi"),
+    birthPlaceRequiredError: getNativeCopy("kundliWizard.birthPlaceRequiredError.hi"),
+    birthTimeLabel: getNativeCopy("kundliWizard.birthTimeLabel.hi"),
     birthTimeApproximate: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.abe190eefa"),
     calculating: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.6c8fdc8295"),
     continueLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.aa9a542091"),
@@ -1987,7 +2067,11 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     createAnotherKundliStep: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.72bfdc185c"),
     createBirthDetailsBody:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.bb01300395"),
+    createKundliBody: getNativeCopy("kundliWizard.createKundliBody.hi"),
+    createKundliHeading: getNativeCopy("kundliWizard.createKundliHeading.hi"),
     createKundliStep: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.3f1201483c"),
+    creationDrawerBody: getNativeCopy("kundliWizard.creationDrawerBody.hi"),
+    creationDrawerTitle: getNativeCopy("kundliWizard.creationDrawerTitle.hi"),
     editBirthDetailsBody:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.b4c91e2690"),
     editSavedKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9ab7f097a3"),
@@ -2006,9 +2090,31 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     relationshipPlaceholder: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.06da9e136b"),
     relationshipRequiredError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.fa7f447f5e"),
+    requiredBirthDetailsError: getNativeCopy("kundliWizard.requiredBirthDetailsError.hi"),
+    reviewSavedKundliBody: getNativeCopy("kundliWizard.reviewSavedKundliBody.hi"),
+    reviewSavedKundliHeading: name => formatNativeCopy("kundliWizard.reviewSavedKundliHeading.hi", [name]),
+    reviewSavedKundliSection: getNativeCopy("kundliWizard.reviewSavedKundliSection.hi"),
     reviewBirthDetails: name => formatNativeCopy("native.apps.web.components.WebKundliWizard.tsx.78c98d45b0", [name]),
+    kundliSetupSection: getNativeCopy("kundliWizard.kundliSetupSection.hi"),
+    nameLabel: getNativeCopy("kundliWizard.nameLabel.hi"),
+    namePlaceholder: getNativeCopy("kundliWizard.namePlaceholder.hi"),
+    openLabel: getNativeCopy("kundliWizard.openLabel.hi"),
+    trustDrawerBody: getNativeCopy("kundliWizard.trustDrawerBody.hi"),
+    trustDrawerTitle: getNativeCopy("kundliWizard.trustDrawerTitle.hi"),
+    updateDrawerBody: getNativeCopy("kundliWizard.updateDrawerBody.hi"),
+    updateDrawerTitle: getNativeCopy("kundliWizard.updateDrawerTitle.hi"),
+    yourFallbackName: getNativeCopy("kundliWizard.yourFallbackName.hi"),
   },
   gu: {
+    activeKundliBody: getNativeCopy("kundliWizard.activeKundliBody.gu"),
+    activeKundliHeading: name => formatNativeCopy("kundliWizard.activeKundliHeading.gu", [name]),
+    activeKundliSection: getNativeCopy("kundliWizard.activeKundliSection.gu"),
+    birthDateLabel: getNativeCopy("kundliWizard.birthDateLabel.gu"),
+    birthPlaceHelp: getNativeCopy("kundliWizard.birthPlaceHelp.gu"),
+    birthPlaceLabel: getNativeCopy("kundliWizard.birthPlaceLabel.gu"),
+    birthPlacePlaceholder: getNativeCopy("kundliWizard.birthPlacePlaceholder.gu"),
+    birthPlaceRequiredError: getNativeCopy("kundliWizard.birthPlaceRequiredError.gu"),
+    birthTimeLabel: getNativeCopy("kundliWizard.birthTimeLabel.gu"),
     birthTimeApproximate: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f92bd5d28b"),
     calculating: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.38007d95c3"),
     continueLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9e3014236d"),
@@ -2018,7 +2124,11 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     createAnotherKundliStep: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.df15299f0b"),
     createBirthDetailsBody:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.3daa0a51c7"),
+    createKundliBody: getNativeCopy("kundliWizard.createKundliBody.gu"),
+    createKundliHeading: getNativeCopy("kundliWizard.createKundliHeading.gu"),
     createKundliStep: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.7fa5156756"),
+    creationDrawerBody: getNativeCopy("kundliWizard.creationDrawerBody.gu"),
+    creationDrawerTitle: getNativeCopy("kundliWizard.creationDrawerTitle.gu"),
     editBirthDetailsBody:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.66668b5ce0"),
     editSavedKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f2f57c2164"),
@@ -2037,6 +2147,19 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     relationshipPlaceholder: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9c93179b60"),
     relationshipRequiredError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.d369f850b5"),
+    requiredBirthDetailsError: getNativeCopy("kundliWizard.requiredBirthDetailsError.gu"),
+    reviewSavedKundliBody: getNativeCopy("kundliWizard.reviewSavedKundliBody.gu"),
+    reviewSavedKundliHeading: name => formatNativeCopy("kundliWizard.reviewSavedKundliHeading.gu", [name]),
+    reviewSavedKundliSection: getNativeCopy("kundliWizard.reviewSavedKundliSection.gu"),
     reviewBirthDetails: name => formatNativeCopy("native.apps.web.components.WebKundliWizard.tsx.4b0b53bf8b", [name]),
+    kundliSetupSection: getNativeCopy("kundliWizard.kundliSetupSection.gu"),
+    nameLabel: getNativeCopy("kundliWizard.nameLabel.gu"),
+    namePlaceholder: getNativeCopy("kundliWizard.namePlaceholder.gu"),
+    openLabel: getNativeCopy("kundliWizard.openLabel.gu"),
+    trustDrawerBody: getNativeCopy("kundliWizard.trustDrawerBody.gu"),
+    trustDrawerTitle: getNativeCopy("kundliWizard.trustDrawerTitle.gu"),
+    updateDrawerBody: getNativeCopy("kundliWizard.updateDrawerBody.gu"),
+    updateDrawerTitle: getNativeCopy("kundliWizard.updateDrawerTitle.gu"),
+    yourFallbackName: getNativeCopy("kundliWizard.yourFallbackName.gu"),
   },
 };
