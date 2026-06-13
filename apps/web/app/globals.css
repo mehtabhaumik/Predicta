@@ -3563,16 +3563,23 @@ button:disabled,
   align-items: center;
   bottom: 20px;
   border-radius: 22px;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(77, 175, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 88% 24%, rgba(239, 80, 175, 0.14), transparent 32%),
+    linear-gradient(135deg, rgba(17, 17, 28, 0.94), rgba(9, 10, 18, 0.9));
+  border-color: rgba(122, 187, 255, 0.28);
   box-shadow:
     0 18px 46px rgba(0, 0, 0, 0.34),
-    0 0 40px rgba(77, 175, 255, 0.12);
+    0 0 40px rgba(77, 175, 255, 0.16);
   display: flex;
   gap: 16px;
   justify-content: space-between;
+  left: 50%;
   padding: 14px 16px;
   position: fixed;
-  right: 32px;
-  width: min(760px, calc(100vw - 64px));
+  right: auto;
+  transform: translateX(-50%);
+  width: min(820px, calc(100vw - 64px));
   z-index: var(--predicta-z-sticky);
 }
 
@@ -18337,6 +18344,7 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
     bottom: max(14px, env(safe-area-inset-bottom));
     left: 18px;
     right: 18px;
+    transform: none;
     width: auto;
   }
 

@@ -11,6 +11,7 @@ import type {
   ResolvedAccess,
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { announcePredictaNavigation } from '../lib/navigation-feedback';
 import {
   getLightweightAppShellLabels,
   type LightweightAppShellLabels,
@@ -352,6 +353,11 @@ export function DashboardShell({
     prewarmPredictaRuntime();
   }
 
+  function prepareAskPredictaNavigation(href: string): void {
+    prefetchAskPredicta(href);
+    announcePredictaNavigation(href);
+  }
+
   useEffect(() => {
     router.prefetch('/ask');
     router.prefetch(askPredictaHref);
@@ -426,6 +432,7 @@ export function DashboardShell({
               <Link
                 className="button"
                 href={askPredictaHref}
+                onClick={() => prepareAskPredictaNavigation(askPredictaHref)}
                 onFocus={() => prefetchAskPredicta(askPredictaHref)}
                 onPointerEnter={() => prefetchAskPredicta(askPredictaHref)}
                 onTouchStart={() => prefetchAskPredicta(askPredictaHref)}
@@ -489,10 +496,13 @@ export function DashboardShell({
                 <Link
                   className="dashboard-mobile-primary-ask"
                   href={askPredictaHref}
+                  onClick={() => {
+                    prepareAskPredictaNavigation(askPredictaHref);
+                    setMenuOpen(false);
+                  }}
                   onFocus={() => prefetchAskPredicta(askPredictaHref)}
                   onPointerEnter={() => prefetchAskPredicta(askPredictaHref)}
                   onTouchStart={() => prefetchAskPredicta(askPredictaHref)}
-                  onClick={() => setMenuOpen(false)}
                 >
                   {shellLabels.actions.askPredicta}
                 </Link>
@@ -646,6 +656,7 @@ export function DashboardShell({
             <Link
               className="button"
               href={askFromPageHref}
+              onClick={() => prepareAskPredictaNavigation(askFromPageHref)}
               onFocus={() => prefetchAskPredicta(askFromPageHref)}
               onPointerEnter={() => prefetchAskPredicta(askFromPageHref)}
               onTouchStart={() => prefetchAskPredicta(askFromPageHref)}
