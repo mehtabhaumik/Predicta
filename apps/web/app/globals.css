@@ -5925,6 +5925,23 @@ button:disabled,
   cursor: default;
 }
 
+.birth-place-resolved-value {
+  align-items: center;
+  background: rgba(77, 175, 255, 0.09);
+  border: 1px solid rgba(77, 175, 255, 0.26);
+  border-radius: 8px;
+  color: var(--text);
+  display: flex;
+  font-size: 15px;
+  font-weight: 850;
+  line-height: 1.35;
+  min-height: 46px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 10px 12px;
+  word-break: break-word;
+}
+
 .birth-place-change-button {
   align-items: center;
   background: rgba(77, 175, 255, 0.1);

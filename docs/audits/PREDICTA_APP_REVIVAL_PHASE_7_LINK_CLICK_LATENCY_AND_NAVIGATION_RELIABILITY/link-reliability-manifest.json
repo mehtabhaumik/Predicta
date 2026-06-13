@@ -1,12 +1,12 @@
 {
-  "baseUrl": "http://127.0.0.1:3044",
+  "baseUrl": "http://127.0.0.1:3045",
   "clickBudgetMs": 1800,
   "clickResults": [
     {
       "clicked": true,
       "href": "",
       "text": "Ask Predicta",
-      "elapsedMs": 103,
+      "elapsedMs": 104,
       "from": "/",
       "name": "landing primary ask entry",
       "url": "/ask?autoSend=true&sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly."
@@ -15,7 +15,7 @@
       "clicked": true,
       "href": "/ask?prompt=Create+my+Kundli+from+chat.+Ask+me+for+birth+date%2C+birth+time%2C+and+birth+place+one+by+one.&sourceScreen=Ask+Predicta&autoSend=true",
       "text": "Ask Predicta to Create",
-      "elapsedMs": 2,
+      "elapsedMs": 1,
       "from": "/dashboard",
       "name": "dashboard ask predicta link",
       "url": "/ask?sourceScreen=Kundli+Home&prompt=Use+my+selected+Kundli+if+available.+If+I+do+not+have+one+yet%2C+help+me+create+it+from+birth+date%2C+birth+time%2C+and+birth+place.+Give+the+direct+answer+first.&autoSend=true"
@@ -24,7 +24,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Vedic+Predicta&prompt=Use+my+selected+Kundli+and+tell+me+the+most+important+prediction+or+next+best+step+right+now.+Start+with+the+direct+answer.&autoSend=true&school=PARASHARI",
       "text": "Ask Predicta",
-      "elapsedMs": 114,
+      "elapsedMs": 43,
       "from": "/dashboard/vedic",
       "name": "vedic evidence room ask link",
       "url": "/ask?sourceScreen=Vedic+Predicta&prompt=Use+my+selected+Kundli+and+tell+me+the+most+important+prediction+or+next+best+step+right+now.+Start+with+the+direct+answer.&autoSend=true&school=PARASHARI"
@@ -33,13 +33,13 @@
       "clicked": true,
       "href": "/checkout?productId=pridicta_10_questions",
       "text": "Choose 10 AI Questions",
-      "elapsedMs": 103,
+      "elapsedMs": 105,
       "from": "/pricing",
       "name": "pricing checkout link",
       "url": "/checkout?productId=pridicta_10_questions"
     }
   ],
-  "generatedAt": "2026-06-13T15:09:16.538Z",
+  "generatedAt": "2026-06-13T15:28:47.620Z",
   "hrefLengthBudget": 900,
   "pageResults": [
     {
@@ -230,7 +230,7 @@
         "/dashboard/birth-time",
         "/dashboard/decision",
         "/ask?sourceScreen=Vedic+Predicta&prompt=Use+my+selected+Kundli+and+tell+me+the+most+important+prediction+or+next+best+step+right+now.+Start+with+the+direct+answer.&autoSend=true&school=PARASHARI",
-        "/ask?autoSend=true&prompt=Use+my+Vedic+evidence+and+tell+me+what+my+chart+is+saying+about+my+life+right+now.&selectedLanguage=en&sourceScreen=Vedic+Predicta&school=PARASHARI&from=PARASHARI&handoffMode=main_synthesis",
+        "/ask?sourceScreen=Vedic+Predicta&prompt=Read+my+Vedic+chart+and+tell+me+what+it+means+for+my+life+right+now.&autoSend=true&school=PARASHARI",
         "/ask?sourceScreen=Vedic+Predicta&prompt=I+am+on+Vedic+Room.+Use+this+page+context+and+my+selected+Kundli+if+available.+Give+me+the+direct+answer+or+next+best+action+first%2C+then+show+the+evidence+only+if+needed.&autoSend=true&school=PARASHARI",
         "/",
         "/accuracy-method",
@@ -424,19 +424,9 @@
       "route": "/dashboard/signature"
     },
     {
-      "activeLinks": [
-        {
-          "ariaCurrent": "true",
-          "ariaDisabled": "",
-          "className": "active",
-          "href": "#report-lane-vedic",
-          "inAskHeader": false,
-          "inPublicHeader": false,
-          "text": "Vedic"
-        }
-      ],
+      "activeLinks": [],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 27,
+      "anchorCount": 19,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -450,15 +440,7 @@
         "/dashboard/account",
         "/dashboard/premium",
         "/ask?sourceScreen=Reports&prompt=Use+my+selected+Kundli+and+tell+me+the+most+important+prediction+or+next+best+step+right+now.+Start+with+the+direct+answer.&autoSend=true",
-        "/dashboard/kundli",
-        "/ask?sourceScreen=Reports&prompt=Which+report+should+I+download+for+career%2C+marriage%2C+money%2C+family%2C+timing%2C+or+life+direction%3F&autoSend=true&reportFocus=report_selection",
-        "#report-lane-vedic",
-        "#report-lane-kp",
-        "#report-lane-jaimini",
-        "#report-lane-numerology",
-        "#report-lane-signature",
-        "#report-lane-life-atlas",
-        "/ask?sourceScreen=Report&handoffMode=main_synthesis&prompt=Explain+this+Predicta+report.&autoSend=true&school=PARASHARI&reportFocus=KUNDLI&reportMode=FREE&reportSchoolLane=VEDIC&eventOracleHandoff=true",
+        "/ask?autoSend=true&prompt=Help+me+choose+the+right+Predicta+report+and+tell+me+what+I+should+download.&selectedLanguage=en&sourceScreen=Reports",
         "/dashboard/kundli",
         "/ask?sourceScreen=Reports&prompt=I+am+on+Reports.+Use+this+page+context+and+my+selected+Kundli+if+available.+Give+me+the+direct+answer+or+next+best+action+first%2C+then+show+the+evidence+only+if+needed.&autoSend=true",
         "/",
@@ -528,7 +510,7 @@
         }
       ],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 13,
+      "anchorCount": 12,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -536,8 +518,7 @@
         "/accuracy-method",
         "/safety",
         "/pricing",
-        "/dashboard/kundli",
-        "/safety",
+        "/ask",
         "/",
         "/ask",
         "/accuracy-method",
@@ -628,7 +609,7 @@
     {
       "activeLinks": [],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 14,
+      "anchorCount": 12,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -637,8 +618,6 @@
         "/safety",
         "/pricing",
         "/ask",
-        "mailto:support@predicta.app?subject=Predicta%20feedback&body=Area%3A%20General%20experience%0APage%3A%20Not%20sure%0AUser%20type%3A%20Friend%20or%20family%0AEmail%3A%20Not%20shared%0A%0AMessage%3A%0AWrite%20here",
-        "/dashboard/redeem-pass?source=family-friends",
         "/",
         "/ask",
         "/accuracy-method",
@@ -704,207 +683,207 @@
   ],
   "routeResults": [
     {
-      "elapsedMs": 22,
+      "elapsedMs": 13,
       "location": null,
       "route": "/",
       "status": 200,
-      "url": "http://127.0.0.1:3044/"
+      "url": "http://127.0.0.1:3045/"
     },
     {
-      "elapsedMs": 10,
+      "elapsedMs": 5,
       "location": null,
       "route": "/ask",
       "status": 200,
-      "url": "http://127.0.0.1:3044/ask"
+      "url": "http://127.0.0.1:3045/ask"
     },
     {
-      "elapsedMs": 38,
+      "elapsedMs": 36,
       "location": "/ask?legacyChatSmoke=1&prompt=Will+my+job+improve%3F&sourceScreen=Legacy+Dashboard+Chat&autoSend=true",
       "route": "/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F",
       "status": 307,
-      "url": "http://127.0.0.1:3044/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F"
+      "url": "http://127.0.0.1:3045/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F"
     },
     {
-      "elapsedMs": 19,
+      "elapsedMs": 10,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Vedic+Predicta&school=PARASHARI&prompt=Read+my+Vedic+chart+and+tell+me+what+it+means+for+my+life+right+now.&autoSend=true&handoffMode=room_safe",
       "route": "/dashboard/vedic/chat?legacyRoomSmoke=1",
       "status": 307,
-      "url": "http://127.0.0.1:3044/dashboard/vedic/chat?legacyRoomSmoke=1"
+      "url": "http://127.0.0.1:3045/dashboard/vedic/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 8,
+      "elapsedMs": 12,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=KP+Predicta&school=KP&prompt=Answer+my+KP+question+clearly+with+timing%2C+likely+trigger%2C+and+what+I+should+do+next.&autoSend=true&handoffMode=room_safe",
       "route": "/dashboard/kp/chat?legacyRoomSmoke=1",
       "status": 307,
-      "url": "http://127.0.0.1:3044/dashboard/kp/chat?legacyRoomSmoke=1"
+      "url": "http://127.0.0.1:3045/dashboard/kp/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 7,
+      "elapsedMs": 10,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Jaimini+Predicta&school=JAIMINI&prompt=Read+my+current+Jaimini+destiny+chapter+and+tell+me+what+it+means+for+my+life+now.&autoSend=true&handoffMode=room_safe",
       "route": "/dashboard/jaimini/chat?legacyRoomSmoke=1",
       "status": 307,
-      "url": "http://127.0.0.1:3044/dashboard/jaimini/chat?legacyRoomSmoke=1"
+      "url": "http://127.0.0.1:3045/dashboard/jaimini/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 6,
+      "elapsedMs": 11,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Jaimini+Predicta&school=JAIMINI&prompt=Read+my+current+Jaimini+destiny+chapter+and+tell+me+what+it+means+for+my+life+now.&autoSend=true&handoffMode=room_safe",
       "route": "/dashboard/nadi/chat?legacyRoomSmoke=1",
       "status": 307,
-      "url": "http://127.0.0.1:3044/dashboard/nadi/chat?legacyRoomSmoke=1"
+      "url": "http://127.0.0.1:3045/dashboard/nadi/chat?legacyRoomSmoke=1"
     },
     {
       "elapsedMs": 6,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Numerology+Predicta&school=NUMEROLOGY&prompt=Read+my+number+pattern+and+tell+me+what+it+means+for+my+life+right+now.&autoSend=true&handoffMode=room_safe",
       "route": "/dashboard/numerology/chat?legacyRoomSmoke=1",
       "status": 307,
-      "url": "http://127.0.0.1:3044/dashboard/numerology/chat?legacyRoomSmoke=1"
+      "url": "http://127.0.0.1:3045/dashboard/numerology/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 7,
+      "elapsedMs": 5,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Signature+Predicta&school=SIGNATURE&prompt=Read+my+confirmed+signature+traits+safely+and+tell+me+what+they+reflect.&autoSend=true&handoffMode=room_safe",
       "route": "/dashboard/signature/chat?legacyRoomSmoke=1",
       "status": 307,
-      "url": "http://127.0.0.1:3044/dashboard/signature/chat?legacyRoomSmoke=1"
+      "url": "http://127.0.0.1:3045/dashboard/signature/chat?legacyRoomSmoke=1"
     },
     {
       "elapsedMs": 4,
       "location": null,
       "route": "/pricing",
       "status": 200,
-      "url": "http://127.0.0.1:3044/pricing"
+      "url": "http://127.0.0.1:3045/pricing"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 3,
       "location": null,
       "route": "/checkout?productId=pridicta_10_questions",
       "status": 200,
-      "url": "http://127.0.0.1:3044/checkout?productId=pridicta_10_questions"
+      "url": "http://127.0.0.1:3045/checkout?productId=pridicta_10_questions"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 1,
       "location": null,
       "route": "/accuracy-method",
       "status": 200,
-      "url": "http://127.0.0.1:3044/accuracy-method"
+      "url": "http://127.0.0.1:3045/accuracy-method"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 2,
       "location": null,
       "route": "/safety",
       "status": 200,
-      "url": "http://127.0.0.1:3044/safety"
+      "url": "http://127.0.0.1:3045/safety"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 1,
       "location": null,
       "route": "/legal",
       "status": 200,
-      "url": "http://127.0.0.1:3044/legal"
+      "url": "http://127.0.0.1:3045/legal"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 2,
       "location": null,
       "route": "/feedback",
       "status": 200,
-      "url": "http://127.0.0.1:3044/feedback"
+      "url": "http://127.0.0.1:3045/feedback"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 47,
       "location": "/ask?sourceScreen=Kundli+Home&prompt=Use+my+selected+Kundli+if+available.+If+I+do+not+have+one+yet%2C+help+me+create+it+from+birth+date%2C+birth+time%2C+and+birth+place.+Give+the+direct+answer+first.&autoSend=true",
       "route": "/dashboard",
       "status": 307,
-      "url": "http://127.0.0.1:3044/dashboard"
+      "url": "http://127.0.0.1:3045/dashboard"
     },
     {
       "elapsedMs": 4,
       "location": null,
       "route": "/dashboard?view=library",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard?view=library"
+      "url": "http://127.0.0.1:3045/dashboard?view=library"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/kundli",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/kundli"
+      "url": "http://127.0.0.1:3045/dashboard/kundli"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/vedic",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/vedic"
+      "url": "http://127.0.0.1:3045/dashboard/vedic"
     },
     {
-      "elapsedMs": 3,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/kp",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/kp"
+      "url": "http://127.0.0.1:3045/dashboard/kp"
     },
     {
       "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/jaimini",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/jaimini"
+      "url": "http://127.0.0.1:3045/dashboard/jaimini"
     },
     {
       "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/numerology",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/numerology"
+      "url": "http://127.0.0.1:3045/dashboard/numerology"
     },
     {
       "elapsedMs": 4,
       "location": null,
       "route": "/dashboard/signature",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/signature"
+      "url": "http://127.0.0.1:3045/dashboard/signature"
     },
     {
-      "elapsedMs": 4,
+      "elapsedMs": 2,
       "location": null,
       "route": "/dashboard/report",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/report"
+      "url": "http://127.0.0.1:3045/dashboard/report"
     },
     {
       "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/redeem-pass",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/redeem-pass"
+      "url": "http://127.0.0.1:3045/dashboard/redeem-pass"
     },
     {
       "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/saved-kundlis",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/saved-kundlis"
-    },
-    {
-      "elapsedMs": 3,
-      "location": null,
-      "route": "/dashboard/family",
-      "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/family"
+      "url": "http://127.0.0.1:3045/dashboard/saved-kundlis"
     },
     {
       "elapsedMs": 2,
       "location": null,
+      "route": "/dashboard/family",
+      "status": 200,
+      "url": "http://127.0.0.1:3045/dashboard/family"
+    },
+    {
+      "elapsedMs": 3,
+      "location": null,
       "route": "/dashboard/settings",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/settings"
+      "url": "http://127.0.0.1:3045/dashboard/settings"
     },
     {
       "elapsedMs": 3,
       "location": null,
       "route": "/dashboard/account",
       "status": 200,
-      "url": "http://127.0.0.1:3044/dashboard/account"
+      "url": "http://127.0.0.1:3045/dashboard/account"
     }
   ]
 }

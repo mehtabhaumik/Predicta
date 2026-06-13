@@ -70,8 +70,8 @@ try {
 
   console.log(JSON.stringify(result, null, 2));
 
-  if (!result.inputFound) {
-    throw new Error('Birth-place input was not found.');
+  if (!result.resolvedValueFound) {
+    throw new Error('Birth-place selection did not render the resolved birth-place value.');
   }
 
   if (result.partialSuggestionsMounted && result.partialHasSearchingPlaces) {
@@ -96,17 +96,17 @@ try {
 
   if (
     !result.optionFound &&
-    result.inputValue !== 'Petlad, Gujarat, India'
+    result.selectedBirthPlaceValue !== 'Petlad, Gujarat, India'
   ) {
     throw new Error('Petlad suggestion option was not found after search.');
   }
 
-  if (result.inputValue !== 'Petlad, Gujarat, India') {
-    throw new Error(`Expected selected value "Petlad, Gujarat, India"; received "${result.inputValue}".`);
+  if (result.selectedBirthPlaceValue !== 'Petlad, Gujarat, India') {
+    throw new Error(`Expected selected value "Petlad, Gujarat, India"; received "${result.selectedBirthPlaceValue}".`);
   }
 
-  if (!result.inputReadOnly || !result.changeButtonFound) {
-    throw new Error('Selected birth place must become a locked value with an explicit Change action.');
+  if (!result.resolvedValueFound || result.inputFound || !result.changeButtonFound) {
+    throw new Error('Selected birth place must become a non-input resolved value with an explicit Change action.');
   }
 
   if (result.birthPlaceSettled !== 'true') {
@@ -117,14 +117,14 @@ try {
     throw new Error('Birth-place Change action must clear the selected place and return the field to editable entry.');
   }
 
-  if (result.inputAutoComplete !== 'new-password') {
+  if (result.changeActionInputAutoComplete !== 'new-password') {
     throw new Error(
-      `Birth-place input must suppress browser autofill with autocomplete="new-password"; received "${result.inputAutoComplete}".`,
+      `Birth-place input must suppress browser autofill with autocomplete="new-password"; received "${result.changeActionInputAutoComplete}".`,
     );
   }
 
-  if (!/^predicta-context-/.test(result.inputName ?? '')) {
-    throw new Error(`Birth-place input must use an isolated Predicta autocomplete name; received "${result.inputName}".`);
+  if (!/^predicta-context-/.test(result.changeActionInputName ?? '')) {
+    throw new Error(`Birth-place input must use an isolated Predicta autocomplete name; received "${result.changeActionInputName}".`);
   }
 
   if (result.suggestionsMounted || result.hasSearchingPlaces) {
@@ -139,26 +139,26 @@ try {
     throw new Error('Birth-place suggestions reopened after focusing the selected place.');
   }
 
-  if (!humanTypingResult.inputFound) {
-    throw new Error('Birth-place input was not found during the human typing scenario.');
+  if (!humanTypingResult.resolvedValueFound) {
+    throw new Error('Human typing did not render the resolved birth-place value.');
   }
 
-  if (!clickSuggestionResult.inputFound) {
-    throw new Error('Birth-place input was not found during the click suggestion scenario.');
+  if (!clickSuggestionResult.resolvedValueFound) {
+    throw new Error('Clicking a suggestion did not render the resolved birth-place value.');
   }
 
   if (!clickSuggestionResult.optionFound) {
     throw new Error('Petlad suggestion option was not clickable during the click suggestion scenario.');
   }
 
-  if (clickSuggestionResult.inputValue !== 'Petlad, Gujarat, India') {
+  if (clickSuggestionResult.selectedBirthPlaceValue !== 'Petlad, Gujarat, India') {
     throw new Error(
-      `Clicking the Petlad suggestion did not settle the input to "Petlad, Gujarat, India"; received "${clickSuggestionResult.inputValue}".`,
+      `Clicking the Petlad suggestion did not settle the input to "Petlad, Gujarat, India"; received "${clickSuggestionResult.selectedBirthPlaceValue}".`,
     );
   }
 
-  if (!clickSuggestionResult.inputReadOnly || !clickSuggestionResult.changeButtonFound) {
-    throw new Error('Clicking a birth-place suggestion must lock the selected place and expose a Change action.');
+  if (!clickSuggestionResult.resolvedValueFound || clickSuggestionResult.inputFound || !clickSuggestionResult.changeButtonFound) {
+    throw new Error('Clicking a birth-place suggestion must lock the selected place into a non-input resolved value and expose a Change action.');
   }
 
   if (clickSuggestionResult.birthPlaceSettled !== 'true') {
@@ -184,14 +184,14 @@ try {
     throw new Error('Birth-place suggestions reopened after refocusing the clicked selected place.');
   }
 
-  if (humanTypingResult.inputValue !== 'Petlad, Gujarat, India') {
+  if (humanTypingResult.selectedBirthPlaceValue !== 'Petlad, Gujarat, India') {
     throw new Error(
-      `Human typing did not settle Petlad to "Petlad, Gujarat, India"; received "${humanTypingResult.inputValue}".`,
+      `Human typing did not settle Petlad to "Petlad, Gujarat, India"; received "${humanTypingResult.selectedBirthPlaceValue}".`,
     );
   }
 
-  if (!humanTypingResult.inputReadOnly || !humanTypingResult.changeButtonFound) {
-    throw new Error('Human typing must settle birth place into a locked value with a Change action.');
+  if (!humanTypingResult.resolvedValueFound || humanTypingResult.inputFound || !humanTypingResult.changeButtonFound) {
+    throw new Error('Human typing must settle birth place into a non-input resolved value with a Change action.');
   }
 
   if (humanTypingResult.birthPlaceSettled !== 'true') {
@@ -220,18 +220,18 @@ try {
     );
   }
 
-  if (!nativeAutocompleteResult.inputFound) {
-    throw new Error('Birth-place input was not found during the native autocomplete scenario.');
+  if (!nativeAutocompleteResult.resolvedValueFound) {
+    throw new Error('Native autocomplete did not render the resolved birth-place value.');
   }
 
-  if (nativeAutocompleteResult.inputValue !== 'Petlad, Gujarat, India') {
+  if (nativeAutocompleteResult.selectedBirthPlaceValue !== 'Petlad, Gujarat, India') {
     throw new Error(
-      `Native autocomplete did not settle Petlad to "Petlad, Gujarat, India"; received "${nativeAutocompleteResult.inputValue}".`,
+      `Native autocomplete did not settle Petlad to "Petlad, Gujarat, India"; received "${nativeAutocompleteResult.selectedBirthPlaceValue}".`,
     );
   }
 
-  if (!nativeAutocompleteResult.inputReadOnly || !nativeAutocompleteResult.changeButtonFound) {
-    throw new Error('Native autocomplete must settle birth place into a locked value with a Change action.');
+  if (!nativeAutocompleteResult.resolvedValueFound || nativeAutocompleteResult.inputFound || !nativeAutocompleteResult.changeButtonFound) {
+    throw new Error('Native autocomplete must settle birth place into a non-input resolved value with a Change action.');
   }
 
   if (nativeAutocompleteResult.birthPlaceSettled !== 'true') {
@@ -325,7 +325,7 @@ async function runClickSuggestionAutocompleteScenario(cdp) {
     beforeClickHasSearchingPlaces: beforeClickState.hasSearchingPlaces,
     beforeClickSuggestionsMounted: beforeClickState.suggestionsMounted,
     beforeClickSuggestionsText: beforeClickState.suggestionsText,
-	    inputFound: clickResponse.result?.value?.inputFound ?? afterClickState.inputFound,
+	    inputFound: afterClickState.inputFound,
 	    optionFound: clickResponse.result?.value?.optionFound ?? false,
 	    ...(await collectRefocusState(cdp)),
 	    ...(await collectChangeActionState(cdp)),
@@ -381,7 +381,7 @@ async function runHumanTypingAutocompleteScenario(cdp) {
   });
 
   if (
-    exactTypedState.inputValue === 'Petlad, Gujarat, India' &&
+    exactTypedState.selectedBirthPlaceValue === 'Petlad, Gujarat, India' &&
     !exactTypedState.suggestionsMounted &&
     !exactTypedState.hasSearchingPlaces
   ) {
@@ -521,7 +521,7 @@ async function runAutocompleteScenario(cdp) {
   });
 
   if (
-    exactTypedState.inputValue === 'Petlad, Gujarat, India' &&
+    exactTypedState.selectedBirthPlaceValue === 'Petlad, Gujarat, India' &&
     !exactTypedState.suggestionsMounted &&
     !exactTypedState.hasSearchingPlaces
   ) {
@@ -554,6 +554,7 @@ async function runAutocompleteScenario(cdp) {
 
         if (!option) {
           const input = document.querySelector('input[data-birth-place-search="true"]');
+          const resolvedValue = document.querySelector('.birth-place-resolved-value');
           const suggestions = document.querySelector('.birth-place-suggestions');
           const text = document.body.textContent || '';
           return {
@@ -569,9 +570,13 @@ async function runAutocompleteScenario(cdp) {
                 suggestions?.textContent || '',
               ),
             horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
-            inputFound: true,
+            inputFound: Boolean(input),
             inputValue: input?.value || '',
             inputReadOnly: Boolean(input?.readOnly),
+            resolvedValueFound: Boolean(resolvedValue),
+            resolvedValueText: resolvedValue?.textContent?.trim() || '',
+            selectedBirthPlaceValue:
+              resolvedValue?.textContent?.trim() || input?.value || '',
             birthPlaceSettled:
               document.querySelector('.birth-place-search')?.getAttribute('data-birth-place-settled') || '',
             changeButtonFound: Boolean(document.querySelector('.birth-place-change-button')),
@@ -599,7 +604,7 @@ async function runAutocompleteScenario(cdp) {
     };
 
     if (
-      earlyResult.inputValue === 'Petlad, Gujarat, India' &&
+      earlyResult.selectedBirthPlaceValue === 'Petlad, Gujarat, India' &&
       !earlyResult.suggestionsMounted &&
       !earlyResult.hasSearchingPlaces
     ) {
@@ -653,6 +658,7 @@ async function runAutocompleteScenario(cdp) {
     expression: `(() => {
       const suggestions = document.querySelector('.birth-place-suggestions');
       const input = document.querySelector('input[data-birth-place-search="true"]');
+      const resolvedValue = document.querySelector('.birth-place-resolved-value');
       const options = [...document.querySelectorAll('.birth-place-suggestions button')];
       const text = document.body.textContent || '';
 
@@ -674,6 +680,10 @@ async function runAutocompleteScenario(cdp) {
         inputName: input?.getAttribute('name') || '',
         inputValue: input?.value || '',
         inputReadOnly: Boolean(input?.readOnly),
+        resolvedValueFound: Boolean(resolvedValue),
+        resolvedValueText: resolvedValue?.textContent?.trim() || '',
+        selectedBirthPlaceValue:
+          resolvedValue?.textContent?.trim() || input?.value || '',
         birthPlaceSettled:
           document.querySelector('.birth-place-search')?.getAttribute('data-birth-place-settled') || '',
         changeButtonFound: Boolean(document.querySelector('.birth-place-change-button')),
@@ -742,6 +752,7 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
       const options = [...document.querySelectorAll('.birth-place-suggestions button')];
       const suggestions = document.querySelector('.birth-place-suggestions');
       const input = document.querySelector('input[data-birth-place-search="true"]');
+      const resolvedValue = document.querySelector('.birth-place-resolved-value');
       const text = document.body.textContent || '';
 
       return {
@@ -762,6 +773,10 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
         inputName: input?.getAttribute('name') || '',
         inputValue: input?.value || '',
         inputReadOnly: Boolean(input?.readOnly),
+        resolvedValueFound: Boolean(resolvedValue),
+        resolvedValueText: resolvedValue?.textContent?.trim() || '',
+        selectedBirthPlaceValue:
+          resolvedValue?.textContent?.trim() || input?.value || '',
         birthPlaceSettled:
           document.querySelector('.birth-place-search')?.getAttribute('data-birth-place-settled') || '',
         changeButtonFound: Boolean(document.querySelector('.birth-place-change-button')),
@@ -838,6 +853,8 @@ async function collectChangeActionState(cdp) {
       return {
         changeActionFound: Boolean(${Boolean(clickResponse.result?.value?.changeActionFound)}),
         changeActionCleared: (input?.value || '') === '',
+        changeActionInputAutoComplete: input?.getAttribute('autocomplete') || '',
+        changeActionInputName: input?.getAttribute('name') || '',
         changeActionReadOnly: Boolean(input?.readOnly),
         changeActionSuggestionsMounted: Boolean(document.querySelector('.birth-place-suggestions')),
         changeActionSearchingText: /Searching places|Searching|શોધ|खोज/i.test(
