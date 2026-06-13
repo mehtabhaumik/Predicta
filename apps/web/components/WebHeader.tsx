@@ -17,6 +17,10 @@ export function WebHeader(): React.JSX.Element {
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const shellLabels = getAppShellLabels(language);
   const copy = buildPublicHeaderCopy(shellLabels);
+  const mobilePrimaryLinks = [
+    ...copy.links,
+    { href: '/dashboard/report', label: shellLabels.nav.reports },
+  ];
   const responseCopy = getCompetitorResponseCopy(language);
 
   function prewarmAskPredicta(): void {
@@ -111,7 +115,7 @@ export function WebHeader(): React.JSX.Element {
             <div className="mobile-menu-panel">
               <nav aria-label={shellLabels.groups.sections}>
                 <div className="mobile-menu-nav-group">
-                  {copy.links.map(link =>
+                  {mobilePrimaryLinks.map(link =>
                     renderPublicMobileLink({
                       link,
                       onClick: () => setMenuOpen(false),
