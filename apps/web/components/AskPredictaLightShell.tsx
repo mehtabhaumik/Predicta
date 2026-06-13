@@ -270,16 +270,23 @@ export function AskPredictaLightShell(): React.JSX.Element {
         PredictaRuntimeComponent ? (
           <PredictaRuntimeComponent key={searchParams.toString()} />
         ) : (
-          <AskPredictaLoadingCard />
+          <AskPredictaLoadingCard prompt={question} />
         )
       ) : null}
     </section>
   );
 }
 
-export function AskPredictaLoadingCard(): React.JSX.Element {
+type AskPredictaLoadingCardProps = {
+  prompt?: string;
+};
+
+export function AskPredictaLoadingCard({
+  prompt,
+}: AskPredictaLoadingCardProps): React.JSX.Element {
   const { language } = useLightweightLanguagePreference();
   const landing = getLightweightCompetitorResponseCopy(language).landing;
+  const resolvedPrompt = prompt?.trim();
 
   return (
     <article
@@ -292,6 +299,12 @@ export function AskPredictaLoadingCard(): React.JSX.Element {
         <strong>{landing.loadingTitle}</strong>
         <p>{landing.loadingBody}</p>
       </div>
+      {resolvedPrompt ? (
+        <div className="predicta-chat-loading-question">
+          <span>{landing.loadingQuestionLabel}</span>
+          <p>{resolvedPrompt}</p>
+        </div>
+      ) : null}
       <div className="predicta-chat-loading-lines" aria-hidden="true">
         <i />
         <i />

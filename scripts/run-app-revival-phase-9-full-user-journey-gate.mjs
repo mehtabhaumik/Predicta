@@ -109,6 +109,14 @@ try {
     const audit = await evaluate(cdp, `(() => ({
       chatStarted: Boolean(document.querySelector('.ask-light-shell-started')),
       hasChatEntry: Boolean(document.querySelector('.auth-required-panel, .chat-workspace, .chat-panel, .predicta-chat-loading, .chat-message')),
+      loadingReceiptOk: (() => {
+        const loading = document.querySelector('.predicta-chat-loading');
+        if (!loading) {
+          return true;
+        }
+
+        return /Will my job improve in the next few months/.test(loading.textContent || '');
+      })(),
       preservesQuestion: (document.querySelector('.ask-light-field textarea')?.value || '').trim().length > 12,
       horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
       query: location.search,
@@ -120,6 +128,9 @@ try {
     }
     if (!audit.hasChatEntry || !audit.preservesQuestion) {
       localFailures.push('question submit did not reveal a direct chat/sign-in state with the question preserved');
+    }
+    if (!audit.loadingReceiptOk) {
+      localFailures.push('question submit loading card did not show the preserved question receipt');
     }
     if (audit.horizontalOverflow) {
       localFailures.push('question submit route has horizontal overflow');
