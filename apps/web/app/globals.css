@@ -18882,6 +18882,53 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
     display: none;
   }
 
+  .dashboard-primary-world-route .main-workspace {
+    padding-top: 12px;
+  }
+
+  .dashboard-primary-world-route .dashboard-topbar {
+    align-items: center;
+    border-radius: 16px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 10px 10px 10px 12px;
+  }
+
+  .dashboard-primary-world-route .dashboard-topbar-context {
+    align-content: center;
+    gap: 0;
+  }
+
+  .dashboard-primary-world-route .dashboard-topbar-context span {
+    display: none;
+  }
+
+  .dashboard-primary-world-route .dashboard-topbar-context strong {
+    font-size: 13px;
+    line-height: 1.15;
+  }
+
+  .dashboard-primary-world-route .dashboard-topbar-actions {
+    display: grid;
+    flex: 0 0 auto;
+    gap: 8px;
+    grid-template-columns: auto var(--predicta-touch-target);
+    width: auto;
+  }
+
+  .dashboard-primary-world-route .dashboard-topbar-actions .button {
+    font-size: 12px;
+    min-height: 40px;
+    padding: 0 12px;
+    width: auto;
+  }
+
+  .dashboard-primary-world-route .dashboard-topbar-actions .dashboard-menu-toggle {
+    height: 40px;
+    width: 40px;
+  }
+
   .dashboard-pass-banner {
     padding: 14px;
   }
