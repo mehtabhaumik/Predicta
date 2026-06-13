@@ -106,6 +106,10 @@ try {
     throw new Error('Selected birth place must become a locked value with an explicit Change action.');
   }
 
+  if (result.birthPlaceSettled !== 'true') {
+    throw new Error('Selected birth place must mark the autocomplete wrapper as settled.');
+  }
+
   if (!result.changeActionCleared || result.changeActionReadOnly) {
     throw new Error('Birth-place Change action must clear the selected place and return the field to editable entry.');
   }
@@ -154,6 +158,10 @@ try {
     throw new Error('Clicking a birth-place suggestion must lock the selected place and expose a Change action.');
   }
 
+  if (clickSuggestionResult.birthPlaceSettled !== 'true') {
+    throw new Error('Clicking a birth-place suggestion must mark the autocomplete wrapper as settled.');
+  }
+
   if (!clickSuggestionResult.changeActionCleared || clickSuggestionResult.changeActionReadOnly) {
     throw new Error('Birth-place Change action must work after clicking a suggestion.');
   }
@@ -181,6 +189,10 @@ try {
 
   if (!humanTypingResult.inputReadOnly || !humanTypingResult.changeButtonFound) {
     throw new Error('Human typing must settle birth place into a locked value with a Change action.');
+  }
+
+  if (humanTypingResult.birthPlaceSettled !== 'true') {
+    throw new Error('Human typing must mark the autocomplete wrapper as settled.');
   }
 
   if (
@@ -493,6 +505,8 @@ async function runAutocompleteScenario(cdp) {
             inputFound: true,
             inputValue: input?.value || '',
             inputReadOnly: Boolean(input?.readOnly),
+            birthPlaceSettled:
+              document.querySelector('.birth-place-search')?.getAttribute('data-birth-place-settled') || '',
             changeButtonFound: Boolean(document.querySelector('.birth-place-change-button')),
             optionFound: false,
             suggestionsMounted: Boolean(suggestions),
@@ -593,6 +607,8 @@ async function runAutocompleteScenario(cdp) {
         inputName: input?.getAttribute('name') || '',
         inputValue: input?.value || '',
         inputReadOnly: Boolean(input?.readOnly),
+        birthPlaceSettled:
+          document.querySelector('.birth-place-search')?.getAttribute('data-birth-place-settled') || '',
         changeButtonFound: Boolean(document.querySelector('.birth-place-change-button')),
         optionFound: true,
         suggestionsMounted: Boolean(suggestions),
@@ -679,6 +695,8 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
         inputName: input?.getAttribute('name') || '',
         inputValue: input?.value || '',
         inputReadOnly: Boolean(input?.readOnly),
+        birthPlaceSettled:
+          document.querySelector('.birth-place-search')?.getAttribute('data-birth-place-settled') || '',
         changeButtonFound: Boolean(document.querySelector('.birth-place-change-button')),
         optionFound: options.some(item => ${optionPattern}.test(item.textContent || '')),
         suggestionsMounted: Boolean(suggestions),

@@ -1095,7 +1095,11 @@ export function WebKundliWizard(): React.JSX.Element {
           </label>
           <label>
             <span>{labels.birthPlaceLabel}</span>
-            <div className="birth-place-search" ref={birthPlaceSearchRef}>
+            <div
+              className="birth-place-search"
+              data-birth-place-settled={isBirthPlaceSearchSettled ? 'true' : 'false'}
+              ref={birthPlaceSearchRef}
+            >
               <div className="birth-place-input-row">
                 <input
                   aria-describedby="birth-place-help"
