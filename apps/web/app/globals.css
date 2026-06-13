@@ -19246,6 +19246,20 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   .kundli-hero-visual {
     padding: 0;
   }
+
+  .primary-predicta-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .primary-predicta-actions {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .primary-predicta-actions .button {
+    justify-content: center;
+    width: 100%;
+  }
 }
 
 @media (max-width: 560px) {
