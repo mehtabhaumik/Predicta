@@ -22011,10 +22011,12 @@ select::-ms-expand {
 }
 
 .ask-predicta-main {
+  align-items: stretch;
   background:
     radial-gradient(circle at 12% 4%, rgba(70, 174, 255, 0.14), transparent 30%),
     radial-gradient(circle at 88% 12%, rgba(239, 80, 175, 0.12), transparent 26%),
     var(--color-bg);
+  display: flex;
   min-height: 100dvh;
   padding: clamp(14px, 2.2vw, 28px) var(--page-gutter) clamp(16px, 3vw, 32px);
 }
@@ -22134,12 +22136,13 @@ select::-ms-expand {
 
 .ask-predicta-page {
   margin: 0 auto;
-  max-width: min(1120px, 100%);
+  max-width: min(980px, 100%);
+  width: 100%;
 }
 
 .ask-predicta-page .ask-light-console {
   gap: clamp(12px, 1.8vw, 16px);
-  padding: clamp(16px, 2.4vw, 24px);
+  padding: clamp(18px, 2.8vw, 28px);
 }
 
 .ask-predicta-page .ask-light-copy {
@@ -22148,9 +22151,9 @@ select::-ms-expand {
 }
 
 .ask-predicta-page .ask-light-copy h1 {
-  font-size: clamp(30px, 3.6vw, 44px);
+  font-size: clamp(30px, 3.4vw, 42px);
   letter-spacing: -0.045em;
-  line-height: 1;
+  line-height: 1.03;
 }
 
 .ask-light-shell {
@@ -22164,7 +22167,7 @@ select::-ms-expand {
   display: grid;
   gap: 18px;
   margin: 0 auto;
-  max-width: min(920px, 100%);
+  max-width: min(840px, 100%);
   min-width: 0;
   padding: clamp(20px, 3.4vw, 34px);
   width: 100%;
@@ -22240,7 +22243,7 @@ select::-ms-expand {
   font: inherit;
   font-size: 18px;
   line-height: 1.5;
-  min-height: 122px;
+  min-height: 116px;
   outline: none;
   padding: 18px;
   resize: vertical;
@@ -22264,9 +22267,16 @@ select::-ms-expand {
 
 .ask-light-chips {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px;
   min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.ask-light-chips::-webkit-scrollbar {
+  display: none;
 }
 
 .ask-light-chips :is(button, a) {
@@ -22278,6 +22288,7 @@ select::-ms-expand {
   font: inherit;
   font-size: 14px;
   font-weight: 850;
+  flex: 1 1 0;
   line-height: 1.25;
   max-width: 100%;
   min-height: 42px;
@@ -22332,25 +22343,24 @@ select::-ms-expand {
 }
 
 .ask-light-trust-note {
-  background:
-    linear-gradient(135deg, rgba(77, 175, 255, 0.075), rgba(217, 180, 91, 0.055)),
-    rgba(255, 255, 255, 0.028);
-  border-color: rgba(255, 255, 255, 0.08);
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  padding: 10px;
+  background: transparent;
+  border-color: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
 }
 
 .ask-light-trust-note span {
   align-items: flex-start;
-  background: rgba(255, 255, 255, 0.052);
-  border: 1px solid rgba(255, 255, 255, 0.085);
-  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 999px;
   display: flex;
+  flex: 1 1 260px;
   gap: 9px;
   min-width: 0;
-  padding: 11px 12px;
+  padding: 9px 12px;
 }
 
 .ask-light-trust-note span::before {
@@ -25749,15 +25759,18 @@ select::-ms-expand {
 
   .ask-light-trust-note {
     align-items: flex-start;
-    border-radius: 14px;
-    display: grid;
+    background: transparent;
+    border-color: transparent;
+    border-radius: 0;
+    display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-    grid-template-columns: 1fr;
-    padding: 10px;
+    padding: 0;
   }
 
   .ask-light-trust-note span {
-    border-radius: 12px;
+    border-radius: 14px;
+    flex-basis: 100%;
     padding: 10px 11px;
   }
 

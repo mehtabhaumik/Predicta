@@ -39,6 +39,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
   const { language } = useLightweightLanguagePreference();
   const landing = getLightweightCompetitorResponseCopy(language).landing;
   const incomingPrompt = searchParams.get('prompt') ?? '';
+  const visibleSuggestedQuestions = landing.suggestedQuestions.slice(0, 3);
   const hasIncomingContext = useMemo(
     () => CONTEXT_PARAMS.some(param => searchParams.has(param)),
     [searchParams],
@@ -217,7 +218,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
         </label>
 
         <div className="ask-light-chips" aria-label={landing.suggestedQuestionLabel}>
-          {landing.suggestedQuestions.slice(0, 6).map(item => (
+          {visibleSuggestedQuestions.map(item => (
             <Link
               href={buildAskHref(item)}
               key={item}
