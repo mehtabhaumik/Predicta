@@ -368,6 +368,7 @@ export function DashboardShell({
     !isChatRoute && showAskDock ? 'has-ask-dock' : undefined,
     !isChatRoute && isDashboardHomeRoute ? 'dashboard-home-route' : undefined,
     !isChatRoute && isPrimaryWorldRoute ? 'dashboard-primary-world-route' : undefined,
+    pathname === '/dashboard/report' ? 'dashboard-report-route' : undefined,
   ]
     .filter(Boolean)
     .join(' ');

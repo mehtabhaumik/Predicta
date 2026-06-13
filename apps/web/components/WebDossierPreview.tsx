@@ -69,7 +69,6 @@ import {
 } from '../lib/web-auto-save-memory';
 import { loadWebKundliStore } from '../lib/web-kundli-storage';
 import { getChartThemeNote } from '../lib/chart-theme-copy';
-import { WebActiveKundliActions } from './WebActiveKundliActions';
 import { PlanetGlyph } from './PlanetGlyph';
 import { NorthIndianChartLines } from './WebKundliChart';
 import { AuthDialog } from './AuthDialog';
@@ -922,25 +921,32 @@ export function WebDossierPreview(): React.JSX.Element {
               {mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}
             </small>
           </div>
-          <div className="report-inline-mode-card">
-            <span>{labels.reportDepth}</span>
-            <div className="dossier-mode-switch" aria-label={labels.reportDepth}>
-              <button
-                className={mode === 'FREE' ? 'active' : ''}
-                onClick={() => setMode('FREE')}
-                type="button"
-              >
-                {labels.free}
-              </button>
-              <button
-                className={mode === 'PREMIUM' ? 'active' : ''}
-                onClick={() => setMode('PREMIUM')}
-                type="button"
-              >
-                {labels.premium}
-              </button>
+          {surface === 'primary' ? (
+            <div className="report-inline-mode-card passive">
+              <span>{labels.reportDepth}</span>
+              <strong>{mode === 'PREMIUM' ? reportLabels.premium : reportLabels.free}</strong>
             </div>
-          </div>
+          ) : (
+            <div className="report-inline-mode-card">
+              <span>{labels.reportDepth}</span>
+              <div className="dossier-mode-switch" aria-label={labels.reportDepth}>
+                <button
+                  className={mode === 'FREE' ? 'active' : ''}
+                  onClick={() => setMode('FREE')}
+                  type="button"
+                >
+                  {labels.free}
+                </button>
+                <button
+                  className={mode === 'PREMIUM' ? 'active' : ''}
+                  onClick={() => setMode('PREMIUM')}
+                  type="button"
+                >
+                  {labels.premium}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="report-inline-actions">
@@ -952,19 +958,23 @@ export function WebDossierPreview(): React.JSX.Element {
           >
             {builderCopy.previewSelected}
           </PredictaButton>
-          <PredictaButton
-            href={buildCurrentReportAskHref()}
-            onClick={saveCurrentReportAskContext}
-            variant="secondary"
-          >
-            {builderCopy.askFromReport}
-          </PredictaButton>
-          <PredictaButton href="/dashboard/kundli" variant="secondary">
-            {builderCopy.createKundliCta}
-          </PredictaButton>
-          <PredictaButton onClick={copyReportSummary} type="button" variant="secondary">
-            {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
-          </PredictaButton>
+          {surface === 'primary' ? null : (
+            <>
+              <PredictaButton
+                href={buildCurrentReportAskHref()}
+                onClick={saveCurrentReportAskContext}
+                variant="secondary"
+              >
+                {builderCopy.askFromReport}
+              </PredictaButton>
+              <PredictaButton href="/dashboard/kundli" variant="secondary">
+                {builderCopy.createKundliCta}
+              </PredictaButton>
+              <PredictaButton onClick={copyReportSummary} type="button" variant="secondary">
+                {copyState === 'report' ? builderCopy.copied : builderCopy.copyReport}
+              </PredictaButton>
+            </>
+          )}
         </div>
 
         {copyState === 'needKundli' ? (
@@ -1290,12 +1300,6 @@ export function WebDossierPreview(): React.JSX.Element {
 
   return (
     <div className="dossier-preview">
-      <WebActiveKundliActions
-        compact
-        kundli={kundli}
-        sourceScreen="Report"
-        title="Report Kundli"
-      />
       <section
         className="report-quick-composer glass-panel"
         data-phase13-first-screen-primary-action="true"
@@ -1348,15 +1352,18 @@ export function WebDossierPreview(): React.JSX.Element {
               item.productId === selectedReport.id;
 
             return (
-              <button
+              <a
                 aria-current={isActive ? 'true' : undefined}
                 className={isActive ? 'active' : ''}
+                href={`#${item.anchorId}`}
                 key={item.anchorId}
-                onClick={() => openReportLane(item)}
-                type="button"
+                onClick={event => {
+                  event.preventDefault();
+                  openReportLane(item);
+                }}
               >
                 {item.label}
-              </button>
+              </a>
             );
           })}
         </nav>

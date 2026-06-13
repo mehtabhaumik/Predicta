@@ -721,6 +721,10 @@ summary.predicta-feedback-target {
   display: block;
 }
 
+.dashboard-report-route .dashboard-topbar-actions > .language-selector.compact {
+  display: none;
+}
+
 .gradient-text {
   background: var(--gradient);
   -webkit-background-clip: text;
@@ -14468,17 +14472,21 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   gap: 10px;
 }
 
-.report-school-subnav button {
+.report-school-subnav a {
+  align-items: center;
   background: rgba(255, 255, 255, 0.052);
   border: 1px solid var(--border-quiet);
   border-radius: 999px;
   color: var(--muted);
   cursor: pointer;
+  display: inline-flex;
   font-size: 13px;
   font-weight: 900;
+  justify-content: center;
   letter-spacing: 0.04em;
   min-height: 44px;
   padding: 11px 15px;
+  text-decoration: none;
   text-transform: uppercase;
   transition:
     background 180ms ease,
@@ -14487,8 +14495,8 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
     transform 180ms ease;
 }
 
-.report-school-subnav button:hover,
-.report-school-subnav button.active {
+.report-school-subnav a:hover,
+.report-school-subnav a.active {
   background:
     linear-gradient(135deg, rgba(217, 54, 149, 0.14), rgba(77, 175, 255, 0.12)),
     rgba(255, 255, 255, 0.07);
@@ -15032,6 +15040,17 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.report-inline-mode-card.passive {
+  align-content: center;
+  gap: 4px;
+}
+
+.report-inline-mode-card.passive strong {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 900;
 }
 
 .report-inline-status {
@@ -25701,7 +25720,7 @@ select::-ms-expand {
     grid-template-columns: 1fr;
   }
 
-  .report-school-subnav button {
+  .report-school-subnav a {
     border-radius: 16px;
     justify-content: center;
     text-align: center;
