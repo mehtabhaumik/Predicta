@@ -75,6 +75,7 @@ export function WebKundliWizard(): React.JSX.Element {
   const [placeSuggestions, setPlaceSuggestions] = useState<WebBirthPlace[]>([]);
   const [isPlaceSuggestionsOpen, setIsPlaceSuggestionsOpen] = useState(false);
   const [isBirthPlaceInputFocused, setIsBirthPlaceInputFocused] = useState(false);
+  const [birthPlaceInputResetToken, setBirthPlaceInputResetToken] = useState(0);
   const [isSearchingPlaces, setIsSearchingPlaces] = useState(false);
   const [acceptedBirthPlaceQuery, setAcceptedBirthPlaceQuery] = useState('');
   const [settledBirthPlaceQuery, setSettledBirthPlaceQuery] = useState('');
@@ -342,6 +343,7 @@ export function WebKundliWizard(): React.JSX.Element {
     setSelectedPlace(option);
     setBirthPlaceQuery(optionLabel);
     setIsBirthPlaceSelectionLocked(true);
+    setBirthPlaceInputResetToken(token => token + 1);
 
     window.requestAnimationFrame(() => {
       const activeElement = document.activeElement;
@@ -1011,14 +1013,16 @@ export function WebKundliWizard(): React.JSX.Element {
                 aria-describedby="birth-place-help"
                 aria-autocomplete="list"
                 autoCapitalize="none"
-                autoComplete="off"
                 autoCorrect="off"
+                autoComplete="new-password"
                 data-1p-ignore="true"
+                data-bwignore="true"
                 data-birth-place-search="true"
                 data-form-type="other"
                 data-lpignore="true"
                 inputMode="search"
-                name={birthPlaceAutocompleteName}
+                key={`${birthPlaceAutocompleteName}-${birthPlaceInputResetToken}`}
+                name={`${birthPlaceAutocompleteName}-${birthPlaceInputResetToken}`}
                 aria-expanded={shouldShowBirthPlaceOverlay}
                 ref={birthPlaceInputRef}
                 spellCheck={false}

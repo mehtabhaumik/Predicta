@@ -102,6 +102,16 @@ try {
     throw new Error(`Expected selected value "Petlad, Gujarat, India"; received "${result.inputValue}".`);
   }
 
+  if (result.inputAutoComplete !== 'new-password') {
+    throw new Error(
+      `Birth-place input must suppress browser autofill with autocomplete="new-password"; received "${result.inputAutoComplete}".`,
+    );
+  }
+
+  if (!/^predicta-context-/.test(result.inputName ?? '')) {
+    throw new Error(`Birth-place input must use an isolated Predicta autocomplete name; received "${result.inputName}".`);
+  }
+
   if (result.suggestionsMounted || result.hasSearchingPlaces) {
     throw new Error('Birth-place suggestions remained visible or searching after selection.');
   }
@@ -552,6 +562,8 @@ async function runAutocompleteScenario(cdp) {
           ),
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         inputFound: Boolean(input),
+        inputAutoComplete: input?.getAttribute('autocomplete') || '',
+        inputName: input?.getAttribute('name') || '',
         inputValue: input?.value || '',
         optionFound: true,
         suggestionsMounted: Boolean(suggestions),
@@ -633,6 +645,8 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
           ),
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
         inputFound: Boolean(input),
+        inputAutoComplete: input?.getAttribute('autocomplete') || '',
+        inputName: input?.getAttribute('name') || '',
         inputValue: input?.value || '',
         optionFound: options.some(item => ${optionPattern}.test(item.textContent || '')),
         suggestionsMounted: Boolean(suggestions),
