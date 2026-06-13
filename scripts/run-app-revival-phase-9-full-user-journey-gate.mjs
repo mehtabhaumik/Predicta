@@ -432,44 +432,20 @@ try {
 
   await runScenario('dashboard-primary-ask-doorway', mobileViewport, async cdp => {
     await navigateAndWait(cdp, `${baseUrl}/dashboard`);
-    await waitForCondition(cdp, `Boolean(document.querySelector('.library-question-composer button[type="submit"]'))`, 8_000);
-    const before = await evaluate(cdp, `(() => {
-      const composer = document.querySelector('.library-question-composer');
-      const composerRect = composer?.getBoundingClientRect();
-      const askLink = document.querySelector('.library-question-composer a[href^="/ask"]');
-      const submitButton = document.querySelector('.library-question-composer button[type="submit"]');
-      const actionLinks = [...document.querySelectorAll('.library-question-composer a[href]')]
-        .map(link => link.getAttribute('href'));
-      return {
-        actionLinks,
-        hasComposer: Boolean(document.querySelector('.library-question-composer textarea')),
-        hasPrimaryAsk: Boolean(askLink) || Boolean(submitButton),
-        hasSubmitButton: Boolean(submitButton),
-        composerTop: composerRect ? Math.round(composerRect.top) : null,
-        horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
-        primaryHref: askLink?.getAttribute('href') || '',
-      };
-    })()`);
-    await click(cdp, '.library-question-composer button[type="submit"]');
     await waitForCondition(cdp, `location.pathname === '/ask'`, 8_000);
     const after = await evaluate(cdp, `(() => ({
       hasAskShell: Boolean(document.querySelector('.ask-light-shell')),
+      hasDashboardShell: Boolean(document.querySelector('.dashboard-shell')),
       horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
       path: location.pathname,
       search: location.search,
       url: location.href,
     }))()`);
     const localFailures = [];
-    if (!before.hasComposer || !before.hasSubmitButton) {
-      localFailures.push('dashboard does not expose the chat-first question composer');
+    if (after.hasDashboardShell) {
+      localFailures.push('dashboard doorway still loads the dashboard shell before Ask Predicta');
     }
-    if (!before.hasPrimaryAsk) {
-      localFailures.push('dashboard does not expose a direct primary Ask Predicta action');
-    }
-    if (typeof before.composerTop !== 'number' || before.composerTop > 360) {
-      localFailures.push('dashboard question composer is too low on the mobile first screen');
-    }
-    if (before.horizontalOverflow || after.horizontalOverflow) {
+    if (after.horizontalOverflow) {
       localFailures.push('dashboard primary Ask doorway has horizontal overflow');
     }
     const preservedSearchPrompt = new URLSearchParams(
@@ -482,7 +458,7 @@ try {
     ) {
       localFailures.push('dashboard primary Ask doorway did not open /ask with a preserved prompt');
     }
-    return { audit: { after, before }, failures: localFailures };
+    return { audit: { after }, failures: localFailures };
   });
 
   await runScenario('mobile-navigation-primary-links', mobileViewport, async cdp => {
