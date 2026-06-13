@@ -10,7 +10,6 @@ import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
 import { PREDICTA_NAVIGATION_FEEDBACK_EVENT } from '../lib/navigation-feedback';
 import { getLightweightAppShellLabels } from '../lib/lightweight-app-shell-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
-import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 
 const CORE_NAV_PREFETCH_HREFS = [
   '/ask',
@@ -49,12 +48,6 @@ export function ClientServicesProvider(): React.JSX.Element {
   function clearNavigationFeedback(): void {
     setIsNavigating(false);
     setNavigationTargetLabel('');
-  }
-
-  function warmAskRuntimeIfNeeded(href: string): void {
-    if (href === '/ask' || href.startsWith('/ask?')) {
-      prewarmPredictaRuntime();
-    }
   }
 
   useEffect(() => {
@@ -100,7 +93,6 @@ export function ClientServicesProvider(): React.JSX.Element {
 
     const warmCoreRoutes = () => {
       CORE_NAV_PREFETCH_HREFS.forEach(warmInternalHref);
-      prewarmPredictaRuntime();
     };
 
     warmAskRoute();
@@ -177,7 +169,6 @@ export function ClientServicesProvider(): React.JSX.Element {
 
     function startNavigationFeedback(href: string, targetLabel = shellLabels.groups.predicta): void {
       warmInternalHref(href);
-      warmAskRuntimeIfNeeded(href);
 
       const nextUrl = new URL(href, window.location.href);
       const currentUrl = new URL(window.location.href);
@@ -216,7 +207,6 @@ export function ClientServicesProvider(): React.JSX.Element {
         }
 
         warmInternalHref(href);
-        warmAskRuntimeIfNeeded(href);
       }
     }
 

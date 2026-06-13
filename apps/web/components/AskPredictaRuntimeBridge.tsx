@@ -15,7 +15,3 @@ export function loadPredictaRuntime(): Promise<PredictaRuntimeModule> {
 
   return predictaRuntimePreload;
 }
-
-export function prewarmPredictaRuntime(): void {
-  void loadPredictaRuntime();
-}

@@ -15,7 +15,6 @@ import {
   getKundliAnimationSurfaceProps,
 } from '../lib/kundli-animation-contract';
 import { useLanguagePreference } from '../lib/language-preference';
-import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 import { FloatingInsightCard } from './FloatingInsightCard';
 import { NorthIndianChartLines } from './WebKundliChart';
 import { PlanetGlyph } from './PlanetGlyph';
@@ -67,18 +66,12 @@ export function HeroSection(): React.JSX.Element {
           <Link
             className="button"
             href="/ask"
-            onFocus={prewarmPredictaRuntime}
-            onPointerEnter={prewarmPredictaRuntime}
-            onTouchStart={prewarmPredictaRuntime}
           >
             {copy.primary}
           </Link>
           <Link
             className="button secondary"
             href="/ask?sourceScreen=Landing&school=PARASHARI&prompt=Read%20my%20Vedic%20chart%20and%20guide%20me%20clearly."
-            onFocus={prewarmPredictaRuntime}
-            onPointerEnter={prewarmPredictaRuntime}
-            onTouchStart={prewarmPredictaRuntime}
           >
             {copy.secondary}
           </Link>

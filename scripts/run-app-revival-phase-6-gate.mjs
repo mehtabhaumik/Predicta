@@ -269,6 +269,39 @@ for (const sourceFile of sourceFiles) {
   }
 }
 
+const forbiddenChatRuntimePrewarmSources = [
+  'apps/web/app/dashboard/page.tsx',
+  'apps/web/components/AskPredictaLightShell.tsx',
+  'apps/web/components/ClientServicesProvider.tsx',
+  'apps/web/components/DashboardShell.tsx',
+  'apps/web/components/HeroSection.tsx',
+  'apps/web/components/LandingChatFirstContent.tsx',
+  'apps/web/components/LandingLightFooter.tsx',
+  'apps/web/components/LandingLightHeader.tsx',
+  'apps/web/components/WebHeader.tsx',
+];
+
+for (const sourceFile of forbiddenChatRuntimePrewarmSources) {
+  const text = readFileSync(sourceFile, 'utf8');
+
+  if (text.includes('prewarmPredictaRuntime')) {
+    failures.push(
+      `${sourceFile} must not prewarm the full Predicta chat runtime from idle, hover, focus, or navigation. Load it only after true chat start.`,
+    );
+  }
+}
+
+const predictaRuntimeBridgeSource = readFileSync(
+  'apps/web/components/AskPredictaRuntimeBridge.tsx',
+  'utf8',
+);
+
+if (predictaRuntimeBridgeSource.includes('prewarmPredictaRuntime')) {
+  failures.push(
+    'AskPredictaRuntimeBridge must not export a generic prewarmPredictaRuntime helper; route shells should prefetch /ask, not download the full chat runtime.',
+  );
+}
+
 const heavyLandingFiles = landing.files.filter(file => file.sizeKb > 250);
 const heavyAskFiles = ask.files.filter(file => file.sizeKb > 400);
 const heavyDashboardFiles = dashboard.files.filter(file => file.sizeKb > 400);

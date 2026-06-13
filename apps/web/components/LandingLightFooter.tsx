@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getLightweightAppShellLabels } from '../lib/lightweight-public-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
-import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 
 export function LandingLightFooter(): React.JSX.Element {
   const { language } = useLightweightLanguagePreference();
@@ -18,9 +17,8 @@ export function LandingLightFooter(): React.JSX.Element {
     { href: '/feedback', label: labels.nav.feedback },
   ];
 
-  function prewarmAskPredicta(): void {
+  function prefetchAskPredicta(): void {
     router.prefetch('/ask');
-    prewarmPredictaRuntime();
   }
 
   return (
@@ -40,11 +38,11 @@ export function LandingLightFooter(): React.JSX.Element {
             <Link
               href={link.href}
               key={link.href}
-              onFocus={link.href === '/ask' ? prewarmAskPredicta : undefined}
+              onFocus={link.href === '/ask' ? prefetchAskPredicta : undefined}
               onPointerEnter={
-                link.href === '/ask' ? prewarmAskPredicta : undefined
+                link.href === '/ask' ? prefetchAskPredicta : undefined
               }
-              onTouchStart={link.href === '/ask' ? prewarmAskPredicta : undefined}
+              onTouchStart={link.href === '/ask' ? prefetchAskPredicta : undefined}
             >
               {link.label}
             </Link>

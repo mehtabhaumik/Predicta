@@ -7,10 +7,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { getLightweightCompetitorResponseCopy } from '../lib/lightweight-public-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
-import {
-  loadPredictaRuntime,
-  prewarmPredictaRuntime,
-} from './AskPredictaRuntimeBridge';
+import { loadPredictaRuntime } from './AskPredictaRuntimeBridge';
 
 const CONTEXT_PARAMS = [
   'birthTimeDetective',
@@ -101,27 +98,6 @@ export function AskPredictaLightShell(): React.JSX.Element {
   }, [chatStarted]);
 
   useEffect(() => {
-    if (chatStarted || hasIncomingContext || incomingPrompt) {
-      return undefined;
-    }
-
-    const idleCallback =
-      'requestIdleCallback' in window
-        ? window.requestIdleCallback(() => prewarmPredictaRuntime(), {
-            timeout: 1200,
-          })
-        : undefined;
-    const fallbackTimer = window.setTimeout(prewarmPredictaRuntime, 900);
-
-    return () => {
-      window.clearTimeout(fallbackTimer);
-      if (idleCallback !== undefined && 'cancelIdleCallback' in window) {
-        window.cancelIdleCallback(idleCallback);
-      }
-    };
-  }, [chatStarted, hasIncomingContext, incomingPrompt]);
-
-  useEffect(() => {
     if (hasIncomingContext || incomingPrompt) {
       return undefined;
     }
@@ -137,7 +113,6 @@ export function AskPredictaLightShell(): React.JSX.Element {
     const resolvedPrompt = prompt.trim() || landing.defaultAskPrompt;
     const nextUrl = buildAskHref(resolvedPrompt, mode);
 
-    prewarmPredictaRuntime();
     setVoiceNotice(mode === 'voice');
     setQuestion(resolvedPrompt);
     setChatStarted(true);
@@ -198,10 +173,8 @@ export function AskPredictaLightShell(): React.JSX.Element {
           <textarea
             data-ask-autofocus="true"
             onChange={event => {
-              prewarmPredictaRuntime();
               setQuestion(event.target.value);
             }}
-            onFocus={prewarmPredictaRuntime}
             onKeyDown={event => {
               if (event.key !== 'Enter' || event.shiftKey || event.nativeEvent.isComposing) {
                 return;
@@ -222,9 +195,6 @@ export function AskPredictaLightShell(): React.JSX.Element {
             <Link
               href={buildAskHref(item)}
               key={item}
-              onFocus={prewarmPredictaRuntime}
-              onPointerEnter={prewarmPredictaRuntime}
-              onTouchStart={prewarmPredictaRuntime}
             >
               {item}
             </Link>

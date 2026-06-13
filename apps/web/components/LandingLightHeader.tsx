@@ -8,7 +8,6 @@ import {
   getLightweightCompetitorResponseCopy,
 } from '../lib/lightweight-public-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
-import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 import { LightweightLanguageSelector } from './LightweightLanguageSelector';
 
 export function LandingLightHeader(): React.JSX.Element {
@@ -32,9 +31,8 @@ export function LandingLightHeader(): React.JSX.Element {
     { href: '/pricing', label: labels.nav.premium },
   ];
 
-  function prewarmAskPredicta(): void {
+  function prefetchAskPredicta(): void {
     router.prefetch('/ask');
-    prewarmPredictaRuntime();
   }
 
   useEffect(() => {
@@ -89,7 +87,7 @@ export function LandingLightHeader(): React.JSX.Element {
         {desktopLinks.map(link =>
           renderNavLink({
             link,
-            onPrewarmAsk: link.href === '/ask' ? prewarmAskPredicta : undefined,
+            onPrewarmAsk: link.href === '/ask' ? prefetchAskPredicta : undefined,
             pathname,
           }),
         )}
@@ -123,12 +121,12 @@ export function LandingLightHeader(): React.JSX.Element {
                     className="mobile-menu-primary-ask"
                     href="/ask"
                     onClick={() => {
-                      prewarmAskPredicta();
+                      prefetchAskPredicta();
                       setMenuOpen(false);
                     }}
-                    onFocus={prewarmAskPredicta}
-                    onPointerEnter={prewarmAskPredicta}
-                    onTouchStart={prewarmAskPredicta}
+                    onFocus={prefetchAskPredicta}
+                    onPointerEnter={prefetchAskPredicta}
+                    onTouchStart={prefetchAskPredicta}
                   >
                     {labels.actions.askPredicta}
                   </Link>

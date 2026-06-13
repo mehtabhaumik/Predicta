@@ -6,7 +6,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useLanguagePreference } from '../lib/language-preference';
 import { AuthDialog } from './AuthDialog';
-import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 import { PredictaMediaAsset } from './ui/DesignSystemPrimitives';
 import { WebLanguageSelector } from './WebLanguageSelector';
 
@@ -24,9 +23,8 @@ export function WebHeader(): React.JSX.Element {
   ];
   const responseCopy = getCompetitorResponseCopy(language);
 
-  function prewarmAskPredicta(): void {
+  function prefetchAskPredicta(): void {
     router.prefetch('/ask');
-    prewarmPredictaRuntime();
   }
 
   useEffect(() => {
@@ -88,9 +86,9 @@ export function WebHeader(): React.JSX.Element {
         <Link
           className="button secondary header-cta"
           href="/ask"
-          onFocus={prewarmAskPredicta}
-          onPointerEnter={prewarmAskPredicta}
-          onTouchStart={prewarmAskPredicta}
+          onFocus={prefetchAskPredicta}
+          onPointerEnter={prefetchAskPredicta}
+          onTouchStart={prefetchAskPredicta}
         >
           {shellLabels.actions.askPredicta}
         </Link>
@@ -145,12 +143,12 @@ export function WebHeader(): React.JSX.Element {
                   className="button secondary"
                   href="/ask"
                   onClick={() => {
-                    prewarmAskPredicta();
+                    prefetchAskPredicta();
                     setMenuOpen(false);
                   }}
-                  onFocus={prewarmAskPredicta}
-                  onPointerEnter={prewarmAskPredicta}
-                  onTouchStart={prewarmAskPredicta}
+                  onFocus={prefetchAskPredicta}
+                  onPointerEnter={prefetchAskPredicta}
+                  onTouchStart={prefetchAskPredicta}
                 >
                   {shellLabels.actions.askPredicta}
                 </Link>

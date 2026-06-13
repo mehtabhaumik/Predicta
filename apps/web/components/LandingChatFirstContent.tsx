@@ -11,7 +11,6 @@ import { announcePredictaNavigation } from '../lib/navigation-feedback';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 import type { PredictaSchool } from '@pridicta/types';
-import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 
 function buildAskPredictaHref(
   prompt: string,
@@ -83,7 +82,6 @@ export function LandingChatFirstContent(): React.JSX.Element {
   }, [router]);
 
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {
-    prewarmPredictaRuntime();
     const href = buildAskPredictaHref(prompt, landing.defaultAskPrompt, mode);
     announcePredictaNavigation(href);
     router.push(href);
@@ -116,8 +114,6 @@ export function LandingChatFirstContent(): React.JSX.Element {
             <span>{landing.suggestedQuestionLabel}</span>
             <textarea
               onChange={event => setQuestion(event.target.value)}
-              onFocus={prewarmPredictaRuntime}
-              onPointerEnter={prewarmPredictaRuntime}
               onKeyDown={event => {
                 if (event.key !== 'Enter' || event.shiftKey || event.nativeEvent.isComposing) {
                   return;
@@ -137,9 +133,6 @@ export function LandingChatFirstContent(): React.JSX.Element {
               <Link
                 href={buildAskPredictaHref(item, landing.defaultAskPrompt)}
                 key={item}
-                onFocus={prewarmPredictaRuntime}
-                onPointerEnter={prewarmPredictaRuntime}
-                onTouchStart={prewarmPredictaRuntime}
               >
                 {item}
               </Link>
@@ -149,8 +142,6 @@ export function LandingChatFirstContent(): React.JSX.Element {
           <div className="landing-ask-actions">
             <button
               className="button"
-              onFocus={prewarmPredictaRuntime}
-              onPointerEnter={prewarmPredictaRuntime}
               type="submit"
             >
               {landing.askSubmit}

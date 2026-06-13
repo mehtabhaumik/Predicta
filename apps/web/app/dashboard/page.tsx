@@ -12,7 +12,6 @@ import { announcePredictaNavigation } from '../../lib/navigation-feedback';
 import { useLightweightKundliSnapshot } from '../../lib/use-lightweight-kundli-snapshot';
 import { useLightweightLanguagePreference } from '../../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../../lib/use-lightweight-speech-input';
-import { prewarmPredictaRuntime } from '../../components/AskPredictaRuntimeBridge';
 
 type LibraryLink = {
   body: string;
@@ -56,15 +55,9 @@ function DashboardPageClient(): React.JSX.Element {
     sourceScreen: askSourceScreen,
   });
 
-  function prefetchDashboardAsk(
-    href = askHref,
-    options: { prewarmRuntime?: boolean } = {},
-  ) {
+  function prefetchDashboardAsk(href = askHref) {
     router.prefetch('/ask');
     router.prefetch(href);
-    if (options.prewarmRuntime ?? true) {
-      prewarmPredictaRuntime();
-    }
   }
 
   function buildDashboardQuestionHref(
@@ -122,7 +115,7 @@ function DashboardPageClient(): React.JSX.Element {
   });
 
   useEffect(() => {
-    prefetchDashboardAsk(askHref, { prewarmRuntime: false });
+    prefetchDashboardAsk(askHref);
     setIsFamilyFriendsVisit(
       new URLSearchParams(window.location.search).get('source') ===
         'family-friends',
@@ -134,7 +127,6 @@ function DashboardPageClient(): React.JSX.Element {
       return;
     }
 
-    prewarmPredictaRuntime();
     announcePredictaNavigation(askHref);
     router.replace(askHref, { scroll: false });
   }, [askHref, router, shouldShowLibrary]);
