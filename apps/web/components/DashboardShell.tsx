@@ -695,12 +695,20 @@ function getTopbarContextCopy(
     return { eyebrow: labels.groups.predicta };
   }
 
+  if (DASHBOARD_WORLD_SECTION_IDS.has(activeSection.id)) {
+    return { eyebrow: labels.groups.worlds };
+  }
+
   if (activeSection.id === 'library') {
-    return { eyebrow: labels.nav.savedKundlis };
+    return { eyebrow: labels.groups.start };
   }
 
   if (activeSection.id === 'account') {
-    return { eyebrow: labels.nav.account };
+    return { eyebrow: labels.groups.start };
+  }
+
+  if (activeSection.id === 'reports') {
+    return { eyebrow: labels.groups.start };
   }
 
   return { eyebrow: activeSection.label };
