@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { canSeeAdminRoute } from '@pridicta/access';
 import type {
   PredictaSchool,
@@ -326,6 +326,7 @@ export function DashboardShell({
   );
   const showAdmin = isOwnerConsoleEnabled() && canSeeAdminRoute(access);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [askDockQuestion, setAskDockQuestion] = useState('');
   const mobileMenuRef = useRef<HTMLElement | null>(null);
   const mobileMenuCloseRef = useRef<HTMLButtonElement | null>(null);
   const activeKundliId = useLightweightActiveKundliId();
@@ -355,6 +356,30 @@ export function DashboardShell({
   function prepareAskPredictaNavigation(href: string): void {
     prefetchAskPredicta(href);
     announcePredictaNavigation(href);
+  }
+
+  function buildAskDockHref(question?: string): string {
+    const prompt = question?.trim()
+      ? question.trim()
+      : buildAskDockPrompt({
+          section: askDockSectionLabel,
+          template: shellLabels.actions.askDockPrompt,
+        });
+
+    return buildPredictaChatHref({
+      kundliId: activeKundliId,
+      prompt,
+      school: getTopbarPredictaSchool(activeSection.id),
+      sourceScreen: getTopbarPredictaSourceScreen(shellLabels, activeSection),
+    });
+  }
+
+  function submitAskDock(event: FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+
+    const href = buildAskDockHref(askDockQuestion);
+    prepareAskPredictaNavigation(href);
+    router.push(href);
   }
 
   useEffect(() => {
@@ -639,30 +664,57 @@ export function DashboardShell({
           {children}
         </div>
         {canShowAskDock ? (
-          <aside
+          <form
             aria-label={shellLabels.actions.askDockTitle}
             className={
               useCompactAskDock
                 ? 'dashboard-ask-dock dashboard-ask-dock-compact glass-panel'
                 : 'dashboard-ask-dock glass-panel'
             }
+            onSubmit={submitAskDock}
           >
-            <div>
+            <div className="dashboard-ask-dock-copy">
               <span>{shellLabels.actions.askDockEyebrow}</span>
               <strong>{shellLabels.actions.askDockTitle}</strong>
               <small>{shellLabels.actions.askDockBody}</small>
             </div>
-            <Link
-              className="button"
-              href={askFromPageHref}
-              onClick={() => prepareAskPredictaNavigation(askFromPageHref)}
-              onFocus={() => prefetchAskPredicta(askFromPageHref)}
-              onPointerEnter={() => prefetchAskPredicta(askFromPageHref)}
-              onTouchStart={() => prefetchAskPredicta(askFromPageHref)}
-            >
-              {shellLabels.actions.askDockCta}
-            </Link>
-          </aside>
+            <label className="dashboard-ask-dock-field">
+              <span>{shellLabels.actions.askDockInputLabel}</span>
+              <input
+                autoComplete="off"
+                onChange={event => setAskDockQuestion(event.target.value)}
+                onFocus={() => prefetchAskPredicta(buildAskDockHref(askDockQuestion))}
+                placeholder={shellLabels.actions.askDockPlaceholder}
+                type="text"
+                value={askDockQuestion}
+              />
+            </label>
+            <div className="dashboard-ask-dock-actions">
+              <button
+                className="button"
+                onFocus={() => prefetchAskPredicta(buildAskDockHref(askDockQuestion))}
+                onPointerEnter={() =>
+                  prefetchAskPredicta(buildAskDockHref(askDockQuestion))
+                }
+                onTouchStart={() =>
+                  prefetchAskPredicta(buildAskDockHref(askDockQuestion))
+                }
+                type="submit"
+              >
+                {shellLabels.actions.askDockCta}
+              </button>
+              <Link
+                className="button secondary"
+                href={askFromPageHref}
+                onClick={() => prepareAskPredictaNavigation(askFromPageHref)}
+                onFocus={() => prefetchAskPredicta(askFromPageHref)}
+                onPointerEnter={() => prefetchAskPredicta(askFromPageHref)}
+                onTouchStart={() => prefetchAskPredicta(askFromPageHref)}
+              >
+                {shellLabels.actions.askDockOpenChat}
+              </Link>
+            </div>
+          </form>
         ) : null}
         {!isChatRoute ? (
           <DashboardLightFooter labels={shellLabels} />

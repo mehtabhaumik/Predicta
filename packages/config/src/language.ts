@@ -43,6 +43,9 @@ export type AppShellLabels = {
     askDockBody: string;
     askDockCta: string;
     askDockEyebrow: string;
+    askDockInputLabel: string;
+    askDockOpenChat: string;
+    askDockPlaceholder: string;
     askDockPrompt: string;
     askDockTitle: string;
     close: string;

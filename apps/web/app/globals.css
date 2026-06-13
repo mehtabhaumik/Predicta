@@ -3571,19 +3571,19 @@ button:disabled,
   box-shadow:
     0 18px 46px rgba(0, 0, 0, 0.34),
     0 0 40px rgba(77, 175, 255, 0.16);
-  display: flex;
+  display: grid;
   gap: 16px;
-  justify-content: space-between;
+  grid-template-columns: minmax(180px, 0.9fr) minmax(260px, 1.45fr) auto;
   left: 50%;
   padding: 14px 16px;
   position: fixed;
   right: auto;
   transform: translateX(-50%);
-  width: min(820px, calc(100vw - 64px));
+  width: min(1080px, calc(100vw - 64px));
   z-index: var(--predicta-z-sticky);
 }
 
-.dashboard-ask-dock > div {
+.dashboard-ask-dock-copy {
   display: grid;
   gap: 3px;
   min-width: 0;
@@ -3610,17 +3610,66 @@ button:disabled,
   line-height: 1.35;
 }
 
+.dashboard-ask-dock-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.dashboard-ask-dock-field span {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dashboard-ask-dock-field input {
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 750;
+  min-height: 46px;
+  min-width: 0;
+  outline: none;
+  padding: 0 16px;
+  width: 100%;
+}
+
+.dashboard-ask-dock-field input::placeholder {
+  color: rgba(226, 229, 255, 0.52);
+}
+
+.dashboard-ask-dock-field input:focus {
+  background: rgba(255, 255, 255, 0.095);
+  border-color: rgba(77, 175, 255, 0.52);
+  box-shadow: 0 0 0 4px rgba(77, 175, 255, 0.14);
+}
+
+.dashboard-ask-dock-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
 .dashboard-ask-dock .button {
   flex: 0 0 auto;
   justify-content: center;
-  min-width: 146px;
+  min-width: 118px;
 }
 
 .dashboard-ask-dock-compact {
   border-radius: 20px;
   gap: 12px;
+  grid-template-columns: minmax(160px, 0.8fr) minmax(220px, 1.2fr) auto;
   padding: 10px 12px;
-  width: min(560px, calc(100vw - 64px));
+  width: min(860px, calc(100vw - 64px));
 }
 
 .dashboard-ask-dock-compact strong {
@@ -3633,7 +3682,7 @@ button:disabled,
 
 .dashboard-ask-dock-compact .button {
   min-height: 44px;
-  min-width: 132px;
+  min-width: 108px;
   padding: 0 14px;
 }
 
@@ -18340,20 +18389,36 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   }
 
   .dashboard-shell.has-ask-dock .main-workspace {
-    padding-bottom: 118px;
+    padding-bottom: 168px;
   }
 
   .dashboard-shell.has-compact-ask-dock .main-workspace {
-    padding-bottom: 96px;
+    padding-bottom: 148px;
   }
 
   .dashboard-ask-dock {
     border-radius: 22px;
     bottom: max(14px, env(safe-area-inset-bottom));
+    grid-template-columns: minmax(0, 1fr);
     left: 18px;
     right: 18px;
     transform: none;
     width: auto;
+  }
+
+  .dashboard-ask-dock-copy {
+    gap: 4px;
+  }
+
+  .dashboard-ask-dock-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .dashboard-ask-dock .button {
+    min-width: 0;
+    width: 100%;
   }
 
   .dashboard-menu-toggle {
@@ -19657,6 +19722,32 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
 
   .dashboard-topbar-actions .button.secondary {
     display: none;
+  }
+
+  .dashboard-shell.has-ask-dock .main-workspace,
+  .dashboard-shell.has-compact-ask-dock .main-workspace {
+    padding-bottom: 196px;
+  }
+
+  .dashboard-ask-dock {
+    bottom: max(10px, env(safe-area-inset-bottom));
+    gap: 10px;
+    left: 10px;
+    padding: 12px;
+    right: 10px;
+  }
+
+  .dashboard-ask-dock small {
+    display: none;
+  }
+
+  .dashboard-ask-dock-field input {
+    border-radius: 18px;
+    min-height: 48px;
+  }
+
+  .dashboard-ask-dock-actions {
+    gap: 8px;
   }
 
   .dashboard-mobile-language .language-selector.compact {
