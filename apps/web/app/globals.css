@@ -4106,8 +4106,8 @@ button:disabled,
   color: var(--text);
   font: inherit;
   line-height: 1.5;
-  min-height: 118px;
-  padding: 18px 20px;
+  min-height: 96px;
+  padding: 16px 18px;
   resize: vertical;
   width: 100%;
 }
@@ -4126,9 +4126,16 @@ button:disabled,
 
 .library-question-shortcuts {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
   min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.library-question-shortcuts::-webkit-scrollbar {
+  display: none;
 }
 
 .library-question-chip {
@@ -4140,6 +4147,7 @@ button:disabled,
   border-radius: 999px;
   color: rgba(244, 241, 255, 0.86);
   display: inline-flex;
+  flex: 1 1 0;
   font-size: 12px;
   font-weight: 900;
   justify-content: center;

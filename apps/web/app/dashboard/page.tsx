@@ -199,14 +199,14 @@ function DashboardPageClient(): React.JSX.Element {
                 prefetchDashboardAsk(buildDashboardQuestionHref(questionDraft))
               }
               placeholder={copy.libraryQuestionPlaceholder}
-              rows={3}
+              rows={2}
               value={questionDraft}
             />
             <div
               aria-label={copy.outcomeTitle}
               className="library-question-shortcuts"
             >
-              {copy.outcomeQuestions.slice(0, 6).map(question => {
+              {copy.outcomeQuestions.slice(0, 3).map(question => {
                 const href = buildPredictaChatHref({
                   kundliId: activeKundli?.id,
                   prompt: question.prompt,
