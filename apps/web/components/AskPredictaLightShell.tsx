@@ -100,6 +100,27 @@ export function AskPredictaLightShell(): React.JSX.Element {
   }, [chatStarted]);
 
   useEffect(() => {
+    if (chatStarted || hasIncomingContext || incomingPrompt) {
+      return undefined;
+    }
+
+    const idleCallback =
+      'requestIdleCallback' in window
+        ? window.requestIdleCallback(() => prewarmPredictaRuntime(), {
+            timeout: 1200,
+          })
+        : undefined;
+    const fallbackTimer = window.setTimeout(prewarmPredictaRuntime, 900);
+
+    return () => {
+      window.clearTimeout(fallbackTimer);
+      if (idleCallback !== undefined && 'cancelIdleCallback' in window) {
+        window.cancelIdleCallback(idleCallback);
+      }
+    };
+  }, [chatStarted, hasIncomingContext, incomingPrompt]);
+
+  useEffect(() => {
     if (hasIncomingContext || incomingPrompt) {
       return undefined;
     }
@@ -174,7 +195,11 @@ export function AskPredictaLightShell(): React.JSX.Element {
           <span>{landing.suggestedQuestionLabel}</span>
           <textarea
             data-ask-autofocus="true"
-            onChange={event => setQuestion(event.target.value)}
+            onChange={event => {
+              prewarmPredictaRuntime();
+              setQuestion(event.target.value);
+            }}
+            onFocus={prewarmPredictaRuntime}
             onKeyDown={event => {
               if (event.key !== 'Enter' || event.shiftKey || event.nativeEvent.isComposing) {
                 return;
@@ -191,7 +216,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
         </label>
 
         <div className="ask-light-chips" aria-label={landing.suggestedQuestionLabel}>
-          {landing.suggestedQuestions.slice(0, 3).map(item => (
+          {landing.suggestedQuestions.slice(0, 6).map(item => (
             <Link
               href={buildAskHref(item)}
               key={item}
