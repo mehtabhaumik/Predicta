@@ -112,6 +112,7 @@ export function WebKundliWizard(): React.JSX.Element {
   )}`;
   const placeSearchRequestRef = useRef(0);
   const latestBirthPlaceSearchQueryRef = useRef('');
+  const resolvedBirthPlaceQueryRef = useRef('');
   const birthPlaceSearchSettledRef = useRef(false);
   const createdChartRef = useRef<HTMLElement | null>(null);
   const savedKundliRecords = useMemo(() => loadWebKundlis(), [kundli?.id]);
@@ -239,6 +240,7 @@ export function WebKundliWizard(): React.JSX.Element {
 
   function closeSettledBirthPlaceSearch(optionLabel: string) {
     placeSearchRequestRef.current += 1;
+    resolvedBirthPlaceQueryRef.current = normalizeBirthPlaceLabel(optionLabel);
     markBirthPlaceSearchSettled(optionLabel);
     setSettledBirthPlaceQuery(normalizeBirthPlaceLabel(optionLabel));
     setIsBirthPlaceInputFocused(false);
@@ -380,6 +382,25 @@ export function WebKundliWizard(): React.JSX.Element {
     resetFlow();
     placeSearchRequestRef.current += 1;
     const normalizedNextQuery = normalizeBirthPlaceLabel(nextQuery);
+
+    if (
+      normalizedNextQuery &&
+      resolvedBirthPlaceQueryRef.current === normalizedNextQuery
+    ) {
+      markBirthPlaceSearchSettled(nextQuery);
+      setBirthPlaceQuery(nextQuery);
+      setIsBirthPlaceInputFocused(false);
+      closeBirthPlaceSuggestions();
+      return;
+    }
+
+    if (
+      resolvedBirthPlaceQueryRef.current &&
+      resolvedBirthPlaceQueryRef.current !== normalizedNextQuery
+    ) {
+      resolvedBirthPlaceQueryRef.current = '';
+    }
+
     markBirthPlaceSearchUnsettled(nextQuery);
     resetBirthPlaceSearchUi();
     setIsBirthPlaceInputFocused(true);
@@ -893,6 +914,10 @@ export function WebKundliWizard(): React.JSX.Element {
     normalizedBirthPlaceQuery.length >= 2 &&
     isResolvedBirthPlaceQuery(birthPlaceQuery);
   const shouldSuppressBirthPlaceOverlay =
+    Boolean(
+      normalizedBirthPlaceQuery &&
+        resolvedBirthPlaceQueryRef.current === normalizedBirthPlaceQuery,
+    ) ||
     isBirthPlaceSelectionLocked ||
     isBirthPlaceQuerySettled ||
     Boolean(selectedPlace && isSelectedPlaceCurrent) ||
