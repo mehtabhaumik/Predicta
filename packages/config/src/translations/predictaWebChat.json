@@ -39,7 +39,69 @@
           "label": "Kundli summary",
           "prompt": "Show a short summary of my newly created Kundli and tell me what I can ask next."
         }
-      ]
+      ],
+      "radarSuggestions": [
+        {
+          "id": "radar-daily-action",
+          "label": "Make daily action",
+          "prompt": "What daily action fits this Predicta Radar pattern? Use Gochar, Mahadasha, and remedies to make a simple weekly plan."
+        },
+        {
+          "id": "radar-gochar",
+          "label": "Check with Gochar",
+          "prompt": "Compare this Radar pattern with current Gochar and tell me what is useful today."
+        },
+        {
+          "id": "radar-open-charts",
+          "label": "Open charts",
+          "prompt": "Show the chart snapshot for this Radar pattern in chat: strongest support, pressure, timing, and proof."
+        },
+        {
+          "id": "radar-create-report",
+          "label": "Create report",
+          "prompt": "Create a useful report preview from this Radar pattern in chat and tell me what the paid report would add."
+        }
+      ],
+      "smartMonetizationSuggestions": {
+        "calendar": {
+          "id": "smart-calendar",
+          "label": "Open Life Calendar",
+          "prompt": "Give me a Life Calendar style timing summary in chat: current phase, next 90 days, caution, and best action."
+        },
+        "compare": {
+          "href": "/pricing",
+          "id": "smart-compare",
+          "label": "Choose by need",
+          "prompt": "Compare options",
+          "targetScreen": "Pricing"
+        },
+        "dayPass": {
+          "href": "/checkout?productId=pridicta_day_pass_24h",
+          "id": "smart-day-pass",
+          "label": "Try 24-hour depth",
+          "prompt": "Try Day Pass",
+          "targetScreen": "Checkout"
+        },
+        "freePreview": {
+          "id": "smart-free-preview",
+          "label": "Show free preview first",
+          "prompt": "Show me the useful free preview first, then explain what the paid depth would add."
+        },
+        "premium": {
+          "href": "/dashboard/premium",
+          "id": "smart-premium",
+          "label": "Choose paid depth",
+          "prompt": "Open premium options",
+          "targetScreen": "Premium"
+        },
+        "report": {
+          "href": "/dashboard/report",
+          "id": "smart-report",
+          "label": "Choose report",
+          "prompt": "Open report options",
+          "targetScreen": "Report"
+        }
+      }
     },
     "hi": {
       "chatPlaceholder": "जन्म विवरण लिखें या बनी हुई कुंडली से सवाल पूछें...",
@@ -80,7 +142,69 @@
           "label": "कुंडली सारांश",
           "prompt": "मेरी नई बनी कुंडली का छोटा सारांश दिखाइए और बताइए कि मैं आगे क्या पूछ सकता हूं."
         }
-      ]
+      ],
+      "radarSuggestions": [
+        {
+          "id": "radar-daily-action",
+          "label": "दैनिक कदम बनाएं",
+          "prompt": "इस प्रेडिक्टा रडार पैटर्न के लिए दैनिक कदम क्या है? गोचर, महादशा और उपाय के साथ सरल साप्ताहिक योजना बनाइए."
+        },
+        {
+          "id": "radar-gochar",
+          "label": "गोचर से जांचें",
+          "prompt": "इस रडार पैटर्न को वर्तमान गोचर से मिलाकर बताइए कि आज क्या उपयोगी है."
+        },
+        {
+          "id": "radar-open-charts",
+          "label": "चार्ट खोलें",
+          "prompt": "इस रडार पैटर्न के लिए चैट में चार्ट स्नैपशॉट दिखाइए: सबसे मजबूत समर्थन, दबाव, समय और प्रमाण."
+        },
+        {
+          "id": "radar-create-report",
+          "label": "रिपोर्ट बनाएं",
+          "prompt": "इस रडार पैटर्न से उपयोगी रिपोर्ट प्रीव्यू बनाइए और बताइए कि भुगतान वाली रिपोर्ट में क्या और गहराई मिलेगी."
+        }
+      ],
+      "smartMonetizationSuggestions": {
+        "calendar": {
+          "id": "smart-calendar",
+          "label": "लाइफ कैलेंडर",
+          "prompt": "मुझे चैट में लाइफ कैलेंडर शैली का समय सारांश दीजिए: वर्तमान चरण, अगले 90 दिन, सावधानी और सर्वोत्तम कदम."
+        },
+        "compare": {
+          "href": "/pricing",
+          "id": "smart-compare",
+          "label": "ज़रूरत के अनुसार चुनें",
+          "prompt": "विकल्पों की तुलना करें",
+          "targetScreen": "Pricing"
+        },
+        "dayPass": {
+          "href": "/checkout?productId=pridicta_day_pass_24h",
+          "id": "smart-day-pass",
+          "label": "24 घंटे की गहराई आजमाएं",
+          "prompt": "डे पास आजमाएं",
+          "targetScreen": "Checkout"
+        },
+        "freePreview": {
+          "id": "smart-free-preview",
+          "label": "पहले मुफ्त प्रीव्यू",
+          "prompt": "पहले उपयोगी मुफ्त प्रीव्यू दीजिए. फिर सरल भाषा में बताइए कि भुगतान वाली गहराई क्या अतिरिक्त जोड़ेगी."
+        },
+        "premium": {
+          "href": "/dashboard/premium",
+          "id": "smart-premium",
+          "label": "भुगतान वाली गहराई चुनें",
+          "prompt": "प्रीमियम विकल्प खोलें",
+          "targetScreen": "Premium"
+        },
+        "report": {
+          "href": "/dashboard/report",
+          "id": "smart-report",
+          "label": "रिपोर्ट चुनें",
+          "prompt": "रिपोर्ट विकल्प खोलें",
+          "targetScreen": "Report"
+        }
+      }
     },
     "gu": {
       "chatPlaceholder": "જન્મ વિગતો લખો અથવા બનેલી કુંડળી પરથી સવાલ પૂછો...",
@@ -121,7 +245,69 @@
           "label": "કુંડળી સારાંશ",
           "prompt": "મારી નવી બનેલી કુંડળીનો નાનો સારાંશ બતાવો અને હું આગળ શું પૂછી શકું તે કહો."
         }
-      ]
+      ],
+      "radarSuggestions": [
+        {
+          "id": "radar-daily-action",
+          "label": "દૈનિક પગલું બનાવો",
+          "prompt": "આ પ્રેડિક્ટા રડાર પેટર્ન માટે દૈનિક પગલું શું છે? ગોચર, મહાદશા અને ઉપાય સાથે સરળ સાપ્તાહિક યોજના બનાવો."
+        },
+        {
+          "id": "radar-gochar",
+          "label": "ગોચરથી તપાસો",
+          "prompt": "આ રડાર પેટર્નને વર્તમાન ગોચર સાથે સરખાવીને આજે શું ઉપયોગી છે તે કહો."
+        },
+        {
+          "id": "radar-open-charts",
+          "label": "ચાર્ટ ખોલો",
+          "prompt": "આ રડાર પેટર્ન માટે ચેટમાં ચાર્ટ સ્નેપશોટ બતાવો: સૌથી મજબૂત સહારો, દબાણ, સમય અને પુરાવો."
+        },
+        {
+          "id": "radar-create-report",
+          "label": "રિપોર્ટ બનાવો",
+          "prompt": "આ રડાર પેટર્ન પરથી ઉપયોગી રિપોર્ટ પ્રીવ્યુ બનાવો અને ચૂકવણીવાળા રિપોર્ટમાં શું વધુ ઊંડાણ મળશે તે કહો."
+        }
+      ],
+      "smartMonetizationSuggestions": {
+        "calendar": {
+          "id": "smart-calendar",
+          "label": "લાઇફ કેલેન્ડર",
+          "prompt": "મને ચેટમાં લાઇફ કેલેન્ડર શૈલીનો સમય સારાંશ આપો: વર્તમાન તબક્કો, આગામી 90 દિવસ, સાવચેતી અને શ્રેષ્ઠ પગલું."
+        },
+        "compare": {
+          "href": "/pricing",
+          "id": "smart-compare",
+          "label": "જરૂર મુજબ પસંદ કરો",
+          "prompt": "વિકલ્પોની સરખામણી કરો",
+          "targetScreen": "Pricing"
+        },
+        "dayPass": {
+          "href": "/checkout?productId=pridicta_day_pass_24h",
+          "id": "smart-day-pass",
+          "label": "24 કલાકનું ઊંડાણ અજમાવો",
+          "prompt": "ડે પાસ અજમાવો",
+          "targetScreen": "Checkout"
+        },
+        "freePreview": {
+          "id": "smart-free-preview",
+          "label": "પહેલા મફત પ્રીવ્યુ",
+          "prompt": "પહેલા ઉપયોગી મફત પ્રીવ્યુ આપો. પછી સરળ ભાષામાં કહો કે ચૂકવણીવાળું ઊંડાણ શું વધુ ઉમેરે છે."
+        },
+        "premium": {
+          "href": "/dashboard/premium",
+          "id": "smart-premium",
+          "label": "ચૂકવણીવાળું ઊંડાણ પસંદ કરો",
+          "prompt": "પ્રીમિયમ વિકલ્પો ખોલો",
+          "targetScreen": "Premium"
+        },
+        "report": {
+          "href": "/dashboard/report",
+          "id": "smart-report",
+          "label": "રિપોર્ટ પસંદ કરો",
+          "prompt": "રિપોર્ટ વિકલ્પો ખોલો",
+          "targetScreen": "Report"
+        }
+      }
     }
   }
 }

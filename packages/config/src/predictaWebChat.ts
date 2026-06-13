@@ -1,6 +1,14 @@
 import type { SupportedLanguage } from '@pridicta/types';
 import predictaWebChatTranslations from './translations/predictaWebChat.json';
 
+export type PredictaWebChatSuggestionCopy = {
+  href?: string;
+  id: string;
+  label: string;
+  prompt: string;
+  targetScreen?: string;
+};
+
 export type PredictaWebChatCopy = {
   chatPlaceholder: string;
   createKundliFirstReply: string;
@@ -14,16 +22,16 @@ export type PredictaWebChatCopy = {
   };
   kundliCreatedQuickOptions: string;
   placeClarificationReply: string;
-  postKundliSuggestions: Array<{
-    id:
-      | 'dasha-after-kundli'
-      | 'gochar-after-kundli'
-      | 'my-kundlis-after-kundli'
-      | 'report-after-kundli'
-      | 'today-after-kundli';
-    label: string;
-    prompt: string;
-  }>;
+  postKundliSuggestions: PredictaWebChatSuggestionCopy[];
+  radarSuggestions: PredictaWebChatSuggestionCopy[];
+  smartMonetizationSuggestions: {
+    calendar: PredictaWebChatSuggestionCopy;
+    compare: PredictaWebChatSuggestionCopy;
+    dayPass: PredictaWebChatSuggestionCopy;
+    freePreview: PredictaWebChatSuggestionCopy;
+    premium: PredictaWebChatSuggestionCopy;
+    report: PredictaWebChatSuggestionCopy;
+  };
 };
 
 const COPY = predictaWebChatTranslations.copy as Record<

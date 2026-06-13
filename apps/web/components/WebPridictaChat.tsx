@@ -4192,6 +4192,7 @@ function buildSmartMonetizationSuggestions(
   language: SupportedLanguage,
   lastText: string,
 ): ChatSuggestedCta[] {
+  const suggestions = getPredictaWebChatCopy(language).smartMonetizationSuggestions;
   const reportFocused =
     /\b(report|pdf|marriage|compatibility|kundli dossier)\b/i.test(lastText);
   const timingFocused =
@@ -4199,233 +4200,20 @@ function buildSmartMonetizationSuggestions(
       lastText,
     );
 
-  if (language === 'hi') {
-    return [
-      {
-        id: 'smart-free-preview',
-        label: 'Free preview pehle',
-        prompt:
-          'Pehle useful free preview do. Phir simple language mein batao paid depth kya extra add karega.',
-      },
-      reportFocused
-        ? {
-            href: '/dashboard/report',
-            id: 'smart-report',
-            label: 'Report options',
-            prompt: 'Open report options',
-            targetScreen: 'Report',
-          }
-        : {
-            href: '/dashboard/premium',
-            id: 'smart-premium',
-            label: 'Choose paid depth',
-            prompt: 'Open premium options',
-            targetScreen: 'Premium',
-          },
-      timingFocused
-        ? {
-            id: 'smart-calendar',
-            label: 'Life Calendar',
-            prompt:
-              'Meri Life Calendar style timing summary chat mein do: current phase, next 90 days, caution, and best action.',
-          }
-        : {
-            href: '/checkout?productId=pridicta_day_pass_24h',
-            id: 'smart-day-pass',
-            label: '24h depth try karo',
-            prompt: 'Try Day Pass',
-            targetScreen: 'Checkout',
-          },
-      {
-        href: '/pricing',
-        id: 'smart-compare',
-        label: 'Need ke hisaab se choose',
-        prompt: 'Compare options',
-        targetScreen: 'Pricing',
-      },
-    ];
-  }
-
-  if (language === 'gu') {
-    return [
-      {
-        id: 'smart-free-preview',
-        label: 'Free preview pehla',
-        prompt:
-          'Pehla useful free preview aapo. Pachhi simple language ma kaho paid depth shu extra add karse.',
-      },
-      reportFocused
-        ? {
-            href: '/dashboard/report',
-            id: 'smart-report',
-            label: 'Report options',
-            prompt: 'Open report options',
-            targetScreen: 'Report',
-          }
-        : {
-            href: '/dashboard/premium',
-            id: 'smart-premium',
-            label: 'Paid depth choose karo',
-            prompt: 'Open premium options',
-            targetScreen: 'Premium',
-          },
-      timingFocused
-        ? {
-            id: 'smart-calendar',
-            label: 'Life Calendar',
-            prompt:
-              'Mari Life Calendar style timing summary chat ma aapo: current phase, next 90 days, caution, ane best action.',
-          }
-        : {
-            href: '/checkout?productId=pridicta_day_pass_24h',
-            id: 'smart-day-pass',
-            label: '24h depth try karo',
-            prompt: 'Try Day Pass',
-            targetScreen: 'Checkout',
-          },
-      {
-        href: '/pricing',
-        id: 'smart-compare',
-        label: 'Need pramane choose karo',
-        prompt: 'Compare options',
-        targetScreen: 'Pricing',
-      },
-    ];
-  }
-
   return [
-    {
-      id: 'smart-free-preview',
-      label: 'Show free preview first',
-      prompt:
-        'Show me the useful free preview first, then explain what the paid depth would add.',
-    },
-    reportFocused
-      ? {
-          href: '/dashboard/report',
-          id: 'smart-report',
-          label: 'Choose report',
-          prompt: 'Open report options',
-          targetScreen: 'Report',
-        }
-      : {
-          href: '/dashboard/premium',
-          id: 'smart-premium',
-          label: 'Choose paid depth',
-          prompt: 'Open premium options',
-          targetScreen: 'Premium',
-        },
-    timingFocused
-      ? {
-          id: 'smart-calendar',
-          label: 'Open Life Calendar',
-          prompt:
-            'Give me a Life Calendar style timing summary in chat: current phase, next 90 days, caution, and best action.',
-        }
-      : {
-          href: '/checkout?productId=pridicta_day_pass_24h',
-          id: 'smart-day-pass',
-          label: 'Try 24-hour depth',
-          prompt: 'Try Day Pass',
-          targetScreen: 'Checkout',
-        },
-    {
-      href: '/pricing',
-      id: 'smart-compare',
-      label: 'Choose by need',
-      prompt: 'Compare options',
-      targetScreen: 'Pricing',
-    },
-  ];
+    suggestions.freePreview,
+    reportFocused ? suggestions.report : suggestions.premium,
+    timingFocused ? suggestions.calendar : suggestions.dayPass,
+    suggestions.compare,
+  ].map(suggestion => ({ ...suggestion }));
 }
 
 function buildWowRadarSuggestions(
   language: SupportedLanguage,
 ): ChatSuggestedCta[] {
-  if (language === 'hi') {
-    return [
-      {
-        id: 'radar-daily-action',
-        label: 'Daily action banao',
-        prompt:
-          'Is Predicta Radar pattern ka daily action kya hai? Gochar, Mahadasha aur remedy ke saath simple weekly plan banao.',
-      },
-      {
-        id: 'radar-gochar',
-        label: 'Gochar se check karo',
-        prompt:
-          'Is Radar pattern ko current Gochar ke saath compare karo aur batao aaj kya useful hai.',
-      },
-      {
-        id: 'radar-open-charts',
-        label: 'Charts kholo',
-        prompt:
-          'Is Radar pattern ke liye chart snapshot chat mein dikhao: strongest support, pressure, timing, and proof.',
-      },
-      {
-        id: 'radar-create-report',
-        label: 'Report banao',
-        prompt:
-          'Is Radar pattern se useful report preview chat mein banao aur batao paid report mein kya deeper milega.',
-      },
-    ];
-  }
-
-  if (language === 'gu') {
-    return [
-      {
-        id: 'radar-daily-action',
-        label: 'Daily action banao',
-        prompt:
-          'Aa Predicta Radar pattern nu daily action shu chhe? Gochar, Mahadasha ane remedy sathe simple weekly plan banao.',
-      },
-      {
-        id: 'radar-gochar',
-        label: 'Gochar thi check karo',
-        prompt:
-          'Aa Radar pattern ne current Gochar sathe compare karo ane aaje shu useful chhe te kaho.',
-      },
-      {
-        id: 'radar-open-charts',
-        label: 'Charts kholo',
-        prompt:
-          'Aa Radar pattern mate chart snapshot chat ma batao: strongest support, pressure, timing, ane proof.',
-      },
-      {
-        id: 'radar-create-report',
-        label: 'Report banao',
-        prompt:
-          'Aa Radar pattern thi useful report preview chat ma banao ane paid report ma shu deeper male te kaho.',
-      },
-    ];
-  }
-
-  return [
-    {
-      id: 'radar-daily-action',
-      label: 'Make daily action',
-      prompt:
-        'What daily action fits this Predicta Radar pattern? Use Gochar, Mahadasha, and remedies to make a simple weekly plan.',
-    },
-    {
-      id: 'radar-gochar',
-      label: 'Check with Gochar',
-      prompt:
-        'Compare this Radar pattern with current Gochar and tell me what is useful today.',
-    },
-    {
-      id: 'radar-open-charts',
-      label: 'Open charts',
-      prompt:
-        'Show the chart snapshot for this Radar pattern in chat: strongest support, pressure, timing, and proof.',
-    },
-    {
-      id: 'radar-create-report',
-      label: 'Create report',
-      prompt:
-        'Create a useful report preview from this Radar pattern in chat and tell me what the paid report would add.',
-    },
-  ];
+  return getPredictaWebChatCopy(language).radarSuggestions.map(suggestion => ({
+    ...suggestion,
+  }));
 }
 
 function chartContextFromParams(params: URLSearchParams): ChartContext | undefined {
