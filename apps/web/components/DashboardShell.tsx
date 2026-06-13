@@ -11,7 +11,6 @@ import type {
   ResolvedAccess,
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
-import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import {
   getLightweightAppShellLabels,
   type LightweightAppShellLabels,
@@ -327,8 +326,7 @@ export function DashboardShell({
     sourceScreen: getTopbarPredictaSourceScreen(activeSection),
   });
 
-  function prewarmAskPredicta(href: string): void {
-    preloadAskPredictaRuntime();
+  function prefetchAskPredicta(href: string): void {
     router.prefetch(href);
   }
 
@@ -384,7 +382,7 @@ export function DashboardShell({
         commonGroups={commonGroups}
         homeAriaLabel={shellLabels.nav.home}
         navAriaLabel={translateUiText('My Astrology navigation', language)}
-        onPredictaIntent={() => prewarmAskPredicta(askPredictaHref)}
+        onPredictaIntent={() => prefetchAskPredicta(askPredictaHref)}
         ownerLabel={shellLabels.groups.owner}
         sectionLabel={shellLabels.groups.thisSection}
         showAdmin={showAdmin}
@@ -404,9 +402,9 @@ export function DashboardShell({
               <Link
                 className="button"
                 href={askPredictaHref}
-                onFocus={() => prewarmAskPredicta(askPredictaHref)}
-                onPointerEnter={() => prewarmAskPredicta(askPredictaHref)}
-                onTouchStart={() => prewarmAskPredicta(askPredictaHref)}
+                onFocus={() => prefetchAskPredicta(askPredictaHref)}
+                onPointerEnter={() => prefetchAskPredicta(askPredictaHref)}
+                onTouchStart={() => prefetchAskPredicta(askPredictaHref)}
               >
                 {shellLabels.actions.askPredicta}
               </Link>
@@ -467,9 +465,9 @@ export function DashboardShell({
                 <Link
                   className="dashboard-mobile-primary-ask"
                   href={askPredictaHref}
-                  onFocus={() => prewarmAskPredicta(askPredictaHref)}
-                  onPointerEnter={() => prewarmAskPredicta(askPredictaHref)}
-                  onTouchStart={() => prewarmAskPredicta(askPredictaHref)}
+                  onFocus={() => prefetchAskPredicta(askPredictaHref)}
+                  onPointerEnter={() => prefetchAskPredicta(askPredictaHref)}
+                  onTouchStart={() => prefetchAskPredicta(askPredictaHref)}
                   onClick={() => setMenuOpen(false)}
                 >
                   {shellLabels.actions.askPredicta}
@@ -620,9 +618,9 @@ export function DashboardShell({
             <Link
               className="button"
               href={askFromPageHref}
-              onFocus={() => prewarmAskPredicta(askFromPageHref)}
-              onPointerEnter={() => prewarmAskPredicta(askFromPageHref)}
-              onTouchStart={() => prewarmAskPredicta(askFromPageHref)}
+              onFocus={() => prefetchAskPredicta(askFromPageHref)}
+              onPointerEnter={() => prefetchAskPredicta(askFromPageHref)}
+              onTouchStart={() => prefetchAskPredicta(askFromPageHref)}
             >
               {shellLabels.actions.askDockCta}
             </Link>

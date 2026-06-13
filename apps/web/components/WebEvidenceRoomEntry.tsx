@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import type { SupportedLanguage } from '@pridicta/types';
 import { useLanguagePreference } from '../lib/language-preference';
-import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 
 type EvidenceRoomId =
   | 'jaimini'
@@ -33,8 +32,7 @@ export function WebEvidenceRoomEntry({
   const action = getRoomCopy(room, 'action', language);
   const evidence = getRoomCopy(room, 'evidence', language);
 
-  function prewarmAsk(): void {
-    preloadAskPredictaRuntime();
+  function prefetchAsk(): void {
     router.prefetch(askHref);
   }
 
@@ -58,9 +56,9 @@ export function WebEvidenceRoomEntry({
         <Link
           className="button"
           href={askHref}
-          onFocus={prewarmAsk}
-          onPointerEnter={prewarmAsk}
-          onTouchStart={prewarmAsk}
+          onFocus={prefetchAsk}
+          onPointerEnter={prefetchAsk}
+          onTouchStart={prefetchAsk}
         >
           {action}
         </Link>

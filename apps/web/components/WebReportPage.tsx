@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useLanguagePreference } from '../lib/language-preference';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
-import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 
 const WebDossierPreview = dynamic(
   () =>
@@ -30,8 +29,7 @@ export function WebReportPage(): React.JSX.Element {
     sourceScreen: 'Reports',
   });
 
-  function prewarmReportAsk(href = askReportHref) {
-    preloadAskPredictaRuntime();
+  function prefetchReportAsk(href = askReportHref) {
     router.prefetch('/ask');
     router.prefetch(href);
   }
@@ -59,9 +57,9 @@ export function WebReportPage(): React.JSX.Element {
           <Link
             className="button secondary"
             href={askReportHref}
-            onFocus={() => prewarmReportAsk(askReportHref)}
-            onPointerEnter={() => prewarmReportAsk(askReportHref)}
-            onTouchStart={() => prewarmReportAsk(askReportHref)}
+            onFocus={() => prefetchReportAsk(askReportHref)}
+            onPointerEnter={() => prefetchReportAsk(askReportHref)}
+            onTouchStart={() => prefetchReportAsk(askReportHref)}
           >
             {copy.askPredictaCta}
           </Link>
