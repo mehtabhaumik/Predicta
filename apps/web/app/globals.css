@@ -3480,6 +3480,7 @@ button:disabled,
 .dashboard-ask-dock {
   align-items: center;
   bottom: 20px;
+  border-radius: 22px;
   box-shadow:
     0 18px 46px rgba(0, 0, 0, 0.34),
     0 0 40px rgba(77, 175, 255, 0.12);
@@ -3489,7 +3490,7 @@ button:disabled,
   padding: 14px 16px;
   position: fixed;
   right: 32px;
-  width: min(860px, calc(100vw - 64px));
+  width: min(760px, calc(100vw - 64px));
   z-index: var(--predicta-z-sticky);
 }
 
@@ -3523,7 +3524,7 @@ button:disabled,
 .dashboard-ask-dock .button {
   flex: 0 0 auto;
   justify-content: center;
-  min-width: 154px;
+  min-width: 146px;
 }
 
 .dashboard-ask-dock-compact {
@@ -25382,7 +25383,7 @@ select::-ms-expand {
     display: grid;
     gap: 10px;
     grid-template-columns: minmax(0, 1fr) auto;
-    padding: 10px;
+    padding: 10px 10px 10px 12px;
   }
 
   .dashboard-ask-dock small {
@@ -25404,9 +25405,9 @@ select::-ms-expand {
   }
 
   .dashboard-ask-dock .button {
-    min-height: 48px;
-    min-width: 126px;
-    padding: 0 14px;
+    min-height: 46px;
+    min-width: 118px;
+    padding: 0 12px;
     width: auto;
   }
 
