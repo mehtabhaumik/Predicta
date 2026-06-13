@@ -326,6 +326,7 @@ export function DashboardShell({
   const mobileMenuCloseRef = useRef<HTMLButtonElement | null>(null);
   const activeKundliId = useLightweightActiveKundliId();
   const topbarContext = getTopbarContextCopy(shellLabels, activeSection);
+  const askDockSectionLabel = getAskDockSectionLabel(activeSection);
   const askPredictaHref = buildPredictaChatHref({
     kundliId: activeKundliId,
     prompt: shellLabels.actions.selectedKundliPrompt,
@@ -335,7 +336,7 @@ export function DashboardShell({
   const askFromPageHref = buildPredictaChatHref({
     kundliId: activeKundliId,
     prompt: buildAskDockPrompt({
-      section: activeSection.label,
+      section: askDockSectionLabel,
       template: shellLabels.actions.askDockPrompt,
     }),
     school: getTopbarPredictaSchool(activeSection.id),
@@ -664,6 +665,26 @@ function buildAskDockPrompt({
   template: string;
 }): string {
   return template.replace('{section}', section);
+}
+
+function getAskDockSectionLabel(activeSection: SidebarSection): string {
+  if (activeSection.id === 'library') {
+    return 'Predicta Dashboard';
+  }
+
+  if (activeSection.id === 'reports') {
+    return 'Report Composer';
+  }
+
+  if (activeSection.id === 'account') {
+    return 'Account and Access';
+  }
+
+  if (activeSection.id === 'predicta') {
+    return 'Ask Predicta';
+  }
+
+  return activeSection.label || 'Predicta Dashboard';
 }
 
 function getTopbarContextCopy(
