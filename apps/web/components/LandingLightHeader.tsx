@@ -21,13 +21,13 @@ export function LandingLightHeader(): React.JSX.Element {
   const responseCopy = getLightweightCompetitorResponseCopy(language);
   const primaryMenuLinks = [
     { href: '/accuracy-method', label: labels.nav.accuracyMethod },
-    { href: '/dashboard/report', label: labels.nav.reports },
+    { href: '/safety', label: labels.nav.safetyPromise },
     { href: '/pricing', label: labels.nav.premium },
   ];
   const desktopLinks = [
     { href: '/ask', label: labels.actions.askPredicta },
     { href: '/accuracy-method', label: labels.nav.accuracyMethod },
-    { href: '/dashboard/report', label: labels.nav.reports },
+    { href: '/safety', label: labels.nav.safetyPromise },
     { href: '/pricing', label: labels.nav.premium },
   ];
 

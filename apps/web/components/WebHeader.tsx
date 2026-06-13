@@ -170,7 +170,7 @@ function buildPublicHeaderCopy(labels: ReturnType<typeof getAppShellLabels>): {
     brand: labels.groups.predicta,
     links: [
       { href: '/accuracy-method', label: labels.nav.accuracyMethod },
-      { href: '/dashboard/report', label: labels.nav.reports },
+      { href: '/safety', label: labels.nav.safetyPromise },
       { href: '/pricing', label: labels.nav.premium },
     ],
     menu: labels.actions.openMenu,
