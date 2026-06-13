@@ -1,10 +1,12 @@
+'use client';
+
 import {
   getSpecialistRoomFallbackRoomCopy,
   SPECIALIST_ROOM_FALLBACK_COPY,
-  SPECIALIST_ROOM_FALLBACK_LANGUAGES,
   type SpecialistRoomFallbackKey,
   type SpecialistRoomFallbackLanguage,
 } from '../lib/lightweight-specialist-room-fallback-copy';
+import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 
 type SpecialistRoomPanelFallbackProps = {
   room?: SpecialistRoomFallbackKey;
@@ -37,62 +39,32 @@ function buildFallbackAskHref(
 export function SpecialistRoomPanelFallback({
   room = 'generic',
 }: SpecialistRoomPanelFallbackProps): React.JSX.Element {
+  const { language } = useLightweightLanguagePreference();
+  const fallbackLanguage = language as SpecialistRoomFallbackLanguage;
+  const copy = SPECIALIST_ROOM_FALLBACK_COPY[fallbackLanguage];
+  const roomCopy = getSpecialistRoomFallbackRoomCopy(fallbackLanguage, room);
+
   return (
     <section
       aria-busy="true"
       className="glass-panel specialist-room-panel-fallback"
     >
       <div className="section-title">
-        {SPECIALIST_ROOM_FALLBACK_LANGUAGES.map(language => (
-          <span className={`predicta-i18n predicta-i18n-${language}`} key={language}>
-            {getSpecialistRoomFallbackRoomCopy(language, room).eyebrow}
-          </span>
-        ))}
+        <span>{roomCopy.eyebrow}</span>
       </div>
-      <h1>
-        {SPECIALIST_ROOM_FALLBACK_LANGUAGES.map(language => (
-          <span className={`predicta-i18n predicta-i18n-${language}`} key={language}>
-            {getSpecialistRoomFallbackRoomCopy(language, room).title}
-          </span>
-        ))}
-      </h1>
-      <p>
-        {SPECIALIST_ROOM_FALLBACK_LANGUAGES.map(language => (
-          <span className={`predicta-i18n predicta-i18n-${language}`} key={language}>
-            {getSpecialistRoomFallbackRoomCopy(language, room).body}
-          </span>
-        ))}
-      </p>
+      <h1>{roomCopy.title}</h1>
+      <p>{roomCopy.body}</p>
       <div className="specialist-room-fallback-actions">
-        {SPECIALIST_ROOM_FALLBACK_LANGUAGES.map(language => {
-          const copy = SPECIALIST_ROOM_FALLBACK_COPY[language];
-          const roomCopy = getSpecialistRoomFallbackRoomCopy(language, room);
-
-          return (
-            <a
-              className={`button predicta-i18n-link predicta-i18n-link-${language}`}
-              href={buildFallbackAskHref(roomCopy, language)}
-              key={language}
-            >
-              {copy.askCta}
-            </a>
-          );
-        })}
+        <a className="button" href={buildFallbackAskHref(roomCopy, fallbackLanguage)}>
+          {copy.askCta}
+        </a>
         {room === 'report' ? (
           <a className="button secondary" href="/dashboard/kundli">
-            {SPECIALIST_ROOM_FALLBACK_LANGUAGES.map(language => (
-              <span className={`predicta-i18n predicta-i18n-${language}`} key={language}>
-                {SPECIALIST_ROOM_FALLBACK_COPY[language].createKundliCta}
-              </span>
-            ))}
+            {copy.createKundliCta}
           </a>
         ) : null}
         <span aria-live="polite" className="specialist-room-fallback-status">
-          {SPECIALIST_ROOM_FALLBACK_LANGUAGES.map(language => (
-            <span className={`predicta-i18n predicta-i18n-${language}`} key={language}>
-              {SPECIALIST_ROOM_FALLBACK_COPY[language].openingCta}
-            </span>
-          ))}
+          {copy.openingCta}
         </span>
       </div>
       <div className="specialist-room-fallback-skeleton">

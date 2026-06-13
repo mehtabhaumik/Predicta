@@ -13,7 +13,8 @@ export function useLightweightLanguagePreference(): {
   language: SupportedLanguage;
   setLanguage: (language: SupportedLanguage) => void;
 } {
-  const [language, setLanguageState] = useState<SupportedLanguage>('en');
+  const [language, setLanguageState] =
+    useState<SupportedLanguage>(readStoredLanguage);
 
   useEffect(() => {
     setLanguageState(readStoredLanguage());
@@ -69,6 +70,10 @@ export function useLightweightLanguagePreference(): {
 }
 
 function readStoredLanguage(): SupportedLanguage {
+  if (typeof window === 'undefined') {
+    return 'en';
+  }
+
   return readLanguageFromValue(
     window.localStorage.getItem(LIGHTWEIGHT_LANGUAGE_STORAGE_KEY),
   );
@@ -94,4 +99,3 @@ function readLanguageFromValue(value: string | null): SupportedLanguage {
     return normalizeLightweightLanguage(value);
   }
 }
-
