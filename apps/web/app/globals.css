@@ -4319,7 +4319,7 @@ button:disabled,
 }
 
 .library-dashboard-page {
-  gap: 26px;
+  gap: 18px;
 }
 
 .library-predicta-panel {
@@ -4328,22 +4328,26 @@ button:disabled,
 
 .library-quick-strip {
   align-items: center;
+  background:
+    linear-gradient(135deg, rgba(77, 175, 255, 0.055), rgba(255, 255, 255, 0.025)),
+    rgba(8, 9, 18, 0.54);
   display: grid;
-  gap: 18px;
+  gap: 16px;
   grid-template-columns: minmax(0, 1fr) auto;
-  padding: 22px 24px;
+  padding: 18px 20px;
 }
 
 .library-quick-strip h2 {
-  font-size: clamp(22px, 2.6vw, 34px);
-  line-height: 1.08;
-  margin: 8px 0 0;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.12;
+  margin: 6px 0 0;
 }
 
 .library-quick-strip p {
   color: var(--muted);
-  line-height: 1.52;
-  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 8px 0 0;
   max-width: 820px;
 }
 
@@ -4518,24 +4522,28 @@ button:disabled,
 
 .library-status-panel {
   align-items: center;
+  background:
+    linear-gradient(135deg, rgba(64, 220, 164, 0.055), rgba(77, 175, 255, 0.035)),
+    rgba(8, 9, 18, 0.48);
   display: grid;
-  gap: 22px;
+  gap: 16px;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.36fr);
-  padding: 24px;
+  padding: 18px 20px;
 }
 
 .library-status-panel h2,
 .library-section-head h2 {
-  font-size: clamp(26px, 3vw, 38px);
-  line-height: 1.08;
-  margin: 8px 0 0;
+  font-size: clamp(21px, 2.5vw, 30px);
+  line-height: 1.12;
+  margin: 6px 0 0;
 }
 
 .library-status-panel p,
 .library-section-head p {
   color: var(--muted);
-  line-height: 1.55;
-  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.52;
+  margin: 8px 0 0;
   max-width: 760px;
 }
 
@@ -4546,24 +4554,24 @@ button:disabled,
 }
 
 .library-status-metrics span {
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.095);
+  border-radius: 16px;
   display: grid;
-  gap: 4px;
-  min-height: 104px;
-  padding: 18px;
+  gap: 6px;
+  min-height: 72px;
+  padding: 14px;
 }
 
 .library-status-metrics strong {
   color: var(--text);
-  font-size: 38px;
-  line-height: 0.95;
+  font-size: 26px;
+  line-height: 1;
 }
 
 .library-status-metrics small {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 850;
   line-height: 1.35;
   text-transform: uppercase;
@@ -23011,6 +23019,10 @@ select::-ms-expand {
 .dashboard-page,
 .kp-page-stack {
   gap: clamp(28px, 3.2vw, 44px);
+}
+
+.dashboard-page.library-dashboard-page {
+  gap: 18px;
 }
 
 .predicta-world-page {
