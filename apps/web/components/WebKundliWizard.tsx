@@ -910,7 +910,10 @@ export function WebKundliWizard(): React.JSX.Element {
       ).slice(0, 6);
   const hasVisibleBirthPlaceSuggestions = visibleBirthPlaceSuggestions.length > 0;
   const shouldShowBirthPlaceSuggestions =
-    canShowBirthPlaceOverlay && isPlaceSuggestionsOpen && hasVisibleBirthPlaceSuggestions;
+    canShowBirthPlaceOverlay &&
+    isPlaceSuggestionsOpen &&
+    !isSearchingPlaces &&
+    hasVisibleBirthPlaceSuggestions;
   const shouldShowBirthPlaceOverlay = shouldShowBirthPlaceSuggestions;
   const readyFlow = kundli ? (
     <KundliReadyFlow
@@ -1014,6 +1017,7 @@ export function WebKundliWizard(): React.JSX.Element {
                 data-lpignore="true"
                 inputMode="search"
                 name={birthPlaceAutocompleteName}
+                aria-expanded={shouldShowBirthPlaceOverlay}
                 ref={birthPlaceInputRef}
                 spellCheck={false}
                 onChange={event => {
@@ -1939,7 +1943,6 @@ type KundliWizardCopy = {
   relationshipLabel: string;
   relationshipPlaceholder: string;
   relationshipRequiredError: string;
-  searchingPlaces: string;
 };
 
 const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
@@ -1973,7 +1976,6 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     relationshipRequiredError:
       'Select how this saved profile is related to you before creating or updating it.',
     reviewBirthDetails: name => `Review ${name}'s birth details.`,
-    searchingPlaces: 'Searching places...',
   },
   hi: {
     birthTimeApproximate: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.abe190eefa"),
@@ -2005,7 +2007,6 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     relationshipRequiredError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.fa7f447f5e"),
     reviewBirthDetails: name => formatNativeCopy("native.apps.web.components.WebKundliWizard.tsx.78c98d45b0", [name]),
-    searchingPlaces: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f530cdfa76"),
   },
   gu: {
     birthTimeApproximate: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f92bd5d28b"),
@@ -2037,6 +2038,5 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     relationshipRequiredError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.d369f850b5"),
     reviewBirthDetails: name => formatNativeCopy("native.apps.web.components.WebKundliWizard.tsx.4b0b53bf8b", [name]),
-    searchingPlaces: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.78a7225ab4"),
   },
 };
