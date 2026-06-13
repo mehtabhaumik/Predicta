@@ -1,0 +1,46 @@
+{
+  "copy": {
+    "en": {
+      "chatPlaceholder": "Share birth details or ask from a calculated kundli...",
+      "createKundliFirstReply": "I am with you. To answer this from your real chart, I need your Kundli first. Share your date of birth, birth time, and birth place right here, and I will create the Kundli inside this chat.",
+      "kundliCreatedAsk": "Now ask me about career, marriage, money, health tendencies, remedies, timing, or any decision. I will answer with chart proof.",
+      "kundliCreatedIntro": "Done. I created your Kundli right here in chat and selected it for this reading.",
+      "kundliCreatedLabels": {
+        "currentDasha": "Current dasha",
+        "lagna": "Lagna",
+        "moon": "Moon",
+        "nakshatra": "Nakshatra"
+      },
+      "kundliCreatedQuickOptions": "Use the quick options below to read today's guidance here, see Gochar, understand Mahadasha, create a report, or open My Kundlis.",
+      "placeClarificationReply": "I will create the Kundli right here. I just need the birth place a little clearer: city, state, country."
+    },
+    "hi": {
+      "chatPlaceholder": "जन्म विवरण लिखें या बनी हुई कुंडली से सवाल पूछें...",
+      "createKundliFirstReply": "मैं आपके साथ हूं. इस सवाल का सही चार्ट-आधारित जवाब देने के लिए पहले कुंडली चाहिए. यहीं चैट में अपनी जन्म तारीख, जन्म समय और जन्म स्थान भेज दें. मैं यहीं कुंडली बना दूंगी.",
+      "kundliCreatedAsk": "अब करियर, विवाह, धन, स्वास्थ्य संकेत, उपाय, समय या किसी निर्णय पर पूछिए. मैं चार्ट प्रमाण के साथ जवाब दूंगी.",
+      "kundliCreatedIntro": "हो गया. मैंने आपकी कुंडली यहीं चैट में बना दी है और उसे इस रीडिंग के लिए चुन लिया है.",
+      "kundliCreatedLabels": {
+        "currentDasha": "वर्तमान दशा",
+        "lagna": "लग्न",
+        "moon": "चंद्र",
+        "nakshatra": "नक्षत्र"
+      },
+      "kundliCreatedQuickOptions": "नीचे दिए गए त्वरित विकल्पों से आज का मार्गदर्शन पढ़ सकते हैं, गोचर देख सकते हैं, महादशा समझ सकते हैं, रिपोर्ट बना सकते हैं या मेरी कुंडली खोल सकते हैं.",
+      "placeClarificationReply": "मैं कुंडली यहीं बना दूंगी. बस जन्म स्थान थोड़ा और स्पष्ट चाहिए: शहर, राज्य और देश लिख दें."
+    },
+    "gu": {
+      "chatPlaceholder": "જન્મ વિગતો લખો અથવા બનેલી કુંડળી પરથી સવાલ પૂછો...",
+      "createKundliFirstReply": "હું તમારી સાથે છું. આ સવાલનો સાચો ચાર્ટ આધારિત જવાબ આપવા માટે પહેલા કુંડળી જોઈએ. અહીં ચેટમાં તમારી જન્મ તારીખ, જન્મ સમય અને જન્મ સ્થળ મોકલો. હું કુંડળી અહીં જ બનાવી દઈશ.",
+      "kundliCreatedAsk": "હવે કરિયર, લગ્ન, પૈસા, આરોગ્ય સંકેતો, ઉપાય, સમય અથવા કોઈ નિર્ણય વિશે પૂછો. હું ચાર્ટ પુરાવા સાથે જવાબ આપીશ.",
+      "kundliCreatedIntro": "થઈ ગયું. મેં તમારી કુંડળી અહીં ચેટમાં બનાવી દીધી છે અને તેને આ રીડિંગ માટે પસંદ રાખી છે.",
+      "kundliCreatedLabels": {
+        "currentDasha": "વર્તમાન દશા",
+        "lagna": "લગ્ન",
+        "moon": "ચંદ્ર",
+        "nakshatra": "નક્ષત્ર"
+      },
+      "kundliCreatedQuickOptions": "નીચેના ઝડપી વિકલ્પોથી આજનું માર્ગદર્શન વાંચી શકો, ગોચર જોઈ શકો, મહાદશા સમજી શકો, રિપોર્ટ બનાવી શકો અથવા મારી કુંડળી ખોલી શકો.",
+      "placeClarificationReply": "હું કુંડળી અહીં જ બનાવી દઈશ. ફક્ત જન્મ સ્થળ થોડું વધુ સ્પષ્ટ જોઈએ: શહેર, રાજ્ય અને દેશ લખો."
+    }
+  }
+}

@@ -4,6 +4,7 @@ import {
   formatNativeCopy,
   getMonetizationReportRequirementCopy,
   getNativeCopy,
+  getPredictaWebChatCopy,
 } from '@pridicta/config';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -5245,13 +5246,7 @@ function buildContextMessage({
 }
 
 function chatPlaceholder(language: SupportedLanguage): string {
-  if (language === 'hi') {
-    return 'Birth details likhein ya calculated Kundli se poochhein...';
-  }
-  if (language === 'gu') {
-    return 'Birth details lakho ya calculated Kundli parthi poochho...';
-  }
-  return 'Share birth details or ask from a calculated kundli...';
+  return getPredictaWebChatCopy(language).chatPlaceholder;
 }
 
 function looksLikeBirthDetails(text: string): boolean {
@@ -5274,34 +5269,16 @@ function createKundliFirstReply(
     ? `${getSafetyBoundaryCopy(language)}\n\n`
     : '';
 
-  if (language === 'hi') {
-    return `${safety}Main aapke saath hoon. Is sawal ka sahi chart-based jawab dene ke liye pehle Kundli chahiye. Yahin chat mein apni birth date, birth time aur birth place bhej dein. Main Kundli yahin bana dungi.`;
-  }
-  if (language === 'gu') {
-    return `${safety}Hu tamari sathe chhu. Aa sawal no sacho chart-based jawab aapva mate pehla Kundli joye. Ahi chat ma birth date, birth time ane birth place moklo. Hu Kundli ahi j banaavi daish.`;
-  }
-  return `${safety}I am with you. To answer this from your real chart, I need your Kundli first. Share your date of birth, birth time, and birth place right here, and I will create the Kundli inside this chat.`;
+  return `${safety}${getPredictaWebChatCopy(language).createKundliFirstReply}`;
 }
 
 function buildPlaceClarificationReply(
   language: SupportedLanguage,
   readyText: string,
 ): string {
-  if (language === 'hi') {
-    return [
-      readyText,
-      'Main Kundli yahin banaungi. Bas birth place thoda aur clear chahiye: city, state, country likh dein.',
-    ].join('\n\n');
-  }
-  if (language === 'gu') {
-    return [
-      readyText,
-      'Hu Kundli ahi j banaish. Fakat birth place thodu vadhu clear joye: city, state, country lakho.',
-    ].join('\n\n');
-  }
   return [
     readyText,
-    'I will create the Kundli right here. I just need the birth place a little clearer: city, state, country.',
+    getPredictaWebChatCopy(language).placeClarificationReply,
   ].join('\n\n');
 }
 
@@ -5309,34 +5286,20 @@ function buildKundliCreatedReply(
   language: SupportedLanguage,
   kundli: KundliData,
 ): string {
+  const copy = getPredictaWebChatCopy(language);
+  const labels = copy.kundliCreatedLabels;
   const lines = [
-    `Lagna: ${kundli.lagna}`,
-    `Moon: ${kundli.moonSign}`,
-    `Nakshatra: ${kundli.nakshatra}`,
-    `Current dasha: ${kundli.dasha.current.mahadasha} / ${kundli.dasha.current.antardasha}`,
+    `${labels.lagna}: ${kundli.lagna}`,
+    `${labels.moon}: ${kundli.moonSign}`,
+    `${labels.nakshatra}: ${kundli.nakshatra}`,
+    `${labels.currentDasha}: ${kundli.dasha.current.mahadasha} / ${kundli.dasha.current.antardasha}`,
   ];
 
-  if (language === 'hi') {
-    return [
-      'Ho gaya. Maine Kundli yahin chat mein bana di hai aur ise selected rakh liya hai.',
-      lines.join('\n'),
-      'Ab career, marriage, money, health tendencies, remedies, timing, ya kisi decision par poochiye. Main answer chart proof ke saath dungi.',
-      'Neeche quick options diye hain: aaj ka guidance chat mein padh sakte hain, Gochar dekh sakte hain, Mahadasha samajh sakte hain, report bana sakte hain, ya meri Kundli dekh sakte hain.',
-    ].join('\n\n');
-  }
-  if (language === 'gu') {
-    return [
-      'Thai gayu. Maine Kundli ahi chat ma banaavi didhi chhe ane tene selected rakhi chhe.',
-      lines.join('\n'),
-      'Have career, marriage, money, health tendencies, remedies, timing athva koi decision vishe poochho. Hu chart proof sathe jawab aapish.',
-      'Niche quick options chhe: aaj nu guidance chat ma vanchi shako, Gochar joi shako, Mahadasha samjhi shako, report banaavi shako, athva mari Kundli joi shako.',
-    ].join('\n\n');
-  }
   return [
-    'Done. I created your Kundli right here in chat and selected it for this reading.',
+    copy.kundliCreatedIntro,
     lines.join('\n'),
-    'Now ask me about career, marriage, money, health tendencies, remedies, timing, or any decision. I will answer with chart proof.',
-    "Use the quick options below to read today's guidance here, see Gochar, understand Mahadasha, create a report, or open My Kundlis.",
+    copy.kundliCreatedAsk,
+    copy.kundliCreatedQuickOptions,
   ].join('\n\n');
 }
 

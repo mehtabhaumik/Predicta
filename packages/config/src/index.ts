@@ -15,6 +15,7 @@ export * from './legal';
 export * from './monetizationCopy';
 export * from './nativeCopy';
 export * from './predictaUx';
+export * from './predictaWebChat';
 export * from './predictaMemory';
 export * from './trust';
 export * from './uiTranslations';
