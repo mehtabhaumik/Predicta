@@ -2,6 +2,7 @@ import type { SupportedLanguage } from '@pridicta/types';
 import fallbackCopy from './public-page-fallback-copy.json';
 
 export type PublicPageFallbackKey =
+  | 'accuracyMethod'
   | 'checkout'
   | 'feedback'
   | 'founder'

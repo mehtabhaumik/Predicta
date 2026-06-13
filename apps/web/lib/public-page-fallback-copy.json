@@ -1,6 +1,27 @@
 {
   "version": 1,
   "entries": {
+    "accuracyMethod": {
+      "ctaHref": "/ask",
+      "en": {
+        "body": "Predicta shows the evidence when you need it, but keeps the answer direct first.",
+        "ctaLabel": "Ask Predicta",
+        "eyebrow": "Accuracy & Method",
+        "title": "Evidence-backed, not overwhelming."
+      },
+      "hi": {
+        "body": "प्रेडिक्टा जरूरत होने पर प्रमाण दिखाती है, लेकिन पहले सीधा उत्तर रखती है।",
+        "ctaLabel": "प्रेडिक्टा से पूछें",
+        "eyebrow": "सटीकता और पद्धति",
+        "title": "प्रमाण-आधारित, लेकिन बोझिल नहीं।"
+      },
+      "gu": {
+        "body": "પ્રેડિક્ટા જરૂર પડે ત્યારે પુરાવો બતાવે છે, પણ પહેલા સીધો જવાબ આપે છે.",
+        "ctaLabel": "પ્રેડિક્ટાને પૂછો",
+        "eyebrow": "ચોકસાઈ અને પદ્ધતિ",
+        "title": "પુરાવા આધારિત, પણ ભારરૂપ નહીં."
+      }
+    },
     "checkout": {
       "ctaHref": "/pricing",
       "en": {

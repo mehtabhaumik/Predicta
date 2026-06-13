@@ -105,6 +105,7 @@ const sourceFiles = [
   'apps/web/components/WebVedicIntelligencePanelLoader.tsx',
   'apps/web/components/WebVedicWorldPageLoader.tsx',
   'apps/web/app/accuracy-method/page.tsx',
+  'apps/web/app/accuracy-method/AccuracyMethodPageLoader.tsx',
   'apps/web/app/checkout/page.tsx',
   'apps/web/app/checkout/CheckoutPageLoader.tsx',
   'apps/web/app/feedback/page.tsx',

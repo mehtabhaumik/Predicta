@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { AccuracyMethodPageClient } from './AccuracyMethodPageClient';
+import { AccuracyMethodPageLoader } from './AccuracyMethodPageLoader';
 
 export const metadata: Metadata = {
   alternates: {
@@ -23,5 +23,5 @@ export const metadata: Metadata = {
 };
 
 export default function AccuracyMethodPage(): React.JSX.Element {
-  return <AccuracyMethodPageClient />;
+  return <AccuracyMethodPageLoader />;
 }
