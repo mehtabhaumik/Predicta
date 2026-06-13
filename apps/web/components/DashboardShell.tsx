@@ -288,12 +288,12 @@ export function DashboardShell({
     DASHBOARD_WORLD_SECTION_IDS.has(activeSection.id) &&
     pathname === activeSection.href;
   const isTaskFlowRoute = DASHBOARD_TASK_FLOW_ROUTES.has(pathname);
-  const showAskDock =
+  const canShowAskDock =
     !isChatRoute &&
-    !isDashboardHomeRoute &&
-    !isPrimaryWorldRoute &&
-    !isTaskFlowRoute &&
     !pathname.startsWith('/dashboard/admin');
+  const useCompactAskDock =
+    canShowAskDock &&
+    (isDashboardHomeRoute || isPrimaryWorldRoute || isTaskFlowRoute);
   const primarySections = sections.filter(section =>
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
   );
@@ -334,10 +334,10 @@ export function DashboardShell({
     router.prefetch('/ask');
     router.prefetch(askPredictaHref);
 
-    if (showAskDock) {
+    if (canShowAskDock) {
       router.prefetch(askFromPageHref);
     }
-  }, [askFromPageHref, askPredictaHref, router, showAskDock]);
+  }, [askFromPageHref, askPredictaHref, canShowAskDock, router]);
   const activeSectionMenuItems = activeSection.items.filter(
     (item, index) =>
       !(
@@ -365,7 +365,8 @@ export function DashboardShell({
   const shellClassName = [
     'dashboard-shell',
     isChatRoute ? 'chat-route' : undefined,
-    !isChatRoute && showAskDock ? 'has-ask-dock' : undefined,
+    canShowAskDock ? 'has-ask-dock' : undefined,
+    useCompactAskDock ? 'has-compact-ask-dock' : undefined,
     !isChatRoute && isDashboardHomeRoute ? 'dashboard-home-route' : undefined,
     !isChatRoute && isPrimaryWorldRoute ? 'dashboard-primary-world-route' : undefined,
     pathname === '/dashboard/report' ? 'dashboard-report-route' : undefined,
@@ -606,10 +607,14 @@ export function DashboardShell({
         >
           {children}
         </div>
-        {showAskDock ? (
+        {canShowAskDock ? (
           <aside
             aria-label={shellLabels.actions.askDockTitle}
-            className="dashboard-ask-dock glass-panel"
+            className={
+              useCompactAskDock
+                ? 'dashboard-ask-dock dashboard-ask-dock-compact glass-panel'
+                : 'dashboard-ask-dock glass-panel'
+            }
           >
             <div>
               <span>{shellLabels.actions.askDockEyebrow}</span>

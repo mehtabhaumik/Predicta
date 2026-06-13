@@ -3338,6 +3338,10 @@ button:disabled,
   padding-bottom: 132px;
 }
 
+.dashboard-shell.has-compact-ask-dock .main-workspace {
+  padding-bottom: 104px;
+}
+
 .dashboard-home-route .main-workspace,
 .dashboard-primary-world-route .main-workspace {
   padding-top: 20px;
@@ -3520,6 +3524,27 @@ button:disabled,
   flex: 0 0 auto;
   justify-content: center;
   min-width: 154px;
+}
+
+.dashboard-ask-dock-compact {
+  border-radius: 20px;
+  gap: 12px;
+  padding: 10px 12px;
+  width: min(560px, calc(100vw - 64px));
+}
+
+.dashboard-ask-dock-compact strong {
+  font-size: 14px;
+}
+
+.dashboard-ask-dock-compact small {
+  display: none;
+}
+
+.dashboard-ask-dock-compact .button {
+  min-height: 44px;
+  min-width: 132px;
+  padding: 0 14px;
 }
 
 .dashboard-menu-toggle {
@@ -18091,6 +18116,10 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
     padding-bottom: 118px;
   }
 
+  .dashboard-shell.has-compact-ask-dock .main-workspace {
+    padding-bottom: 96px;
+  }
+
   .dashboard-ask-dock {
     border-radius: 22px;
     bottom: max(14px, env(safe-area-inset-bottom));
@@ -25342,6 +25371,10 @@ select::-ms-expand {
 
   .dashboard-shell.has-ask-dock .main-workspace {
     padding-bottom: 104px;
+  }
+
+  .dashboard-shell.has-compact-ask-dock .main-workspace {
+    padding-bottom: 92px;
   }
 
   .dashboard-ask-dock {
