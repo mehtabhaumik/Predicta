@@ -241,47 +241,48 @@ function getTopbarPredictaSchool(
 }
 
 function getTopbarPredictaSourceScreen(
+  labels: LightweightAppShellLabels,
   activeSection: SidebarSection,
 ): string {
   const school = getTopbarPredictaSchool(activeSection.id);
 
   if (school === 'PARASHARI') {
-    return 'Vedic Predicta';
+    return labels.nav.vedicPredicta;
   }
 
   if (school === 'KP') {
-    return 'KP Predicta';
+    return labels.nav.kpPredicta;
   }
 
   if (school === 'JAIMINI') {
-    return 'Jaimini Predicta';
+    return labels.nav.jaiminiPredicta;
   }
 
   if (school === 'NUMEROLOGY') {
-    return 'Numerology Predicta';
+    return labels.nav.numerologyPredicta;
   }
 
   if (school === 'SIGNATURE') {
-    return 'Signature Predicta';
+    return labels.nav.signaturePredicta;
   }
 
   if (activeSection.id === 'library') {
-    return 'Predicta Dashboard';
+    return labels.nav.dashboard;
   }
 
   if (activeSection.id === 'reports') {
-    return 'Reports';
+    return labels.nav.reports;
   }
 
   if (activeSection.id === 'account') {
-    return 'Account and Access';
+    return labels.nav.account;
   }
 
   if (activeSection.id === 'predicta') {
-    return 'Ask Predicta';
+    return labels.actions.askPredicta;
   }
 
-  return activeSection.label || 'Predicta Dashboard';
+  return activeSection.label || labels.nav.dashboard;
 }
 
 export function DashboardShell({
@@ -327,12 +328,12 @@ export function DashboardShell({
   const mobileMenuCloseRef = useRef<HTMLButtonElement | null>(null);
   const activeKundliId = useLightweightActiveKundliId();
   const topbarContext = getTopbarContextCopy(shellLabels, activeSection);
-  const askDockSectionLabel = getAskDockSectionLabel(activeSection);
+  const askDockSectionLabel = getAskDockSectionLabel(shellLabels, activeSection);
   const askPredictaHref = buildPredictaChatHref({
     kundliId: activeKundliId,
     prompt: shellLabels.actions.selectedKundliPrompt,
     school: getTopbarPredictaSchool(activeSection.id),
-    sourceScreen: getTopbarPredictaSourceScreen(activeSection),
+    sourceScreen: getTopbarPredictaSourceScreen(shellLabels, activeSection),
   });
   const askFromPageHref = buildPredictaChatHref({
     kundliId: activeKundliId,
@@ -341,7 +342,7 @@ export function DashboardShell({
       template: shellLabels.actions.askDockPrompt,
     }),
     school: getTopbarPredictaSchool(activeSection.id),
-    sourceScreen: getTopbarPredictaSourceScreen(activeSection),
+    sourceScreen: getTopbarPredictaSourceScreen(shellLabels, activeSection),
   });
 
   function prefetchAskPredicta(href: string): void {
@@ -669,24 +670,27 @@ function buildAskDockPrompt({
   return template.replace('{section}', section);
 }
 
-function getAskDockSectionLabel(activeSection: SidebarSection): string {
+function getAskDockSectionLabel(
+  labels: LightweightAppShellLabels,
+  activeSection: SidebarSection,
+): string {
   if (activeSection.id === 'library') {
-    return 'Predicta Dashboard';
+    return labels.nav.dashboard;
   }
 
   if (activeSection.id === 'reports') {
-    return 'Reports';
+    return labels.nav.reports;
   }
 
   if (activeSection.id === 'account') {
-    return 'Account and Access';
+    return labels.nav.account;
   }
 
   if (activeSection.id === 'predicta') {
-    return 'Ask Predicta';
+    return labels.actions.askPredicta;
   }
 
-  return activeSection.label || 'Predicta Dashboard';
+  return activeSection.label || labels.nav.dashboard;
 }
 
 function getTopbarContextCopy(
