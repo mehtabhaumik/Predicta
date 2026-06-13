@@ -28,15 +28,17 @@ const WORLD_SECTION_IDS = new Set([
 ]);
 
 function isSidebarNavItemActive(pathname: string, href: string): boolean {
+  const cleanHref = href.split('?')[0] ?? href;
+
   if (href === '/') {
     return pathname === '/';
   }
 
-  if (href === '/dashboard') {
-    return pathname === href;
+  if (cleanHref === '/dashboard') {
+    return pathname === cleanHref;
   }
 
-  return pathname.startsWith(href);
+  return pathname.startsWith(cleanHref);
 }
 
 export function SidebarNav({

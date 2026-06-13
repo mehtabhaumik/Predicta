@@ -6205,8 +6205,8 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
 
 .auth-required-panel {
   display: grid;
-  gap: var(--space-4);
-  margin: var(--space-6) auto;
+  gap: var(--predicta-space-card);
+  margin: var(--predicta-space-section) auto;
   max-width: min(720px, 100%);
   padding: clamp(1.25rem, 3vw, 2rem);
   text-align: left;
@@ -6227,8 +6227,8 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   display: grid;
-  gap: var(--space-2);
-  padding: var(--space-4);
+  gap: var(--predicta-space-personal);
+  padding: var(--predicta-space-card);
 }
 
 .auth-preserved-question span,
@@ -6256,8 +6256,8 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
 .auth-next-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
+  gap: var(--predicta-space-personal);
+  margin-top: var(--predicta-space-personal);
 }
 
 .auth-next-actions .button {
@@ -6267,7 +6267,7 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
 
 @media (max-width: 520px) {
   .auth-required-panel {
-    margin-block: var(--space-4);
+    margin-block: var(--predicta-space-card);
   }
 
   .auth-next-actions .button {

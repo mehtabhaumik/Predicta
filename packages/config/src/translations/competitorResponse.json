@@ -110,6 +110,10 @@
         "plansIntro": "Start free, add question packs or report credits when you need deeper guidance, and never pay per minute."
       },
       "dashboard": {
+        "dashboardHandoffTitle": "Opening Predicta chat.",
+        "dashboardHandoffBody": "Predicta is the main experience now. Ask your question first; the library stays available only when you need saved Kundlis, reports, passes, or settings.",
+        "dashboardHandoffCta": "Ask Predicta now",
+        "dashboardHandoffLibraryCta": "Open library instead",
         "emptyTitle": "Start with your Kundli.",
         "emptyBody": "Create the chart once. Then Predicta opens chart-backed predictions, timing, remedies, reports, and chat guidance without making you hunt for features.",
         "libraryEyebrow": "MY KUNDLIS",
@@ -405,6 +409,10 @@
         "plansIntro": "मुफ्त शुरू करें, जरूरत पर प्रश्न पैक या रिपोर्ट क्रेडिट जोड़ें, और कभी प्रति मिनट भुगतान न करें."
       },
       "dashboard": {
+        "dashboardHandoffTitle": "प्रेडिक्टा चैट खुल रही है.",
+        "dashboardHandoffBody": "अब प्रेडिक्टा मुख्य अनुभव है. पहले अपना प्रश्न पूछें; लाइब्रेरी केवल सहेजी हुई कुंडलियां, रिपोर्ट, पास या सेटिंग चाहिए तब उपलब्ध रहती है.",
+        "dashboardHandoffCta": "अभी प्रेडिक्टा से पूछें",
+        "dashboardHandoffLibraryCta": "इसके बजाय लाइब्रेरी खोलें",
         "emptyTitle": "अपनी कुंडली से शुरू करें.",
         "emptyBody": "चार्ट एक बार बनाएं. फिर प्रेडिक्टा प्रमाण-आधारित भविष्यवाणी, समय, उपाय, रिपोर्ट और चैट मार्गदर्शन खोलती है.",
         "libraryEyebrow": "मेरी कुंडलियां",
@@ -700,6 +708,10 @@
         "plansIntro": "મફતથી શરૂ કરો, જરૂર પડે ત્યારે પ્રશ્ન પેક અથવા રિપોર્ટ ક્રેડિટ ઉમેરો, અને ક્યારેય પ્રતિ-મિનિટ ચૂકવણી ન કરો."
       },
       "dashboard": {
+        "dashboardHandoffTitle": "પ્રેડિક્ટા ચેટ ખુલી રહી છે.",
+        "dashboardHandoffBody": "હવે પ્રેડિક્ટા મુખ્ય અનુભવ છે. પહેલા તમારો પ્રશ્ન પૂછો; લાઇબ્રેરી માત્ર સાચવેલી કુંડળી, રિપોર્ટ, પાસ અથવા સેટિંગ જોઈએ ત્યારે ઉપલબ્ધ રહે છે.",
+        "dashboardHandoffCta": "હમણાં પ્રેડિક્ટાને પૂછો",
+        "dashboardHandoffLibraryCta": "તેના બદલે લાઇબ્રેરી ખોલો",
         "emptyTitle": "તમારી કુંડળીથી શરૂ કરો.",
         "emptyBody": "ચાર્ટ એક વાર બનાવો. પછી પ્રેડિક્ટા ચાર્ટ આધારિત આગાહી, સમય, ઉપાયો, રિપોર્ટ્સ અને ચેટ માર્ગદર્શન ખોલે છે.",
         "libraryEyebrow": "મારી કુંડળીઓ",

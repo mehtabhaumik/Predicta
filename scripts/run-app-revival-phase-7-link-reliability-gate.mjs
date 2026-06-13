@@ -42,6 +42,7 @@ const routeChecks = [
   '/legal',
   '/feedback',
   '/dashboard',
+  '/dashboard?view=library',
   '/dashboard/kundli',
   '/dashboard/vedic',
   '/dashboard/kp',
@@ -76,6 +77,10 @@ const requiredLinksByRoute = [
   },
   {
     route: '/dashboard',
+    links: ['/ask'],
+  },
+  {
+    route: '/dashboard?view=library',
     links: ['/ask', '/dashboard/kundli', '/dashboard/saved-kundlis'],
   },
   {

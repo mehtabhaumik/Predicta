@@ -15,7 +15,7 @@ export default function AdminPage(): React.JSX.Element {
             This public build keeps internal Predicta tools hidden. If you are
             part of the owner team, open the protected owner environment instead.
           </p>
-          <Link className="button secondary" href="/dashboard">
+          <Link className="button secondary" href="/dashboard?view=library">
             Return to My Astrology
           </Link>
         </div>

@@ -208,7 +208,7 @@ export function LandingChatFirstContent(): React.JSX.Element {
               >
                 {landing.worldsPrimaryCta}
               </Link>
-              <Link className="button secondary" href="/dashboard">
+              <Link className="button secondary" href="/dashboard?view=library">
                 {landing.worldsSecondaryCta}
               </Link>
             </div>

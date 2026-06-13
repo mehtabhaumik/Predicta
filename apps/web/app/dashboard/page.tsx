@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
@@ -20,7 +20,16 @@ type LibraryLink = {
 };
 
 export default function DashboardPage(): React.JSX.Element {
+  return (
+    <Suspense fallback={null}>
+      <DashboardPageClient />
+    </Suspense>
+  );
+}
+
+function DashboardPageClient(): React.JSX.Element {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const voiceAutoStartedRef = useRef(false);
   const { language } = useLightweightLanguagePreference();
   const competitorCopy = getLightweightCompetitorResponseCopy(language);
@@ -33,6 +42,9 @@ export default function DashboardPage(): React.JSX.Element {
   const [voiceStatus, setVoiceStatus] = useState<
     'captured' | 'idle' | 'listening' | 'unsupported'
   >('idle');
+  const shouldShowLibrary =
+    searchParams.get('view') === 'library' ||
+    searchParams.get('source') === 'family-friends';
   const hasSavedKundli = Boolean(activeKundli) || savedCount > 0;
   const askSourceScreen = labels.nav.dashboard;
   const askHref = buildPredictaChatHref({
@@ -113,6 +125,49 @@ export default function DashboardPage(): React.JSX.Element {
         'family-friends',
     );
   }, [askHref]);
+
+  useEffect(() => {
+    if (shouldShowLibrary) {
+      return;
+    }
+
+    prewarmPredictaRuntime();
+    router.replace(askHref, { scroll: false });
+  }, [askHref, router, shouldShowLibrary]);
+
+  if (!shouldShowLibrary) {
+    return (
+      <section className="dashboard-page library-dashboard-page">
+        <section className="primary-predicta-panel library-predicta-panel dashboard-chat-handoff-panel glass-panel">
+          <div className="primary-predicta-copy">
+            <div className="section-title">{copy.primaryPredictaEyebrow}</div>
+            <h2>{copy.dashboardHandoffTitle}</h2>
+            <p>{copy.dashboardHandoffBody}</p>
+          </div>
+          <div className="primary-predicta-actions">
+            <Link
+              className="button"
+              href={askHref}
+              onFocus={() => prefetchDashboardAsk(askHref)}
+              onPointerEnter={() => prefetchDashboardAsk(askHref)}
+              onTouchStart={() => prefetchDashboardAsk(askHref)}
+            >
+              {copy.dashboardHandoffCta}
+            </Link>
+            <Link className="button secondary" href="/dashboard?view=library">
+              {copy.dashboardHandoffLibraryCta}
+            </Link>
+            <Link className="button secondary" href="/dashboard/kundli">
+              {labels.nav.kundli}
+            </Link>
+            <Link className="button secondary" href="/dashboard/saved-kundlis">
+              {labels.nav.savedKundlis}
+            </Link>
+          </div>
+        </section>
+      </section>
+    );
+  }
 
   return (
     <section className="dashboard-page library-dashboard-page">

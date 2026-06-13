@@ -1060,7 +1060,12 @@ export function WebKundliWizard(): React.JSX.Element {
     isPlaceSuggestionsOpen &&
     !isSearchingPlaces &&
     hasVisibleBirthPlaceSuggestions;
-  const shouldShowBirthPlaceOverlay = shouldShowBirthPlaceSuggestions;
+  const shouldShowBirthPlaceOverlay =
+    shouldShowBirthPlaceSuggestions &&
+    !isSearchingPlaces &&
+    !isBirthPlaceSearchSettled &&
+    !isBirthPlaceSelectionLocked &&
+    hasVisibleBirthPlaceSuggestions;
   const readyFlow = kundli ? (
     <KundliReadyFlow
       creationNote={lastCreationNote}

@@ -130,11 +130,11 @@ function buildDashboardNavModel(
       ],
     },
     {
-      href: '/dashboard',
+      href: '/dashboard?view=library',
       id: 'library',
       label: labels.nav.library,
       items: [
-        { href: '/dashboard', label: labels.nav.dashboard },
+        { href: '/dashboard?view=library', label: labels.nav.dashboard },
         { href: '/dashboard/saved-kundlis', label: labels.nav.savedKundlis },
         { href: '/dashboard/family', label: labels.nav.family },
         { href: '/dashboard/matchmaking', label: labels.nav.relationship },
@@ -160,15 +160,17 @@ function buildDashboardNavModel(
 }
 
 function isDashboardNavItemActive(pathname: string, href: string): boolean {
+  const cleanHref = href.split('?')[0] ?? href;
+
   if (href === '/') {
     return pathname === '/';
   }
 
-  if (href === '/dashboard') {
-    return pathname === href;
+  if (cleanHref === '/dashboard') {
+    return pathname === cleanHref;
   }
 
-  return pathname.startsWith(href);
+  return pathname.startsWith(cleanHref);
 }
 
 function getActiveDashboardSection(
