@@ -8,7 +8,6 @@ import {
   getLightweightCompetitorResponseCopy,
 } from '../../lib/lightweight-public-copy';
 import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
-import { preloadAskPredictaRuntime } from '../../lib/predicta-chat-runtime-preload';
 import { useLightweightKundliSnapshot } from '../../lib/use-lightweight-kundli-snapshot';
 import { useLightweightLanguagePreference } from '../../lib/use-lightweight-language-preference';
 
@@ -40,11 +39,6 @@ export default function DashboardPage(): React.JSX.Element {
     router.prefetch(href);
   }
 
-  function prewarmDashboardAsk(href = askHref) {
-    preloadAskPredictaRuntime();
-    prefetchDashboardAsk(href);
-  }
-
   function buildDashboardQuestionHref(question?: string): string {
     const prompt = question?.trim()
       ? question.trim()
@@ -63,7 +57,7 @@ export default function DashboardPage(): React.JSX.Element {
     event.preventDefault();
 
     const href = buildDashboardQuestionHref(questionDraft);
-    prewarmDashboardAsk(href);
+    prefetchDashboardAsk(href);
     router.push(href);
   }
 
@@ -83,9 +77,9 @@ export default function DashboardPage(): React.JSX.Element {
 
       <section
         className="primary-predicta-panel library-predicta-panel glass-panel"
-        onFocus={() => prewarmDashboardAsk()}
-        onPointerEnter={() => prewarmDashboardAsk()}
-        onTouchStart={() => prewarmDashboardAsk()}
+        onFocus={() => prefetchDashboardAsk()}
+        onPointerEnter={() => prefetchDashboardAsk()}
+        onTouchStart={() => prefetchDashboardAsk()}
       >
         <div className="primary-predicta-copy">
           <div className="section-title">
@@ -100,9 +94,9 @@ export default function DashboardPage(): React.JSX.Element {
             <textarea
               aria-label={copy.libraryQuestionLabel}
               onChange={event => setQuestionDraft(event.target.value)}
-              onFocus={() => prewarmDashboardAsk(buildDashboardQuestionHref(questionDraft))}
+              onFocus={() => prefetchDashboardAsk(buildDashboardQuestionHref(questionDraft))}
               onPointerEnter={() =>
-                prewarmDashboardAsk(buildDashboardQuestionHref(questionDraft))
+                prefetchDashboardAsk(buildDashboardQuestionHref(questionDraft))
               }
               placeholder={copy.libraryQuestionPlaceholder}
               rows={3}
@@ -161,9 +155,9 @@ export default function DashboardPage(): React.JSX.Element {
                 className="library-outcome-card"
                 href={href}
                 key={question.title}
-                onFocus={() => prewarmDashboardAsk(href)}
-                onPointerEnter={() => prewarmDashboardAsk(href)}
-                onTouchStart={() => prewarmDashboardAsk(href)}
+                onFocus={() => prefetchDashboardAsk(href)}
+                onPointerEnter={() => prefetchDashboardAsk(href)}
+                onTouchStart={() => prefetchDashboardAsk(href)}
               >
                 <strong>{question.title}</strong>
                 {' '}
