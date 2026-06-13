@@ -6077,8 +6077,13 @@ button:disabled,
   visibility: hidden;
 }
 
-.birth-place-search[data-birth-place-settled='true'] .birth-place-suggestions,
-.birth-place-search[data-birth-place-settled='true'] .birth-place-search-status {
+.birth-place-search-status {
+  display: none !important;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.birth-place-search[data-birth-place-settled='true'] .birth-place-suggestions {
   display: none !important;
   pointer-events: none;
   visibility: hidden;

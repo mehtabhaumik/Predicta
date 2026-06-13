@@ -86,6 +86,10 @@ try {
     throw new Error('Birth-place autocomplete rendered place and searching text inside the same overlay.');
   }
 
+  if (result.partialInjectedStaleStatusVisible) {
+    throw new Error('Birth-place autocomplete would visibly expose a stale searching row inside local suggestions.');
+  }
+
   if (result.exactImmediateHasSearchingPlaces || result.exactImmediateHasMixedOptionAndSearching) {
     throw new Error('Exact known birth place briefly showed a stale autocomplete panel.');
   }
@@ -180,6 +184,10 @@ try {
     );
   }
 
+  if (clickSuggestionResult.beforeClickInjectedStaleStatusVisible) {
+    throw new Error('Clickable birth-place suggestions do not suppress a stale searching row.');
+  }
+
   if (!clickSuggestionResult.refocusStayedClosed) {
     throw new Error('Birth-place suggestions reopened after refocusing the clicked selected place.');
   }
@@ -212,6 +220,7 @@ try {
     humanTypingResult.partialHasSearchingPlaces ||
     humanTypingResult.partialHasMixedOptionAndSearching ||
     humanTypingResult.partialHasMixedOptionAndSearchingText ||
+    humanTypingResult.partialInjectedStaleStatusVisible ||
     humanTypingResult.exactImmediateHasSearchingPlaces ||
     humanTypingResult.exactImmediateHasMixedOptionAndSearching
   ) {
@@ -323,6 +332,8 @@ async function runClickSuggestionAutocompleteScenario(cdp) {
     beforeClickHasMixedOptionAndSearchingText:
       beforeClickState.hasMixedOptionAndSearchingText,
     beforeClickHasSearchingPlaces: beforeClickState.hasSearchingPlaces,
+    beforeClickInjectedStaleStatusVisible:
+      beforeClickState.injectedStaleStatusVisible,
     beforeClickSuggestionsMounted: beforeClickState.suggestionsMounted,
     beforeClickSuggestionsText: beforeClickState.suggestionsText,
 	    inputFound: afterClickState.inputFound,
@@ -395,6 +406,8 @@ async function runHumanTypingAutocompleteScenario(cdp) {
       partialHasMixedOptionAndSearching: partialState.hasMixedOptionAndSearching,
       partialHasMixedOptionAndSearchingText:
         partialState.hasMixedOptionAndSearchingText,
+      partialInjectedStaleStatusVisible:
+        partialState.injectedStaleStatusVisible,
       partialHasSearchingPlaces: partialState.hasSearchingPlaces,
 	      partialOptionFound: partialState.optionFound,
 	      partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -413,6 +426,8 @@ async function runHumanTypingAutocompleteScenario(cdp) {
     partialHasMixedOptionAndSearching: partialState.hasMixedOptionAndSearching,
     partialHasMixedOptionAndSearchingText:
       partialState.hasMixedOptionAndSearchingText,
+    partialInjectedStaleStatusVisible:
+      partialState.injectedStaleStatusVisible,
     partialHasSearchingPlaces: partialState.hasSearchingPlaces,
 	    partialOptionFound: partialState.optionFound,
 	    partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -538,6 +553,8 @@ async function runAutocompleteScenario(cdp) {
       partialHasMixedOptionAndSearching: partialState.hasMixedOptionAndSearching,
       partialHasMixedOptionAndSearchingText:
         partialState.hasMixedOptionAndSearchingText,
+      partialInjectedStaleStatusVisible:
+        partialState.injectedStaleStatusVisible,
       partialHasSearchingPlaces: partialState.hasSearchingPlaces,
 	      partialOptionFound: partialState.optionFound,
 	      partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -645,6 +662,8 @@ async function runAutocompleteScenario(cdp) {
         partialState.hasMixedOptionAndSearching,
       partialHasMixedOptionAndSearchingText:
         partialState.hasMixedOptionAndSearchingText,
+      partialInjectedStaleStatusVisible:
+        partialState.injectedStaleStatusVisible,
       partialHasSearchingPlaces: partialState.hasSearchingPlaces,
       partialOptionFound: partialState.optionFound,
       partialSuggestionsMounted: partialState.suggestionsMounted,
@@ -754,6 +773,23 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
       const input = document.querySelector('input[data-birth-place-search="true"]');
       const resolvedValue = document.querySelector('.birth-place-resolved-value');
       const text = document.body.textContent || '';
+      let injectedStaleStatusVisible = false;
+
+      if (suggestions) {
+        const staleStatus = document.createElement('div');
+        staleStatus.className = 'birth-place-search-status';
+        staleStatus.textContent = 'Searching places...';
+        suggestions.appendChild(staleStatus);
+        const style = window.getComputedStyle(staleStatus);
+        const rect = staleStatus.getBoundingClientRect();
+        injectedStaleStatusVisible =
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          Number(style.opacity || 1) !== 0 &&
+          rect.width > 0 &&
+          rect.height > 0;
+        staleStatus.remove();
+      }
 
       return {
         hasSearchingPlaces:
@@ -784,6 +820,7 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
         suggestionsMounted: Boolean(suggestions),
         suggestionsText: suggestions?.textContent?.trim() || '',
         optionTexts: options.map(item => item.textContent?.trim()),
+        injectedStaleStatusVisible,
       };
     })()`,
     returnByValue: true,
