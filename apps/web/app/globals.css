@@ -22327,6 +22327,14 @@ select::-ms-expand {
   white-space: nowrap;
 }
 
+.ask-lean-header-actions {
+  align-items: center;
+  display: flex;
+  gap: clamp(10px, 2vw, 16px);
+  justify-content: flex-end;
+  min-width: 0;
+}
+
 .ask-lean-nav {
   align-items: center;
   display: flex;
@@ -26018,6 +26026,11 @@ select::-ms-expand {
     max-width: 100%;
   }
 
+  .ask-lean-header-actions {
+    min-width: 0;
+    width: 100%;
+  }
+
   .ask-lean-nav {
     display: flex;
     flex-wrap: nowrap;
@@ -26040,14 +26053,7 @@ select::-ms-expand {
   }
 
   .ask-lean-status {
-    justify-content: flex-start;
-    max-width: 100%;
-    text-align: left;
-  }
-
-  .ask-lean-status span {
-    border-radius: 14px;
-    width: 100%;
+    display: none;
   }
 
   .ask-light-copy h1 {

@@ -81,7 +81,7 @@ const requiredLinksByRoute = [
   },
   {
     route: '/ask',
-    links: ['/'],
+    links: ['/', '/dashboard/report', '/pricing'],
   },
   {
     route: '/dashboard',

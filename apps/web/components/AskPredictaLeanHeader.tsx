@@ -12,6 +12,16 @@ export function AskPredictaLeanHeader(): React.JSX.Element {
   const labels = getLightweightAppShellLabels(language);
   const responseCopy = getLightweightCompetitorResponseCopy(language);
   const landingCopy = responseCopy.landing;
+  const quickLinks = [
+    {
+      href: '/dashboard/report',
+      label: labels.nav.reports,
+    },
+    {
+      href: '/pricing',
+      label: labels.nav.premium,
+    },
+  ];
 
   return (
     <header className="ask-lean-header">
@@ -23,8 +33,17 @@ export function AskPredictaLeanHeader(): React.JSX.Element {
         </span>
       </Link>
 
-      <div aria-label={labels.groups.sections} className="ask-lean-status">
-        <span>{landingCopy.askHeaderNote}</span>
+      <div className="ask-lean-header-actions">
+        <nav aria-label={labels.groups.sections} className="ask-lean-nav ask-lean-nav-minimal">
+          {quickLinks.map(link => (
+            <Link href={link.href} key={link.href}>
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="ask-lean-status">
+          <span>{landingCopy.askHeaderNote}</span>
+        </div>
       </div>
     </header>
   );
