@@ -6,7 +6,7 @@
       "clicked": true,
       "href": "",
       "text": "Ask Predicta",
-      "elapsedMs": 102,
+      "elapsedMs": 104,
       "from": "/",
       "name": "landing primary ask entry",
       "url": "/ask?autoSend=true&sourceScreen=Landing&prompt=Help+me+create+my+Kundli+first%2C+then+answer+my+astrology+question+clearly."
@@ -15,7 +15,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Predicta+Dashboard&prompt=Use+my+selected+Kundli+and+tell+me+the+most+important+prediction+or+next+best+step+right+now.+Start+with+the+direct+answer.&autoSend=true",
       "text": "Ask Predicta",
-      "elapsedMs": 104,
+      "elapsedMs": 106,
       "from": "/dashboard",
       "name": "dashboard ask predicta link",
       "url": "/ask?sourceScreen=Predicta+Dashboard&prompt=Use+my+selected+Kundli+and+tell+me+the+most+important+prediction+or+next+best+step+right+now.+Start+with+the+direct+answer.&autoSend=true"
@@ -24,7 +24,7 @@
       "clicked": true,
       "href": "/ask?sourceScreen=Vedic+Predicta&prompt=Use+my+selected+Kundli+and+tell+me+the+most+important+prediction+or+next+best+step+right+now.+Start+with+the+direct+answer.&autoSend=true&school=PARASHARI",
       "text": "Ask Predicta",
-      "elapsedMs": 103,
+      "elapsedMs": 104,
       "from": "/dashboard/vedic",
       "name": "vedic evidence room ask link",
       "url": "/ask?sourceScreen=Vedic+Predicta&prompt=Use+my+selected+Kundli+and+tell+me+the+most+important+prediction+or+next+best+step+right+now.+Start+with+the+direct+answer.&autoSend=true&school=PARASHARI"
@@ -32,14 +32,14 @@
     {
       "clicked": true,
       "href": "/checkout?productId=pridicta_10_questions",
-      "text": "Choose 10 AI Questions",
+      "text": "10 AI questions",
       "elapsedMs": 104,
       "from": "/pricing",
       "name": "pricing checkout link",
       "url": "/checkout?productId=pridicta_10_questions"
     }
   ],
-  "generatedAt": "2026-06-13T11:24:49.575Z",
+  "generatedAt": "2026-06-13T11:36:32.243Z",
   "hrefLengthBudget": 900,
   "pageResults": [
     {
@@ -485,7 +485,7 @@
         }
       ],
       "askHeaderDashboardLinks": [],
-      "anchorCount": 13,
+      "anchorCount": 12,
       "disabledActive": [],
       "hrefs": [
         "/",
@@ -493,8 +493,7 @@
         "/accuracy-method",
         "/safety",
         "/pricing",
-        "/dashboard/kundli",
-        "/safety",
+        "/ask",
         "/",
         "/ask",
         "/accuracy-method",
@@ -531,7 +530,7 @@
         "/accuracy-method",
         "/safety",
         "/pricing",
-        "/legal",
+        "/ask",
         "/",
         "/ask",
         "/accuracy-method",
@@ -654,21 +653,21 @@
   ],
   "routeResults": [
     {
-      "elapsedMs": 10,
+      "elapsedMs": 15,
       "location": null,
       "route": "/",
       "status": 200,
       "url": "http://127.0.0.1:3009/"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 4,
       "location": null,
       "route": "/ask",
       "status": 200,
       "url": "http://127.0.0.1:3009/ask"
     },
     {
-      "elapsedMs": 16,
+      "elapsedMs": 18,
       "location": "/ask?legacyChatSmoke=1&prompt=Will+my+job+improve%3F&sourceScreen=Legacy+Dashboard+Chat&autoSend=true",
       "route": "/dashboard/chat?legacyChatSmoke=1&prompt=Will+my+job+improve%3F",
       "status": 307,
@@ -682,14 +681,14 @@
       "url": "http://127.0.0.1:3009/dashboard/vedic/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 7,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=KP+Predicta&school=KP&prompt=Answer+my+KP+question+clearly+with+timing%2C+likely+trigger%2C+and+what+I+should+do+next.&autoSend=true&handoffMode=room_safe",
       "route": "/dashboard/kp/chat?legacyRoomSmoke=1",
       "status": 307,
       "url": "http://127.0.0.1:3009/dashboard/kp/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 5,
+      "elapsedMs": 4,
       "location": "/ask?legacyRoomSmoke=1&sourceScreen=Jaimini+Predicta&school=JAIMINI&prompt=Read+my+current+Jaimini+destiny+chapter+and+tell+me+what+it+means+for+my+life+now.&autoSend=true&handoffMode=room_safe",
       "route": "/dashboard/jaimini/chat?legacyRoomSmoke=1",
       "status": 307,
@@ -717,7 +716,7 @@
       "url": "http://127.0.0.1:3009/dashboard/signature/chat?legacyRoomSmoke=1"
     },
     {
-      "elapsedMs": 1,
+      "elapsedMs": 2,
       "location": null,
       "route": "/pricing",
       "status": 200,
@@ -745,7 +744,7 @@
       "url": "http://127.0.0.1:3009/safety"
     },
     {
-      "elapsedMs": 2,
+      "elapsedMs": 1,
       "location": null,
       "route": "/legal",
       "status": 200,

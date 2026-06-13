@@ -111,7 +111,7 @@ export default function DashboardPage(): React.JSX.Element {
   return (
     <section className="dashboard-page library-dashboard-page">
       {isFamilyFriendsVisit ? (
-        <FriendsFamilyWelcome hasKundli={Boolean(activeKundli)} />
+        <FriendsFamilyWelcome copy={copy} hasKundli={Boolean(activeKundli)} />
       ) : null}
 
       <section
@@ -395,47 +395,45 @@ function LibrarySection({
 }
 
 function FriendsFamilyWelcome({
+  copy,
   hasKundli,
 }: {
+  copy: ReturnType<typeof getLightweightCompetitorResponseCopy>['dashboard'];
   hasKundli: boolean;
 }): React.JSX.Element {
+  const askPreviewHref = buildPredictaChatHref({
+    prompt: copy.familyFriendsAskPrompt,
+    sourceScreen: copy.familyFriendsSourceScreen,
+  });
+
   return (
     <section className="friends-family-welcome glass-panel">
       <div>
-        <div className="section-title">PRIVATE PREVIEW</div>
-        <h2>Start here. No hunting around.</h2>
+        <div className="section-title">{copy.familyFriendsEyebrow}</div>
+        <h2>{copy.familyFriendsTitle}</h2>
         <details className="info-drawer">
           <summary>
-            <span>Pass instructions</span>
-            <strong>Open</strong>
+            <span>{copy.familyFriendsInstructionsTitle}</span>
+            <strong>{copy.familyFriendsInstructionsCta}</strong>
           </summary>
-          <p>
-            Redeem your pass with the email used for it, create your Kundli, then
-            ask Predicta one question you actually care about. If you are not
-            sure which email was used, contact the Predicta admin or the person
-            who invited you.
-          </p>
+          <p>{copy.familyFriendsInstructionsBody}</p>
         </details>
       </div>
       <div className="friends-family-actions">
         <Link className="button" href="/dashboard/redeem-pass?source=family-friends">
-          Redeem Pass
+          {copy.familyFriendsRedeemCta}
         </Link>
         <Link
           className="button secondary"
-          href={
-            hasKundli
-              ? '/ask?sourceScreen=Private+Preview&prompt=Show+me+what+I+should+try+first+from+my+Kundli.'
-              : '/dashboard/kundli'
-          }
+          href={hasKundli ? askPreviewHref : '/dashboard/kundli'}
         >
-          {hasKundli ? 'Ask Predicta' : 'Create Kundli'}
+          {hasKundli ? copy.familyFriendsAskCta : copy.familyFriendsCreateCta}
         </Link>
         <Link
           className="button secondary"
           href="/feedback?source=family-friends&area=general&from=dashboard"
         >
-          Give Feedback
+          {copy.familyFriendsFeedbackCta}
         </Link>
       </div>
     </section>
