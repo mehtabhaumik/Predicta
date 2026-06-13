@@ -152,24 +152,24 @@
       "gu": "પુરાવો અહીં ઉપલબ્ધ છે, પરંતુ જવાબ પહેલો રહે છે."
     },
     "ui.evidenceRoom.generic.openDetailedRoom": {
-      "en": "Continue into the full reading",
-      "hi": "पूरी रीडिंग में आगे बढ़ें",
-      "gu": "સંપૂર્ણ રીડિંગમાં આગળ વધો"
+      "en": "Open charts and proof",
+      "hi": "चार्ट और प्रमाण खोलें",
+      "gu": "ચાર્ટ અને પુરાવો ખોલો"
     },
     "ui.evidenceRoom.generic.openDetailedRoomHint": {
-      "en": "The answer stays first. Open this only when you want charts, proof, and report options.",
-      "hi": "उत्तर पहले रहता है। इसे तभी खोलें जब आपको चार्ट, प्रमाण और रिपोर्ट विकल्प चाहिए।",
-      "gu": "જવાબ પહેલો રહે છે. ચાર્ટ, પુરાવો અને રિપોર્ટ વિકલ્પો જોઈએ ત્યારે જ આ ખોલો."
+      "en": "For deeper evidence, report options, and specialist tools.",
+      "hi": "गहरे प्रमाण, रिपोर्ट विकल्प और विशेषज्ञ टूल्स के लिए।",
+      "gu": "ઊંડા પુરાવા, રિપોર્ટ વિકલ્પો અને વિશેષજ્ઞ સાધનો માટે."
     },
     "ui.evidenceRoom.vedic.title": {
-      "en": "Vedic shows the main life signal.",
-      "hi": "वैदिक मुख्य जीवन संकेत दिखाता है।",
-      "gu": "વૈદિક મુખ્ય જીવન સંકેત બતાવે છે."
+      "en": "Your Vedic signal, plainly.",
+      "hi": "आपका वैदिक संकेत, सीधे शब्दों में।",
+      "gu": "તમારો વૈદિક સંકેત, સીધી રીતે."
     },
     "ui.evidenceRoom.vedic.body": {
-      "en": "Use this room when you want the chart's direct guidance: what supports you, what is maturing, and what timing is active now.",
-      "hi": "इस कक्ष का उपयोग तब करें जब आप चार्ट का सीधा मार्गदर्शन चाहते हैं: क्या आपका साथ दे रहा है, क्या परिपक्व हो रहा है, और कौन-सा समय अभी सक्रिय है।",
-      "gu": "જ્યારે તમને ચાર્ટનું સીધું માર્ગદર્શન જોઈએ ત્યારે આ રૂમ વાપરો: શું સહારો આપે છે, શું પરિપક્વ થઈ રહ્યું છે, અને કયો સમય હવે સક્રિય છે."
+      "en": "Predicta reads support, pressure, timing, and the next wise move before showing the chart proof.",
+      "hi": "प्रेडिक्टा चार्ट प्रमाण दिखाने से पहले समर्थन, दबाव, समय और अगला समझदार कदम पढ़ती है।",
+      "gu": "પ્રેડિક્ટા ચાર્ટ પુરાવો બતાવે તે પહેલાં સહારો, દબાણ, સમય અને આગળનું યોગ્ય પગલું વાંચે છે."
     },
     "ui.evidenceRoom.vedic.action": {
       "en": "Ask for my main Vedic guidance now.",
@@ -182,14 +182,14 @@
       "gu": "D1, ચંદ્ર, D9, D10, ચલિત, દશા, ગોચર, યોગ, દોષ, શ્રાપ, લાલ કિતાબ અને ઉપાય પુરાવા તરીકે રહે છે."
     },
     "ui.evidenceRoom.kp.title": {
-      "en": "KP answers one exact event question.",
-      "hi": "KP एक सटीक घटना प्रश्न का उत्तर देता है।",
-      "gu": "KP એક ચોક્કસ ઘટના પ્રશ્નનો જવાબ આપે છે."
+      "en": "Ask one event. Get timing.",
+      "hi": "एक घटना पूछें। समय जानें।",
+      "gu": "એક ઘટના પૂછો. સમય જાણો."
     },
     "ui.evidenceRoom.kp.body": {
-      "en": "Use this room for job change, marriage timing, travel, property, money, or another specific event where timing matters.",
-      "hi": "नौकरी बदलने, विवाह समय, यात्रा, संपत्ति, धन या किसी ऐसी विशेष घटना के लिए इस कक्ष का उपयोग करें जहाँ समय महत्वपूर्ण है।",
-      "gu": "નોકરી બદલાવ, લગ્ન સમય, મુસાફરી, મિલકત, પૈસા અથવા સમય મહત્વનો હોય તેવી કોઈ ચોક્કસ ઘટના માટે આ રૂમ વાપરો."
+      "en": "Predicta sharpens vague questions, gives the answer first, then keeps KP proof behind it.",
+      "hi": "प्रेडिक्टा अस्पष्ट प्रश्न को साफ करती है, पहले उत्तर देती है, फिर KP प्रमाण पीछे रखती है।",
+      "gu": "પ્રેડિક્ટા અસ્પષ્ટ પ્રશ્નને સ્પષ્ટ કરે છે, પહેલા જવાબ આપે છે, પછી KP પુરાવો પાછળ રાખે છે."
     },
     "ui.evidenceRoom.kp.action": {
       "en": "Ask my KP event question.",
@@ -202,14 +202,14 @@
       "gu": "કસ્પ, સબ-લોર્ડ, સિગ્નિફિકેટર, રૂલિંગ પ્લેનેટ, દશા સપોર્ટ અને ટાઈમિંગ ટ્રિગર પુરાવા તરીકે રહે છે."
     },
     "ui.evidenceRoom.jaimini.title": {
-      "en": "Jaimini shows destiny direction and soul role.",
-      "hi": "जैमिनी नियति दिशा और आत्म भूमिका दिखाता है।",
-      "gu": "જૈમિની નિયતિ દિશા અને આત્માની ભૂમિકા બતાવે છે."
+      "en": "Your destiny direction.",
+      "hi": "आपकी नियति दिशा।",
+      "gu": "તમારી નિયતિ દિશા."
     },
     "ui.evidenceRoom.jaimini.body": {
-      "en": "Use this room when you want life direction, visible path, career dharma, relationship mirrors, and the current destiny chapter.",
-      "hi": "जब आप जीवन दिशा, दिखने वाला मार्ग, करियर धर्म, संबंध दर्पण और वर्तमान नियति अध्याय जानना चाहते हैं, तब इस कक्ष का उपयोग करें।",
-      "gu": "જ્યારે જીવન દિશા, દેખાતો માર્ગ, કારકિર્દી ધર્મ, સંબંધના દર્પણ અને વર્તમાન નિયતિ અધ્યાય જાણવા હોય ત્યારે આ રૂમ વાપરો."
+      "en": "Predicta turns karakas and destiny markers into the life chapter you are actually living now.",
+      "hi": "प्रेडिक्टा कारक और नियति संकेतों को आपके वर्तमान जीवन अध्याय में बदलती है।",
+      "gu": "પ્રેડિક્ટા કારક અને નિયતિ સંકેતોને તમે હાલ જીવી રહ્યા છો તે જીવન અધ્યાયમાં બદલે છે."
     },
     "ui.evidenceRoom.jaimini.action": {
       "en": "Ask about my destiny direction.",
@@ -222,14 +222,14 @@
       "gu": "આત્મકારક, અમાત્યકારક, આરુઢ, કરકામ્ષ, રાશિ દૃષ્ટિ અને જૈમિની ટાઈમિંગ પુરાવા તરીકે રહે છે."
     },
     "ui.evidenceRoom.numerology.title": {
-      "en": "Numerology explains your name and timing rhythm.",
-      "hi": "अंक ज्योतिष आपका नाम और समय-लय समझाता है।",
-      "gu": "અંકજ્યોતિષ તમારું નામ અને સમયની લય સમજાવે છે."
+      "en": "Your number rhythm now.",
+      "hi": "आपकी वर्तमान अंक-लय।",
+      "gu": "તમારી હાલની અંક-લય."
     },
     "ui.evidenceRoom.numerology.body": {
-      "en": "Use this room for name energy, birth code, personal year, current cycle, strengths, cautions, and number-led timing.",
-      "hi": "नाम ऊर्जा, जन्म कोड, निजी वर्ष, वर्तमान चक्र, ताकत, सावधानियाँ और अंकों से जुड़े समय के लिए इस कक्ष का उपयोग करें।",
-      "gu": "નામ ઊર્જા, જન્મ કોડ, વ્યક્તિગત વર્ષ, વર્તમાન ચક્ર, શક્તિઓ, સાવચેતીઓ અને અંક આધારિત સમય માટે આ રૂમ વાપરો."
+      "en": "Predicta reads your name, birth code, and current cycle as guidance, not a number lesson.",
+      "hi": "प्रेडिक्टा आपके नाम, जन्म कोड और वर्तमान चक्र को मार्गदर्शन की तरह पढ़ती है, अंक पाठ की तरह नहीं।",
+      "gu": "પ્રેડિક્ટા તમારું નામ, જન્મ કોડ અને હાલનો ચક્ર માર્ગદર્શન તરીકે વાંચે છે, અંક પાઠ તરીકે નહીં."
     },
     "ui.evidenceRoom.numerology.action": {
       "en": "Ask what my numbers say now.",
@@ -242,14 +242,14 @@
       "gu": "નામ નંબર, જન્મ નંબર, ભાગ્ય નંબર, વ્યક્તિગત વર્ષ, વ્યક્તિગત મહિનો, વ્યક્તિગત દિવસ અને નંબર ગ્રિડ પુરાવા તરીકે રહે છે."
     },
     "ui.evidenceRoom.signature.title": {
-      "en": "Signature reflects visible self-expression.",
-      "hi": "हस्ताक्षर दिखाई देने वाली आत्म-अभिव्यक्ति को दर्शाता है।",
-      "gu": "હસ્તાક્ષર દેખાતી સ્વ-અભિવ્યક્તિ દર્શાવે છે."
+      "en": "Your visible expression.",
+      "hi": "आपकी दिखती अभिव्यक्ति।",
+      "gu": "તમારી દેખાતી અભિવ્યક્તિ."
     },
     "ui.evidenceRoom.signature.body": {
-      "en": "Use this room only after uploading or drawing a real signature. It reflects visible traits, not guaranteed prediction or identity proof.",
-      "hi": "यह कक्ष केवल वास्तविक हस्ताक्षर अपलोड या ड्रॉ करने के बाद उपयोग करें। यह दिखाई देने वाले लक्षणों को दर्शाता है, निश्चित भविष्यवाणी या पहचान प्रमाण नहीं।",
-      "gu": "વાસ્તવિક સહી અપલોડ અથવા દોરી પછી જ આ રૂમ વાપરો. તે દેખાતા લક્ષણો દર્શાવે છે, ખાતરીવાળી ભવિષ્યવાણી કે ઓળખ પુરાવો નહીં."
+      "en": "Upload or draw a real signature. Predicta reads only confirmed visible traits, never identity proof.",
+      "hi": "वास्तविक हस्ताक्षर अपलोड या ड्रॉ करें। प्रेडिक्टा केवल पुष्ट दिखाई देने वाले लक्षण पढ़ती है, पहचान प्रमाण नहीं।",
+      "gu": "વાસ્તવિક સહી અપલોડ કરો અથવા દોરો. પ્રેડિક્ટા ફક્ત પુષ્ટિ થયેલા દેખાતા લક્ષણો વાંચે છે, ઓળખ પુરાવો નહીં."
     },
     "ui.evidenceRoom.signature.action": {
       "en": "Ask about my confirmed signature traits.",
@@ -262,14 +262,14 @@
       "gu": "બેઝલાઈન, ઢાળ, દબાણ, કદ, લય, વાંચનીયતા, અંતર, અન્ડરલાઈન, ફ્લોરિશ અને વિશ્વાસ લેબલ પુરાવા તરીકે રહે છે."
     },
     "ui.evidenceRoom.kundliKarma.title": {
-      "en": "Kundli Karma shows pressure, support, and safe remedies.",
-      "hi": "कुंडली कर्म दबाव, समर्थन और सुरक्षित उपाय दिखाता है।",
-      "gu": "કુંડળી કર્મ દબાણ, સહારો અને સુરક્ષિત ઉપાય બતાવે છે."
+      "en": "Pressure, support, remedy.",
+      "hi": "दबाव, समर्थन, उपाय।",
+      "gu": "દબાણ, સહારો, ઉપાય."
     },
     "ui.evidenceRoom.kundliKarma.body": {
-      "en": "Use this room for Dosh, Shrap, Yog, Lal Kitab, remedy safety, and one calm action plan without fear-selling.",
-      "hi": "दोष, श्राप, योग, लाल किताब, उपाय सुरक्षा और डर बेचने के बिना शांत कार्ययोजना के लिए इस कक्ष का उपयोग करें।",
-      "gu": "દોષ, શ્રાપ, યોગ, લાલ કિતાબ, ઉપાય સુરક્ષા અને ડર વેચ્યા વિના શાંત કાર્યયોજના માટે આ રૂમ વાપરો."
+      "en": "Predicta ranks Dosh, Shrap, Yog, and Lal Kitab signals into one calm action plan.",
+      "hi": "प्रेडिक्टा दोष, श्राप, योग और लाल किताब संकेतों को एक शांत कार्ययोजना में क्रम देती है।",
+      "gu": "પ્રેડિક્ટા દોષ, શ્રાપ, યોગ અને લાલ કિતાબ સંકેતોને એક શાંત કાર્યયોજનામાં ગોઠવે છે."
     },
     "ui.evidenceRoom.kundliKarma.action": {
       "en": "Ask what pressure or support is active.",
