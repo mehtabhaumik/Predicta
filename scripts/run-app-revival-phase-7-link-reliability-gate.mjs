@@ -292,7 +292,10 @@ try {
   }
 } finally {
   chrome.kill('SIGTERM');
-  await waitForProcessExit(chrome, 2_000).catch(() => undefined);
+  await waitForProcessExit(chrome, 2_000).catch(async () => {
+    chrome.kill('SIGKILL');
+    await waitForProcessExit(chrome, 1_000).catch(() => undefined);
+  });
   rmSync(userDataDir, {
     force: true,
     maxRetries: 5,
@@ -324,6 +327,7 @@ if (failures.length) {
 }
 
 console.log(`${phaseName} passed. Manifest: ${manifestPath}`);
+process.exit(0);
 
 async function fetchRoute(route) {
   const startedAt = Date.now();

@@ -1081,13 +1081,6 @@ export function WebKundliWizard(): React.JSX.Element {
   const shouldShowBirthPlaceSuggestions =
     canShowBirthPlaceOverlay &&
     isPlaceSuggestionsOpen &&
-    !isSearchingPlaces &&
-    hasVisibleBirthPlaceSuggestions;
-  const shouldShowBirthPlaceOverlay =
-    shouldShowBirthPlaceSuggestions &&
-    !isSearchingPlaces &&
-    !isBirthPlaceSearchSettled &&
-    !isBirthPlaceSelectionLocked &&
     hasVisibleBirthPlaceSuggestions;
   const readyFlow = kundli ? (
     <KundliReadyFlow
@@ -1209,7 +1202,7 @@ export function WebKundliWizard(): React.JSX.Element {
                     inputMode="search"
                     key={`${birthPlaceAutocompleteName}-${birthPlaceInputResetToken}`}
                     name={`${birthPlaceAutocompleteName}-${birthPlaceInputResetToken}`}
-                    aria-expanded={shouldShowBirthPlaceOverlay}
+                    aria-expanded={shouldShowBirthPlaceSuggestions}
                     ref={birthPlaceInputRef}
                     spellCheck={false}
                     onInput={event => {
@@ -1301,7 +1294,7 @@ export function WebKundliWizard(): React.JSX.Element {
               <small id="birth-place-help">
                 {labels.birthPlaceHelp}
               </small>
-              {shouldShowBirthPlaceOverlay ? (
+              {shouldShowBirthPlaceSuggestions ? (
                 <div className="birth-place-suggestions" role="listbox">
                   {visibleBirthPlaceSuggestions.map(option => {
                     return (
