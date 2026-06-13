@@ -9626,6 +9626,391 @@
       "hi": "जब आपकी निजी एआई चैट साइन-इन की प्रतीक्षा कर रही हो, तब चैट में कुंडली शुरू करें या प्राइसिंग देखें।",
       "gu": "તમારી ખાનગી એઆઈ ચેટ સાઇન-ઇનની રાહ જોતી હોય ત્યારે ચેટમાં કુંડળી શરૂ કરો અથવા પ્રાઇસિંગ જુઓ."
     },
+    "ui.global.numerology.keyword.launch.engine": {
+      "en": "Launch",
+      "hi": "शुरुआत",
+      "gu": "શરૂઆત"
+    },
+    "ui.global.numerology.keyword.repair.engine": {
+      "en": "Repair",
+      "hi": "सुधार",
+      "gu": "સુધારો"
+    },
+    "ui.global.numerology.keyword.express.engine": {
+      "en": "Express",
+      "hi": "व्यक्त करें",
+      "gu": "વ્યક્ત કરો"
+    },
+    "ui.global.numerology.keyword.build.engine": {
+      "en": "Build",
+      "hi": "बनाएं",
+      "gu": "બાંધો"
+    },
+    "ui.global.numerology.keyword.explore.engine": {
+      "en": "Explore",
+      "hi": "खोजें",
+      "gu": "શોધો"
+    },
+    "ui.global.numerology.keyword.learn.engine": {
+      "en": "Learn",
+      "hi": "सीखें",
+      "gu": "શીખો"
+    },
+    "ui.global.numerology.keyword.lead.engine": {
+      "en": "Lead",
+      "hi": "नेतृत्व",
+      "gu": "નેતૃત્વ"
+    },
+    "ui.global.numerology.guidance.1.engine": {
+      "en": "Start cleanly, choose one visible move, and keep the first step simple.",
+      "hi": "साफ शुरुआत करें, एक दिखने वाला कदम चुनें और पहला कदम सरल रखें.",
+      "gu": "સાફ શરૂઆત કરો, એક દેખાતું પગલું પસંદ કરો અને પહેલું પગલું સરળ રાખો."
+    },
+    "ui.global.numerology.guidance.2.engine": {
+      "en": "Repair trust, listen closely, and let the next step form through cooperation.",
+      "hi": "भरोसा सुधारें, ध्यान से सुनें और सहयोग से अगला कदम बनने दें.",
+      "gu": "વિશ્વાસ સુધારો, ધ્યાનથી સાંભળો અને સહકારથી આગળનું પગલું બનવા દો."
+    },
+    "ui.global.numerology.guidance.3.engine": {
+      "en": "Express the useful message, create with warmth, and finish one visible piece.",
+      "hi": "उपयोगी संदेश व्यक्त करें, गर्मजोशी से बनाएं और एक दिखने वाला काम पूरा करें.",
+      "gu": "ઉપયોગી સંદેશ વ્યક્ત કરો, ઉષ્માથી સર્જન કરો અને એક દેખાતું કામ પૂરું કરો."
+    },
+    "ui.global.numerology.guidance.4.engine": {
+      "en": "Build the system, simplify the routine, and let consistency do the heavy lifting.",
+      "hi": "सिस्टम बनाएं, दिनचर्या सरल करें और निरंतरता को काम करने दें.",
+      "gu": "સિસ્ટમ બાંધો, રૂટીન સરળ કરો અને સતતતા કામ કરવા દો."
+    },
+    "ui.global.numerology.guidance.5.engine": {
+      "en": "Move, test, learn, and keep enough structure around the freedom.",
+      "hi": "चलें, जांचें, सीखें और स्वतंत्रता के आसपास पर्याप्त संरचना रखें.",
+      "gu": "હલનચલન કરો, તપાસો, શીખો અને સ્વતંત્રતા આસપાસ પૂરતું માળખું રાખો."
+    },
+    "ui.global.numerology.guidance.6.engine": {
+      "en": "Care with boundaries, improve the home base, and make beauty practical.",
+      "hi": "सीमाओं के साथ देखभाल करें, घर का आधार सुधारें और सुंदरता को व्यावहारिक बनाएं.",
+      "gu": "સીમા સાથે કાળજી લો, ઘરનો આધાર સુધારો અને સૌંદર્યને વ્યવહારિક બનાવો."
+    },
+    "ui.global.numerology.guidance.7.engine": {
+      "en": "Research, reflect, and let quiet focus reveal the cleaner answer.",
+      "hi": "अध्ययन करें, चिंतन करें और शांत ध्यान से साफ उत्तर सामने आने दें.",
+      "gu": "અભ્યાસ કરો, વિચાર કરો અને શાંત ધ્યાનથી સાફ જવાબ દેખાવા દો."
+    },
+    "ui.global.numerology.guidance.8.engine": {
+      "en": "Organize resources, negotiate clearly, and make power accountable.",
+      "hi": "संसाधन व्यवस्थित करें, साफ बातचीत करें और शक्ति को जवाबदेह बनाएं.",
+      "gu": "સાધનો ગોઠવો, સ્પષ્ટ રીતે વાટાઘાટ કરો અને શક્તિને જવાબદાર બનાવો."
+    },
+    "ui.global.numerology.guidance.9.engine": {
+      "en": "Complete, forgive wisely, release clutter, and serve from the bigger view.",
+      "hi": "पूरा करें, समझदारी से क्षमा करें, अव्यवस्था छोड़ें और बड़े दृष्टिकोण से सेवा करें.",
+      "gu": "પૂર્ણ કરો, સમજદારીથી માફ કરો, અવ્યવસ્થા છોડો અને મોટા દૃષ્ટિકોણથી સેવા કરો."
+    },
+    "ui.global.numerology.pending.lower.engine": {
+      "en": "pending",
+      "hi": "लंबित",
+      "gu": "બાકી"
+    },
+    "ui.global.numerology.confidence.low.engine": {
+      "en": "low",
+      "hi": "कम",
+      "gu": "ઓછું"
+    },
+    "ui.global.numerology.confidence.medium.engine": {
+      "en": "medium",
+      "hi": "मध्यम",
+      "gu": "મધ્યમ"
+    },
+    "ui.global.numerology.confidence.high.engine": {
+      "en": "high",
+      "hi": "उच्च",
+      "gu": "ઊંચું"
+    },
+    "ui.global.numerology.no.pattern.engine": {
+      "en": "none",
+      "hi": "कोई नहीं",
+      "gu": "કોઈ નહીં"
+    },
+    "ui.global.numerology.life.direction.engine": {
+      "en": "life direction",
+      "hi": "जीवन दिशा",
+      "gu": "જીવન દિશા"
+    },
+    "ui.global.numerology.pending.name.engine": {
+      "en": "Pending until a name is available.",
+      "hi": "नाम उपलब्ध होने तक लंबित.",
+      "gu": "નામ ઉપલબ્ધ થાય ત્યાં સુધી બાકી."
+    },
+    "ui.global.numerology.pending.avoid.engine": {
+      "en": "guessing before name and birth date are available",
+      "hi": "नाम और जन्म तिथि उपलब्ध होने से पहले अनुमान लगाना",
+      "gu": "નામ અને જન્મ તારીખ ઉપલબ્ધ થાય તે પહેલાં અંદાજ લગાવવો"
+    },
+    "ui.global.numerology.pending.lean.engine": {
+      "en": "adding name and birth date",
+      "hi": "नाम और जन्म तिथि जोड़ना",
+      "gu": "નામ અને જન્મ તારીખ ઉમેરવી"
+    },
+    "ui.global.numerology.supportive.framing.engine": {
+      "en": "Use these as gentle alignment cues for focus and reflection, not as guaranteed lucky rules.",
+      "hi": "इन्हें ध्यान और चिंतन के हल्के सहायक संकेत की तरह लें, पक्के भाग्यशाली नियम की तरह नहीं.",
+      "gu": "આને ધ્યાન અને વિચાર માટે નરમ સહાયક સંકેત તરીકે લો, ખાતરીવાળા લકી નિયમ તરીકે નહીં."
+    },
+    "ui.global.numerology.supportive.pending.engine": {
+      "en": "Supportive tools appear only after the number profile is ready.",
+      "hi": "सहायक टूल्स अंक प्रोफाइल तैयार होने के बाद ही दिखते हैं.",
+      "gu": "સહાયક ટૂલ્સ અંક પ્રોફાઇલ તૈયાર થયા પછી જ દેખાય છે."
+    },
+    "ui.global.numerology.details.pending.engine": {
+      "en": "Add your details so Predicta can prepare a number profile.",
+      "hi": "अपना विवरण जोड़ें ताकि प्रेडिक्टा अंक प्रोफाइल तैयार कर सके.",
+      "gu": "તમારી વિગતો ઉમેરો જેથી પ્રેડિક્ટા અંક પ્રોફાઇલ તૈયાર કરી શકે."
+    },
+    "ui.global.numerology.compare.name.engine": {
+      "en": "Add another person, business, brand, or public name to compare rhythms without mixing other schools.",
+      "hi": "अन्य स्कूल मिलाए बिना लय की तुलना करने के लिए दूसरा व्यक्ति, व्यवसाय, ब्रांड या सार्वजनिक नाम जोड़ें.",
+      "gu": "બીજા સ્કૂલ્સ મિક્સ કર્યા વગર લય સરખાવવા માટે બીજો વ્યક્તિ, વ્યવસાય, બ્રાન્ડ અથવા જાહેર નામ ઉમેરો."
+    },
+    "ui.global.numerology.compatibility.needs.engine": {
+      "en": "Compatibility needs a confirmed comparison name or birth date before Predicta can score it.",
+      "hi": "स्कोर देने से पहले प्रेडिक्टा को पुष्टि किया हुआ तुलना नाम या जन्म तिथि चाहिए.",
+      "gu": "સ્કોર આપવા પહેલાં પ્રેડિક્ટાને પુષ્ટિ કરેલું સરખામણી નામ અથવા જન્મ તારીખ જોઈએ."
+    },
+    "ui.global.numerology.compatibility.reflective.engine": {
+      "en": "Numerology compatibility is reflective guidance, not certainty about a relationship or business outcome.",
+      "hi": "अंक-ज्योतिष संगतता चिंतनशील मार्गदर्शन है, रिश्ते या व्यवसाय परिणाम की निश्चितता नहीं.",
+      "gu": "અંક જ્યોતિષ સુસંગતતા વિચારાત્મક માર્ગદર્શન છે, સંબંધ અથવા વ્યવસાય પરિણામની ખાતરી નહીં."
+    },
+    "ui.global.numerology.name.refinement.engine": {
+      "en": "Premium name refinement can compare spelling, brand, baby, business, or public-name options when the user provides them.",
+      "hi": "यूज़र विकल्प दे तो प्रीमियम नाम परिष्कार नाम की वर्तनी, व्यापारिक नाम, शिशु नाम, व्यवसाय नाम या सार्वजनिक नाम के विकल्पों की तुलना कर सकता है.",
+      "gu": "વપરાશકર્તા વિકલ્પ આપે તો પ્રીમિયમ નામ સુધારણા નામની જોડણી, વ્યાપારી નામ, બાળકનું નામ, વ્યવસાય નામ અથવા જાહેર નામના વિકલ્પો સરખાવી શકે છે."
+    },
+    "ui.global.numerology.no.fear.name.engine": {
+      "en": "Predicta never uses fear labels for a name.",
+      "hi": "प्रेडिक्टा नाम के लिए डर वाले लेबल कभी नहीं लगाती.",
+      "gu": "પ્રેડિક્ટા નામ માટે ડરવાળા લેબલ ક્યારેય લગાવતી નથી."
+    },
+    "ui.global.numerology.score.not.identity.engine": {
+      "en": "A name score is a reflective fit score, not a demand to change identity.",
+      "hi": "नाम स्कोर एक चिंतनशील फिट स्कोर है, पहचान बदलने की मांग नहीं.",
+      "gu": "નામ સ્કોર એક વિચારાત્મક ફિટ સ્કોર છે, ઓળખ બદલવાની માંગ નહીં."
+    },
+    "ui.global.numerology.fit.not.verdict.engine": {
+      "en": "This is a reflective name fit score, not a verdict on identity.",
+      "hi": "यह चिंतनशील नाम फिट स्कोर है, पहचान पर फैसला नहीं.",
+      "gu": "આ વિચારાત્મક નામ ફિટ સ્કોર છે, ઓળખ પર ચુકાદો નહીં."
+    },
+    "ui.global.numerology.compare.when.provided.engine": {
+      "en": "Compare alternate names only when the user provides them.",
+      "hi": "वैकल्पिक नामों की तुलना तभी करें जब यूज़र उन्हें दे.",
+      "gu": "વૈકલ્પિક નામો યૂઝર આપે ત્યારે જ સરખાવો."
+    },
+    "ui.global.numerology.alt.spelling.engine": {
+      "en": "alternate spelling",
+      "hi": "वैकल्पिक वर्तनी",
+      "gu": "વૈકલ્પિક જોડણી"
+    },
+    "ui.global.numerology.brand.business.engine": {
+      "en": "brand or business name",
+      "hi": "ब्रांड या व्यवसाय नाम",
+      "gu": "બ્રાન્ડ અથવા વ્યવસાય નામ"
+    },
+    "ui.global.numerology.baby.name.engine": {
+      "en": "baby name",
+      "hi": "बच्चे का नाम",
+      "gu": "બાળકનું નામ"
+    },
+    "ui.global.numerology.public.name.engine": {
+      "en": "public or stage name",
+      "hi": "सार्वजनिक या स्टेज नाम",
+      "gu": "જાહેર અથવા સ્ટેજ નામ"
+    },
+    "ui.global.month.jan.engine": {
+      "en": "Jan",
+      "hi": "जन",
+      "gu": "જાન્યુ"
+    },
+    "ui.global.month.feb.engine": {
+      "en": "Feb",
+      "hi": "फर",
+      "gu": "ફેબ્રુ"
+    },
+    "ui.global.month.mar.engine": {
+      "en": "Mar",
+      "hi": "मार्च",
+      "gu": "માર્ચ"
+    },
+    "ui.global.month.apr.engine": {
+      "en": "Apr",
+      "hi": "अप्रै",
+      "gu": "એપ્રિલ"
+    },
+    "ui.global.month.may.engine": {
+      "en": "May",
+      "hi": "मई",
+      "gu": "મે"
+    },
+    "ui.global.month.jun.engine": {
+      "en": "Jun",
+      "hi": "जून",
+      "gu": "જૂન"
+    },
+    "ui.global.month.jul.engine": {
+      "en": "Jul",
+      "hi": "जुल",
+      "gu": "જુલાઈ"
+    },
+    "ui.global.month.aug.engine": {
+      "en": "Aug",
+      "hi": "अग",
+      "gu": "ઑગ"
+    },
+    "ui.global.month.sep.engine": {
+      "en": "Sep",
+      "hi": "सित",
+      "gu": "સપ્ટે"
+    },
+    "ui.global.month.oct.engine": {
+      "en": "Oct",
+      "hi": "अक्टू",
+      "gu": "ઑક્ટો"
+    },
+    "ui.global.month.nov.engine": {
+      "en": "Nov",
+      "hi": "नवं",
+      "gu": "નવે"
+    },
+    "ui.global.month.dec.engine": {
+      "en": "Dec",
+      "hi": "दिसं",
+      "gu": "ડિસે"
+    },
+    "ui.global.day.sunday.engine": {
+      "en": "Sunday",
+      "hi": "रविवार",
+      "gu": "રવિવાર"
+    },
+    "ui.global.day.monday.engine": {
+      "en": "Monday",
+      "hi": "सोमवार",
+      "gu": "સોમવાર"
+    },
+    "ui.global.day.tuesday.engine": {
+      "en": "Tuesday",
+      "hi": "मंगलवार",
+      "gu": "મંગળવાર"
+    },
+    "ui.global.day.wednesday.engine": {
+      "en": "Wednesday",
+      "hi": "बुधवार",
+      "gu": "બુધવાર"
+    },
+    "ui.global.day.thursday.engine": {
+      "en": "Thursday",
+      "hi": "गुरुवार",
+      "gu": "ગુરુવાર"
+    },
+    "ui.global.day.friday.engine": {
+      "en": "Friday",
+      "hi": "शुक्रवार",
+      "gu": "શુક્રવાર"
+    },
+    "ui.global.day.saturday.engine": {
+      "en": "Saturday",
+      "hi": "शनिवार",
+      "gu": "શનિવાર"
+    },
+    "ui.global.color.sun.gold.engine": {
+      "en": "sun gold",
+      "hi": "सूर्य सोना",
+      "gu": "સૂર્ય સોનું"
+    },
+    "ui.global.color.clear.white.engine": {
+      "en": "clear white",
+      "hi": "स्वच्छ सफेद",
+      "gu": "સ્વચ્છ સફેદ"
+    },
+    "ui.global.color.pearl.engine": {
+      "en": "pearl",
+      "hi": "मोती",
+      "gu": "મોતી"
+    },
+    "ui.global.color.soft.blue.engine": {
+      "en": "soft blue",
+      "hi": "हल्का नीला",
+      "gu": "હળવો વાદળી"
+    },
+    "ui.global.color.saffron.engine": {
+      "en": "saffron",
+      "hi": "केसरिया",
+      "gu": "કેસરી"
+    },
+    "ui.global.color.warm.yellow.engine": {
+      "en": "warm yellow",
+      "hi": "गर्म पीला",
+      "gu": "ગરમ પીળો"
+    },
+    "ui.global.color.earth.brown.engine": {
+      "en": "earth brown",
+      "hi": "मिट्टी भूरा",
+      "gu": "માટી ભૂરો"
+    },
+    "ui.global.color.deep.green.engine": {
+      "en": "deep green",
+      "hi": "गहरा हरा",
+      "gu": "ઘેરો લીલો"
+    },
+    "ui.global.color.teal.engine": {
+      "en": "teal",
+      "hi": "नील-हरा",
+      "gu": "નીલ-લીલો"
+    },
+    "ui.global.color.silver.engine": {
+      "en": "silver",
+      "hi": "चांदी",
+      "gu": "ચાંદી"
+    },
+    "ui.global.color.rose.engine": {
+      "en": "rose",
+      "hi": "गुलाबी",
+      "gu": "ગુલાબી"
+    },
+    "ui.global.color.cream.engine": {
+      "en": "cream",
+      "hi": "क्रीम",
+      "gu": "ક્રીમ"
+    },
+    "ui.global.color.indigo.engine": {
+      "en": "indigo",
+      "hi": "नील",
+      "gu": "નીલ"
+    },
+    "ui.global.color.mist.grey.engine": {
+      "en": "mist grey",
+      "hi": "हल्का धूसर",
+      "gu": "હળવો રાખોડી"
+    },
+    "ui.global.color.navy.engine": {
+      "en": "navy",
+      "hi": "नेवी",
+      "gu": "નેવી"
+    },
+    "ui.global.color.charcoal.engine": {
+      "en": "charcoal",
+      "hi": "कोयला धूसर",
+      "gu": "કોયલા રાખોડી"
+    },
+    "ui.global.color.crimson.engine": {
+      "en": "crimson",
+      "hi": "गहरा लाल",
+      "gu": "ઘેરો લાલ"
+    },
+    "ui.global.color.copper.engine": {
+      "en": "copper",
+      "hi": "तांबा",
+      "gu": "તાંબું"
+    },
     "ui.global.predicta.next.steps.auth.bridge": {
       "en": "Predicta next steps",
       "hi": "प्रेडिक्टा अगले कदम",

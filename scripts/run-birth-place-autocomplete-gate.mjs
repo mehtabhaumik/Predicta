@@ -62,8 +62,11 @@ try {
   const clickSuggestionResult = await runClickSuggestionAutocompleteScenario(cdp);
   await navigateAndWait(cdp, `${baseUrl}/dashboard/kundli`);
   const humanTypingResult = await runHumanTypingAutocompleteScenario(cdp);
+  await navigateAndWait(cdp, `${baseUrl}/dashboard/kundli`);
+  const nativeAutocompleteResult = await runNativeAutocompleteScenario(cdp);
   result.clickSuggestion = clickSuggestionResult;
   result.humanTyping = humanTypingResult;
+  result.nativeAutocomplete = nativeAutocompleteResult;
 
   console.log(JSON.stringify(result, null, 2));
 
@@ -214,6 +217,35 @@ try {
   ) {
     throw new Error(
       'Human typing exposed a stale birth-place autocomplete loading state before the final selection settled.',
+    );
+  }
+
+  if (!nativeAutocompleteResult.inputFound) {
+    throw new Error('Birth-place input was not found during the native autocomplete scenario.');
+  }
+
+  if (nativeAutocompleteResult.inputValue !== 'Petlad, Gujarat, India') {
+    throw new Error(
+      `Native autocomplete did not settle Petlad to "Petlad, Gujarat, India"; received "${nativeAutocompleteResult.inputValue}".`,
+    );
+  }
+
+  if (!nativeAutocompleteResult.inputReadOnly || !nativeAutocompleteResult.changeButtonFound) {
+    throw new Error('Native autocomplete must settle birth place into a locked value with a Change action.');
+  }
+
+  if (nativeAutocompleteResult.birthPlaceSettled !== 'true') {
+    throw new Error('Native autocomplete must mark the autocomplete wrapper as settled.');
+  }
+
+  if (
+    nativeAutocompleteResult.suggestionsMounted ||
+    nativeAutocompleteResult.hasSearchingPlaces ||
+    nativeAutocompleteResult.hasMixedOptionAndSearching ||
+    nativeAutocompleteResult.hasMixedOptionAndSearchingText
+  ) {
+    throw new Error(
+      'Native autocomplete left the birth-place autocomplete panel, Searching places status, or mixed option/searching state visible.',
     );
   }
 
@@ -386,8 +418,43 @@ async function runHumanTypingAutocompleteScenario(cdp) {
 	    partialSuggestionsMounted: partialState.suggestionsMounted,
 	    partialSuggestionsText: partialState.suggestionsText,
 	    ...(await collectChangeActionState(cdp)),
-	  };
-	}
+  };
+}
+
+async function runNativeAutocompleteScenario(cdp) {
+  await waitForBirthPlaceInput(cdp);
+
+  const changeOnlyResponse = await cdp.send('Runtime.evaluate', {
+    expression: `(() => {
+      const input = document.querySelector('input[data-birth-place-search="true"]');
+
+      if (!input) {
+        return { inputFound: false };
+      }
+
+      input.focus();
+      const setter = Object.getOwnPropertyDescriptor(input.constructor.prototype, 'value')?.set;
+      setter.call(input, 'Petlad');
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      return { inputFound: true };
+    })()`,
+    returnByValue: true,
+  });
+
+  if (!changeOnlyResponse.result?.value?.inputFound) {
+    return { inputFound: false };
+  }
+
+  await delay(900);
+
+  return {
+    ...(await collectAutocompleteState(cdp, {
+      optionPattern: /Petlad/i,
+    })),
+    ...(await collectRefocusState(cdp)),
+    ...(await collectChangeActionState(cdp)),
+  };
+}
 
 async function runAutocompleteScenario(cdp) {
   await waitForBirthPlaceInput(cdp);

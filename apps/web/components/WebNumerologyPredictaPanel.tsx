@@ -317,7 +317,7 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
           </h3>
           <p>{t(profile.identityDashboard.bestUseOfCurrentCycle)}</p>
           <p>{t('Lean into')}: {t(profile.identityDashboard.currentCycleLeanInto)}</p>
-          <p>{t('Avoid')}: {profile.identityDashboard.currentCycleAvoid}</p>
+          <p>{t('Avoid')}: {t(profile.identityDashboard.currentCycleAvoid)}</p>
         </article>
       </section>
 
@@ -394,8 +394,8 @@ export function WebNumerologyPredictaPanel(): React.JSX.Element {
           <h3>{t('Numerology Compatibility Lens')}</h3>
           <p>{profile.identityDashboard.compatibilityLens.howToWorkBetter}</p>
           <p>
-            {t('Status')}: {profile.identityDashboard.compatibilityLens.status} ·{' '}
-            {t('Confidence')}: {profile.identityDashboard.compatibilityLens.confidence}
+            {t('Status')}: {t(profile.identityDashboard.compatibilityLens.status)} ·{' '}
+            {t('Confidence')}: {t(profile.identityDashboard.compatibilityLens.confidence)}
           </p>
           <p>{profile.identityDashboard.compatibilityLens.limitations[0]}</p>
         </article>

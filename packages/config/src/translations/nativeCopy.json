@@ -20939,6 +20939,256 @@
       "kind": "text",
       "value": "इसका अर्थ क्या है"
     },
+    "numerologyDashboard.calculationNote.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " નામ મૂલ્યો ",
+        " માટે છે; જન્મ અને ભાગ્ય અંક ",
+        " પરથી છે; વ્યક્તિગત ચક્રો ",
+        " માટે ગણાયા છે."
+      ]
+    },
+    "numerologyDashboard.calculationNote.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " नाम मान ",
+        " के लिए हैं; जन्म और भाग्य अंक ",
+        " से हैं; निजी चक्र ",
+        " के लिए गणना किए गए हैं."
+      ]
+    },
+    "numerologyDashboard.firstLetterInfluence.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " માં ",
+        " ની લય છે, તેથી નામનો શરૂઆતનો સ્વર ",
+        " તરફ જાય છે."
+      ]
+    },
+    "numerologyDashboard.firstLetterInfluence.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " में ",
+        " की लय है, इसलिए नाम का शुरुआती स्वर ",
+        " की ओर जाता है."
+      ]
+    },
+    "numerologyDashboard.freeInsight.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " હમણાં વ્યક્તિગત વર્ષ ",
+        " ની લયનો ઉપયોગ ",
+        " તરફ કરો."
+      ]
+    },
+    "numerologyDashboard.freeInsight.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " अभी निजी वर्ष ",
+        " की लय का उपयोग ",
+        " की ओर करें."
+      ]
+    },
+    "numerologyDashboard.frequencyBalanced.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " એક વાર દેખાય છે, તેથી તે સંતુલિત સહાયક સ્વર આપે છે."
+      ]
+    },
+    "numerologyDashboard.frequencyBalanced.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " एक बार दिखता है, इसलिए यह संतुलित सहायक स्वर देता है."
+      ]
+    },
+    "numerologyDashboard.frequencyMissing.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " નામ/તારીખ પેટર્નમાં શાંત છે, તેથી ",
+        " માટે સચેત અભ્યાસ જરૂરી બની શકે છે."
+      ]
+    },
+    "numerologyDashboard.frequencyMissing.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " नाम/तिथि पैटर्न में शांत है, इसलिए ",
+        " के लिए जागरूक अभ्यास जरूरी हो सकता है."
+      ]
+    },
+    "numerologyDashboard.frequencyRepeated.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " એટલું પુનરાવર્તિત થાય છે કે ધ્યાનમાં આવે, પણ આખા નકશા પર હાવી થતું નથી."
+      ]
+    },
+    "numerologyDashboard.frequencyRepeated.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " इतना दोहरता है कि ध्यान में आए, पर पूरे नक्शे पर हावी नहीं होता."
+      ]
+    },
+    "numerologyDashboard.frequencyStrong.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " ખૂબ પુનરાવર્તિત છે, તેથી ",
+        " સ્પષ્ટ ભાર બને છે."
+      ]
+    },
+    "numerologyDashboard.frequencyStrong.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " बहुत दोहरता है, इसलिए ",
+        " स्पष्ट जोर बनता है."
+      ]
+    },
+    "numerologyDashboard.maturityDirection.gu": {
+      "kind": "template",
+      "parts": [
+        "ભાગ્ય ",
+        " નો પેટર્ન ",
+        " દ્વારા પરિપક્વ થાય છે."
+      ]
+    },
+    "numerologyDashboard.maturityDirection.hi": {
+      "kind": "template",
+      "parts": [
+        "भाग्य ",
+        " का पैटर्न ",
+        " के जरिए परिपक्व होता है."
+      ]
+    },
+    "numerologyDashboard.mandalaAccessibleLabel.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " અંક ",
+        ", ",
+        ": ",
+        ""
+      ]
+    },
+    "numerologyDashboard.mandalaAccessibleLabel.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " अंक ",
+        ", ",
+        ": ",
+        ""
+      ]
+    },
+    "numerologyDashboard.nameFitSummary.gu": {
+      "kind": "template",
+      "parts": [
+        "હાલનું નામ સંતુલન: ",
+        "/100; તેને સારા/ખરાબ નામ તરીકે નહીં, સહાયક ફિટ તરીકે વાંચવું."
+      ]
+    },
+    "numerologyDashboard.nameFitSummary.hi": {
+      "kind": "template",
+      "parts": [
+        "वर्तमान नाम संतुलन: ",
+        "/100; इसे अच्छे/बुरे नाम की तरह नहीं, सहायक फिट की तरह पढ़ें."
+      ]
+    },
+    "numerologyDashboard.nameStrength.gu": {
+      "kind": "template",
+      "parts": [
+        "નામ મૂળ ",
+        " ",
+        " તરફ ઝુકે છે."
+      ]
+    },
+    "numerologyDashboard.nameStrength.hi": {
+      "kind": "template",
+      "parts": [
+        "नाम मूल ",
+        " ",
+        " की ओर झुकता है."
+      ]
+    },
+    "numerologyDashboard.premiumDetail.gu": {
+      "kind": "template",
+      "parts": [
+        "નામ લય: ",
+        "/",
+        " અને હાલનું નામ ફિટ ",
+        "/100. જન્મ કોડ: જન્મ ",
+        ", ભાગ્ય ",
+        ". હાલનું ચક્ર: વર્ષ ",
+        ", મહિનો ",
+        ", દિવસ ",
+        ". પેટર્ન નકશો: મજબૂત ",
+        ", ખૂટતા ",
+        ". માર્ગદર્શન: ",
+        "; સાવચેતી ",
+        " આસપાસ."
+      ]
+    },
+    "numerologyDashboard.premiumDetail.hi": {
+      "kind": "template",
+      "parts": [
+        "नाम लय: ",
+        "/",
+        " और वर्तमान नाम फिट ",
+        "/100. जन्म कोड: जन्म ",
+        ", भाग्य ",
+        ". वर्तमान चक्र: वर्ष ",
+        ", महीना ",
+        ", दिन ",
+        ". पैटर्न नक्शा: मजबूत ",
+        ", छूटे हुए ",
+        ". मार्गदर्शन: ",
+        "; सावधानी ",
+        " के आसपास."
+      ]
+    },
+    "numerologyDashboard.reportSummary.gu": {
+      "kind": "template",
+      "parts": [
+        "",
+        " હાલનું ચક્ર: ",
+        " ",
+        " દ્વારા સક્રિય છે."
+      ]
+    },
+    "numerologyDashboard.reportSummary.hi": {
+      "kind": "template",
+      "parts": [
+        "",
+        " वर्तमान चक्र: ",
+        " ",
+        " के जरिए सक्रिय है."
+      ]
+    },
+    "numerologyDashboard.weeklyDestinyHabit.gu": {
+      "kind": "template",
+      "parts": [
+        "દર અઠવાડિયે એક કામ ",
+        " સાથે જોડીને રાખો."
+      ]
+    },
+    "numerologyDashboard.weeklyDestinyHabit.hi": {
+      "kind": "template",
+      "parts": [
+        "हर सप्ताह एक काम ",
+        " से जोड़कर रखें."
+      ]
+    },
     "kundliWizard.trustDrawerBody.gu": {
       "kind": "text",
       "value": "ચાર્ટ પસંદ કરેલા શહેરના મેળ ખાતા સ્થળ, કોઓર્ડિનેટ અને સમયક્ષેત્રનો ઉપયોગ કરે છે. મુખ્ય વેદિક દૃશ્યમાં મૂળ ગ્રહો પહેલા રહે છે અને સહાયક સુધારાઓ બીજા સ્તર પર રહે છે."

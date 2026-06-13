@@ -482,6 +482,32 @@ export function WebKundliWizard(): React.JSX.Element {
     setIsSearchingPlaces(normalizedNextQuery.length >= 2);
   }
 
+  function reconcileNativeBirthPlaceInputValue(nextValue: string) {
+    if (isBirthPlaceSearchSettled) {
+      closeBirthPlaceSuggestions();
+      return;
+    }
+
+    const normalizedNextValue = normalizeBirthPlaceLabel(nextValue);
+
+    if (!normalizedNextValue) {
+      return;
+    }
+
+    if (normalizedNextValue === normalizeBirthPlaceLabel(birthPlaceQuery)) {
+      if (isResolvedBirthPlaceQuery(nextValue)) {
+        closeBirthPlaceSuggestions();
+        setIsBirthPlaceInputFocused(false);
+        return;
+      }
+
+      settleBirthPlaceQueryIfPossible(nextValue);
+      return;
+    }
+
+    handleBirthPlaceQueryInput(nextValue);
+  }
+
   useEffect(() => {
     if (!isBirthPlaceSearchSettled) {
       return;
@@ -491,6 +517,37 @@ export function WebKundliWizard(): React.JSX.Element {
     setIsBirthPlaceInputFocused(false);
     resetBirthPlaceSearchUi();
   }, [isBirthPlaceSearchSettled, normalizedBirthPlaceQuery]);
+
+  useEffect(() => {
+    const input = birthPlaceInputRef.current;
+
+    if (!input) {
+      return undefined;
+    }
+
+    const reconcileFromNativeEvent = () => {
+      const nativeValue = input.value;
+
+      window.requestAnimationFrame(() => {
+        reconcileNativeBirthPlaceInputValue(nativeValue);
+      });
+    };
+
+    input.addEventListener('change', reconcileFromNativeEvent);
+    input.addEventListener('select', reconcileFromNativeEvent);
+
+    return () => {
+      input.removeEventListener('change', reconcileFromNativeEvent);
+      input.removeEventListener('select', reconcileFromNativeEvent);
+    };
+  }, [
+    acceptedBirthPlaceQuery,
+    birthPlaceInputResetToken,
+    birthPlaceQuery,
+    isBirthPlaceSearchSettled,
+    selectedPlace,
+    settledBirthPlaceQuery,
+  ]);
 
   useEffect(() => {
     if (!isBirthPlaceInputFocused) {
@@ -1126,6 +1183,12 @@ export function WebKundliWizard(): React.JSX.Element {
                     }
 
                     handleBirthPlaceQueryInput(event.currentTarget.value);
+                  }}
+                  onChange={event => {
+                    reconcileNativeBirthPlaceInputValue(event.currentTarget.value);
+                  }}
+                  onSelect={event => {
+                    reconcileNativeBirthPlaceInputValue(event.currentTarget.value);
                   }}
                   onFocus={event => {
                     if (isBirthPlaceSearchSettled) {

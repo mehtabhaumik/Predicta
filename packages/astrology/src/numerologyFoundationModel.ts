@@ -1,4 +1,5 @@
 import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import type {
   BirthDetails,
   NumerologyCycleInsight,
@@ -486,6 +487,7 @@ export function buildNumerologyIdentityDashboard({
   const scanner = buildNameEnergyScanner(normalizedName, method, nameNumber);
   const frequencyMap = buildNumerologyFrequencyMap({
     birthDate,
+    language,
     method,
     normalizedName,
   });
@@ -498,10 +500,14 @@ export function buildNumerologyIdentityDashboard({
   const strongNumbers = frequencyMap
     .filter(cell => cell.tone === 'strong')
     .map(cell => cell.number);
-  const currentAction = CYCLE_ACTIONS[personalYear.root] ?? CYCLE_ACTIONS[1];
+  const currentAction = localizeCycleAction(
+    CYCLE_ACTIONS[personalYear.root] ?? CYCLE_ACTIONS[1],
+    language,
+  );
   const nameFitScore = buildNameFitScore({
     birthNumber,
     destinyNumber,
+    language,
     nameNumber,
   });
   const supportiveToolkit = buildSupportiveToolkit({
@@ -519,49 +525,76 @@ export function buildNumerologyIdentityDashboard({
 
   return {
     bestUseOfCurrentCycle: `${currentAction.keyword}: ${currentAction.guidance}`,
-    calculationNote: `${method} name values for ${normalizedName || name}; birth and destiny numbers from ${birthDate}; personal cycles calculated for ${targetDate}.`,
+    calculationNote: buildCalculationNote({
+      birthDate,
+      language,
+      method,
+      name,
+      normalizedName,
+      targetDate,
+    }),
     compatibilityLens: {
       confidence: 'low',
       frictionZones: [],
-      howToWorkBetter:
+      howToWorkBetter: translateUiText(
         'Add another person, business, brand, or public name to compare rhythms without mixing other schools.',
+        language,
+      ),
       limitations: [
-        'Compatibility needs a confirmed comparison name or birth date before Predicta can score it.',
-        'Numerology compatibility is reflective guidance, not certainty about a relationship or business outcome.',
+        translateUiText(
+          'Compatibility needs a confirmed comparison name or birth date before Predicta can score it.',
+          language,
+        ),
+        translateUiText(
+          'Numerology compatibility is reflective guidance, not certainty about a relationship or business outcome.',
+          language,
+        ),
       ],
       status: 'pending',
       supportZones: [],
     },
     currentCycleAvoid: currentAction.avoid,
     currentCycleLeanInto: currentAction.leanInto,
-    firstLetterInfluence: buildFirstLetterInfluence(normalizedName, method),
-    freeInsight: `${lifeThemeSentence} For now, use the personal year ${personalYear.root} rhythm to lean into ${currentAction.leanInto}.`,
+    firstLetterInfluence: buildFirstLetterInfluence(normalizedName, method, language),
+    freeInsight: buildFreeInsight({
+      currentAction,
+      language,
+      lifeThemeSentence,
+      personalYear,
+    }),
     frequencyMap,
     lifeThemeSentence,
     mandalaNodes: buildMandalaNodes({
       birthNumber,
       destinyNumber,
+      language,
       nameNumber,
       personalDay,
       personalMonth,
       personalYear,
     }),
-    maturityDirection: `The destiny ${destinyNumber.root} pattern matures through ${destinyNumber.simpleMeaning}.`,
+    maturityDirection: buildMaturityDirection(destinyNumber, language),
     missingNumbers,
     nameRefinement: {
       comparisonNote:
-        'Premium name refinement can compare spelling, brand, baby, business, or public-name options when the user provides them.',
+        translateUiText(
+          'Premium name refinement can compare spelling, brand, baby, business, or public-name options when the user provides them.',
+          language,
+        ),
       currentNameFit: nameFitScore,
       limitations: [
-        'Predicta never uses fear labels for a name.',
-        'A name score is a reflective fit score, not a demand to change identity.',
+        translateUiText('Predicta never uses fear labels for a name.', language),
+        translateUiText(
+          'A name score is a reflective fit score, not a demand to change identity.',
+          language,
+        ),
       ],
       status: 'pending',
       suggestedInputs: [
-        'alternate spelling',
-        'brand or business name',
-        'baby name',
-        'public or stage name',
+        translateUiText('alternate spelling', language),
+        translateUiText('brand or business name', language),
+        translateUiText('baby name', language),
+        translateUiText('public or stage name', language),
       ],
     },
     nameScanner: {
@@ -572,21 +605,33 @@ export function buildNumerologyIdentityDashboard({
       root: nameNumber.root,
       steps: scanner,
     },
-    nameStrength: `Name root ${nameNumber.root} leans toward ${nameNumber.simpleMeaning}.`,
+    nameStrength: buildNameStrength(nameNumber, language),
     personalYearTimeline: buildPersonalYearTimeline({
       birthDate,
       language,
       targetDate,
     }),
-    premiumDetail: [
-      `Name rhythm: ${nameNumber.compound}/${nameNumber.root} with ${nameFitScore.score}/100 current-name fit.`,
-      `Birth code: birth ${birthNumber.root}, destiny ${destinyNumber.root}.`,
-      `Current cycle: year ${personalYear.root}, month ${personalMonth.root}, day ${personalDay.root}.`,
-      `Pattern map: strong ${strongNumbers.join(', ') || 'none'}, missing ${missingNumbers.join(', ') || 'none'}.`,
-      `Guidance: ${strengths.slice(0, 3).join(', ')} with care around ${cautions.slice(0, 2).join(', ')}.`,
-    ].join(' '),
+    premiumDetail: buildPremiumDetail({
+      birthNumber,
+      cautions,
+      language,
+      missingNumbers,
+      nameFitScore,
+      nameNumber,
+      personalDay,
+      personalMonth,
+      personalYear,
+      destinyNumber,
+      strengths,
+      strongNumbers,
+    }),
     repeatedNumbers,
-    reportSummary: `${lifeThemeSentence} Current cycle: ${currentAction.keyword.toLowerCase()} through ${personalYear.root}.`,
+    reportSummary: buildReportSummary({
+      currentAction,
+      language,
+      lifeThemeSentence,
+      personalYear,
+    }),
     strongNumbers,
     supportiveToolkit,
   };
@@ -594,10 +639,12 @@ export function buildNumerologyIdentityDashboard({
 
 export function buildNumerologyFrequencyMap({
   birthDate,
+  language = 'en',
   method,
   normalizedName,
 }: {
   birthDate: string;
+  language?: SupportedLanguage;
   method: NumerologyNameMethod;
   normalizedName: string;
 }): NumerologyFrequencyCell[] {
@@ -628,11 +675,11 @@ export function buildNumerologyFrequencyMap({
     const number = index + 1;
     const count = counts.get(number) ?? 0;
     const tone = resolvePatternTone(count);
-    const meaning = getNumberMeaning(number, 'en');
+    const meaning = getNumberMeaning(number, language);
 
     return {
       count,
-      insight: buildFrequencyInsight(number, count, tone),
+      insight: buildFrequencyInsight(number, count, tone, language),
       keyword: meaning.keywords[0] ?? meaning.label,
       number,
       tone,
@@ -657,12 +704,13 @@ export function buildPersonalYearTimeline({
     const cycleNumber = calculatePersonalCycles(birthDate, date, language)
       .personalMonth.root;
     const action = CYCLE_ACTIONS[cycleNumber] ?? CYCLE_ACTIONS[1];
+    const localizedAction = localizeCycleAction(action, language);
 
     return {
       cycleNumber,
-      guidance: action.guidance,
-      keyword: action.keyword,
-      monthLabel,
+      guidance: localizedAction.guidance,
+      keyword: localizedAction.keyword,
+      monthLabel: translateUiText(monthLabel, language),
     };
   });
 }
@@ -715,12 +763,16 @@ function buildPendingNumerologyIdentityDashboard(
       status: 'pending',
       supportZones: [],
     },
-    currentCycleAvoid: 'guessing before name and birth date are available',
-    currentCycleLeanInto: 'adding name and birth date',
-    firstLetterInfluence: 'Pending until a name is available.',
+    currentCycleAvoid: translateUiText(
+      'guessing before name and birth date are available',
+      language,
+    ),
+    currentCycleLeanInto: translateUiText('adding name and birth date', language),
+    firstLetterInfluence: translateUiText('Pending until a name is available.', language),
     freeInsight: getPendingSummary(language),
     frequencyMap: buildNumerologyFrequencyMap({
       birthDate: '',
+      language,
       method: 'CHALDEAN',
       normalizedName: '',
     }),
@@ -729,7 +781,7 @@ function buildPendingNumerologyIdentityDashboard(
     maturityDirection: getPendingGuidance(language),
     missingNumbers: [],
     nameRefinement: {
-      comparisonNote: 'Pending until a name is available.',
+      comparisonNote: translateUiText('Pending until a name is available.', language),
       currentNameFit: pendingFit,
       limitations: [getPendingLimitation(language)],
       status: 'pending',
@@ -739,21 +791,27 @@ function buildPendingNumerologyIdentityDashboard(
       compound: 0,
       method: 'CHALDEAN',
       normalizedName: '',
-      reducedExpression: 'Pending',
+      reducedExpression: translateUiText('Pending', language),
       root: 0,
       steps: [],
     },
-    nameStrength: 'Pending until a name is available.',
+    nameStrength: translateUiText('Pending until a name is available.', language),
     personalYearTimeline: [],
     premiumDetail: getPendingSummary(language),
     repeatedNumbers: [],
     reportSummary: getPendingSummary(language),
     strongNumbers: [],
     supportiveToolkit: {
-      affirmation: 'Add your details so Predicta can prepare a number profile.',
+      affirmation: translateUiText(
+        'Add your details so Predicta can prepare a number profile.',
+        language,
+      ),
       colors: [],
       days: [],
-      framing: 'Supportive tools appear only after the number profile is ready.',
+      framing: translateUiText(
+        'Supportive tools appear only after the number profile is ready.',
+        language,
+      ),
       habits: [],
       numbers: [],
     },
@@ -825,6 +883,7 @@ function buildNameEnergyScanner(
 function buildMandalaNodes({
   birthNumber,
   destinyNumber,
+  language,
   nameNumber,
   personalDay,
   personalMonth,
@@ -832,6 +891,7 @@ function buildMandalaNodes({
 }: {
   birthNumber: NumerologyNumberInsight;
   destinyNumber: NumerologyNumberInsight;
+  language: SupportedLanguage;
   nameNumber: NumerologyNumberInsight;
   personalDay: NumerologyCycleInsight;
   personalMonth: NumerologyCycleInsight;
@@ -848,24 +908,325 @@ function buildMandalaNodes({
     const numberInsight = insight as NumerologyNumberInsight;
 
     return {
-      accessibleLabel: `${label} number ${numberInsight.root}, ${numberInsight.label}: ${numberInsight.simpleMeaning}`,
+      accessibleLabel: buildMandalaAccessibleLabel({
+        label: label as string,
+        language,
+        insight: numberInsight,
+      }),
       colorToken: MANDALA_COLORS[index],
       id: id as NumerologyMandalaNode['id'],
       keyword: numberInsight.keywords[0] ?? numberInsight.label,
-      label: label as string,
+      label: translateUiText(label as string, language),
       number: numberInsight.root,
       shortMeaning: numberInsight.simpleMeaning,
     };
   });
 }
 
+function buildMandalaAccessibleLabel({
+  insight,
+  label,
+  language,
+}: {
+  insight: NumerologyNumberInsight;
+  label: string;
+  language: SupportedLanguage;
+}): string {
+  const localizedLabel = translateUiText(label, language);
+
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.mandalaAccessibleLabel.hi', [
+      localizedLabel,
+      insight.root,
+      insight.label,
+      insight.simpleMeaning,
+    ]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.mandalaAccessibleLabel.gu', [
+      localizedLabel,
+      insight.root,
+      insight.label,
+      insight.simpleMeaning,
+    ]);
+  }
+
+  return `${localizedLabel} number ${insight.root}, ${insight.label}: ${insight.simpleMeaning}`;
+}
+
+type LocalizedCycleAction = {
+  avoid: string;
+  guidance: string;
+  leanInto: string;
+  keyword: string;
+};
+
+function localizeCycleAction(
+  action: (typeof CYCLE_ACTIONS)[number],
+  language: SupportedLanguage,
+): LocalizedCycleAction {
+  return {
+    avoid: translateUiText(action.avoid, language),
+    guidance: translateUiText(action.guidance, language),
+    keyword: translateUiText(action.keyword, language),
+    leanInto: translateUiText(action.leanInto, language),
+  };
+}
+
+function buildCalculationNote({
+  birthDate,
+  language,
+  method,
+  name,
+  normalizedName,
+  targetDate,
+}: {
+  birthDate: string;
+  language: SupportedLanguage;
+  method: NumerologyNameMethod;
+  name: string;
+  normalizedName: string;
+  targetDate: string;
+}): string {
+  const visibleName = normalizedName || name;
+
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.calculationNote.hi', [
+      method,
+      visibleName,
+      birthDate,
+      targetDate,
+    ]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.calculationNote.gu', [
+      method,
+      visibleName,
+      birthDate,
+      targetDate,
+    ]);
+  }
+
+  return `${method} name values for ${visibleName}; birth and destiny numbers from ${birthDate}; personal cycles calculated for ${targetDate}.`;
+}
+
+function buildMaturityDirection(
+  destinyNumber: NumerologyNumberInsight,
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.maturityDirection.hi', [
+      destinyNumber.root,
+      destinyNumber.simpleMeaning,
+    ]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.maturityDirection.gu', [
+      destinyNumber.root,
+      destinyNumber.simpleMeaning,
+    ]);
+  }
+
+  return `The destiny ${destinyNumber.root} pattern matures through ${destinyNumber.simpleMeaning}.`;
+}
+
+function buildFreeInsight({
+  currentAction,
+  language,
+  lifeThemeSentence,
+  personalYear,
+}: {
+  currentAction: LocalizedCycleAction;
+  language: SupportedLanguage;
+  lifeThemeSentence: string;
+  personalYear: NumerologyCycleInsight;
+}): string {
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.freeInsight.hi', [
+      lifeThemeSentence,
+      personalYear.root,
+      currentAction.leanInto,
+    ]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.freeInsight.gu', [
+      lifeThemeSentence,
+      personalYear.root,
+      currentAction.leanInto,
+    ]);
+  }
+
+  return `${lifeThemeSentence} For now, use the personal year ${personalYear.root} rhythm to lean into ${currentAction.leanInto}.`;
+}
+
+function buildReportSummary({
+  currentAction,
+  language,
+  lifeThemeSentence,
+  personalYear,
+}: {
+  currentAction: LocalizedCycleAction;
+  language: SupportedLanguage;
+  lifeThemeSentence: string;
+  personalYear: NumerologyCycleInsight;
+}): string {
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.reportSummary.hi', [
+      lifeThemeSentence,
+      currentAction.keyword,
+      personalYear.root,
+    ]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.reportSummary.gu', [
+      lifeThemeSentence,
+      currentAction.keyword,
+      personalYear.root,
+    ]);
+  }
+
+  return `${lifeThemeSentence} Current cycle: ${currentAction.keyword.toLowerCase()} through ${personalYear.root}.`;
+}
+
+function buildNameStrength(
+  nameNumber: NumerologyNumberInsight,
+  language: SupportedLanguage,
+): string {
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.nameStrength.hi', [
+      nameNumber.root,
+      nameNumber.simpleMeaning,
+    ]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.nameStrength.gu', [
+      nameNumber.root,
+      nameNumber.simpleMeaning,
+    ]);
+  }
+
+  return `Name root ${nameNumber.root} leans toward ${nameNumber.simpleMeaning}.`;
+}
+
+function buildNameFitSummary(score: number, language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.nameFitSummary.hi', [score]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.nameFitSummary.gu', [score]);
+  }
+
+  return `Current name alignment: ${score}/100, framed as supportive fit rather than good or bad naming.`;
+}
+
+function buildWeeklyDestinyHabit(
+  destinyNumber: NumerologyNumberInsight,
+  language: SupportedLanguage,
+): string {
+  const keyword = destinyNumber.keywords[0] ?? translateUiText('life direction', language);
+
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.weeklyDestinyHabit.hi', [keyword]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.weeklyDestinyHabit.gu', [keyword]);
+  }
+
+  return `Keep one weekly action tied to ${keyword}.`;
+}
+
+function buildPremiumDetail({
+  birthNumber,
+  cautions,
+  destinyNumber,
+  language,
+  missingNumbers,
+  nameFitScore,
+  nameNumber,
+  personalDay,
+  personalMonth,
+  personalYear,
+  strengths,
+  strongNumbers,
+}: {
+  birthNumber: NumerologyNumberInsight;
+  cautions: string[];
+  destinyNumber: NumerologyNumberInsight;
+  language: SupportedLanguage;
+  missingNumbers: number[];
+  nameFitScore: NumerologyIdentityDashboard['nameRefinement']['currentNameFit'];
+  nameNumber: NumerologyNumberInsight;
+  personalDay: NumerologyCycleInsight;
+  personalMonth: NumerologyCycleInsight;
+  personalYear: NumerologyCycleInsight;
+  strengths: string[];
+  strongNumbers: number[];
+}): string {
+  const strong = strongNumbers.join(', ') || translateUiText('none', language);
+  const missing = missingNumbers.join(', ') || translateUiText('none', language);
+  const topStrengths = strengths.slice(0, 3).join(', ');
+  const topCautions = cautions.slice(0, 2).join(', ');
+
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.premiumDetail.hi', [
+      nameNumber.compound,
+      nameNumber.root,
+      nameFitScore.score,
+      birthNumber.root,
+      destinyNumber.root,
+      personalYear.root,
+      personalMonth.root,
+      personalDay.root,
+      strong,
+      missing,
+      topStrengths,
+      topCautions,
+    ]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.premiumDetail.gu', [
+      nameNumber.compound,
+      nameNumber.root,
+      nameFitScore.score,
+      birthNumber.root,
+      destinyNumber.root,
+      personalYear.root,
+      personalMonth.root,
+      personalDay.root,
+      strong,
+      missing,
+      topStrengths,
+      topCautions,
+    ]);
+  }
+
+  return [
+    `Name rhythm: ${nameNumber.compound}/${nameNumber.root} with ${nameFitScore.score}/100 current-name fit.`,
+    `Birth code: birth ${birthNumber.root}, destiny ${destinyNumber.root}.`,
+    `Current cycle: year ${personalYear.root}, month ${personalMonth.root}, day ${personalDay.root}.`,
+    `Pattern map: strong ${strong}, missing ${missing}.`,
+    `Guidance: ${topStrengths} with care around ${topCautions}.`,
+  ].join(' ');
+}
+
 function buildNameFitScore({
   birthNumber,
   destinyNumber,
+  language,
   nameNumber,
 }: {
   birthNumber: NumerologyNumberInsight;
   destinyNumber: NumerologyNumberInsight;
+  language: SupportedLanguage;
   nameNumber: NumerologyNumberInsight;
 }): NumerologyIdentityDashboard['nameRefinement']['currentNameFit'] {
   const expression = scoreRootCompatibility(nameNumber.root, destinyNumber.root);
@@ -881,13 +1242,19 @@ function buildNameFitScore({
     destinySupport,
     expression,
     limitations: [
-      'This is a reflective name fit score, not a verdict on identity.',
-      'Compare alternate names only when the user provides them.',
+      translateUiText(
+        'This is a reflective name fit score, not a verdict on identity.',
+        language,
+      ),
+      translateUiText(
+        'Compare alternate names only when the user provides them.',
+        language,
+      ),
     ],
     publicRhythm,
     score,
     stability,
-    summary: `Current name alignment: ${score}/100, framed as supportive fit rather than good or bad naming.`,
+    summary: buildNameFitSummary(score, language),
   };
 }
 
@@ -935,16 +1302,22 @@ function buildSupportiveToolkit({
     colors: uniqueList([
       ...(colorMap[nameNumber.root] ?? []),
       ...(colorMap[destinyNumber.root] ?? []),
-    ]).slice(0, 3),
+    ]).slice(0, 3).map(color => translateUiText(color, language)),
     days: uniqueList([
       ...(dayMap[personalYear.root] ?? []),
       ...(dayMap[nameNumber.root] ?? []),
-    ]).slice(0, 2),
+    ]).slice(0, 2).map(day => translateUiText(day, language)),
     framing:
-      'Use these as gentle alignment cues for focus and reflection, not as guaranteed lucky rules.',
+      translateUiText(
+        'Use these as gentle alignment cues for focus and reflection, not as guaranteed lucky rules.',
+        language,
+      ),
     habits: [
-      CYCLE_ACTIONS[personalYear.root]?.guidance ?? CYCLE_ACTIONS[1].guidance,
-      `Keep one weekly action tied to ${destinyNumber.keywords[0] ?? 'life direction'}.`,
+      localizeCycleAction(
+        CYCLE_ACTIONS[personalYear.root] ?? CYCLE_ACTIONS[1],
+        language,
+      ).guidance,
+      buildWeeklyDestinyHabit(destinyNumber, language),
     ],
     numbers: uniqueList([
       String(nameNumber.root),
@@ -957,37 +1330,108 @@ function buildSupportiveToolkit({
 function buildFirstLetterInfluence(
   normalizedName: string,
   method: NumerologyNameMethod,
+  language: SupportedLanguage,
 ): string {
   const firstLetter = normalizedName[0];
 
   if (!firstLetter) {
-    return 'Pending until a name is available.';
+    return translateUiText('Pending until a name is available.', language);
   }
 
   const values = method === 'PYTHAGOREAN' ? PYTHAGOREAN_VALUES : CHALDEAN_VALUES;
   const value = values[firstLetter] ?? 0;
-  const meaning = getNumberMeaning(reduceToRoot(value), 'en');
+  const meaning = getNumberMeaning(reduceToRoot(value), language);
+  const keywords = meaning.keywords.join(', ');
 
-  return `${firstLetter} carries a ${value} vibration, giving the name an opening tone of ${meaning.keywords.join(', ')}.`;
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.firstLetterInfluence.hi', [
+      firstLetter,
+      value,
+      keywords,
+    ]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.firstLetterInfluence.gu', [
+      firstLetter,
+      value,
+      keywords,
+    ]);
+  }
+
+  return `${firstLetter} carries a ${value} vibration, giving the name an opening tone of ${keywords}.`;
 }
 
 function buildFrequencyInsight(
   number: number,
   count: number,
   tone: NumerologyPatternTone,
+  language: SupportedLanguage,
 ): string {
-  const meaning = getNumberMeaning(number, 'en');
+  const meaning = getNumberMeaning(number, language);
 
   if (tone === 'missing') {
+    if (language === 'hi') {
+      return formatNativeCopy('numerologyDashboard.frequencyMissing.hi', [
+        meaning.label,
+        meaning.keywords[0] ?? meaning.label,
+      ]);
+    }
+
+    if (language === 'gu') {
+      return formatNativeCopy('numerologyDashboard.frequencyMissing.gu', [
+        meaning.label,
+        meaning.keywords[0] ?? meaning.label,
+      ]);
+    }
+
     return `${meaning.label} is quiet in the visible name/date pattern, so ${meaning.keywords[0]} may need conscious practice.`;
   }
 
   if (tone === 'strong') {
+    if (language === 'hi') {
+      return formatNativeCopy('numerologyDashboard.frequencyStrong.hi', [
+        meaning.label,
+        meaning.keywords[0] ?? meaning.label,
+      ]);
+    }
+
+    if (language === 'gu') {
+      return formatNativeCopy('numerologyDashboard.frequencyStrong.gu', [
+        meaning.label,
+        meaning.keywords[0] ?? meaning.label,
+      ]);
+    }
+
     return `${meaning.label} is strongly repeated, making ${meaning.keywords[0]} a visible emphasis.`;
   }
 
   if (tone === 'repeated') {
+    if (language === 'hi') {
+      return formatNativeCopy('numerologyDashboard.frequencyRepeated.hi', [
+        meaning.label,
+      ]);
+    }
+
+    if (language === 'gu') {
+      return formatNativeCopy('numerologyDashboard.frequencyRepeated.gu', [
+        meaning.label,
+      ]);
+    }
+
     return `${meaning.label} repeats enough to be noticeable without dominating the map.`;
+  }
+
+  if (language === 'hi') {
+    return formatNativeCopy('numerologyDashboard.frequencyBalanced.hi', [
+      meaning.label,
+    ]);
+  }
+
+  if (language === 'gu') {
+    return formatNativeCopy('numerologyDashboard.frequencyBalanced.gu', [
+      meaning.label,
+    ]);
   }
 
   return `${meaning.label} appears once, giving a balanced supporting tone.`;
