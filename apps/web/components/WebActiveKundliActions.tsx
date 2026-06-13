@@ -7,6 +7,7 @@ import { useState } from 'react';
 import type { KundliData, PredictaSchool } from '@pridicta/types';
 import { translateUiText } from '@pridicta/config/uiTranslations';
 import { useLanguagePreference } from '../lib/language-preference';
+import { announcePredictaNavigation } from '../lib/navigation-feedback';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
 import {
   canCreateAdditionalWebKundli,
@@ -51,6 +52,7 @@ export function WebActiveKundliActions({
 
     deleteWebKundli(kundli.id);
     setDeleteDialogOpen(false);
+    announcePredictaNavigation('/dashboard/saved-kundlis');
     router.push('/dashboard/saved-kundlis');
   }
 

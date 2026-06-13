@@ -125,6 +125,7 @@ import {
   getOrCreateWebGuestSession,
 } from '../lib/web-guest-session';
 import { recordWebZeroCreditDeterministicAction } from '../lib/zero-credit-telemetry';
+import { announcePredictaNavigation } from '../lib/navigation-feedback';
 
 const WEB_CHAT_MEMORY_KEY = 'predicta.webChatMemory.v4';
 const WEB_CHAT_SESSIONS_KEY_PREFIX = 'predicta.webChatSessions.v1';
@@ -2009,6 +2010,7 @@ export function WebPridictaChat({
                     }
                     if (suggestion.href) {
                       if (suggestion.href.startsWith('/')) {
+                        announcePredictaNavigation(suggestion.href);
                         router.push(suggestion.href);
                       } else {
                         window.location.assign(suggestion.href);

@@ -7,6 +7,7 @@ import {
   getLightweightAppShellLabels,
   getLightweightCompetitorResponseCopy,
 } from '../lib/lightweight-public-copy';
+import { announcePredictaNavigation } from '../lib/navigation-feedback';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 import type { PredictaSchool } from '@pridicta/types';
@@ -83,7 +84,9 @@ export function LandingChatFirstContent(): React.JSX.Element {
 
   function openAskPredicta(prompt: string, mode: 'text' | 'voice' = 'text') {
     prewarmPredictaRuntime();
-    router.push(buildAskPredictaHref(prompt, landing.defaultAskPrompt, mode));
+    const href = buildAskPredictaHref(prompt, landing.defaultAskPrompt, mode);
+    announcePredictaNavigation(href);
+    router.push(href);
   }
 
   function startVoiceCapture(): void {

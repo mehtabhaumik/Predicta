@@ -6,6 +6,7 @@ import type React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { applyPredictaDocumentLanguage } from '../lib/document-language';
 import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
+import { PREDICTA_NAVIGATION_FEEDBACK_EVENT } from '../lib/navigation-feedback';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 
@@ -161,6 +162,28 @@ export function ClientServicesProvider(): React.JSX.Element {
       router.prefetch(href);
     }
 
+    function startNavigationFeedback(href: string): void {
+      warmInternalHref(href);
+      warmAskRuntimeIfNeeded(href);
+
+      const nextUrl = new URL(href, window.location.href);
+      const currentUrl = new URL(window.location.href);
+      const isSameLocation =
+        nextUrl.pathname === currentUrl.pathname &&
+        nextUrl.search === currentUrl.search &&
+        nextUrl.hash === currentUrl.hash;
+
+      if (isSameLocation) {
+        return;
+      }
+
+      setIsNavigating(true);
+      window.clearTimeout(navigationTimeoutRef.current);
+      navigationTimeoutRef.current = window.setTimeout(() => {
+        setIsNavigating(false);
+      }, 2400);
+    }
+
     function warmLink(event: PointerEvent | FocusEvent | TouchEvent) {
       const anchor = resolveInternalAnchor(event.target);
 
@@ -200,25 +223,17 @@ export function ClientServicesProvider(): React.JSX.Element {
         return;
       }
 
-      warmInternalHref(href);
-      warmAskRuntimeIfNeeded(href);
+      startNavigationFeedback(href);
+    }
 
-      const nextUrl = new URL(href, window.location.href);
-      const currentUrl = new URL(window.location.href);
-      const isSameLocation =
-        nextUrl.pathname === currentUrl.pathname &&
-        nextUrl.search === currentUrl.search &&
-        nextUrl.hash === currentUrl.hash;
+    function showProgrammaticNavigationFeedback(event: Event): void {
+      const href = (event as CustomEvent<{ href?: unknown }>).detail?.href;
 
-      if (isSameLocation) {
+      if (typeof href !== 'string' || !href.startsWith('/')) {
         return;
       }
 
-      setIsNavigating(true);
-      window.clearTimeout(navigationTimeoutRef.current);
-      navigationTimeoutRef.current = window.setTimeout(() => {
-        setIsNavigating(false);
-      }, 2400);
+      startNavigationFeedback(href);
     }
 
     document.addEventListener('pointerover', warmLink, { capture: true, passive: true });
@@ -226,6 +241,10 @@ export function ClientServicesProvider(): React.JSX.Element {
     document.addEventListener('focusin', warmLink, { capture: true });
     document.addEventListener('touchstart', warmLink, { capture: true, passive: true });
     document.addEventListener('click', showNavigationFeedback, { capture: true });
+    window.addEventListener(
+      PREDICTA_NAVIGATION_FEEDBACK_EVENT,
+      showProgrammaticNavigationFeedback,
+    );
 
     return () => {
       document.removeEventListener('pointerover', warmLink, { capture: true });
@@ -233,6 +252,10 @@ export function ClientServicesProvider(): React.JSX.Element {
       document.removeEventListener('focusin', warmLink, { capture: true });
       document.removeEventListener('touchstart', warmLink, { capture: true });
       document.removeEventListener('click', showNavigationFeedback, { capture: true });
+      window.removeEventListener(
+        PREDICTA_NAVIGATION_FEEDBACK_EVENT,
+        showProgrammaticNavigationFeedback,
+      );
       window.clearTimeout(navigationTimeoutRef.current);
     };
   }, [router]);

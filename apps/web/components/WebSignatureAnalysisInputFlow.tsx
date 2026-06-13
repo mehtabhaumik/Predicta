@@ -29,6 +29,7 @@ import type {
   SupportedLanguage,
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { announcePredictaNavigation } from '../lib/navigation-feedback';
 import { useLanguagePreference } from '../lib/language-preference';
 import { PredictaWorldFrame } from './PredictaWorldFrame';
 import { PredictaButton } from './ui/DesignSystemPrimitives';
@@ -893,6 +894,7 @@ export function WebSignatureAnalysisInputFlow(): React.JSX.Element {
       sourceScreen: 'Signature Predicta',
     });
 
+    announcePredictaNavigation(href);
     router.push(href);
   }
 

@@ -8,6 +8,7 @@ import {
   getLightweightCompetitorResponseCopy,
 } from '../../lib/lightweight-public-copy';
 import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
+import { announcePredictaNavigation } from '../../lib/navigation-feedback';
 import { useLightweightKundliSnapshot } from '../../lib/use-lightweight-kundli-snapshot';
 import { useLightweightLanguagePreference } from '../../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../../lib/use-lightweight-speech-input';
@@ -89,6 +90,7 @@ function DashboardPageClient(): React.JSX.Element {
 
     const href = buildDashboardQuestionHref(questionDraft);
     prefetchDashboardAsk(href);
+    announcePredictaNavigation(href);
     router.push(href);
   }
 
@@ -110,6 +112,7 @@ function DashboardPageClient(): React.JSX.Element {
       setVoiceStatus('captured');
       const href = buildDashboardQuestionHref(transcript, 'voice');
       prefetchDashboardAsk(href);
+      announcePredictaNavigation(href);
       router.push(href);
     },
     onTranscript: transcript => {
@@ -132,6 +135,7 @@ function DashboardPageClient(): React.JSX.Element {
     }
 
     prewarmPredictaRuntime();
+    announcePredictaNavigation(askHref);
     router.replace(askHref, { scroll: false });
   }, [askHref, router, shouldShowLibrary]);
 
