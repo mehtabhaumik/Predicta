@@ -186,18 +186,14 @@ export default function DashboardPage(): React.JSX.Element {
         </div>
       </section>
 
-      <details className="library-outcome-panel library-outcome-drawer glass-panel">
-        <summary className="library-outcome-head">
+      <section className="library-outcome-panel glass-panel">
+        <div className="library-outcome-head">
           <div>
             <div className="section-title">{copy.outcomeEyebrow}</div>
             <h2>{copy.outcomeTitle}</h2>
+            <p className="library-outcome-drawer-body">{copy.outcomeDrawerBody}</p>
           </div>
-          <span>
-            <small>{copy.outcomeDrawerTitle}</small>
-            <strong>{copy.outcomeDrawerCta}</strong>
-          </span>
-        </summary>
-        <p className="library-outcome-drawer-body">{copy.outcomeDrawerBody}</p>
+        </div>
         <div className="library-outcome-grid">
           {copy.outcomeQuestions.map(question => {
             const href = buildPredictaChatHref({
@@ -223,7 +219,7 @@ export default function DashboardPage(): React.JSX.Element {
             );
           })}
         </div>
-      </details>
+      </section>
 
       <section className="library-quick-strip glass-panel">
         <div>
