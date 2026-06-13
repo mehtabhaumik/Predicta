@@ -181,6 +181,15 @@ for (const route of routeChecks) {
     failures.push(`${route} returned HTTP ${result.status}.`);
   }
 
+  if (route === '/dashboard') {
+    if (![307, 308].includes(result.status)) {
+      failures.push('/dashboard must redirect directly to /ask instead of waiting for client-side handoff.');
+    }
+    if (!isAskRedirectLocation(result.location)) {
+      failures.push(`/dashboard redirect location must point to /ask, got ${result.location ?? 'none'}.`);
+    }
+  }
+
   if (isLegacyChatRoute(route)) {
     if (![307, 308].includes(result.status)) {
       failures.push(`${route} must redirect to /ask instead of rendering dashboard chat.`);
@@ -733,4 +742,12 @@ function expectedSchoolForLegacyChatRoute(route) {
   if (route.startsWith('/dashboard/numerology/chat')) return 'NUMEROLOGY';
   if (route.startsWith('/dashboard/signature/chat')) return 'SIGNATURE';
   return undefined;
+}
+
+function isAskRedirectLocation(location) {
+  if (!location) {
+    return false;
+  }
+
+  return location.startsWith('/ask?') || /^https?:\/\/[^/]+\/ask\?/u.test(location);
 }
