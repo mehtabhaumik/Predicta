@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useLanguagePreference } from '../lib/language-preference';
 import { AuthDialog } from './AuthDialog';
+import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 import { PredictaMediaAsset } from './ui/DesignSystemPrimitives';
 import { WebLanguageSelector } from './WebLanguageSelector';
 
@@ -25,6 +26,7 @@ export function WebHeader(): React.JSX.Element {
 
   function prewarmAskPredicta(): void {
     router.prefetch('/ask');
+    prewarmPredictaRuntime();
   }
 
   useEffect(() => {

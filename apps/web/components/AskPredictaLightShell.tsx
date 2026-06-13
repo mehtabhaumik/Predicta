@@ -9,6 +9,7 @@ import { useLightweightLanguagePreference } from '../lib/use-lightweight-languag
 import { useLightweightSpeechInput } from '../lib/use-lightweight-speech-input';
 import {
   loadPredictaRuntime,
+  prewarmPredictaRuntime,
 } from './AskPredictaRuntimeBridge';
 
 const CONTEXT_PARAMS = [
@@ -114,6 +115,7 @@ export function AskPredictaLightShell(): React.JSX.Element {
     const resolvedPrompt = prompt.trim() || landing.defaultAskPrompt;
     const nextUrl = buildAskHref(resolvedPrompt, mode);
 
+    prewarmPredictaRuntime();
     setVoiceNotice(mode === 'voice');
     setQuestion(resolvedPrompt);
     setChatStarted(true);
@@ -193,6 +195,9 @@ export function AskPredictaLightShell(): React.JSX.Element {
             <Link
               href={buildAskHref(item)}
               key={item}
+              onFocus={prewarmPredictaRuntime}
+              onPointerEnter={prewarmPredictaRuntime}
+              onTouchStart={prewarmPredictaRuntime}
             >
               {item}
             </Link>

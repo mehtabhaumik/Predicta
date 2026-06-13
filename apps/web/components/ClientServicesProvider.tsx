@@ -7,6 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { applyPredictaDocumentLanguage } from '../lib/document-language';
 import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
+import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 
 const ClientAccountServicesProvider = dynamic(
   () =>
@@ -27,6 +28,12 @@ export function ClientServicesProvider(): React.JSX.Element {
   const navigationTimeoutRef = useRef<number | undefined>(undefined);
   const warmedHrefsRef = useRef<Set<string>>(new Set());
   const { language } = useLightweightLanguagePreference();
+
+  function warmAskRuntimeIfNeeded(href: string): void {
+    if (href === '/ask' || href.startsWith('/ask?')) {
+      prewarmPredictaRuntime();
+    }
+  }
 
   useEffect(() => {
     const enableAccountServices = () => {
@@ -148,6 +155,7 @@ export function ClientServicesProvider(): React.JSX.Element {
 
       if (href) {
         warmInternalHref(href);
+        warmAskRuntimeIfNeeded(href);
       }
     }
 
@@ -176,6 +184,7 @@ export function ClientServicesProvider(): React.JSX.Element {
       }
 
       warmInternalHref(href);
+      warmAskRuntimeIfNeeded(href);
 
       const nextUrl = new URL(href, window.location.href);
       const currentUrl = new URL(window.location.href);

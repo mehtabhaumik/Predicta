@@ -11,6 +11,7 @@ import { buildPredictaChatHref } from '../../lib/predicta-chat-cta';
 import { useLightweightKundliSnapshot } from '../../lib/use-lightweight-kundli-snapshot';
 import { useLightweightLanguagePreference } from '../../lib/use-lightweight-language-preference';
 import { useLightweightSpeechInput } from '../../lib/use-lightweight-speech-input';
+import { prewarmPredictaRuntime } from '../../components/AskPredictaRuntimeBridge';
 
 type LibraryLink = {
   body: string;
@@ -44,6 +45,7 @@ export default function DashboardPage(): React.JSX.Element {
   function prefetchDashboardAsk(href = askHref) {
     router.prefetch('/ask');
     router.prefetch(href);
+    prewarmPredictaRuntime();
   }
 
   function buildDashboardQuestionHref(

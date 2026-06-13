@@ -23,6 +23,7 @@ import {
   type SidebarGroup,
   type SidebarSection,
 } from './SidebarNav';
+import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 import { LightweightLanguageSelector } from './LightweightLanguageSelector';
 
 const DashboardPassBanner = dynamic(
@@ -345,6 +346,7 @@ export function DashboardShell({
 
   function prefetchAskPredicta(href: string): void {
     router.prefetch(href);
+    prewarmPredictaRuntime();
   }
 
   useEffect(() => {

@@ -8,6 +8,7 @@ import {
   getLightweightCompetitorResponseCopy,
 } from '../lib/lightweight-public-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
+import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 import { LightweightLanguageSelector } from './LightweightLanguageSelector';
 
 export function LandingLightHeader(): React.JSX.Element {
@@ -33,6 +34,7 @@ export function LandingLightHeader(): React.JSX.Element {
 
   function prewarmAskPredicta(): void {
     router.prefetch('/ask');
+    prewarmPredictaRuntime();
   }
 
   useEffect(() => {

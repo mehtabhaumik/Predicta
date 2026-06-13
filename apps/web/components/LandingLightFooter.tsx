@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getLightweightAppShellLabels } from '../lib/lightweight-public-copy';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
+import { prewarmPredictaRuntime } from './AskPredictaRuntimeBridge';
 
 export function LandingLightFooter(): React.JSX.Element {
   const { language } = useLightweightLanguagePreference();
@@ -19,6 +20,7 @@ export function LandingLightFooter(): React.JSX.Element {
 
   function prewarmAskPredicta(): void {
     router.prefetch('/ask');
+    prewarmPredictaRuntime();
   }
 
   return (
