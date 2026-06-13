@@ -4436,7 +4436,7 @@ button:disabled,
 
 .library-secondary-drawer {
   display: block;
-  padding: 20px;
+  padding: clamp(14px, 2vw, 18px);
 }
 
 .library-secondary-drawer:not([open]) > :not(summary) {
@@ -4455,7 +4455,7 @@ button:disabled,
   gap: 10px;
   grid-template-columns: minmax(0, 1fr) auto;
   list-style: none;
-  min-height: 72px;
+  min-height: 0;
 }
 
 .library-secondary-drawer summary::-webkit-details-marker {
@@ -4474,8 +4474,8 @@ button:disabled,
 .library-secondary-drawer summary strong {
   color: var(--text);
   display: block;
-  font-size: clamp(20px, 2.4vw, 30px);
-  line-height: 1.12;
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.18;
   margin-top: 4px;
   min-width: 0;
 }
@@ -4490,8 +4490,9 @@ button:disabled,
   font-size: 12px;
   font-weight: 900;
   justify-content: center;
-  min-height: 38px;
-  padding: 8px 14px;
+  justify-self: end;
+  min-height: 34px;
+  padding: 7px 12px;
   text-align: center;
   white-space: nowrap;
 }
