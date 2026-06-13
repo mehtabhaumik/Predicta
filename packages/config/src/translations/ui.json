@@ -9056,6 +9056,11 @@
       "hi": "आधार खोलें",
       "gu": "આધાર ખોલો"
     },
+    "ui.global.what.this.room.answers.app.revival": {
+      "en": "What this room answers",
+      "hi": "यह कक्ष क्या उत्तर देता है",
+      "gu": "આ કક્ષ શું જવાબ આપે છે"
+    },
     "ui.global.kp.predicta.answers.one.practical.event.audit.worlds": {
       "en": "KP Predicta answers one practical event or life outcome at a time. It shows the likely direction, what may delay it, timing readiness, and the next useful move before showing the proof chain.",
       "hi": "केपी प्रेडिक्टा एक समय में एक व्यावहारिक घटना या जीवन-परिणाम का उत्तर देती है। प्रमाण-श्रृंखला दिखाने से पहले यह दिशा, संभावित देरी, समय-तैयारी और अगला उपयोगी कदम बताती है।",

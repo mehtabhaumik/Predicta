@@ -49,7 +49,6 @@ export function WebEvidenceRoomEntry({
       <div className="evidence-room-entry-copy">
         <div className="section-title">{t('ui.evidenceRoom.generic.badge')}</div>
         <h1>{title}</h1>
-        <p>{body}</p>
       </div>
 
       <div className="evidence-room-entry-actions">
@@ -67,6 +66,7 @@ export function WebEvidenceRoomEntry({
             <span>{t('ui.evidenceRoom.generic.openEvidence')}</span>
             <strong>{t('ui.evidenceRoom.generic.detailsBelow')}</strong>
           </summary>
+          <p>{body}</p>
           <p>{evidence}</p>
         </details>
       </div>

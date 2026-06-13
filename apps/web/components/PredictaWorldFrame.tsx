@@ -118,7 +118,11 @@ export function PredictaWorldFrame({
               </PredictaButton>
             )}
           </div>
-          <p>{body}</p>
+          {heroInteraction ? (
+            <div className="predicta-world-hero-interaction">
+              {heroInteraction}
+            </div>
+          ) : null}
           {primaryGuidance ? (
             <div
               className="predicta-world-primary-guidance"
@@ -129,11 +133,16 @@ export function PredictaWorldFrame({
               <p>{t(primaryGuidance.body)}</p>
             </div>
           ) : null}
-          {heroInteraction ? (
-            <div className="predicta-world-hero-interaction">
-              {heroInteraction}
-            </div>
-          ) : null}
+          <details
+            className="predicta-world-context-note"
+            data-app-revival-action-first-world-frame={theme}
+          >
+            <summary>
+              <span>{t('What this room answers')}</span>
+              <strong>{t('Read')}</strong>
+            </summary>
+            <p>{body}</p>
+          </details>
         </div>
         <div className="predicta-world-aside">
           <PredictaBadge className="predicta-world-badge">{badge}</PredictaBadge>
