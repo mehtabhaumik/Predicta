@@ -920,6 +920,7 @@ export function WebKundliWizard(): React.JSX.Element {
       creationNote={lastCreationNote}
       createdChartRef={createdChartRef}
       kundli={kundli}
+      labels={labels}
       language={language}
       showCreationReveal={showCreationReveal}
     />
@@ -1318,12 +1319,14 @@ function KundliReadyFlow({
   creationNote,
   createdChartRef,
   kundli,
+  labels,
   language,
   showCreationReveal,
 }: {
   creationNote: CreationNote;
   createdChartRef: RefObject<HTMLElement | null>;
   kundli: KundliData;
+  labels: KundliWizardCopy;
   language: SupportedLanguage;
   showCreationReveal: boolean;
 }): React.JSX.Element {
@@ -1343,6 +1346,7 @@ function KundliReadyFlow({
           chart={kundli.charts.D1}
           creationNote={creationNote}
           createdChartRef={createdChartRef}
+          labels={labels}
           kundli={kundli}
           kundliId={kundli.id}
         />
@@ -1350,29 +1354,31 @@ function KundliReadyFlow({
         <div className="glass-panel kundli-chart-panel priority-kundli-chart">
           <div className="kundli-priority-heading">
             <div>
-              <div className="section-title">ACTIVE KUNDLI</div>
-              <h2>{kundli.birthDetails.name || 'Your Kundli'} is ready.</h2>
+              <div className="section-title">{labels.activeKundliSection}</div>
+              <h2>
+                {kundli.birthDetails.name
+                  ? labels.activeKundliHeading(kundli.birthDetails.name)
+                  : labels.activeKundliGenericHeading}
+              </h2>
               <p className="kundli-priority-copy">
-                Start with one guided reading first. The chart below keeps the
-                core Vedic grahas in front and keeps supporting refinements
-                secondary.
+                {labels.activeKundliPriorityCopy}
               </p>
             </div>
             <Link
               className="button secondary"
               href={buildPredictaChatHref({
                 kundli,
-                prompt:
-                  'Use this active Kundli and tell me what I should look at first today.',
+                prompt: labels.activeKundliAskPrompt,
                 sourceScreen: 'Kundli',
               })}
             >
-              Ask Predicta
+              {labels.askPredictaLabel}
             </Link>
           </div>
           <KundliProofStrip
             birthDetails={kundli.birthDetails}
             creationNote={creationNote}
+            labels={labels}
           />
           <WebKundliChart
             birthDetails={kundli.birthDetails}
@@ -1383,46 +1389,43 @@ function KundliReadyFlow({
         </div>
       )}
       <div className="plain-summary glass-panel">
-        <div className="section-title">SIMPLE SUMMARY</div>
-        <h2>Your chart foundation.</h2>
+        <div className="section-title">{labels.simpleSummarySection}</div>
+        <h2>{labels.chartFoundationHeading}</h2>
         <details className="info-drawer">
           <summary>
-            <span>What this means</span>
-            <strong>Open</strong>
+            <span>{labels.whatThisMeansTitle}</span>
+            <strong>{labels.openLabel}</strong>
           </summary>
-          <p>
-            Rising sign means your starting style. Moon sign means your
-            emotional pattern. Dasha means the current life chapter.
-          </p>
+          <p>{labels.chartFoundationDrawerBody}</p>
         </details>
         <div className="plain-summary-grid">
           <div className="birth-detail-summary">
-            <span>Date of birth</span>
+            <span>{labels.dateOfBirthLabel}</span>
             <strong>{kundli.birthDetails.date}</strong>
           </div>
           <div className="birth-detail-summary">
-            <span>Birth time</span>
+            <span>{labels.birthTimeLabel}</span>
             <strong>
               {kundli.birthDetails.time}
               {isRectifiedBirthDetails(kundli.birthDetails) ? (
-                <em>Rectified time</em>
+                <em>{labels.rectifiedTimeLabel}</em>
               ) : null}
             </strong>
           </div>
           <div className="birth-detail-summary">
-            <span>Birth place</span>
+            <span>{labels.birthPlaceLabel}</span>
             <strong>{kundli.birthDetails.place}</strong>
           </div>
           <div>
-            <span>Rising sign</span>
+            <span>{labels.risingSignLabel}</span>
             <strong>{kundli.lagna}</strong>
           </div>
           <div>
-            <span>Moon pattern</span>
+            <span>{labels.moonPatternLabel}</span>
             <strong>{kundli.moonSign}</strong>
           </div>
           <div>
-            <span>Life chapter</span>
+            <span>{labels.lifeChapterLabel}</span>
             <strong>
               {kundli.dasha.current.mahadasha}/{kundli.dasha.current.antardasha}
             </strong>
@@ -1430,25 +1433,20 @@ function KundliReadyFlow({
         </div>
         <div className="kundli-next-step-panel">
           <div>
-            <div className="section-title">NEXT STEP</div>
-            <h3>Start with Predicta first.</h3>
-            <p>
-              One guided reading is the fastest way to turn this chart into a
-              clear starting point. Open the deeper tools only after that first
-              read.
-            </p>
+            <div className="section-title">{labels.nextStepSection}</div>
+            <h3>{labels.startPredictaFirstHeading}</h3>
+            <p>{labels.startPredictaFirstBody}</p>
           </div>
           <div className="kundli-primary-action-row">
             <Link
               className="button"
               href={buildPredictaChatHref({
                 kundli,
-                prompt:
-                  'Use my newly created Kundli and tell me what I should look at first today.',
+                prompt: labels.createdKundliAskPrompt,
                 sourceScreen: 'Kundli Created',
               })}
             >
-              {t('Ask Predicta first')}
+              {labels.askPredictaFirstLabel}
             </Link>
           </div>
           <details className="info-drawer kundli-tools-drawer">
@@ -1520,9 +1518,9 @@ function KundliRouteHeader({
         {isEditing
           ? labels.reviewSavedKundliHeading(editingKundliName ?? '')
           : isReady
-          ? labels.activeKundliHeading(
-              kundli?.birthDetails.name || labels.yourFallbackName,
-            )
+          ? kundli?.birthDetails.name
+            ? labels.activeKundliHeading(kundli.birthDetails.name)
+            : labels.activeKundliGenericHeading
           : labels.createKundliHeading}
       </h1>
       <p>
@@ -1558,38 +1556,40 @@ function KundliRouteHeader({
 function KundliProofStrip({
   birthDetails,
   creationNote,
+  labels,
 }: {
   birthDetails?: BirthDetails;
   creationNote: CreationNote;
+  labels: KundliWizardCopy;
 }): React.JSX.Element {
   return (
     <div className="kundli-proof-strip">
       <div>
-        <span>Birth place</span>
-        <strong>{birthDetails?.place ?? 'Matched city selected'}</strong>
-        <small>{birthDetails?.timezone ?? 'Timezone locked before calculation'}</small>
+        <span>{labels.birthPlaceLabel}</span>
+        <strong>{birthDetails?.place ?? labels.matchedCitySelectedLabel}</strong>
+        <small>{birthDetails?.timezone ?? labels.timezoneLockedLabel}</small>
       </div>
       <div>
-        <span>Time basis</span>
+        <span>{labels.timeBasisLabel}</span>
         <strong>
           {creationNote.mode === 'corrected'
-            ? `Probable corrected time ${creationNote.probableTime}`
+            ? labels.probableCorrectedTimeLabel(creationNote.probableTime)
             : isRectifiedBirthDetails(birthDetails)
-            ? `Saved rectified time ${birthDetails?.time ?? ''}`.trim()
-            : `Confirmed entered time ${birthDetails?.time ?? ''}`.trim()}
+            ? labels.savedRectifiedTimeLabel(birthDetails?.time ?? '')
+            : labels.confirmedEnteredTimeLabel(birthDetails?.time ?? '')}
         </strong>
         <small>
           {creationNote.mode === 'corrected'
-            ? `Original entry ${creationNote.originalTime}`
+            ? labels.originalEntryLabel(creationNote.originalTime)
             : isRectifiedBirthDetails(birthDetails)
-            ? 'This saved Kundli already carries a rectified-time note'
-            : 'No correction layer was applied'}
+            ? labels.savedRectifiedNote
+            : labels.noCorrectionAppliedLabel}
         </small>
       </div>
       <div>
-        <span>Chart method</span>
-        <strong>Core Vedic grahas first</strong>
-        <small>Advanced refinements stay secondary on the first reading</small>
+        <span>{labels.chartMethodLabel}</span>
+        <strong>{labels.coreVedicGrahasFirstLabel}</strong>
+        <small>{labels.advancedRefinementsSecondaryLabel}</small>
       </div>
     </div>
   );
@@ -1767,6 +1767,7 @@ function KundliCreationReveal({
   chart,
   creationNote,
   createdChartRef,
+  labels,
   kundli,
   kundliId,
 }: {
@@ -1774,6 +1775,7 @@ function KundliCreationReveal({
   chart: ChartData;
   creationNote: CreationNote;
   createdChartRef: RefObject<HTMLElement | null>;
+  labels: KundliWizardCopy;
   kundli?: KundliData;
   kundliId?: string;
 }): React.JSX.Element {
@@ -1784,31 +1786,31 @@ function KundliCreationReveal({
       tabIndex={-1}
     >
       <div className="kundli-creation-copy">
-        <div className="section-title">KUNDLI CREATED</div>
-        <h2>Your Kundli is ready.</h2>
+        <div className="section-title">{labels.kundliCreatedSection}</div>
+        <h2>{labels.createdKundliReadyHeading}</h2>
         {creationNote.mode === 'corrected' ? (
-          <p>
-            This Kundli uses a probable corrected birth time of{' '}
-            {creationNote.probableTime}. Original entered time:{' '}
-            {creationNote.originalTime}.
-          </p>
+          <p>{labels.createdKundliCorrectedBody(
+            creationNote.probableTime,
+            creationNote.originalTime,
+          )}</p>
         ) : (
-          <p>
-            This Kundli uses the birth time you confirmed. No birth-time
-            recalculation was applied.
-          </p>
+          <p>{labels.createdKundliEnteredBody}</p>
         )}
       </div>
-      <KundliProofStrip birthDetails={birthDetails} creationNote={creationNote} />
+      <KundliProofStrip
+        birthDetails={birthDetails}
+        creationNote={creationNote}
+        labels={labels}
+      />
       <div className="kundli-created-chart-full">
         <WebKundliChart
           animationSurface="creation"
           birthDetails={birthDetails}
-          centerLabel="Created Kundli"
+          centerLabel={labels.createdKundliChartLabel}
           chart={chart}
           kundli={kundli}
           kundliId={kundliId}
-          sectionTitle="CREATED KUNDLI"
+          sectionTitle={labels.kundliCreatedSection}
         />
       </div>
     </section>
@@ -1932,8 +1934,14 @@ function normalizeBirthPlaceLabel(value?: string): string {
 
 type KundliWizardCopy = {
   activeKundliBody: string;
+  activeKundliAskPrompt: string;
+  activeKundliGenericHeading: string;
   activeKundliHeading: (name: string) => string;
+  activeKundliPriorityCopy: string;
   activeKundliSection: string;
+  advancedRefinementsSecondaryLabel: string;
+  askPredictaFirstLabel: string;
+  askPredictaLabel: string;
   birthDateLabel: string;
   birthPlaceHelp: string;
   birthPlaceLabel: string;
@@ -1942,7 +1950,12 @@ type KundliWizardCopy = {
   birthTimeLabel: string;
   birthTimeApproximate: string;
   calculating: string;
+  chartFoundationDrawerBody: string;
+  chartFoundationHeading: string;
+  chartMethodLabel: string;
   continueLabel: string;
+  confirmedEnteredTimeLabel: (time: string) => string;
+  coreVedicGrahasFirstLabel: string;
   createAnotherBirthDetailsBody: string;
   createAnotherKundli: string;
   createAnotherKundliStep: string;
@@ -1952,6 +1965,15 @@ type KundliWizardCopy = {
   createKundliStep: string;
   creationDrawerBody: string;
   creationDrawerTitle: string;
+  createdKundliAskPrompt: string;
+  createdKundliChartLabel: string;
+  createdKundliCorrectedBody: (
+    probableTime: string,
+    originalTime: string,
+  ) => string;
+  createdKundliEnteredBody: string;
+  createdKundliReadyHeading: string;
+  dateOfBirthLabel: string;
   editBirthDetailsBody: string;
   editSavedKundli: string;
   enterBirthDetails: string;
@@ -1960,11 +1982,20 @@ type KundliWizardCopy = {
   reviewBirthDetails: (name: string) => string;
   guestLimitError: string;
   guestLimitTitle: string;
+  kundliCreatedSection: string;
+  lifeChapterLabel: string;
+  matchedCitySelectedLabel: string;
+  moonPatternLabel: string;
+  nextStepSection: string;
+  noCorrectionAppliedLabel: string;
+  originalEntryLabel: (time: string) => string;
   premiumDailySoftLimitError: string;
+  probableCorrectedTimeLabel: (time: string) => string;
   relationshipHelp: string;
   relationshipLabel: string;
   relationshipPlaceholder: string;
   relationshipRequiredError: string;
+  rectifiedTimeLabel: string;
   requiredBirthDetailsError: string;
   reviewSavedKundliBody: string;
   reviewSavedKundliHeading: (name: string) => string;
@@ -1973,19 +2004,36 @@ type KundliWizardCopy = {
   nameLabel: string;
   namePlaceholder: string;
   openLabel: string;
+  risingSignLabel: string;
+  savedRectifiedNote: string;
+  savedRectifiedTimeLabel: (time: string) => string;
+  simpleSummarySection: string;
+  startPredictaFirstBody: string;
+  startPredictaFirstHeading: string;
+  timeBasisLabel: string;
+  timezoneLockedLabel: string;
   trustDrawerBody: string;
   trustDrawerTitle: string;
   updateDrawerBody: string;
   updateDrawerTitle: string;
-  yourFallbackName: string;
+  whatThisMeansTitle: string;
 };
 
 const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
   en: {
     activeKundliBody:
       'Start from one guided reading, then move deeper into charts, timing, reports, or remedies.',
+    activeKundliAskPrompt:
+      'Use this active Kundli and tell me what I should look at first today.',
+    activeKundliGenericHeading: 'Your Kundli is ready.',
     activeKundliHeading: name => `${name} Kundli is ready.`,
+    activeKundliPriorityCopy:
+      'Start with one guided reading first. The chart below keeps the core Vedic grahas in front and keeps supporting refinements secondary.',
     activeKundliSection: 'ACTIVE KUNDLI',
+    advancedRefinementsSecondaryLabel:
+      'Advanced refinements stay secondary on the first reading',
+    askPredictaFirstLabel: 'Ask Predicta first',
+    askPredictaLabel: 'Ask Predicta',
     birthDateLabel: 'Birth date',
     birthPlaceHelp:
       'Select the matching city so the chart uses the right timezone.',
@@ -1996,7 +2044,14 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     birthTimeLabel: 'Birth time',
     birthTimeApproximate: 'Birth time is approximate',
     calculating: 'Calculating...',
+    chartFoundationDrawerBody:
+      'Rising sign means your starting style. Moon sign means your emotional pattern. Dasha means the current life chapter.',
+    chartFoundationHeading: 'Your chart foundation.',
+    chartMethodLabel: 'Chart method',
     continueLabel: 'Continue',
+    confirmedEnteredTimeLabel: time =>
+      `Confirmed entered time ${time}`.trim(),
+    coreVedicGrahasFirstLabel: 'Core Vedic grahas first',
     createAnotherBirthDetailsBody:
       'Your active Kundli stays above. Use this only when you want to create another chart.',
     createAnotherKundli: 'Create another Kundli only when needed.',
@@ -2010,6 +2065,15 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     creationDrawerBody:
       'Predicta matches the selected birth place to coordinates and timezone, asks for confirmation before calculation, and then moves you into an active-reading state instead of leaving you inside a setup-only page.',
     creationDrawerTitle: 'What happens after creation',
+    createdKundliAskPrompt:
+      'Use my newly created Kundli and tell me what I should look at first today.',
+    createdKundliChartLabel: 'Created Kundli',
+    createdKundliCorrectedBody: (probableTime, originalTime) =>
+      `This Kundli uses a probable corrected birth time of ${probableTime}. Original entered time: ${originalTime}.`,
+    createdKundliEnteredBody:
+      'This Kundli uses the birth time you confirmed. No birth-time recalculation was applied.',
+    createdKundliReadyHeading: 'Your Kundli is ready.',
+    dateOfBirthLabel: 'Date of birth',
     editBirthDetailsBody:
       'Change only what is wrong, then confirm before Predicta recalculates the Kundli.',
     editSavedKundli: 'EDIT SAVED KUNDLI',
@@ -2020,14 +2084,23 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     guestLimitError:
       'Your first Kundli is safe here. Please sign in before adding another Kundli, so family profiles and future edits stay protected.',
     guestLimitTitle: 'Protect more Kundlis with sign-in',
+    kundliCreatedSection: 'KUNDLI CREATED',
+    lifeChapterLabel: 'Life chapter',
+    matchedCitySelectedLabel: 'Matched city selected',
+    moonPatternLabel: 'Moon pattern',
+    nextStepSection: 'NEXT STEP',
+    noCorrectionAppliedLabel: 'No correction layer was applied',
+    originalEntryLabel: time => `Original entry ${time}`,
     premiumDailySoftLimitError:
       'You have created many Kundlis today. Existing Kundlis still open normally; please pause and try another new Kundli later.',
+    probableCorrectedTimeLabel: time => `Probable corrected time ${time}`,
     relationshipHelp:
       'Choose how this saved profile relates to you. Your main profile stays Self and does not need this field.',
     relationshipLabel: 'Relationship to you',
     relationshipPlaceholder: 'Select relationship',
     relationshipRequiredError:
       'Select how this saved profile is related to you before creating or updating it.',
+    rectifiedTimeLabel: 'Rectified time',
     requiredBirthDetailsError:
       'Please fill name, birth date, and birth time first.',
     reviewSavedKundliBody:
@@ -2040,18 +2113,34 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     nameLabel: 'Name',
     namePlaceholder: 'Your name',
     openLabel: 'Open',
+    risingSignLabel: 'Rising sign',
+    savedRectifiedNote:
+      'This saved Kundli already carries a rectified-time note',
+    savedRectifiedTimeLabel: time => `Saved rectified time ${time}`.trim(),
+    simpleSummarySection: 'SIMPLE SUMMARY',
+    startPredictaFirstBody:
+      'One guided reading is the fastest way to turn this chart into a clear starting point. Open the deeper tools only after that first read.',
+    startPredictaFirstHeading: 'Start with Predicta first.',
+    timeBasisLabel: 'Time basis',
+    timezoneLockedLabel: 'Timezone locked before calculation',
     trustDrawerBody:
       'The chart uses the matched place, coordinates, and timezone from the selected city. The primary Vedic view keeps core grahas first and moves supporting refinements into a secondary layer.',
     trustDrawerTitle: 'Why this chart is trustworthy',
     updateDrawerBody:
       'Updating a saved Kundli recalculates the chart from the edited details. Save as new only when you intentionally want two separate records.',
     updateDrawerTitle: 'How updates work',
-    yourFallbackName: 'Your',
+    whatThisMeansTitle: 'What this means',
   },
   hi: {
     activeKundliBody: getNativeCopy("kundliWizard.activeKundliBody.hi"),
+    activeKundliAskPrompt: getNativeCopy("kundliWizard.activeKundliAskPrompt.hi"),
+    activeKundliGenericHeading: getNativeCopy("kundliWizard.activeKundliGenericHeading.hi"),
     activeKundliHeading: name => formatNativeCopy("kundliWizard.activeKundliHeading.hi", [name]),
+    activeKundliPriorityCopy: getNativeCopy("kundliWizard.activeKundliPriorityCopy.hi"),
     activeKundliSection: getNativeCopy("kundliWizard.activeKundliSection.hi"),
+    advancedRefinementsSecondaryLabel: getNativeCopy("kundliWizard.advancedRefinementsSecondaryLabel.hi"),
+    askPredictaFirstLabel: getNativeCopy("kundliWizard.askPredictaFirstLabel.hi"),
+    askPredictaLabel: getNativeCopy("kundliWizard.askPredictaLabel.hi"),
     birthDateLabel: getNativeCopy("kundliWizard.birthDateLabel.hi"),
     birthPlaceHelp: getNativeCopy("kundliWizard.birthPlaceHelp.hi"),
     birthPlaceLabel: getNativeCopy("kundliWizard.birthPlaceLabel.hi"),
@@ -2060,7 +2149,12 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     birthTimeLabel: getNativeCopy("kundliWizard.birthTimeLabel.hi"),
     birthTimeApproximate: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.abe190eefa"),
     calculating: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.6c8fdc8295"),
+    chartFoundationDrawerBody: getNativeCopy("kundliWizard.chartFoundationDrawerBody.hi"),
+    chartFoundationHeading: getNativeCopy("kundliWizard.chartFoundationHeading.hi"),
+    chartMethodLabel: getNativeCopy("kundliWizard.chartMethodLabel.hi"),
     continueLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.aa9a542091"),
+    confirmedEnteredTimeLabel: time => formatNativeCopy("kundliWizard.confirmedEnteredTimeLabel.hi", [time]),
+    coreVedicGrahasFirstLabel: getNativeCopy("kundliWizard.coreVedicGrahasFirstLabel.hi"),
     createAnotherBirthDetailsBody:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.04d60c154e"),
     createAnotherKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9524ee86a7"),
@@ -2072,6 +2166,13 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     createKundliStep: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.3f1201483c"),
     creationDrawerBody: getNativeCopy("kundliWizard.creationDrawerBody.hi"),
     creationDrawerTitle: getNativeCopy("kundliWizard.creationDrawerTitle.hi"),
+    createdKundliAskPrompt: getNativeCopy("kundliWizard.createdKundliAskPrompt.hi"),
+    createdKundliChartLabel: getNativeCopy("kundliWizard.createdKundliChartLabel.hi"),
+    createdKundliCorrectedBody: (probableTime, originalTime) =>
+      formatNativeCopy("kundliWizard.createdKundliCorrectedBody.hi", [probableTime, originalTime]),
+    createdKundliEnteredBody: getNativeCopy("kundliWizard.createdKundliEnteredBody.hi"),
+    createdKundliReadyHeading: getNativeCopy("kundliWizard.createdKundliReadyHeading.hi"),
+    dateOfBirthLabel: getNativeCopy("kundliWizard.dateOfBirthLabel.hi"),
     editBirthDetailsBody:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.b4c91e2690"),
     editSavedKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9ab7f097a3"),
@@ -2082,14 +2183,23 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     guestLimitError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.4cdc4132e7"),
     guestLimitTitle: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.69426948bc"),
+    kundliCreatedSection: getNativeCopy("kundliWizard.kundliCreatedSection.hi"),
+    lifeChapterLabel: getNativeCopy("kundliWizard.lifeChapterLabel.hi"),
+    matchedCitySelectedLabel: getNativeCopy("kundliWizard.matchedCitySelectedLabel.hi"),
+    moonPatternLabel: getNativeCopy("kundliWizard.moonPatternLabel.hi"),
+    nextStepSection: getNativeCopy("kundliWizard.nextStepSection.hi"),
+    noCorrectionAppliedLabel: getNativeCopy("kundliWizard.noCorrectionAppliedLabel.hi"),
+    originalEntryLabel: time => formatNativeCopy("kundliWizard.originalEntryLabel.hi", [time]),
     premiumDailySoftLimitError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.4cdc4132e7"),
+    probableCorrectedTimeLabel: time => formatNativeCopy("kundliWizard.probableCorrectedTimeLabel.hi", [time]),
     relationshipHelp:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.ac5916328d"),
     relationshipLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.920f52e152"),
     relationshipPlaceholder: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.06da9e136b"),
     relationshipRequiredError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.fa7f447f5e"),
+    rectifiedTimeLabel: getNativeCopy("kundliWizard.rectifiedTimeLabel.hi"),
     requiredBirthDetailsError: getNativeCopy("kundliWizard.requiredBirthDetailsError.hi"),
     reviewSavedKundliBody: getNativeCopy("kundliWizard.reviewSavedKundliBody.hi"),
     reviewSavedKundliHeading: name => formatNativeCopy("kundliWizard.reviewSavedKundliHeading.hi", [name]),
@@ -2099,16 +2209,30 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     nameLabel: getNativeCopy("kundliWizard.nameLabel.hi"),
     namePlaceholder: getNativeCopy("kundliWizard.namePlaceholder.hi"),
     openLabel: getNativeCopy("kundliWizard.openLabel.hi"),
+    risingSignLabel: getNativeCopy("kundliWizard.risingSignLabel.hi"),
+    savedRectifiedNote: getNativeCopy("kundliWizard.savedRectifiedNote.hi"),
+    savedRectifiedTimeLabel: time => formatNativeCopy("kundliWizard.savedRectifiedTimeLabel.hi", [time]),
+    simpleSummarySection: getNativeCopy("kundliWizard.simpleSummarySection.hi"),
+    startPredictaFirstBody: getNativeCopy("kundliWizard.startPredictaFirstBody.hi"),
+    startPredictaFirstHeading: getNativeCopy("kundliWizard.startPredictaFirstHeading.hi"),
+    timeBasisLabel: getNativeCopy("kundliWizard.timeBasisLabel.hi"),
+    timezoneLockedLabel: getNativeCopy("kundliWizard.timezoneLockedLabel.hi"),
     trustDrawerBody: getNativeCopy("kundliWizard.trustDrawerBody.hi"),
     trustDrawerTitle: getNativeCopy("kundliWizard.trustDrawerTitle.hi"),
     updateDrawerBody: getNativeCopy("kundliWizard.updateDrawerBody.hi"),
     updateDrawerTitle: getNativeCopy("kundliWizard.updateDrawerTitle.hi"),
-    yourFallbackName: getNativeCopy("kundliWizard.yourFallbackName.hi"),
+    whatThisMeansTitle: getNativeCopy("kundliWizard.whatThisMeansTitle.hi"),
   },
   gu: {
     activeKundliBody: getNativeCopy("kundliWizard.activeKundliBody.gu"),
+    activeKundliAskPrompt: getNativeCopy("kundliWizard.activeKundliAskPrompt.gu"),
+    activeKundliGenericHeading: getNativeCopy("kundliWizard.activeKundliGenericHeading.gu"),
     activeKundliHeading: name => formatNativeCopy("kundliWizard.activeKundliHeading.gu", [name]),
+    activeKundliPriorityCopy: getNativeCopy("kundliWizard.activeKundliPriorityCopy.gu"),
     activeKundliSection: getNativeCopy("kundliWizard.activeKundliSection.gu"),
+    advancedRefinementsSecondaryLabel: getNativeCopy("kundliWizard.advancedRefinementsSecondaryLabel.gu"),
+    askPredictaFirstLabel: getNativeCopy("kundliWizard.askPredictaFirstLabel.gu"),
+    askPredictaLabel: getNativeCopy("kundliWizard.askPredictaLabel.gu"),
     birthDateLabel: getNativeCopy("kundliWizard.birthDateLabel.gu"),
     birthPlaceHelp: getNativeCopy("kundliWizard.birthPlaceHelp.gu"),
     birthPlaceLabel: getNativeCopy("kundliWizard.birthPlaceLabel.gu"),
@@ -2117,7 +2241,12 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     birthTimeLabel: getNativeCopy("kundliWizard.birthTimeLabel.gu"),
     birthTimeApproximate: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f92bd5d28b"),
     calculating: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.38007d95c3"),
+    chartFoundationDrawerBody: getNativeCopy("kundliWizard.chartFoundationDrawerBody.gu"),
+    chartFoundationHeading: getNativeCopy("kundliWizard.chartFoundationHeading.gu"),
+    chartMethodLabel: getNativeCopy("kundliWizard.chartMethodLabel.gu"),
     continueLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9e3014236d"),
+    confirmedEnteredTimeLabel: time => formatNativeCopy("kundliWizard.confirmedEnteredTimeLabel.gu", [time]),
+    coreVedicGrahasFirstLabel: getNativeCopy("kundliWizard.coreVedicGrahasFirstLabel.gu"),
     createAnotherBirthDetailsBody:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.b2d20cc0da"),
     createAnotherKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.1beb027425"),
@@ -2129,6 +2258,13 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     createKundliStep: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.7fa5156756"),
     creationDrawerBody: getNativeCopy("kundliWizard.creationDrawerBody.gu"),
     creationDrawerTitle: getNativeCopy("kundliWizard.creationDrawerTitle.gu"),
+    createdKundliAskPrompt: getNativeCopy("kundliWizard.createdKundliAskPrompt.gu"),
+    createdKundliChartLabel: getNativeCopy("kundliWizard.createdKundliChartLabel.gu"),
+    createdKundliCorrectedBody: (probableTime, originalTime) =>
+      formatNativeCopy("kundliWizard.createdKundliCorrectedBody.gu", [probableTime, originalTime]),
+    createdKundliEnteredBody: getNativeCopy("kundliWizard.createdKundliEnteredBody.gu"),
+    createdKundliReadyHeading: getNativeCopy("kundliWizard.createdKundliReadyHeading.gu"),
+    dateOfBirthLabel: getNativeCopy("kundliWizard.dateOfBirthLabel.gu"),
     editBirthDetailsBody:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.66668b5ce0"),
     editSavedKundli: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.f2f57c2164"),
@@ -2139,14 +2275,23 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     guestLimitError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.df109a4a8f"),
     guestLimitTitle: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.2d3fc8eba7"),
+    kundliCreatedSection: getNativeCopy("kundliWizard.kundliCreatedSection.gu"),
+    lifeChapterLabel: getNativeCopy("kundliWizard.lifeChapterLabel.gu"),
+    matchedCitySelectedLabel: getNativeCopy("kundliWizard.matchedCitySelectedLabel.gu"),
+    moonPatternLabel: getNativeCopy("kundliWizard.moonPatternLabel.gu"),
+    nextStepSection: getNativeCopy("kundliWizard.nextStepSection.gu"),
+    noCorrectionAppliedLabel: getNativeCopy("kundliWizard.noCorrectionAppliedLabel.gu"),
+    originalEntryLabel: time => formatNativeCopy("kundliWizard.originalEntryLabel.gu", [time]),
     premiumDailySoftLimitError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.df109a4a8f"),
+    probableCorrectedTimeLabel: time => formatNativeCopy("kundliWizard.probableCorrectedTimeLabel.gu", [time]),
     relationshipHelp:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.5071b4480b"),
     relationshipLabel: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.142d267dd0"),
     relationshipPlaceholder: getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.9c93179b60"),
     relationshipRequiredError:
       getNativeCopy("native.apps.web.components.WebKundliWizard.tsx.d369f850b5"),
+    rectifiedTimeLabel: getNativeCopy("kundliWizard.rectifiedTimeLabel.gu"),
     requiredBirthDetailsError: getNativeCopy("kundliWizard.requiredBirthDetailsError.gu"),
     reviewSavedKundliBody: getNativeCopy("kundliWizard.reviewSavedKundliBody.gu"),
     reviewSavedKundliHeading: name => formatNativeCopy("kundliWizard.reviewSavedKundliHeading.gu", [name]),
@@ -2156,10 +2301,18 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     nameLabel: getNativeCopy("kundliWizard.nameLabel.gu"),
     namePlaceholder: getNativeCopy("kundliWizard.namePlaceholder.gu"),
     openLabel: getNativeCopy("kundliWizard.openLabel.gu"),
+    risingSignLabel: getNativeCopy("kundliWizard.risingSignLabel.gu"),
+    savedRectifiedNote: getNativeCopy("kundliWizard.savedRectifiedNote.gu"),
+    savedRectifiedTimeLabel: time => formatNativeCopy("kundliWizard.savedRectifiedTimeLabel.gu", [time]),
+    simpleSummarySection: getNativeCopy("kundliWizard.simpleSummarySection.gu"),
+    startPredictaFirstBody: getNativeCopy("kundliWizard.startPredictaFirstBody.gu"),
+    startPredictaFirstHeading: getNativeCopy("kundliWizard.startPredictaFirstHeading.gu"),
+    timeBasisLabel: getNativeCopy("kundliWizard.timeBasisLabel.gu"),
+    timezoneLockedLabel: getNativeCopy("kundliWizard.timezoneLockedLabel.gu"),
     trustDrawerBody: getNativeCopy("kundliWizard.trustDrawerBody.gu"),
     trustDrawerTitle: getNativeCopy("kundliWizard.trustDrawerTitle.gu"),
     updateDrawerBody: getNativeCopy("kundliWizard.updateDrawerBody.gu"),
     updateDrawerTitle: getNativeCopy("kundliWizard.updateDrawerTitle.gu"),
-    yourFallbackName: getNativeCopy("kundliWizard.yourFallbackName.gu"),
+    whatThisMeansTitle: getNativeCopy("kundliWizard.whatThisMeansTitle.gu"),
   },
 };

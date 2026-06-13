@@ -20619,6 +20619,318 @@
       "kind": "text",
       "value": "सेव कुंडली जांचें"
     },
+    "kundliWizard.activeKundliAskPrompt.gu": {
+      "kind": "text",
+      "value": "આ સક્રિય કુંડળીનો ઉપયોગ કરીને આજે પહેલા શું જોવું જોઈએ તે સીધું કહો."
+    },
+    "kundliWizard.activeKundliAskPrompt.hi": {
+      "kind": "text",
+      "value": "इस सक्रिय कुंडली का उपयोग करके आज मुझे पहले क्या देखना चाहिए, सीधे बताएं."
+    },
+    "kundliWizard.activeKundliGenericHeading.gu": {
+      "kind": "text",
+      "value": "તમારી કુંડળી તૈયાર છે."
+    },
+    "kundliWizard.activeKundliGenericHeading.hi": {
+      "kind": "text",
+      "value": "आपकी कुंडली तैयार है."
+    },
+    "kundliWizard.activeKundliPriorityCopy.gu": {
+      "kind": "text",
+      "value": "પહેલા એક માર્ગદર્શિત વાંચનથી શરૂ કરો. નીચેનો ચાર્ટ મૂળ વેદિક ગ્રહોને આગળ રાખે છે અને સહાયક સુધારાઓને બીજા સ્તરે રાખે છે."
+    },
+    "kundliWizard.activeKundliPriorityCopy.hi": {
+      "kind": "text",
+      "value": "पहले एक मार्गदर्शित पढ़ाई से शुरू करें. नीचे का चार्ट मूल वैदिक ग्रहों को आगे रखता है और सहायक सुधारों को दूसरे स्तर पर रखता है."
+    },
+    "kundliWizard.advancedRefinementsSecondaryLabel.gu": {
+      "kind": "text",
+      "value": "પહેલા વાંચનમાં અદ્યતન સુધારાઓ બીજા સ્તરે રહે છે"
+    },
+    "kundliWizard.advancedRefinementsSecondaryLabel.hi": {
+      "kind": "text",
+      "value": "पहली पढ़ाई में उन्नत सुधार दूसरे स्तर पर रहते हैं"
+    },
+    "kundliWizard.askPredictaFirstLabel.gu": {
+      "kind": "text",
+      "value": "પહેલા પ્રેડિક્ટાને પૂછો"
+    },
+    "kundliWizard.askPredictaFirstLabel.hi": {
+      "kind": "text",
+      "value": "पहले प्रेडिक्टा से पूछें"
+    },
+    "kundliWizard.askPredictaLabel.gu": {
+      "kind": "text",
+      "value": "પ્રેડિક્ટાને પૂછો"
+    },
+    "kundliWizard.askPredictaLabel.hi": {
+      "kind": "text",
+      "value": "प्रेडिक्टा से पूछें"
+    },
+    "kundliWizard.chartFoundationDrawerBody.gu": {
+      "kind": "text",
+      "value": "લગ્ન રાશિ તમારી શરૂઆત કરવાની રીત બતાવે છે. ચંદ્ર રાશિ ભાવનાત્મક પેટર્ન બતાવે છે. દશા હાલનો જીવન અધ્યાય બતાવે છે."
+    },
+    "kundliWizard.chartFoundationDrawerBody.hi": {
+      "kind": "text",
+      "value": "लग्न राशि आपकी शुरुआत की शैली बताती है. चंद्र राशि भावनात्मक पैटर्न बताती है. दशा वर्तमान जीवन अध्याय बताती है."
+    },
+    "kundliWizard.chartFoundationHeading.gu": {
+      "kind": "text",
+      "value": "તમારા ચાર્ટનો આધાર."
+    },
+    "kundliWizard.chartFoundationHeading.hi": {
+      "kind": "text",
+      "value": "आपके चार्ट की नींव."
+    },
+    "kundliWizard.chartMethodLabel.gu": {
+      "kind": "text",
+      "value": "ચાર્ટ પદ્ધતિ"
+    },
+    "kundliWizard.chartMethodLabel.hi": {
+      "kind": "text",
+      "value": "चार्ट पद्धति"
+    },
+    "kundliWizard.confirmedEnteredTimeLabel.gu": {
+      "kind": "template",
+      "parts": [
+        "ખાતરી કરેલો દાખલ સમય ",
+        ""
+      ]
+    },
+    "kundliWizard.confirmedEnteredTimeLabel.hi": {
+      "kind": "template",
+      "parts": [
+        "पुष्टि किया गया दर्ज समय ",
+        ""
+      ]
+    },
+    "kundliWizard.coreVedicGrahasFirstLabel.gu": {
+      "kind": "text",
+      "value": "મૂળ વેદિક ગ્રહો પહેલા"
+    },
+    "kundliWizard.coreVedicGrahasFirstLabel.hi": {
+      "kind": "text",
+      "value": "मूल वैदिक ग्रह पहले"
+    },
+    "kundliWizard.createdKundliAskPrompt.gu": {
+      "kind": "text",
+      "value": "મારી નવી બનેલી કુંડળીનો ઉપયોગ કરીને આજે પહેલા શું જોવું જોઈએ તે સીધું કહો."
+    },
+    "kundliWizard.createdKundliAskPrompt.hi": {
+      "kind": "text",
+      "value": "मेरी नई बनी कुंडली का उपयोग करके आज मुझे पहले क्या देखना चाहिए, सीधे बताएं."
+    },
+    "kundliWizard.createdKundliChartLabel.gu": {
+      "kind": "text",
+      "value": "બનેલી કુંડળી"
+    },
+    "kundliWizard.createdKundliChartLabel.hi": {
+      "kind": "text",
+      "value": "बनी कुंडली"
+    },
+    "kundliWizard.createdKundliCorrectedBody.gu": {
+      "kind": "template",
+      "parts": [
+        "આ કુંડળી સંભવિત સુધારેલા જન્મ સમય ",
+        " નો ઉપયોગ કરે છે. મૂળ દાખલ સમય: ",
+        "."
+      ]
+    },
+    "kundliWizard.createdKundliCorrectedBody.hi": {
+      "kind": "template",
+      "parts": [
+        "यह कुंडली संभावित सुधारे गए जन्म समय ",
+        " का उपयोग करती है. मूल दर्ज समय: ",
+        "."
+      ]
+    },
+    "kundliWizard.createdKundliEnteredBody.gu": {
+      "kind": "text",
+      "value": "આ કુંડળી તમે ખાતરી કરેલા જન્મ સમયનો ઉપયોગ કરે છે. જન્મ સમયની ફરી ગણતરી લાગુ કરવામાં આવી નથી."
+    },
+    "kundliWizard.createdKundliEnteredBody.hi": {
+      "kind": "text",
+      "value": "यह कुंडली आपके पुष्टि किए गए जन्म समय का उपयोग करती है. जन्म समय की फिर से गणना लागू नहीं की गई."
+    },
+    "kundliWizard.createdKundliReadyHeading.gu": {
+      "kind": "text",
+      "value": "તમારી કુંડળી તૈયાર છે."
+    },
+    "kundliWizard.createdKundliReadyHeading.hi": {
+      "kind": "text",
+      "value": "आपकी कुंडली तैयार है."
+    },
+    "kundliWizard.dateOfBirthLabel.gu": {
+      "kind": "text",
+      "value": "જન્મ તારીખ"
+    },
+    "kundliWizard.dateOfBirthLabel.hi": {
+      "kind": "text",
+      "value": "जन्म तारीख"
+    },
+    "kundliWizard.kundliCreatedSection.gu": {
+      "kind": "text",
+      "value": "કુંડળી બની ગઈ"
+    },
+    "kundliWizard.kundliCreatedSection.hi": {
+      "kind": "text",
+      "value": "कुंडली बन गई"
+    },
+    "kundliWizard.lifeChapterLabel.gu": {
+      "kind": "text",
+      "value": "જીવન અધ્યાય"
+    },
+    "kundliWizard.lifeChapterLabel.hi": {
+      "kind": "text",
+      "value": "जीवन अध्याय"
+    },
+    "kundliWizard.matchedCitySelectedLabel.gu": {
+      "kind": "text",
+      "value": "મેળ ખાતું શહેર પસંદ થયું"
+    },
+    "kundliWizard.matchedCitySelectedLabel.hi": {
+      "kind": "text",
+      "value": "मिलता हुआ शहर चुना गया"
+    },
+    "kundliWizard.moonPatternLabel.gu": {
+      "kind": "text",
+      "value": "ચંદ્ર પેટર્ન"
+    },
+    "kundliWizard.moonPatternLabel.hi": {
+      "kind": "text",
+      "value": "चंद्र पैटर्न"
+    },
+    "kundliWizard.nextStepSection.gu": {
+      "kind": "text",
+      "value": "આગલું પગલું"
+    },
+    "kundliWizard.nextStepSection.hi": {
+      "kind": "text",
+      "value": "अगला कदम"
+    },
+    "kundliWizard.noCorrectionAppliedLabel.gu": {
+      "kind": "text",
+      "value": "કોઈ સુધારો લાગુ કરવામાં આવ્યો નથી"
+    },
+    "kundliWizard.noCorrectionAppliedLabel.hi": {
+      "kind": "text",
+      "value": "कोई सुधार लागू नहीं किया गया"
+    },
+    "kundliWizard.originalEntryLabel.gu": {
+      "kind": "template",
+      "parts": [
+        "મૂળ દાખલ સમય ",
+        ""
+      ]
+    },
+    "kundliWizard.originalEntryLabel.hi": {
+      "kind": "template",
+      "parts": [
+        "मूल दर्ज समय ",
+        ""
+      ]
+    },
+    "kundliWizard.probableCorrectedTimeLabel.gu": {
+      "kind": "template",
+      "parts": [
+        "સંભવિત સુધારેલો સમય ",
+        ""
+      ]
+    },
+    "kundliWizard.probableCorrectedTimeLabel.hi": {
+      "kind": "template",
+      "parts": [
+        "संभावित सुधारा गया समय ",
+        ""
+      ]
+    },
+    "kundliWizard.rectifiedTimeLabel.gu": {
+      "kind": "text",
+      "value": "સુધારેલો સમય"
+    },
+    "kundliWizard.rectifiedTimeLabel.hi": {
+      "kind": "text",
+      "value": "सुधारा गया समय"
+    },
+    "kundliWizard.risingSignLabel.gu": {
+      "kind": "text",
+      "value": "લગ્ન રાશિ"
+    },
+    "kundliWizard.risingSignLabel.hi": {
+      "kind": "text",
+      "value": "लग्न राशि"
+    },
+    "kundliWizard.savedRectifiedNote.gu": {
+      "kind": "text",
+      "value": "આ સાચવેલી કુંડળીમાં પહેલેથી સુધારેલા સમયની નોંધ છે"
+    },
+    "kundliWizard.savedRectifiedNote.hi": {
+      "kind": "text",
+      "value": "इस सेव कुंडली में पहले से सुधारे गए समय की नोट है"
+    },
+    "kundliWizard.savedRectifiedTimeLabel.gu": {
+      "kind": "template",
+      "parts": [
+        "સાચવેલો સુધારેલો સમય ",
+        ""
+      ]
+    },
+    "kundliWizard.savedRectifiedTimeLabel.hi": {
+      "kind": "template",
+      "parts": [
+        "सेव सुधारा गया समय ",
+        ""
+      ]
+    },
+    "kundliWizard.simpleSummarySection.gu": {
+      "kind": "text",
+      "value": "સરળ સારાંશ"
+    },
+    "kundliWizard.simpleSummarySection.hi": {
+      "kind": "text",
+      "value": "सरल सारांश"
+    },
+    "kundliWizard.startPredictaFirstBody.gu": {
+      "kind": "text",
+      "value": "એક માર્ગદર્શિત વાંચન આ ચાર્ટને સ્પષ્ટ શરૂઆતમાં ફેરવવાનો સૌથી ઝડપી રસ્તો છે. તે પહેલી વાંચન પછી જ ઊંડા સાધનો ખોલો."
+    },
+    "kundliWizard.startPredictaFirstBody.hi": {
+      "kind": "text",
+      "value": "एक मार्गदर्शित पढ़ाई इस चार्ट को स्पष्ट शुरुआत में बदलने का सबसे तेज रास्ता है. उस पहली पढ़ाई के बाद ही गहरे साधन खोलें."
+    },
+    "kundliWizard.startPredictaFirstHeading.gu": {
+      "kind": "text",
+      "value": "પહેલા પ્રેડિક્ટાથી શરૂ કરો."
+    },
+    "kundliWizard.startPredictaFirstHeading.hi": {
+      "kind": "text",
+      "value": "पहले प्रेडिक्टा से शुरू करें."
+    },
+    "kundliWizard.timeBasisLabel.gu": {
+      "kind": "text",
+      "value": "સમયનો આધાર"
+    },
+    "kundliWizard.timeBasisLabel.hi": {
+      "kind": "text",
+      "value": "समय का आधार"
+    },
+    "kundliWizard.timezoneLockedLabel.gu": {
+      "kind": "text",
+      "value": "ગણતરી પહેલાં સમયક્ષેત્ર લોક થયું"
+    },
+    "kundliWizard.timezoneLockedLabel.hi": {
+      "kind": "text",
+      "value": "गणना से पहले समयक्षेत्र लॉक हुआ"
+    },
+    "kundliWizard.whatThisMeansTitle.gu": {
+      "kind": "text",
+      "value": "આનો અર્થ શું છે"
+    },
+    "kundliWizard.whatThisMeansTitle.hi": {
+      "kind": "text",
+      "value": "इसका अर्थ क्या है"
+    },
     "kundliWizard.trustDrawerBody.gu": {
       "kind": "text",
       "value": "ચાર્ટ પસંદ કરેલા શહેરના મેળ ખાતા સ્થળ, કોઓર્ડિનેટ અને સમયક્ષેત્રનો ઉપયોગ કરે છે. મુખ્ય વેદિક દૃશ્યમાં મૂળ ગ્રહો પહેલા રહે છે અને સહાયક સુધારાઓ બીજા સ્તર પર રહે છે."
