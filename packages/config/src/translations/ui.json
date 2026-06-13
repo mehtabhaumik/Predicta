@@ -3826,15 +3826,50 @@
       "hi": "प्रेडिक्टा क्या करती है",
       "gu": "પ્રેડિક્ટા શું કરે છે"
     },
+    "ui.momentSkyPreview.predictaCard": {
+      "en": "MOMENT SKY PREVIEW",
+      "hi": "क्षण का आकाश संकेत",
+      "gu": "ક્ષણનું આકાશ સંકેત"
+    },
+    "ui.currentGochar.predictaCard": {
+      "en": "CURRENT GOCHAR",
+      "hi": "वर्तमान गोचर",
+      "gu": "હાલનું ગોચર"
+    },
     "ui.whatTheSkyIsDoingRightNow.g05o1": {
       "en": "What the sky is doing right now.",
       "hi": "अभी आकाश क्या संकेत दे रहा है.",
       "gu": "હમણાં આકાશ શું સંકેત આપે છે."
     },
+    "ui.whatCurrentGocharIsBringing.predictaCard": {
+      "en": "What current Gochar is bringing.",
+      "hi": "वर्तमान गोचर क्या लेकर आ रहा है.",
+      "gu": "હાલનું ગોચર શું લઈને આવી રહ્યું છે."
+    },
     "ui.whatThisChartMeans.rvpvba": {
       "en": "What this chart means",
       "hi": "इस चार्ट का अर्थ",
       "gu": "આ ચાર્ટનો અર્થ"
+    },
+    "ui.yourPersonalYearIsWaiting.predictaCard": {
+      "en": "Your personal year is waiting.",
+      "hi": "आपका व्यक्तिगत वर्ष प्रतीक्षा कर रहा है.",
+      "gu": "તમારું વ્યક્તિગત વર્ષ રાહ જોઈ રહ્યું છે."
+    },
+    "ui.whatThisSolarYearIsAsking.predictaCard": {
+      "en": "What this solar year is asking from you.",
+      "hi": "यह सौर वर्ष आपसे क्या मांग रहा है.",
+      "gu": "આ સૌર વર્ષ તમારી પાસેથી શું માંગે છે."
+    },
+    "ui.showEvidence.predictaAction": {
+      "en": "Show evidence",
+      "hi": "प्रमाण दिखाएं",
+      "gu": "પુરાવો બતાવો"
+    },
+    "ui.hideEvidence.predictaAction": {
+      "en": "Hide evidence",
+      "hi": "प्रमाण छिपाएं",
+      "gu": "પુરાવો છુપાવો"
     },
     "ui.whenToReview.1mib8t3": {
       "en": "When to review",

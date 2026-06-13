@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import type { TransitGocharIntelligence } from '@pridicta/types';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { useLanguagePreference } from '../lib/language-preference';
 import { Card } from './Card';
 
 type WebGocharSynopsisCardProps = {
@@ -12,6 +14,8 @@ type WebGocharSynopsisCardProps = {
 export function WebGocharSynopsisCard({
   intelligence,
 }: WebGocharSynopsisCardProps): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const t = (value: string) => translateUiText(value, language);
   const sample = intelligence.status === 'pending';
   const primary =
     intelligence.topOpportunities[0] ??
@@ -24,12 +28,12 @@ export function WebGocharSynopsisCard({
         <div className="gochar-synopsis-topline">
           <div>
             <div className="section-title">
-              {sample ? 'MOMENT SKY PREVIEW' : 'CURRENT GOCHAR'}
+              {sample ? t('MOMENT SKY PREVIEW') : t('CURRENT GOCHAR')}
             </div>
             <h2>
               {sample
-                ? 'What the sky is doing right now.'
-                : 'What current Gochar is bringing.'}
+                ? t('What the sky is doing right now.')
+                : t('What current Gochar is bringing.')}
             </h2>
           </div>
           <span className={`gochar-badge ${intelligence.dominantWeight}`}>
@@ -49,7 +53,7 @@ export function WebGocharSynopsisCard({
         ) : null}
         <div className="action-row">
           <Link className="button" href="/dashboard/timeline">
-            Open Gochar Panel
+            {t('Open Gochar Panel')}
           </Link>
           <Link
             className="button secondary"
@@ -59,7 +63,7 @@ export function WebGocharSynopsisCard({
               sourceScreen: 'Gochar Synopsis',
             })}
           >
-            Ask Predicta
+            {t('Ask Predicta')}
           </Link>
         </div>
       </div>

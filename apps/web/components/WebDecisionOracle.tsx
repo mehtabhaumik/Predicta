@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
   composeDecisionMemo,
   composeHolisticDecisionTimingSynthesis,
@@ -9,6 +10,7 @@ import {
 import { buildTrustProfile } from '@pridicta/config/trust';
 import type { DecisionMemo, HolisticDecisionTimingSynthesis } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { useLanguagePreference } from '../lib/language-preference';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 import { WebTrustProofPanel } from './WebTrustProofPanel';
 
@@ -95,6 +97,8 @@ function WebDecisionMemo({
   memo: DecisionMemo;
   synthesis?: HolisticDecisionTimingSynthesis;
 }): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const t = (value: string) => translateUiText(value, language);
   const [showEvidence, setShowEvidence] = useState(true);
   const trust = buildTrustProfile({
     evidence: memo.evidence.map(item => `${item.title}: ${item.observation}`),
@@ -112,32 +116,32 @@ function WebDecisionMemo({
     <section className={`decision-memo glass-panel state-${memo.state}`}>
       <div className="decision-memo-header">
         <div>
-          <div className="section-title">DECISION MEMO</div>
+          <div className="section-title">{t('DECISION MEMO')}</div>
           <h2>{memo.headline}</h2>
         </div>
         <div className="decision-state-badge">
-          <span>State</span>
+          <span>{t('State')}</span>
           <strong>{memo.state}</strong>
         </div>
       </div>
 
       <div className="decision-question">
-        <span>Question</span>
+        <span>{t('Question')}</span>
         <p>{memo.question}</p>
       </div>
 
       <div className="decision-answer">
-        <span>Short answer</span>
+        <span>{t('Short answer')}</span>
         <p>{memo.shortAnswer}</p>
       </div>
 
       <div className="decision-grid">
-        <DecisionBlock label="Timing" text={memo.timing} />
-        <DecisionBlock label="Risk" text={memo.risk} />
+        <DecisionBlock label={t('Timing')} text={memo.timing} />
+        <DecisionBlock label={t('Risk')} text={memo.risk} />
       </div>
 
       <div className="decision-next-action">
-        <span>Next action</span>
+        <span>{t('Next action')}</span>
         <p>{memo.nextAction}</p>
       </div>
 
@@ -154,7 +158,7 @@ function WebDecisionMemo({
 
       {memo.clarifyingQuestions.length ? (
         <div className="decision-clarify">
-          <span>Answer these first</span>
+          <span>{t('Answer these first')}</span>
           <ul>
             {memo.clarifyingQuestions.map(question => (
               <li key={question}>{question}</li>
@@ -169,10 +173,10 @@ function WebDecisionMemo({
           onClick={() => setShowEvidence(value => !value)}
           type="button"
         >
-          {showEvidence ? 'Hide evidence' : 'Show evidence'}
+          {showEvidence ? t('Hide evidence') : t('Show evidence')}
         </button>
         <Link className="button" href={buildAskHref(memo, kundliId)}>
-          Ask Predicta to explain
+          {t('Ask Predicta to explain')}
         </Link>
       </div>
 

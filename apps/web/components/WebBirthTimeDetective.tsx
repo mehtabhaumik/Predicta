@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { translateUiText } from '@pridicta/config/uiTranslations';
 import {
   applyManualBirthTimeEstimate,
   composeBirthTimeDetective,
@@ -15,6 +16,7 @@ import {
   generateKundliFromWeb,
   saveWebKundli,
 } from '../lib/web-kundli-storage';
+import { useLanguagePreference } from '../lib/language-preference';
 import { useWebKundliLibrary } from '../lib/use-web-kundli-library';
 
 const STORAGE_KEY = 'pridicta.birthTimeAnswers.web.v1';
@@ -23,6 +25,8 @@ type AnswerMap = Record<string, BirthTimeAnswer>;
 type ApplyStatus = 'idle' | 'applying' | 'saved' | 'error';
 
 export function WebBirthTimeDetective(): React.JSX.Element {
+  const { language } = useLanguagePreference();
+  const t = (value: string) => translateUiText(value, language);
   const [answers, setAnswers] = useState<AnswerMap>({});
   const [showEvidence, setShowEvidence] = useState(false);
   const [applyStatus, setApplyStatus] = useState<ApplyStatus>('idle');
@@ -293,13 +297,13 @@ export function WebBirthTimeDetective(): React.JSX.Element {
           onClick={() => setShowEvidence(value => !value)}
           type="button"
         >
-          {showEvidence ? 'Hide evidence' : 'Show evidence'}
+          {showEvidence ? t('Hide evidence') : t('Show evidence')}
         </button>
         <Link
           className="button"
           href={buildAskHref(report.askPrompt, activeKundli?.id)}
         >
-          Ask Predicta about this
+          {t('Ask Predicta about this')}
         </Link>
       </div>
 
