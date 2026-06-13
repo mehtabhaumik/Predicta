@@ -34,7 +34,7 @@ export default function DashboardPage(): React.JSX.Element {
     'captured' | 'idle' | 'listening' | 'unsupported'
   >('idle');
   const hasSavedKundli = Boolean(activeKundli) || savedCount > 0;
-  const askSourceScreen = labels.nav.library;
+  const askSourceScreen = labels.nav.dashboard;
   const askHref = buildPredictaChatHref({
     kundliId: activeKundli?.id,
     prompt: activeKundli

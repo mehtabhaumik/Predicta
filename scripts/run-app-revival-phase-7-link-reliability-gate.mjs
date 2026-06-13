@@ -400,6 +400,17 @@ async function auditPageLinks(cdp, check) {
       const publicHeaderControlPanelLinks = anchors.filter(
         anchor => anchor.inPublicHeader && publicHeaderForbiddenHrefs.has(anchor.href)
       );
+      const staleDashboardLibraryHandoffs =
+        ${JSON.stringify(check.route === '/dashboard')}
+          ? anchors.filter(anchor => {
+              if (!anchor.href.startsWith('/ask?')) {
+                return false;
+              }
+
+              const params = new URLSearchParams(anchor.href.split('?')[1] || '');
+              return params.get('sourceScreen') === 'My Kundlis';
+            })
+          : [];
 
       return {
         activeLinks: anchors.filter(anchor => anchor.ariaCurrent),
@@ -412,6 +423,7 @@ async function auditPageLinks(cdp, check) {
         nestedInteractive,
         oversizedHrefs,
         publicHeaderControlPanelLinks,
+        staleDashboardLibraryHandoffs,
       };
     })()`,
     returnByValue: true,
@@ -457,6 +469,12 @@ async function auditPageLinks(cdp, check) {
   for (const item of result.publicHeaderControlPanelLinks ?? []) {
     pageFailures.push(
       `${check.route}: public header exposes control-panel/specialist link "${item.text || item.href}".`,
+    );
+  }
+
+  for (const item of result.staleDashboardLibraryHandoffs ?? []) {
+    pageFailures.push(
+      `${check.route}: primary dashboard Ask handoff still identifies as My Kundlis near "${item.text || item.href}".`,
     );
   }
 
