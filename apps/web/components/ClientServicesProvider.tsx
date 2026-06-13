@@ -6,7 +6,6 @@ import type React from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { applyPredictaDocumentLanguage } from '../lib/document-language';
 import { getLocalizedPredictaPageTitle } from '../lib/localized-page-title';
-import { preloadAskPredictaRuntime } from '../lib/predicta-chat-runtime-preload';
 import { useLightweightLanguagePreference } from '../lib/use-lightweight-language-preference';
 
 const ClientAccountServicesProvider = dynamic(
@@ -117,16 +116,8 @@ export function ClientServicesProvider(): React.JSX.Element {
       return `${url.pathname}${url.search}${url.hash}`;
     }
 
-    function isAskPredictaHref(href: string): boolean {
-      return href === '/ask' || href.startsWith('/ask?') || href.startsWith('/ask#');
-    }
-
     function warmInternalHref(href: string): void {
       router.prefetch(href);
-
-      if (isAskPredictaHref(href)) {
-        preloadAskPredictaRuntime();
-      }
     }
 
     function warmLink(event: PointerEvent | FocusEvent | TouchEvent) {
