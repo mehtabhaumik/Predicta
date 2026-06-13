@@ -3334,30 +3334,6 @@ button:disabled,
   padding-top: 20px;
 }
 
-.dashboard-home-route .dashboard-topbar,
-.dashboard-primary-world-route .dashboard-topbar {
-  margin-left: auto;
-  padding: 8px 10px;
-  width: max-content;
-}
-
-.dashboard-home-route .dashboard-topbar-context,
-.dashboard-primary-world-route .dashboard-topbar-context {
-  display: none;
-}
-
-.dashboard-home-route .dashboard-topbar-actions,
-.dashboard-primary-world-route .dashboard-topbar-actions {
-  flex: 0 0 auto;
-  justify-content: flex-end;
-}
-
-.dashboard-home-route .dashboard-topbar-actions .button,
-.dashboard-primary-world-route .dashboard-topbar-actions .button {
-  min-height: 40px;
-  padding: 0 15px;
-}
-
 .dashboard-topbar {
   align-items: center;
   border-radius: 18px;
@@ -18309,25 +18285,6 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
     display: none;
   }
 
-  .dashboard-home-route .dashboard-topbar,
-  .dashboard-primary-world-route .dashboard-topbar {
-    align-items: center;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    padding: 8px 10px;
-    width: max-content;
-  }
-
-  .dashboard-home-route .dashboard-topbar-actions,
-  .dashboard-primary-world-route .dashboard-topbar-actions {
-    display: flex;
-    flex: 0 0 auto;
-    gap: 10px;
-    justify-content: flex-end;
-    width: auto;
-  }
-
   .dashboard-pass-banner {
     align-items: stretch;
     flex-direction: column;
@@ -18668,32 +18625,6 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
 
   .dashboard-topbar-actions > .language-selector.compact {
     display: none;
-  }
-
-  .dashboard-home-route .dashboard-topbar,
-  .dashboard-primary-world-route .dashboard-topbar {
-    align-items: center;
-    display: flex;
-    gap: 10px;
-    padding: 10px;
-    width: max-content;
-  }
-
-  .dashboard-home-route .dashboard-topbar-context,
-  .dashboard-primary-world-route .dashboard-topbar-context {
-    display: none;
-  }
-
-  .dashboard-home-route .dashboard-topbar-actions,
-  .dashboard-primary-world-route .dashboard-topbar-actions {
-    grid-template-columns: var(--predicta-touch-target);
-    justify-content: flex-end;
-    width: auto;
-  }
-
-  .dashboard-home-route .dashboard-topbar-actions .button,
-  .dashboard-primary-world-route .dashboard-topbar-actions .button {
-    min-height: 44px;
   }
 
   .dashboard-pass-banner {

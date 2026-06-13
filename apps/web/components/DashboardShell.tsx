@@ -400,7 +400,7 @@ export function DashboardShell({
           </div>
           <div className="dashboard-topbar-actions">
             <LightweightLanguageSelector compact hideCompactLabel />
-            {!isDashboardHomeRoute && !isPrimaryWorldRoute ? (
+            {!isChatRoute ? (
               <Link
                 className="button"
                 href={askPredictaHref}
