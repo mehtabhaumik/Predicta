@@ -20485,6 +20485,14 @@
       "kind": "text",
       "value": "सही शहर चुनें ताकि चार्ट सही समयक्षेत्र से बने."
     },
+    "kundliWizard.birthPlaceChangeLabel.gu": {
+      "kind": "text",
+      "value": "બદલો"
+    },
+    "kundliWizard.birthPlaceChangeLabel.hi": {
+      "kind": "text",
+      "value": "बदलें"
+    },
     "kundliWizard.birthPlaceLabel.gu": {
       "kind": "text",
       "value": "જન્મ સ્થળ"

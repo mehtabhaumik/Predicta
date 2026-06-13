@@ -378,6 +378,31 @@ export function WebKundliWizard(): React.JSX.Element {
     });
   }
 
+  function editBirthPlaceSelection() {
+    resetFlow();
+    placeSearchRequestRef.current += 1;
+    resolvedBirthPlaceQueryRef.current = '';
+    birthPlaceSearchSettledRef.current = false;
+    setAcceptedBirthPlaceQuery('');
+    setSettledBirthPlaceQuery('');
+    setIsBirthPlaceSelectionLocked(false);
+    setSelectedPlace(undefined);
+    setBirthPlaceQuery('');
+    resetBirthPlaceSearchUi();
+
+    window.requestAnimationFrame(() => {
+      const input = birthPlaceInputRef.current;
+
+      if (!input) {
+        return;
+      }
+
+      input.focus();
+      input.setSelectionRange(0, 0);
+      setIsBirthPlaceInputFocused(true);
+    });
+  }
+
   function handleBirthPlaceQueryInput(nextQuery: string) {
     resetFlow();
     placeSearchRequestRef.current += 1;
@@ -1071,95 +1096,116 @@ export function WebKundliWizard(): React.JSX.Element {
           <label>
             <span>{labels.birthPlaceLabel}</span>
             <div className="birth-place-search" ref={birthPlaceSearchRef}>
-              <input
-                aria-describedby="birth-place-help"
-                aria-autocomplete="list"
-                autoCapitalize="none"
-                autoCorrect="off"
-                autoComplete="new-password"
-                data-1p-ignore="true"
-                data-bwignore="true"
-                data-birth-place-search="true"
-                data-form-type="other"
-                data-lpignore="true"
-                inputMode="search"
-                key={`${birthPlaceAutocompleteName}-${birthPlaceInputResetToken}`}
-                name={`${birthPlaceAutocompleteName}-${birthPlaceInputResetToken}`}
-                aria-expanded={shouldShowBirthPlaceOverlay}
-                ref={birthPlaceInputRef}
-                spellCheck={false}
-                onInput={event => {
-                  handleBirthPlaceQueryInput(event.currentTarget.value);
-                }}
-                onFocus={() => {
-                  const nativeValue = birthPlaceInputRef.current?.value ?? '';
-                  if (
-                    nativeValue &&
-                    normalizeBirthPlaceLabel(nativeValue) !==
-                      normalizeBirthPlaceLabel(birthPlaceQuery)
-                  ) {
-                    handleBirthPlaceQueryInput(nativeValue);
-                    return;
-                  }
+              <div className="birth-place-input-row">
+                <input
+                  aria-describedby="birth-place-help"
+                  aria-autocomplete="list"
+                  aria-readonly={isBirthPlaceSearchSettled}
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  autoComplete="new-password"
+                  data-1p-ignore="true"
+                  data-bwignore="true"
+                  data-birth-place-search="true"
+                  data-form-type="other"
+                  data-lpignore="true"
+                  inputMode="search"
+                  key={`${birthPlaceAutocompleteName}-${birthPlaceInputResetToken}`}
+                  name={`${birthPlaceAutocompleteName}-${birthPlaceInputResetToken}`}
+                  aria-expanded={shouldShowBirthPlaceOverlay}
+                  readOnly={isBirthPlaceSearchSettled}
+                  ref={birthPlaceInputRef}
+                  spellCheck={false}
+                  onInput={event => {
+                    if (isBirthPlaceSearchSettled) {
+                      return;
+                    }
 
-                  const focusQuery = nativeValue || birthPlaceQuery;
-                  if (
-                    isResolvedBirthPlaceQuery(focusQuery) ||
-                    isBirthPlaceSearchSettled ||
-                    settleBirthPlaceQueryIfPossible(focusQuery)
-                  ) {
-                    setIsBirthPlaceInputFocused(false);
-                    closeBirthPlaceSuggestions();
-                    return;
-                  }
+                    handleBirthPlaceQueryInput(event.currentTarget.value);
+                  }}
+                  onFocus={event => {
+                    if (isBirthPlaceSearchSettled) {
+                      setIsBirthPlaceInputFocused(false);
+                      closeBirthPlaceSuggestions();
+                      event.currentTarget.blur();
+                      return;
+                    }
 
-                  setIsBirthPlaceInputFocused(true);
-                  if (
-                    birthPlaceQuery.trim().length >= 2 &&
-                    !isBirthPlaceSearchSettled
-                  ) {
-                    setIsPlaceSuggestionsOpen(true);
-                  }
-                }}
-                onKeyDown={event => {
-                  if (event.key === 'Escape') {
-                    closeBirthPlaceSuggestions();
-                    event.currentTarget.blur();
-                  }
-                }}
-                onBlur={event => {
-                  const relatedTarget = event.relatedTarget;
+                    const nativeValue = birthPlaceInputRef.current?.value ?? '';
+                    if (
+                      nativeValue &&
+                      normalizeBirthPlaceLabel(nativeValue) !==
+                        normalizeBirthPlaceLabel(birthPlaceQuery)
+                    ) {
+                      handleBirthPlaceQueryInput(nativeValue);
+                      return;
+                    }
 
-                  if (
-                    relatedTarget instanceof Node &&
-                    birthPlaceSearchRef.current?.contains(relatedTarget)
-                  ) {
-                    return;
-                  }
+                    const focusQuery = nativeValue || birthPlaceQuery;
+                    if (
+                      isResolvedBirthPlaceQuery(focusQuery) ||
+                      settleBirthPlaceQueryIfPossible(focusQuery)
+                    ) {
+                      setIsBirthPlaceInputFocused(false);
+                      closeBirthPlaceSuggestions();
+                      event.currentTarget.blur();
+                      return;
+                    }
 
-                  if (isBirthPlaceSearchSettled || settleBirthPlaceQueryIfPossible()) {
-                    setIsBirthPlaceInputFocused(false);
-                    closeBirthPlaceSuggestions();
-                    return;
-                  }
-
-                  window.setTimeout(() => {
-                    const activeElement = document.activeElement;
+                    setIsBirthPlaceInputFocused(true);
+                    if (birthPlaceQuery.trim().length >= 2) {
+                      setIsPlaceSuggestionsOpen(true);
+                    }
+                  }}
+                  onKeyDown={event => {
+                    if (event.key === 'Escape') {
+                      closeBirthPlaceSuggestions();
+                      event.currentTarget.blur();
+                    }
+                  }}
+                  onBlur={event => {
+                    const relatedTarget = event.relatedTarget;
 
                     if (
-                      activeElement instanceof Node &&
-                      birthPlaceSearchRef.current?.contains(activeElement)
+                      relatedTarget instanceof Node &&
+                      birthPlaceSearchRef.current?.contains(relatedTarget)
                     ) {
                       return;
                     }
 
-                    setIsBirthPlaceInputFocused(false);
-                    closeBirthPlaceSuggestions();
-                  }, 80);
-                }}
-                placeholder={labels.birthPlacePlaceholder}
-                value={birthPlaceQuery}
-              />
+                    if (isBirthPlaceSearchSettled || settleBirthPlaceQueryIfPossible()) {
+                      setIsBirthPlaceInputFocused(false);
+                      closeBirthPlaceSuggestions();
+                      return;
+                    }
+
+                    window.setTimeout(() => {
+                      const activeElement = document.activeElement;
+
+                      if (
+                        activeElement instanceof Node &&
+                        birthPlaceSearchRef.current?.contains(activeElement)
+                      ) {
+                        return;
+                      }
+
+                      setIsBirthPlaceInputFocused(false);
+                      closeBirthPlaceSuggestions();
+                    }, 80);
+                  }}
+                  placeholder={labels.birthPlacePlaceholder}
+                  value={birthPlaceQuery}
+                />
+                {isBirthPlaceSearchSettled ? (
+                  <button
+                    className="birth-place-change-button"
+                    onClick={editBirthPlaceSelection}
+                    type="button"
+                  >
+                    {labels.birthPlaceChangeLabel}
+                  </button>
+                ) : null}
+              </div>
               <small id="birth-place-help">
                 {labels.birthPlaceHelp}
               </small>
@@ -2013,6 +2059,7 @@ type KundliWizardCopy = {
   askPredictaLabel: string;
   birthDateLabel: string;
   birthPlaceHelp: string;
+  birthPlaceChangeLabel: string;
   birthPlaceLabel: string;
   birthPlacePlaceholder: string;
   birthPlaceRequiredError: string;
@@ -2106,6 +2153,7 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     birthDateLabel: 'Birth date',
     birthPlaceHelp:
       'Select the matching city so the chart uses the right timezone.',
+    birthPlaceChangeLabel: 'Change',
     birthPlaceLabel: 'Birth place',
     birthPlacePlaceholder: 'Start typing city, state, country',
     birthPlaceRequiredError:
@@ -2212,6 +2260,7 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     askPredictaLabel: getNativeCopy("kundliWizard.askPredictaLabel.hi"),
     birthDateLabel: getNativeCopy("kundliWizard.birthDateLabel.hi"),
     birthPlaceHelp: getNativeCopy("kundliWizard.birthPlaceHelp.hi"),
+    birthPlaceChangeLabel: getNativeCopy("kundliWizard.birthPlaceChangeLabel.hi"),
     birthPlaceLabel: getNativeCopy("kundliWizard.birthPlaceLabel.hi"),
     birthPlacePlaceholder: getNativeCopy("kundliWizard.birthPlacePlaceholder.hi"),
     birthPlaceRequiredError: getNativeCopy("kundliWizard.birthPlaceRequiredError.hi"),
@@ -2304,6 +2353,7 @@ const KUNDLI_WIZARD_COPY: Record<SupportedLanguage, KundliWizardCopy> = {
     askPredictaLabel: getNativeCopy("kundliWizard.askPredictaLabel.gu"),
     birthDateLabel: getNativeCopy("kundliWizard.birthDateLabel.gu"),
     birthPlaceHelp: getNativeCopy("kundliWizard.birthPlaceHelp.gu"),
+    birthPlaceChangeLabel: getNativeCopy("kundliWizard.birthPlaceChangeLabel.gu"),
     birthPlaceLabel: getNativeCopy("kundliWizard.birthPlaceLabel.gu"),
     birthPlacePlaceholder: getNativeCopy("kundliWizard.birthPlacePlaceholder.gu"),
     birthPlaceRequiredError: getNativeCopy("kundliWizard.birthPlaceRequiredError.gu"),

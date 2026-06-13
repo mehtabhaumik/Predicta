@@ -102,6 +102,14 @@ try {
     throw new Error(`Expected selected value "Petlad, Gujarat, India"; received "${result.inputValue}".`);
   }
 
+  if (!result.inputReadOnly || !result.changeButtonFound) {
+    throw new Error('Selected birth place must become a locked value with an explicit Change action.');
+  }
+
+  if (!result.changeActionCleared || result.changeActionReadOnly) {
+    throw new Error('Birth-place Change action must clear the selected place and return the field to editable entry.');
+  }
+
   if (result.inputAutoComplete !== 'new-password') {
     throw new Error(
       `Birth-place input must suppress browser autofill with autocomplete="new-password"; received "${result.inputAutoComplete}".`,
@@ -142,6 +150,14 @@ try {
     );
   }
 
+  if (!clickSuggestionResult.inputReadOnly || !clickSuggestionResult.changeButtonFound) {
+    throw new Error('Clicking a birth-place suggestion must lock the selected place and expose a Change action.');
+  }
+
+  if (!clickSuggestionResult.changeActionCleared || clickSuggestionResult.changeActionReadOnly) {
+    throw new Error('Birth-place Change action must work after clicking a suggestion.');
+  }
+
   if (
     clickSuggestionResult.suggestionsMounted ||
     clickSuggestionResult.hasSearchingPlaces ||
@@ -161,6 +177,10 @@ try {
     throw new Error(
       `Human typing did not settle Petlad to "Petlad, Gujarat, India"; received "${humanTypingResult.inputValue}".`,
     );
+  }
+
+  if (!humanTypingResult.inputReadOnly || !humanTypingResult.changeButtonFound) {
+    throw new Error('Human typing must settle birth place into a locked value with a Change action.');
   }
 
   if (
@@ -261,11 +281,12 @@ async function runClickSuggestionAutocompleteScenario(cdp) {
     beforeClickHasSearchingPlaces: beforeClickState.hasSearchingPlaces,
     beforeClickSuggestionsMounted: beforeClickState.suggestionsMounted,
     beforeClickSuggestionsText: beforeClickState.suggestionsText,
-    inputFound: clickResponse.result?.value?.inputFound ?? afterClickState.inputFound,
-    optionFound: clickResponse.result?.value?.optionFound ?? false,
-    ...(await collectRefocusState(cdp)),
-  };
-}
+	    inputFound: clickResponse.result?.value?.inputFound ?? afterClickState.inputFound,
+	    optionFound: clickResponse.result?.value?.optionFound ?? false,
+	    ...(await collectRefocusState(cdp)),
+	    ...(await collectChangeActionState(cdp)),
+	  };
+	}
 
 async function runHumanTypingAutocompleteScenario(cdp) {
   await waitForBirthPlaceInput(cdp);
@@ -331,11 +352,12 @@ async function runHumanTypingAutocompleteScenario(cdp) {
       partialHasMixedOptionAndSearchingText:
         partialState.hasMixedOptionAndSearchingText,
       partialHasSearchingPlaces: partialState.hasSearchingPlaces,
-      partialOptionFound: partialState.optionFound,
-      partialSuggestionsMounted: partialState.suggestionsMounted,
-      partialSuggestionsText: partialState.suggestionsText,
-    };
-  }
+	      partialOptionFound: partialState.optionFound,
+	      partialSuggestionsMounted: partialState.suggestionsMounted,
+	      partialSuggestionsText: partialState.suggestionsText,
+	      ...(await collectChangeActionState(cdp)),
+	    };
+	  }
 
   return {
     ...exactTypedState,
@@ -348,11 +370,12 @@ async function runHumanTypingAutocompleteScenario(cdp) {
     partialHasMixedOptionAndSearchingText:
       partialState.hasMixedOptionAndSearchingText,
     partialHasSearchingPlaces: partialState.hasSearchingPlaces,
-    partialOptionFound: partialState.optionFound,
-    partialSuggestionsMounted: partialState.suggestionsMounted,
-    partialSuggestionsText: partialState.suggestionsText,
-  };
-}
+	    partialOptionFound: partialState.optionFound,
+	    partialSuggestionsMounted: partialState.suggestionsMounted,
+	    partialSuggestionsText: partialState.suggestionsText,
+	    ...(await collectChangeActionState(cdp)),
+	  };
+	}
 
 async function runAutocompleteScenario(cdp) {
   await waitForBirthPlaceInput(cdp);
@@ -437,12 +460,13 @@ async function runAutocompleteScenario(cdp) {
       partialHasMixedOptionAndSearchingText:
         partialState.hasMixedOptionAndSearchingText,
       partialHasSearchingPlaces: partialState.hasSearchingPlaces,
-      partialOptionFound: partialState.optionFound,
-      partialSuggestionsMounted: partialState.suggestionsMounted,
-      partialSuggestionsText: partialState.suggestionsText,
-      ...(await collectRefocusState(cdp)),
-    };
-  }
+	      partialOptionFound: partialState.optionFound,
+	      partialSuggestionsMounted: partialState.suggestionsMounted,
+	      partialSuggestionsText: partialState.suggestionsText,
+	      ...(await collectRefocusState(cdp)),
+	      ...(await collectChangeActionState(cdp)),
+	    };
+	  }
 
   const clickResponse = await cdp.send('Runtime.evaluate', {
     expression: `(() => {
@@ -468,6 +492,8 @@ async function runAutocompleteScenario(cdp) {
             horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
             inputFound: true,
             inputValue: input?.value || '',
+            inputReadOnly: Boolean(input?.readOnly),
+            changeButtonFound: Boolean(document.querySelector('.birth-place-change-button')),
             optionFound: false,
             suggestionsMounted: Boolean(suggestions),
             suggestionsText: suggestions?.textContent?.trim() || '',
@@ -511,12 +537,13 @@ async function runAutocompleteScenario(cdp) {
         partialHasMixedOptionAndSearchingText:
           partialState.hasMixedOptionAndSearchingText,
         partialHasSearchingPlaces: partialState.hasSearchingPlaces,
-        partialOptionFound: partialState.optionFound,
-        partialSuggestionsMounted: partialState.suggestionsMounted,
-        partialSuggestionsText: partialState.suggestionsText,
-        ...(await collectRefocusState(cdp)),
-      };
-    }
+	        partialOptionFound: partialState.optionFound,
+	        partialSuggestionsMounted: partialState.suggestionsMounted,
+	        partialSuggestionsText: partialState.suggestionsText,
+	        ...(await collectRefocusState(cdp)),
+	        ...(await collectChangeActionState(cdp)),
+	      };
+	    }
 
     return {
       ...earlyResult,
@@ -565,6 +592,8 @@ async function runAutocompleteScenario(cdp) {
         inputAutoComplete: input?.getAttribute('autocomplete') || '',
         inputName: input?.getAttribute('name') || '',
         inputValue: input?.value || '',
+        inputReadOnly: Boolean(input?.readOnly),
+        changeButtonFound: Boolean(document.querySelector('.birth-place-change-button')),
         optionFound: true,
         suggestionsMounted: Boolean(suggestions),
         suggestionsText: suggestions?.textContent?.trim() || '',
@@ -589,12 +618,13 @@ async function runAutocompleteScenario(cdp) {
     partialHasMixedOptionAndSearchingText:
       partialState.hasMixedOptionAndSearchingText,
     partialHasSearchingPlaces: partialState.hasSearchingPlaces,
-    partialOptionFound: partialState.optionFound,
-    partialSuggestionsMounted: partialState.suggestionsMounted,
-    partialSuggestionsText: partialState.suggestionsText,
-    ...(await collectRefocusState(cdp)),
-  };
-}
+	    partialOptionFound: partialState.optionFound,
+	    partialSuggestionsMounted: partialState.suggestionsMounted,
+	    partialSuggestionsText: partialState.suggestionsText,
+	    ...(await collectRefocusState(cdp)),
+	    ...(await collectChangeActionState(cdp)),
+	  };
+	}
 
 async function waitForBirthPlaceInput(cdp) {
   await cdp.send('Runtime.evaluate', {
@@ -648,6 +678,8 @@ async function collectAutocompleteState(cdp, { optionPattern }) {
         inputAutoComplete: input?.getAttribute('autocomplete') || '',
         inputName: input?.getAttribute('name') || '',
         inputValue: input?.value || '',
+        inputReadOnly: Boolean(input?.readOnly),
+        changeButtonFound: Boolean(document.querySelector('.birth-place-change-button')),
         optionFound: options.some(item => ${optionPattern}.test(item.textContent || '')),
         suggestionsMounted: Boolean(suggestions),
         suggestionsText: suggestions?.textContent?.trim() || '',
@@ -696,6 +728,45 @@ async function collectRefocusState(cdp) {
     refocusStayedClosed:
       !refocusState.refocusHasSearchingPlaces && !refocusState.refocusSuggestionsMounted,
     refocusSuggestionsText: refocusState.refocusSuggestionsText,
+  };
+}
+
+async function collectChangeActionState(cdp) {
+  const clickResponse = await cdp.send('Runtime.evaluate', {
+    expression: `(() => {
+      const button = document.querySelector('.birth-place-change-button');
+      if (!button) {
+        return { changeActionFound: false };
+      }
+
+      button.click();
+      return { changeActionFound: true };
+    })()`,
+    returnByValue: true,
+  });
+
+  await delay(300);
+
+  const stateResponse = await cdp.send('Runtime.evaluate', {
+    expression: `(() => {
+      const input = document.querySelector('input[data-birth-place-search="true"]');
+      return {
+        changeActionFound: Boolean(${Boolean(clickResponse.result?.value?.changeActionFound)}),
+        changeActionCleared: (input?.value || '') === '',
+        changeActionReadOnly: Boolean(input?.readOnly),
+        changeActionSuggestionsMounted: Boolean(document.querySelector('.birth-place-suggestions')),
+        changeActionSearchingText: /Searching places|Searching|શોધ|खोज/i.test(
+          document.body.textContent || '',
+        ),
+      };
+    })()`,
+    returnByValue: true,
+  });
+
+  return stateResponse.result?.value ?? {
+    changeActionFound: false,
+    changeActionCleared: false,
+    changeActionReadOnly: true,
   };
 }
 
