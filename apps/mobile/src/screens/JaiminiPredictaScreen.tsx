@@ -73,15 +73,13 @@ export function JaiminiPredictaScreen({
         </AppText>
         <View style={styles.answerFirstCard}>
           <AppText tone="secondary" variant="caption">
-            START HERE
+            {copy.mobileStartHereEyebrow.toUpperCase()}
           </AppText>
           <AppText className="mt-2" variant="body">
-            Your soul-role answer comes before the karaka proof.
+            {copy.mobileStartHereTitle}
           </AppText>
           <AppText className="mt-2" tone="secondary" variant="caption">
-            Atmakaraka, Karakamsha, Swamsa, Arudha, Upapada, and Chara Dasha
-            stay visible as evidence, but the first job is to tell you what
-            role life is asking you to mature into.
+            {copy.mobileStartHereBody}
           </AppText>
         </View>
         <View style={styles.compassCard}>
