@@ -1,0 +1,159 @@
+{
+  "journeySteps": [
+    {
+      "action": "Create Kundli",
+      "body": "Enter birth date, time, and place.",
+      "id": "create",
+      "title": "Step 1"
+    },
+    {
+      "action": "See My Summary",
+      "body": "Read the simple version first.",
+      "id": "summary",
+      "title": "Step 2"
+    },
+    {
+      "action": "Ask Predicta",
+      "body": "Ask one clear question.",
+      "id": "ask",
+      "title": "Step 3"
+    }
+  ],
+  "outcomeEntries": [
+    {
+      "body": "Money flow, savings, gains, pressure, and practical timing.",
+      "cta": "Ask about money",
+      "id": "money",
+      "prompt": "Read my money and financial future using D1, D2, 2nd house, 11th house, current dasha, Gochar, confidence, and one practical next step.",
+      "proof": "D1 + D2 + 2nd/11th + Dasha",
+      "title": "Money"
+    },
+    {
+      "body": "Work direction, growth windows, job changes, and reputation.",
+      "cta": "Ask about career",
+      "id": "career",
+      "prompt": "Read my career direction using D1, D10, 10th house, current dasha, Gochar, confidence, and one practical next step.",
+      "proof": "D1 + D10 + 10th + Gochar",
+      "title": "Career"
+    },
+    {
+      "body": "Marriage, partner patterns, compatibility signals, and timing.",
+      "cta": "Ask about marriage",
+      "id": "marriage",
+      "prompt": "Read my marriage and relationship prospects using D1, D9, 7th house, Venus, Jupiter, current dasha, Gochar, confidence, and grounded guidance.",
+      "proof": "D1 + D9 + 7th + Venus/Jupiter",
+      "title": "Marriage"
+    },
+    {
+      "body": "Astrology-based wellness cautions, stress patterns, and safe habits.",
+      "cta": "Ask health caution",
+      "id": "health",
+      "prompt": "Give me astrology-based health caution guidance using D1, relevant houses, Moon, dasha, Gochar, confidence, and safe practical habits. Do not diagnose or replace medical advice.",
+      "proof": "D1 + Moon + 6th/8th/12th",
+      "title": "Health caution"
+    },
+    {
+      "body": "Family Kundlis, household patterns, and shared guidance.",
+      "cta": "Open Family Vault",
+      "id": "family",
+      "prompt": "Use Family Vault context and explain what I can understand about family patterns, saved Kundlis, and the next best family-focused reading.",
+      "proof": "Family Vault + saved Kundlis",
+      "title": "Family"
+    },
+    {
+      "body": "Today’s best action, caution, mood, and simple remedy.",
+      "cta": "Ask about today",
+      "id": "today",
+      "prompt": "Give me today’s holistic astrology guidance using Panchang, Moon, dasha, Gochar, life balance, one caution, and one practical action.",
+      "proof": "Panchang + Moon + Gochar",
+      "title": "Today"
+    },
+    {
+      "body": "Karma-based practices, seva, mantra, discipline, and devotion.",
+      "cta": "Ask for remedies",
+      "id": "remedies",
+      "prompt": "Suggest karma-based remedies from my chart using active planets, dasha, Gochar, conduct correction, seva, mantra or prayer, and one simple weekly practice.",
+      "proof": "Planet karma + Dasha + Gochar",
+      "title": "Remedies"
+    },
+    {
+      "body": "Turn a life question into a polished free or premium report.",
+      "cta": "Make a report",
+      "id": "report",
+      "prompt": "Help me choose the right Predicta report for my current need: career, marriage, wealth, health caution, family, Sade Sati, Dasha Life Map, or full Kundli.",
+      "proof": "Report choices + chart proof",
+      "title": "Report"
+    }
+  ],
+  "copy": {
+    "en": {
+      "birthExtractionFailureLines": [
+        "I tried to read the details, but they were not clear enough. No stress.",
+        "Send them like this:",
+        "DOB: 22/08/1980",
+        "Time: 6:30 AM",
+        "Place: Mumbai, India",
+        "If you do not know the time, write “time unknown” and I will guide you from there."
+      ],
+      "birthIntakeWelcome": "Tell me your date of birth in any format, then birth time and birth place. If you only know the DOB right now, send it first; I will gently ask for the rest.",
+      "friendlyGreetingLines": [
+        "Share slowly; we do not have to rush this.",
+        "If you want to create your Kundli, send your date of birth, birth time, and birth place. If you only know the DOB, send that first and I will gently ask for the rest.",
+        "If your Kundli is already ready, ask me one thing about career, marriage, money, timing, remedies, or whatever is weighing on your mind. I will keep it practical and show chart proof."
+      ],
+      "listeningMicrocopy": [
+        "Resolving the birth place and timezone...",
+        "Preparing the Lagna and core chart factors...",
+        "Checking nakshatra, dasha, and transit context...",
+        "Reading the chart evidence before I answer...",
+        "Calculating quietly so the guidance stays grounded..."
+      ]
+    },
+    "hi": {
+      "birthExtractionFailureLines": [
+        "मैंने विवरण पढ़ने की कोशिश की, लेकिन वे साफ़ नहीं थे. कोई बात नहीं.",
+        "कृपया इस तरह भेजें:",
+        "जन्म तारीख: 22/08/1980",
+        "समय: 6:30 AM",
+        "स्थान: मुंबई, भारत",
+        "अगर समय नहीं पता है, तो “समय ज्ञात नहीं” लिख दें. मैं आगे संभाल लूंगी."
+      ],
+      "birthIntakeWelcome": "अपनी जन्म तारीख किसी भी फ़ॉर्मेट में लिखें. फिर जन्म समय और जन्म स्थान बताएं. अगर अभी सिर्फ जन्म तारीख पता है, तो वही भेज दें; बाकी बातें मैं धीरे से पूछ लूंगी.",
+      "friendlyGreetingLines": [
+        "आराम से बताइए, कोई जल्दी नहीं है.",
+        "अगर आप कुंडली बनाना चाहते हैं, तो बस जन्म तारीख, जन्म समय और जन्म स्थान लिख दें. अगर सिर्फ जन्म तारीख पता है, तो वह भी भेज दीजिए; बाकी मैं प्यार से पूछ लूंगी.",
+        "अगर कुंडली तैयार है, तो करियर, विवाह, धन, समय, उपाय या मन की उलझन पर एक सवाल पूछिए. मैं चार्ट प्रमाण के साथ सरल भाषा में समझाऊंगी."
+      ],
+      "listeningMicrocopy": [
+        "जन्म स्थान और समयक्षेत्र मिलाया जा रहा है...",
+        "लग्न, चंद्र और मुख्य चार्ट संकेत देखे जा रहे हैं...",
+        "नक्षत्र, दशा और गोचर संदर्भ जांचा जा रहा है...",
+        "उत्तर देने से पहले चार्ट प्रमाण पढ़ रही हूं...",
+        "गणना शांत तरीके से हो रही है ताकि मार्गदर्शन जमीन से जुड़ा रहे..."
+      ]
+    },
+    "gu": {
+      "birthExtractionFailureLines": [
+        "મેં વિગતો વાંચવાનો પ્રયત્ન કર્યો, પરંતુ તે સ્પષ્ટ નહોતી. કોઈ ચિંતા નથી.",
+        "કૃપા કરીને આ રીતે મોકલો:",
+        "જન્મ તારીખ: 22/08/1980",
+        "સમય: 6:30 AM",
+        "સ્થળ: મુંબઈ, ભારત",
+        "જો સમય ખબર ન હોય, તો “સમય ખબર નથી” લખો. હું આગળ માર્ગદર્શન આપીશ."
+      ],
+      "birthIntakeWelcome": "તમારી જન્મ તારીખ કોઈ પણ ફોર્મેટમાં લખો. પછી જન્મ સમય અને જન્મ સ્થળ જણાવો. જો હાલમાં ફક્ત જન્મ તારીખ ખબર હોય, તો એ મોકલો; બાકી વિગતો હું શાંતિથી પૂછી લઈશ.",
+      "friendlyGreetingLines": [
+        "શાંતિથી કહો, કોઈ ઉતાવળ નથી.",
+        "જો તમે કુંડળી બનાવવી હોય, તો જન્મ તારીખ, જન્મ સમય અને જન્મ સ્થળ લખો. ફક્ત જન્મ તારીખ ખબર હોય, તો પણ મોકલો; બાકી હું પ્રેમથી પૂછી લઈશ.",
+        "જો કુંડળી તૈયાર છે, તો કરિયર, લગ્ન, પૈસા, સમય, ઉપાય અથવા મનની મૂંઝવણ વિશે એક સવાલ પૂછો. હું ચાર્ટ પુરાવા સાથે સરળ રીતે સમજાવીશ."
+      ],
+      "listeningMicrocopy": [
+        "જન્મ સ્થળ અને સમયક્ષેત્ર મેળ ખાતા કરી રહી છું...",
+        "લગ્ન, ચંદ્ર અને મુખ્ય ચાર્ટ સંકેતો તપાસી રહી છું...",
+        "નક્ષત્ર, દશા અને ગોચર સંદર્ભ જોઈ રહી છું...",
+        "જવાબ પહેલાં ચાર્ટ પુરાવા વાંચી રહી છું...",
+        "માર્ગદર્શન જમીન સાથે જોડાયેલું રહે તે માટે શાંતિથી ગણતરી કરી રહી છું..."
+      ]
+    }
+  }
+}
