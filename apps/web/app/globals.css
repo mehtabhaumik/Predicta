@@ -26038,7 +26038,7 @@ select::-ms-expand {
     gap: 8px;
     justify-content: flex-start;
     scrollbar-width: none;
-    width: auto;
+    width: 100%;
   }
 
   .ask-lean-nav::-webkit-scrollbar {
@@ -26046,10 +26046,13 @@ select::-ms-expand {
   }
 
   .ask-lean-nav a {
-    flex: 0 0 auto;
-    min-height: 36px;
-    min-width: max-content;
-    padding: 9px 12px;
+    align-items: center;
+    display: inline-flex;
+    flex: 1 1 0;
+    justify-content: center;
+    min-height: var(--predicta-touch-target);
+    min-width: 0;
+    padding: 10px 12px;
     text-align: center;
   }
 

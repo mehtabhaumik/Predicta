@@ -212,6 +212,18 @@ async function auditRoute(cdp, route, viewport) {
         '.report-product-card',
         '.report-choice-card'
       ];
+      if (mobileWidth) {
+        minTouchSelectors.push(
+          'a.button',
+          '.ask-lean-nav a',
+          '.ask-light-chips a',
+          '.dashboard-mobile-revival-nav a',
+          '.dashboard-topbar-actions a',
+          '.landing-question-chips a',
+          '.mobile-menu-panel a',
+          '.nav-link'
+        );
+      }
       const touchIssues = [...document.querySelectorAll(minTouchSelectors.join(','))]
         .filter(visible)
         .map(element => {
