@@ -1,6 +1,6 @@
 {
-  "baseUrl": "http://127.0.0.1:3009",
-  "generatedAt": "2026-06-14T17:57:51.151Z",
+  "baseUrl": "http://127.0.0.1:3023",
+  "generatedAt": "2026-06-14T18:36:07.873Z",
   "phaseName": "PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT",
   "results": [
     {
@@ -1094,9 +1094,9 @@
           "top": 0
         },
         {
-          "bottom": 236,
+          "bottom": 249,
           "className": "ask-light-console glass-panel",
-          "height": 183,
+          "height": 196,
           "tag": "form",
           "top": 53
         }
@@ -1308,7 +1308,7 @@
       "horizontalOverflow": false,
       "landingTextarea": null,
       "localGridColumns": "",
-      "reportActionColumns": "",
+      "reportActionColumns": "none",
       "touchIssueCount": 0,
       "voiceButton": null,
       "windowHeight": 1024,
@@ -1428,9 +1428,9 @@
           "top": 0
         },
         {
-          "bottom": 277,
+          "bottom": 290,
           "className": "ask-light-console glass-panel",
-          "height": 224,
+          "height": 237,
           "tag": "form",
           "top": 53
         }
@@ -1642,7 +1642,7 @@
       "horizontalOverflow": false,
       "landingTextarea": null,
       "localGridColumns": "",
-      "reportActionColumns": "none",
+      "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
       "windowHeight": 1112,
@@ -1762,9 +1762,9 @@
           "top": 0
         },
         {
-          "bottom": 225,
+          "bottom": 266,
           "className": "ask-light-console glass-panel",
-          "height": 171,
+          "height": 212,
           "tag": "form",
           "top": 53
         }
@@ -1976,7 +1976,7 @@
       "horizontalOverflow": false,
       "landingTextarea": null,
       "localGridColumns": "",
-      "reportActionColumns": "none",
+      "reportActionColumns": "",
       "touchIssueCount": 0,
       "voiceButton": null,
       "windowHeight": 900,
@@ -2096,9 +2096,9 @@
           "top": 0
         },
         {
-          "bottom": 230,
+          "bottom": 294,
           "className": "ask-light-console glass-panel",
-          "height": 177,
+          "height": 241,
           "tag": "form",
           "top": 53
         }

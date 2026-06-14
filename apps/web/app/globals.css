@@ -1918,7 +1918,7 @@ button:disabled,
   line-height: 1.45;
   min-height: 132px;
   padding: 18px;
-  resize: vertical;
+  resize: none;
   width: 100%;
 }
 
@@ -2870,7 +2870,7 @@ button:disabled,
 .feedback-form textarea {
   line-height: 1.55;
   min-height: 160px;
-  resize: vertical;
+  resize: none;
 }
 
 .feedback-form select option {
@@ -22506,7 +22506,7 @@ select::-ms-expand {
   min-height: 116px;
   outline: none;
   padding: 18px;
-  resize: vertical;
+  resize: none;
   transition:
     background 160ms ease,
     border-color 160ms ease,
@@ -22515,8 +22515,9 @@ select::-ms-expand {
 }
 
 .ask-light-shell-started .ask-light-field textarea {
-  min-height: 58px;
-  max-height: 120px;
+  max-height: 220px !important;
+  min-height: clamp(118px, 13vw, 156px) !important;
+  overflow-y: auto;
 }
 
 .ask-light-field textarea:focus {
@@ -26104,13 +26105,14 @@ select::-ms-expand {
     order: 2;
   }
 
-  .ask-light-shell-started .ask-light-field textarea {
-    min-height: 68px;
-  }
-
   .ask-light-shell-started .ask-light-console {
     grid-template-columns: 1fr;
     position: static;
+  }
+
+  .ask-light-shell-started .ask-light-field textarea {
+    max-height: none !important;
+    min-height: clamp(128px, 24svh, 168px) !important;
   }
 
   .ask-light-hints {
