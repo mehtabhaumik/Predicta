@@ -1,10 +1,32 @@
-import { existsSync, rmSync } from 'node:fs';
+import { existsSync, readFileSync, rmSync } from 'node:fs';
 import { request as httpRequest, get as httpGet } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawn } from 'node:child_process';
 
 const baseUrl = process.env.PREDICTA_AUTOCOMPLETE_BASE_URL ?? 'http://127.0.0.1:3009';
+const wizardSource = readFileSync('apps/web/components/WebKundliWizard.tsx', 'utf8');
+
+if (!wizardSource.includes('function dismissNativeBirthPlaceAutocomplete()')) {
+  throw new Error('Birth-place autocomplete must include a native browser autocomplete dismissal helper.');
+}
+
+if (
+  !/function settleBirthPlaceSelection\([\s\S]*?dismissNativeBirthPlaceAutocomplete\(\);[\s\S]*?closeSettledBirthPlaceSearch/.test(
+    wizardSource,
+  )
+) {
+  throw new Error('Birth-place selection must blur the native input before the resolved-value swap.');
+}
+
+if (
+  !/function closeBirthPlaceSuggestions\([\s\S]*?dismissNativeBirthPlaceAutocomplete\(\);[\s\S]*?resetBirthPlaceSearchUi/.test(
+    wizardSource,
+  )
+) {
+  throw new Error('Closing birth-place suggestions must also dismiss native browser autocomplete.');
+}
+
 const chromePath =
   process.env.CHROME_PATH ??
   [

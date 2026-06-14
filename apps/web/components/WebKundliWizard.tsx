@@ -260,6 +260,18 @@ export function WebKundliWizard(): React.JSX.Element {
     birthPlaceSearchSettledRef.current = false;
   }
 
+  function dismissNativeBirthPlaceAutocomplete() {
+    const input = birthPlaceInputRef.current;
+
+    if (!input) {
+      return;
+    }
+
+    // Blur before React swaps the input for the resolved-value chip. Native
+    // browser autocomplete popovers can otherwise outlive the unmounted input.
+    input.blur();
+  }
+
   function isResolvedBirthPlaceQuery(query: string) {
     const normalizedQuery = normalizeBirthPlaceLabel(query);
 
@@ -328,6 +340,7 @@ export function WebKundliWizard(): React.JSX.Element {
 
   function closeBirthPlaceSuggestions() {
     placeSearchRequestRef.current += 1;
+    dismissNativeBirthPlaceAutocomplete();
     resetBirthPlaceSearchUi();
   }
 
@@ -354,6 +367,7 @@ export function WebKundliWizard(): React.JSX.Element {
   function settleBirthPlaceSelection(option: WebBirthPlace) {
     const optionLabel = getBirthPlaceLabel(option);
 
+    dismissNativeBirthPlaceAutocomplete();
     closeSettledBirthPlaceSearch(optionLabel);
     setAcceptedBirthPlaceQuery(normalizeBirthPlaceLabel(optionLabel));
     setSelectedPlace(option);
