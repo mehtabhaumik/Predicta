@@ -3572,14 +3572,14 @@
       "gu": "આજ, કર્મ ઉપાયો, જીવન સંતુલન અને સમય સરળ સમન્વિત જ્યોતિષ કક્ષોમાં."
     },
     "ui.todaySAstrologyCockpit.67w7bc": {
-      "en": "Today's Astrology Cockpit",
-      "hi": "आज का ज्योतिष केंद्र",
-      "gu": "આજનું જ્યોતિષ કેન્દ્ર"
+      "en": "Today's reading map",
+      "hi": "आज का ज्योतिष मार्गदर्शन",
+      "gu": "આજનું જ્યોતિષ માર્ગદર્શન"
     },
     "ui.todaySAstrologyCockpit.1q76l7s": {
-      "en": "TODAY'S ASTROLOGY COCKPIT",
-      "hi": "आज का ज्योतिष केंद्र",
-      "gu": "આજનું જ્યોતિષ કેન્દ્ર"
+      "en": "TODAY'S READING MAP",
+      "hi": "आज का ज्योतिष मार्गदर्शन",
+      "gu": "આજનું જ્યોતિષ માર્ગદર્શન"
     },
     "ui.todaySBestActionCautionMoodAndSimpleRemedy.1a57tsi": {
       "en": "Today’s best action, caution, mood, and simple remedy.",
@@ -3587,7 +3587,7 @@
       "gu": "આજનું શ્રેષ્ઠ પગલું, સાવચેતી, મનોદશા અને સરળ ઉપાય."
     },
     "ui.todaySCockpit.1s2m1bo": {
-      "en": "Today's cockpit",
+      "en": "Today's guidance",
       "hi": "आज का मार्गदर्शन केंद्र",
       "gu": "આજનું માર્ગદર્શન કેન્દ્ર"
     },
@@ -3937,9 +3937,9 @@
       "gu": "તમારી કુંડળી અહીં સુરક્ષિત રહે છે. દરેક ડિવાઇસ પર સાથે રાખવા માટે સાઇન ઇન કરો."
     },
     "ui.yourHolisticAstrologyCockpit.1rh6rhj": {
-      "en": "Your holistic astrology cockpit",
-      "hi": "आपका समग्र ज्योतिष केंद्र",
-      "gu": "તમારું સમન્વિત જ્યોતિષ કેન્દ્ર"
+      "en": "Your holistic astrology guide",
+      "hi": "आपका समग्र ज्योतिष मार्गदर्शन",
+      "gu": "તમારું સમન્વિત જ્યોતિષ માર્ગદર્શન"
     },
     "ui.yourKundliIsReady.1f5cadn": {
       "en": "Your kundli is ready.",
@@ -4632,9 +4632,9 @@
       "gu": "સાઇન ઇન કર્યું છે"
     },
     "ui.yourholisticastrologycockpit.gf7za2": {
-      "en": "Your holistic astrology cockpit.",
-      "hi": "आपका समग्र ज्योतिष केंद्र.",
-      "gu": "તમારું સમગ્ર જ્યોતિષ કેન્દ્ર."
+      "en": "Your holistic astrology guide.",
+      "hi": "आपका समग्र ज्योतिष मार्गदर्शन.",
+      "gu": "તમારું સમગ્ર જ્યોતિષ માર્ગદર્શન."
     },
     "ui.seetodaytiminggocharremediesandthebest.1xjlk1a": {
       "en": "See today, timing, Gochar, remedies, and the best next chart focus.",
@@ -8652,9 +8652,9 @@
       "gu": "આજનો ચાર્ટ હવામાન"
     },
     "ui.global.today.s.cockpit.b0ab4eae": {
-      "en": "TODAY'S COCKPIT",
-      "hi": "आज का कॉकपिट",
-      "gu": "આજની કોકપિટ"
+      "en": "TODAY'S GUIDANCE",
+      "hi": "आज का मार्गदर्शन",
+      "gu": "આજનું માર્ગદર્શન"
     },
     "ui.global.timing.has.one.focused.card.here.the.pdf.carries.the.c.f2a1f5a5": {
       "en": "Timing has one focused card here. The PDF carries the complete Mahadasha, Antardasha, and Pratyantardasha structure.",

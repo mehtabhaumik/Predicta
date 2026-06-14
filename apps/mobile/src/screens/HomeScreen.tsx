@@ -194,7 +194,7 @@ export function HomeScreen({
             Namaste{kundli ? `, ${kundli.birthDetails.name.split(' ')[0]}` : ''}
           </AppText>
           <GradientText variant="title">
-            {kundli ? 'Your holistic astrology cockpit' : 'Start with your Kundli'}
+            {kundli ? 'Your holistic astrology guide' : 'Start with your Kundli'}
           </GradientText>
         </View>
         <View style={styles.logoShell}>
@@ -217,7 +217,7 @@ export function HomeScreen({
         <View style={styles.cockpitTopline}>
           <View className="flex-1">
             <AppText tone="secondary" variant="caption">
-              TODAY'S COCKPIT
+              TODAY'S GUIDANCE
             </AppText>
             <AppText className="mt-1" variant="subtitle">
               {kundli?.birthDetails.name ?? 'Moment sky preview'}
@@ -297,7 +297,7 @@ export function HomeScreen({
               onPress={() =>
                 askFromHome({
                   selectedSection: card.section,
-                  sourceScreen: 'Home cockpit',
+                  sourceScreen: 'Home guidance',
                 })
               }
               style={styles.focusCard}

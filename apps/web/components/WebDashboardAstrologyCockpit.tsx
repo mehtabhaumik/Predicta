@@ -138,7 +138,7 @@ export function WebDashboardAstrologyCockpit({
     <section className="astrology-cockpit glass-panel">
       <div className="cockpit-header">
         <div>
-          <div className="section-title">TODAY'S ASTROLOGY COCKPIT</div>
+          <div className="section-title">{t("TODAY'S READING MAP")}</div>
           <h2>{activeName}</h2>
           <p>
             Life weather, current timing, Gochar, and chart focus in one glance.

@@ -2,6 +2,7 @@ import {
   getDayPassProduct,
   getRecommendedPricingPlan,
 } from '@pridicta/config/pricing';
+import { DAY_PASS_LIMITS } from '../src/config/usageLimits';
 import { mockBillingProvider } from '../src/services/billing/mockBillingProvider';
 
 describe('mockBillingProvider', () => {
@@ -31,7 +32,7 @@ describe('mockBillingProvider', () => {
     expect(result.status).toBe('SUCCESS');
     expect(result.oneTimeEntitlement).toMatchObject({
       productType: 'DAY_PASS',
-      remainingUses: 10,
+      remainingUses: DAY_PASS_LIMITS.questionsPerPass,
       source: 'mock',
     });
   });

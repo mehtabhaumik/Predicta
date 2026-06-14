@@ -573,11 +573,24 @@ process.exit(0);
 async function runSourceContractChecks() {
   const checks = [];
   const failures = [];
-  const [chatSource, passGuardrailSource, redeemSource, languageSource] = await Promise.all([
+  const [
+    chatSource,
+    passGuardrailSource,
+    redeemSource,
+    languageSource,
+    competitorResponseSource,
+    uiTranslationSource,
+    dashboardAstrologySource,
+    mobileHomeSource,
+  ] = await Promise.all([
     readFile('apps/web/components/WebPridictaChat.tsx', 'utf8'),
     readFile('apps/web/lib/web-pass-cost-guardrails.ts', 'utf8'),
     readFile('apps/web/components/WebRedeemPassForm.tsx', 'utf8'),
     readFile('packages/config/src/translations/language.json', 'utf8'),
+    readFile('packages/config/src/translations/competitorResponse.json', 'utf8'),
+    readFile('packages/config/src/translations/ui.json', 'utf8'),
+    readFile('apps/web/components/WebDashboardAstrologyCockpit.tsx', 'utf8'),
+    readFile('apps/mobile/src/screens/HomeScreen.tsx', 'utf8'),
   ]);
   const testimonialTrustSource = await readFile(
     'packages/config/src/translations/testimonialTrust.json',
@@ -651,7 +664,80 @@ async function runSourceContractChecks() {
     }
   }
 
+  const competitorResponseData = JSON.parse(competitorResponseSource);
+  const uiTranslationData = JSON.parse(uiTranslationSource);
+  const publicEnglishValues = [
+    ...collectEnglishStrings(competitorResponseData.copy?.en ?? {}),
+    ...collectEnglishStrings(uiTranslationData.entries ?? {}),
+  ];
+  const staleExperienceWords = ['cockpit', 'control panel', 'control-panel'];
+  for (const word of staleExperienceWords) {
+    const offenders = publicEnglishValues.filter(value =>
+      value.toLowerCase().includes(word),
+    );
+    const passed = offenders.length === 0;
+    checks.push({
+      offenderCount: offenders.length,
+      passed,
+      source: 'customer-facing English translations',
+      word,
+    });
+    if (!passed) {
+      failures.push(
+        `source contract has stale control-panel wording "${word}": ${offenders
+          .slice(0, 3)
+          .join(' | ')}`,
+      );
+    }
+  }
+
+  const forbiddenDashboardAstrologyFragments = ["TODAY'S ASTROLOGY COCKPIT"];
+  for (const fragment of forbiddenDashboardAstrologyFragments) {
+    const passed = !dashboardAstrologySource.includes(fragment);
+    checks.push({ fragment, passed, source: 'WebDashboardAstrologyCockpit.tsx' });
+    if (!passed) {
+      failures.push(`source contract has stale dashboard astrology label: ${fragment}`);
+    }
+  }
+
+  const forbiddenMobileHomeFragments = [
+    "TODAY'S COCKPIT",
+    'Your holistic astrology cockpit',
+    'Home cockpit',
+  ];
+  for (const fragment of forbiddenMobileHomeFragments) {
+    const passed = !mobileHomeSource.includes(fragment);
+    checks.push({ fragment, passed, source: 'HomeScreen.tsx' });
+    if (!passed) {
+      failures.push(`source contract has stale mobile home label: ${fragment}`);
+    }
+  }
+
   return { checks, failures };
+}
+
+function collectEnglishStrings(value) {
+  if (!value) {
+    return [];
+  }
+
+  if (typeof value === 'string') {
+    return [value];
+  }
+
+  if (Array.isArray(value)) {
+    return value.flatMap(item => collectEnglishStrings(item));
+  }
+
+  if (typeof value === 'object') {
+    if (typeof value.en === 'string') {
+      return [value.en];
+    }
+
+    return Object.values(value).flatMap(item => collectEnglishStrings(item));
+  }
+
+  return [];
 }
 
 async function runEvidenceHandoffScenario(name, route, viewport) {
