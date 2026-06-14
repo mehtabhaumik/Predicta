@@ -81,7 +81,7 @@ const requiredLinksByRoute = [
   },
   {
     route: '/ask',
-    links: ['/', '/dashboard/report', '/pricing'],
+    links: ['/'],
   },
   {
     route: '/dashboard',
@@ -426,8 +426,8 @@ async function auditPageLinks(cdp, check) {
           );
         })
       );
-      const askHeaderDashboardLinks = anchors.filter(
-        anchor => anchor.inAskHeader && anchor.href === '/dashboard'
+      const askHeaderExitLinks = anchors.filter(
+        anchor => anchor.inAskHeader && anchor.href !== '/'
       );
       const publicHeaderControlPanelLinks = anchors.filter(
         anchor => anchor.inPublicHeader && publicHeaderForbiddenHrefs.has(anchor.href)
@@ -457,7 +457,7 @@ async function auditPageLinks(cdp, check) {
 
       return {
         activeLinks: anchors.filter(anchor => anchor.ariaCurrent),
-        askHeaderDashboardLinks,
+        askHeaderExitLinks,
         anchorCount: anchors.length,
         dashboardTopbarAutoSendAskLinks,
         disabledActive,
@@ -504,9 +504,9 @@ async function auditPageLinks(cdp, check) {
     );
   }
 
-  for (const item of result.askHeaderDashboardLinks ?? []) {
+  for (const item of result.askHeaderExitLinks ?? []) {
     pageFailures.push(
-      `${check.route}: Ask header exposes dashboard/library exit "${item.text || item.href}".`,
+      `${check.route}: Ask header exposes non-chat exit "${item.text || item.href}".`,
     );
   }
 
