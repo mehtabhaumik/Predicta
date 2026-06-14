@@ -1,0 +1,41 @@
+PREDICTA_INTELLIGENCE_PHASE_0_CURRENT_CHAT_REDLINE_AND_PERSONA_LOCK: GREEN
+
+Strict audit commands:
+- git status --short
+- sed -n '1,180p' docs/PREDICTA_INTELLIGENCE_AND_CHAT_EXPERIENCE_ROADMAP.md
+- rg --files apps packages backend | rg "(Chat|chat|Predicta|Pridicta|predicta|pridicta|ai|prompt|memory|context|Actions|actions)"
+- rg -n "consumeWebAiBudget|extractBirthDetailsFromWeb|askWithProof|buildPredictaActionReply|systemPrompt|messages|predictaSchool|activeChartContext|local memory|memory" apps/web apps/mobile packages/astrology backend/astro_api -g '!node_modules'
+- sed -n '3850,4010p' backend/astro_api/ai.py
+- sed -n '1,220p' packages/astrology/src/predictaChatActions.ts
+- sed -n '489,840p' packages/astrology/src/predictaChatActions.ts
+- sed -n '1680,1800p' packages/astrology/src/predictaChatActions.ts
+- sed -n '1100,1345p' apps/web/components/WebPridictaChat.tsx
+- sed -n '1610,1665p' apps/web/components/WebPridictaChat.tsx
+- sed -n '1,220p' apps/web/app/api/ask-pridicta/route.ts
+- sed -n '1,220p' apps/web/lib/pridicta-ai.ts
+- sed -n '1300,1455p' apps/mobile/src/screens/ChatScreen.tsx
+- sed -n '1850,1995p' apps/mobile/src/screens/ChatScreen.tsx
+- sed -n '2220,2310p' apps/mobile/src/screens/ChatScreen.tsx
+- sed -n '1,220p' packages/config/src/predictaMemory.ts
+- sed -n '1,220p' packages/config/src/predictaWebChat.ts
+- sed -n '1,220p' packages/config/src/translations/predictaWebChat.json
+- git diff --check
+
+Artifacts produced:
+- docs/audits/PREDICTA_INTELLIGENCE_PHASE_0_CURRENT_CHAT_REDLINE_AND_PERSONA_LOCK/chat-redline-transcript-set.md
+- docs/audits/PREDICTA_INTELLIGENCE_PHASE_0_CURRENT_CHAT_REDLINE_AND_PERSONA_LOCK/persona-contract.md
+- docs/audits/PREDICTA_INTELLIGENCE_PHASE_0_CURRENT_CHAT_REDLINE_AND_PERSONA_LOCK/broken-record-phrase-ledger.md
+- docs/audits/PREDICTA_INTELLIGENCE_PHASE_0_CURRENT_CHAT_REDLINE_AND_PERSONA_LOCK/app-action-capability-map.md
+- docs/audits/PREDICTA_INTELLIGENCE_PHASE_0_CURRENT_CHAT_REDLINE_AND_PERSONA_LOCK/local-memory-vs-ai-decision-ledger.md
+- docs/audits/PREDICTA_INTELLIGENCE_PHASE_0_CURRENT_CHAT_REDLINE_AND_PERSONA_LOCK/phase-0-manifest.json
+
+Green criteria:
+- Baseline evidence documented: yes.
+- Persona contract locked: yes.
+- Broken-record no-go phrase ledger locked: yes.
+- App-action capability map locked: yes.
+- Local-memory-vs-AI decision ledger locked: yes.
+- Phase 1 next phase identified: PREDICTA_INTELLIGENCE_PHASE_1_MASTER_ASTROLOGER_RESPONSE_CONTRACT.
+
+This phase intentionally does not rewrite runtime behavior. It locks the current
+truth and no-go standards before implementation.

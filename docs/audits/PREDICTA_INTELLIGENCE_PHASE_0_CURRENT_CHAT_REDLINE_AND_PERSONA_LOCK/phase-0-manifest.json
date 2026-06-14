@@ -1,0 +1,42 @@
+{
+  "phase": "PREDICTA_INTELLIGENCE_PHASE_0_CURRENT_CHAT_REDLINE_AND_PERSONA_LOCK",
+  "status": "GREEN_BASELINE_LOCK",
+  "createdAt": "2026-06-15",
+  "artifacts": [
+    "chat-redline-transcript-set.md",
+    "persona-contract.md",
+    "broken-record-phrase-ledger.md",
+    "app-action-capability-map.md",
+    "local-memory-vs-ai-decision-ledger.md",
+    "verification.txt"
+  ],
+  "auditedSourcePaths": [
+    "backend/astro_api/ai.py",
+    "apps/web/components/WebPridictaChat.tsx",
+    "apps/web/app/api/ask-pridicta/route.ts",
+    "apps/web/lib/pridicta-ai.ts",
+    "apps/mobile/src/screens/ChatScreen.tsx",
+    "packages/astrology/src/predictaChatActions.ts",
+    "packages/config/src/predictaMemory.ts",
+    "packages/config/src/predictaWebChat.ts",
+    "packages/config/src/translations/predictaWebChat.json"
+  ],
+  "produced": {
+    "chatRedlineTranscriptSet": true,
+    "personaContract": true,
+    "brokenRecordPhraseLedger": true,
+    "appActionCapabilityMap": true,
+    "localMemoryVsAiDecisionLedger": true
+  },
+  "lockedNoGoRules": [
+    "Predicta must answer before teaching.",
+    "Predicta must not use report/toolkit/internal-system language as the primary user answer.",
+    "Predicta must not spend AI on deterministic app actions or local-memory answers.",
+    "Predicta must keep specialist-room methods separate unless synthesis is requested.",
+    "Predicta must not invent missing chart, signature, report, payment, or family context.",
+    "Predicta must not expose repetitive provider-decision machinery in normal user copy.",
+    "Predicta must keep English, Hindi, and Gujarati language-correct without weird leakage."
+  ],
+  "nextPhase": "PREDICTA_INTELLIGENCE_PHASE_1_MASTER_ASTROLOGER_RESPONSE_CONTRACT"
+}
+
