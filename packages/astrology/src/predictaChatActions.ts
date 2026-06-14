@@ -1705,7 +1705,7 @@ function buildKundliKarmaLocalMemoryReply({
       .map(condition => formatKundliKarmaConditionLine(condition))
       .join('\n');
     return [
-      'Kundli Karma local memory is ready. No AI model is needed for this answer.',
+      'Direct answer: your Kundli Karma snapshot is ready from calculated Predicta memory. No AI credit is needed.',
       snapshot.summary,
       top ? `Top active conditions:\n${top}` : 'No major active condition is ranked in the implemented deterministic checks.',
       snapshot.topRemedy
@@ -1722,35 +1722,34 @@ function buildKundliKarmaLocalMemoryReply({
 
   if (!item) {
     return [
-      'I can answer Kundli Karma questions from local memory when the Dosh, Shrap, Yog, or Lal Kitab item is identifiable.',
+      'Direct answer: I can read Kundli Karma when the Dosh, Shrap, Yog, or Lal Kitab item is identifiable in your calculated chart. No AI credit is needed.',
       snapshot.summary,
-      'Ask like: "explain my strongest Dosh", "why is this Shrap present", "show my supportive Yog", or "give Lal Kitab upay".',
-      'This did not spend AI credit.',
+      'Useful next questions: "explain my strongest Dosh", "why is this Shrap present", "show my supportive Yog", or "give Lal Kitab upay".',
     ].join('\n\n');
   }
 
   if (item.status === 'not_present' || item.status === 'blocked_context') {
     return [
-      `${item.displayName}: ${formatKundliKarmaStatus(item.status)}.`,
+      `Direct answer: ${item.displayName} is ${formatKundliKarmaStatus(item.status)} in this check.`,
       item.whyPresent,
       item.meaningForUser,
       item.status === 'blocked_context'
         ? 'Predicta will not force this into a single-person Kundli reading because the required context is different.'
         : 'Because the required combination is not active, I will not create fear or sell a remedy for it.',
-      'Provider decision: local_memory_answer. No AI credit is needed.',
+      'This answer uses your calculated Predicta memory. No AI credit is needed.',
     ].join('\n\n');
   }
 
   if (item.status === 'needs_data' || item.status === 'pending_evidence') {
     return [
-      `${item.displayName}: ${formatKundliKarmaStatus(item.status)}.`,
+      `Direct answer: ${item.displayName} is ${formatKundliKarmaStatus(item.status)} right now.`,
       item.whyPresent,
       item.meaningForUser,
       item.evidence.length
         ? `Available evidence:\n${formatKundliKarmaEvidence(item)}`
         : 'The deterministic engine does not yet have enough clean evidence to activate this item.',
       'I will stay honest here: this should remain pending until the missing data or approved rule evidence is available.',
-      'Provider decision: local_memory_answer. No AI credit is needed.',
+      'This answer uses your calculated Predicta memory. No AI credit is needed.',
     ].join('\n\n');
   }
 
@@ -1765,7 +1764,7 @@ function buildKundliKarmaLocalMemoryReply({
     .join('\n');
 
   return [
-    `${item.displayName}: ${formatKundliKarmaStatus(item.status)}, ${item.strength} strength, ${item.confidence} confidence.`,
+    `Direct answer: ${item.displayName} is ${formatKundliKarmaStatus(item.status)} with ${item.strength} strength and ${item.confidence} confidence.`,
     `Why this appears: ${item.whyPresent}`,
     `Evidence:\n${formatKundliKarmaEvidence(item)}`,
     `What it means for you: ${item.meaningForUser}`,
@@ -1779,16 +1778,15 @@ function buildKundliKarmaLocalMemoryReply({
     hasPremiumAccess
       ? 'Premium depth is active, so I can include deeper remedy timing and cross-chart evidence when the report asks for it.'
       : 'Free depth gives the useful meaning and safe starting action. Premium adds deeper timing, cross-chart evidence, and structured remedies without fear-selling.',
-    'Provider decision: local_memory_answer. No AI credit is needed.',
+    'This answer uses your calculated Predicta memory. No AI credit is needed.',
   ].join('\n\n');
 }
 
 function buildKundliKarmaDefinitionReply(): string {
   return [
-    'Kundli Karma is Predicta local memory for Dosh, Shrap, Yog, and Lal Kitab. It is deterministic and does not need an AI model for basic explanation.',
+    'Direct answer: Kundli Karma covers Dosh, Shrap, Yog, and Lal Kitab as calculated chart patterns. No AI credit is needed for the basic explanation.',
     'Dosh means a pressure pattern in the Kundli. Shrap means a karmic pressure indicator, not a curse. Yog means a supportive or challenging planetary pattern. Lal Kitab is a separate remedial language focused on house-wise planet behavior, Rin/debt indicators, practical upay, and do/don’t guidance.',
     'For your own Kundli, I need the active chart first. Then I can explain why a pattern appears, exact evidence, meaning, activation, softening factors, and safe remedies.',
-    'Provider decision: local_memory_answer. No AI credit is needed.',
   ].join('\n\n');
 }
 

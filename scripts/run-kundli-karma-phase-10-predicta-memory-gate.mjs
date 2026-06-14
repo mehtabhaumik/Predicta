@@ -31,6 +31,7 @@ Module._resolveFilename = function resolveWorkspaceAlias(request, parent, isMain
     '@pridicta/ai': 'packages/ai/src/index.ts',
     '@pridicta/astrology': 'packages/astrology/src/index.ts',
     '@pridicta/config': 'packages/config/src/index.ts',
+    '@pridicta/config/uiTranslations': 'packages/config/src/uiTranslations.ts',
     '@pridicta/types': 'packages/types/src/index.ts',
   };
   if (aliases[request]) {
@@ -101,7 +102,7 @@ const mobileContextSource = read('apps/mobile/src/services/ai/contextBuilder.ts'
 
 const webChatSource = read('apps/web/components/WebPridictaChat.tsx');
 const mobileChatSource = read('apps/mobile/src/screens/ChatScreen.tsx');
-assertIncludes(webChatSource, 'chartContext: activeChartContext', 'web chat passes selected Kundli Karma context');
+assertIncludes(webChatSource, 'chartContext: messageContext', 'web chat passes selected Kundli Karma context');
 assertIncludes(mobileChatSource, 'chartContext: activeChartContext', 'mobile chat passes selected Kundli Karma context');
 assertIncludes(webChatSource, 'actionReply.providerDecision', 'web chat records provider decision');
 assertIncludes(mobileChatSource, 'actionReply.providerDecision', 'mobile chat records provider decision');

@@ -31,6 +31,7 @@ Module._resolveFilename = function resolveWorkspaceAlias(request, parent, isMain
     '@pridicta/ai': 'packages/ai/src/index.ts',
     '@pridicta/astrology': 'packages/astrology/src/index.ts',
     '@pridicta/config': 'packages/config/src/index.ts',
+    '@pridicta/config/uiTranslations': 'packages/config/src/uiTranslations.ts',
     '@pridicta/types': 'packages/types/src/index.ts',
   };
   if (aliases[request]) {

@@ -97,10 +97,8 @@ assertBefore(
     '      activeKundli,',
     '      responseLanguage,',
     '      languageContext.acknowledgement,',
+    '      messageContext,',
     '    );',
-    '  }',
-    '',
-    '  function resolveChatChartReply',
   ].join('\n'),
   'web chat must attempt deterministic app action before final open-ended provider fallback',
 );

@@ -46,6 +46,7 @@ export * from './pairComparison';
 export * from './predictaWrapped';
 export * from './predictaChatActions';
 export * from './predictaIntelligenceUiPattern';
+export * from './predictaResponseContract';
 export * from './purusharthaLifeBalance';
 export * from './remedyCoach';
 export * from './relationshipMirror';

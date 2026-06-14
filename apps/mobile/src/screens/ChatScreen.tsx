@@ -2291,15 +2291,15 @@ function buildMobileSchoolContextIntro(
     reportLine ? `Report context: ${reportLine}.` : undefined,
     question ? `Your question: ${question}` : undefined,
     context?.predictaSchool === 'KP'
-      ? 'The answer will now stay grounded in KP cusps, star lords, sub lords, significators, and ruling planets.'
+      ? 'I will start with the KP verdict, timing, trigger, and next step. KP proof stays available after that.'
       : context?.predictaSchool === 'JAIMINI' || context?.predictaSchool === 'NADI'
-        ? 'Jaimini Predicta is ready. I will read through soul role, visible identity, and destiny chapters when calculated evidence is available.'
+        ? 'I will start with destiny direction and current chapter. Jaimini evidence stays available after that.'
         : context?.predictaSchool === 'NUMEROLOGY'
-          ? 'The answer will now stay grounded in name number, birth number, destiny number, personal timing, and name rhythm.'
+          ? 'I will start with number-cycle guidance. Name, birth, destiny, and timing evidence stays available after that.'
           : context?.predictaSchool === 'SIGNATURE'
-            ? 'The answer will now stay grounded in confirmed signature traits, self-expression patterns, improvement suggestions, and safe reflection. It is not identity verification or forensic proof.'
-        : 'The answer will now stay in regular Parashari Jyotish.',
-    'Press Ask, or type your follow-up.',
+            ? 'I will start with confirmed expression pattern and the safe next step. This is reflective guidance, not identity verification or forensic proof.'
+        : 'I will start with Vedic prediction, timing, and practical guidance. Chart proof stays available after that.',
+    'Ask your follow-up and I will answer directly from this context.',
   ]
     .filter(Boolean)
     .join('\n\n');
