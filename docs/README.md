@@ -26,6 +26,18 @@ Only live documents in this repo are listed here.
 
 ## Product And UX Rebuild
 
+- [PREDICTA_REVIVAL_V2_1_TOP_ASTROLOGY_APP_REBUILD.md](./PREDICTA_REVIVAL_V2_1_TOP_ASTROLOGY_APP_REBUILD.md)
+  Controlling V2.1 revival roadmap for making Predicta a top-tier astrology
+  app through chat-first product focus, action-first pages, strict spacing and
+  personal-space rules, mobile/tablet polish, Kundli chart containment,
+  prediction-first reports, premium PDF artifacts, translation zero-leak sweeps,
+  and golden user-journey gates.
+- [PREDICTA_INTELLIGENCE_AND_CHAT_EXPERIENCE_ROADMAP.md](./PREDICTA_INTELLIGENCE_AND_CHAT_EXPERIENCE_ROADMAP.md)
+  Dedicated roadmap for Predicta's astrologer mind and chat experience,
+  including master-astrologer response behavior, local-memory routing,
+  deterministic no-AI answers, app-function mastery, multi-school consultation,
+  micro-messaging, anti-repetition, native-language tone, prediction/remedy
+  satisfaction gates, and AI cost proof.
 - [PREDICTA_APP_REVIVAL_CHAT_FIRST_PERFORMANCE_STRICT_PHASES.md](./PREDICTA_APP_REVIVAL_CHAT_FIRST_PERFORMANCE_STRICT_PHASES.md)
   Additive chat-first revival spine that makes Predicta the direct front door,
   demotes dashboard to Library/My Astrology, enforces lightweight landing/chat
