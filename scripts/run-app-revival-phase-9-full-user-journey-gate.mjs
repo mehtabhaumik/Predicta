@@ -579,6 +579,10 @@ async function runSourceContractChecks() {
     readFile('apps/web/components/WebRedeemPassForm.tsx', 'utf8'),
     readFile('packages/config/src/translations/language.json', 'utf8'),
   ]);
+  const testimonialTrustSource = await readFile(
+    'packages/config/src/translations/testimonialTrust.json',
+    'utf8',
+  );
 
   const requiredChatFragments = [
     'free-ai-zero-credit-kundli',
@@ -620,6 +624,30 @@ async function runSourceContractChecks() {
     checks.push({ language, passed, source: 'language.json' });
     if (!passed) {
       failures.push(`source contract missing app shell labels for ${language}`);
+    }
+  }
+
+  const testimonialTrustData = JSON.parse(testimonialTrustSource);
+  const testimonialTrustEnglish = JSON.stringify(testimonialTrustData.copy?.en ?? {});
+  const forbiddenTrustFragments = [
+    'dashboard, chat',
+    'Regular, KP',
+    'Regular, KP, and Jaimini',
+  ];
+  for (const fragment of forbiddenTrustFragments) {
+    const passed = !testimonialTrustEnglish.includes(fragment);
+    checks.push({ fragment, passed, source: 'testimonialTrust.json' });
+    if (!passed) {
+      failures.push(`source contract has stale trust-loop copy: ${fragment}`);
+    }
+  }
+
+  const requiredTrustFragments = ['Vedic, KP, and Jaimini', 'Ask Predicta'];
+  for (const fragment of requiredTrustFragments) {
+    const passed = testimonialTrustEnglish.includes(fragment);
+    checks.push({ fragment, passed, source: 'testimonialTrust.json' });
+    if (!passed) {
+      failures.push(`source contract missing chat-first trust-loop copy: ${fragment}`);
     }
   }
 
