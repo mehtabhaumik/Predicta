@@ -1,0 +1,18 @@
+{
+  "phase": "PREDICTA_REVIVAL_V2_PHASE_1_PRIMARY_ASK_HOME_AND_NAV_CUT",
+  "verdict": "GREEN",
+  "sourceChecks": {
+    "landingPrimaryAsk": true,
+    "askLeanShell": true,
+    "mobileNavPrimaryShortcuts": [
+      "Ask Predicta",
+      "My Kundlis",
+      "Reports",
+      "Account"
+    ],
+    "specialistWorldsSecondary": true,
+    "legacyContextPreserved": true,
+    "dashboardRootRedirectsToAsk": true
+  },
+  "failures": []
+}

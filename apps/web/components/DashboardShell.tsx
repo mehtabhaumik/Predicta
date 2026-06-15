@@ -133,7 +133,8 @@ function buildDashboardNavModel(
       id: 'library',
       label: labels.nav.library,
       items: [
-        { href: '/dashboard?view=library', label: labels.nav.dashboard },
+        { href: '/dashboard?view=library', label: labels.nav.library },
+        { href: '/dashboard/kundli', label: labels.nav.kundli },
         { href: '/dashboard/saved-kundlis', label: labels.nav.savedKundlis },
         { href: '/dashboard/family', label: labels.nav.family },
         { href: '/dashboard/matchmaking', label: labels.nav.relationship },
@@ -268,7 +269,7 @@ function getTopbarPredictaSourceScreen(
   }
 
   if (activeSection.id === 'library') {
-    return labels.nav.dashboard;
+    return labels.nav.library;
   }
 
   if (activeSection.id === 'reports') {
@@ -316,10 +317,9 @@ export function DashboardShell({
   const primarySections = sections.filter(section =>
     DASHBOARD_PRIMARY_SECTION_IDS.has(section.id),
   );
-  const utilitySections = primarySections.filter(section => section.id !== 'predicta');
-  const visibleUtilitySections = utilitySections.filter(
-    section => section.id !== activeSection.id,
-  );
+  const mobilePrimarySections = ['library', 'reports', 'account']
+    .map(id => primarySections.find(section => section.id === id))
+    .filter((section): section is SidebarSection => Boolean(section));
   const worldSections = sections.filter(section =>
     DASHBOARD_WORLD_SECTION_IDS.has(section.id),
   );
@@ -557,33 +557,19 @@ export function DashboardShell({
                   </details>
                 ) : null}
 
-                {utilitySections.length ? (
-                  <details
-                    className="dashboard-mobile-nav-drawer"
-                    data-active={
-                      utilitySections.some(section => section.id === activeSection.id)
-                        ? 'true'
-                        : 'false'
-                    }
+                {mobilePrimarySections.length ? (
+                  <div
+                    aria-label={shellLabels.groups.start}
+                    className="dashboard-mobile-primary-shortcuts"
                   >
-                    <summary>
-                      <span>{shellLabels.groups.start}</span>
-                      <strong>
-                        {utilitySections.some(section => section.id === activeSection.id)
-                          ? activeSection.label
-                          : utilitySections.map(section => section.label).join(' · ')}
-                      </strong>
-                    </summary>
-                    <div className="dashboard-mobile-section-switcher">
-                      {visibleUtilitySections.map(section =>
-                        renderDashboardMasterLink({
-                          activeSection,
-                          onClick: () => setMenuOpen(false),
-                          section,
-                        }),
-                      )}
-                    </div>
-                  </details>
+                    {mobilePrimarySections.map(section =>
+                      renderDashboardMasterLink({
+                        activeSection,
+                        onClick: () => setMenuOpen(false),
+                        section,
+                      }),
+                    )}
+                  </div>
                 ) : null}
 
                 {activeSectionMenuItems.length ? (
@@ -736,7 +722,7 @@ function getAskDockSectionLabel(
   activeSection: SidebarSection,
 ): string {
   if (activeSection.id === 'library') {
-    return labels.nav.dashboard;
+    return labels.nav.library;
   }
 
   if (activeSection.id === 'reports') {

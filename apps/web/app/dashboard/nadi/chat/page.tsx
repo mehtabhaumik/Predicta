@@ -1,5 +1,20 @@
-import { redirect } from 'next/navigation';
+import {
+  redirectLegacyChatToAsk,
+  type LegacyChatSearchParams,
+} from '../../_lib/legacy-chat-redirect';
 
-export default function LegacyNadiPredictaChatPage(): never {
-  redirect('/dashboard/jaimini/chat');
+export default async function LegacyNadiPredictaChatPage({
+  searchParams,
+}: {
+  searchParams?: LegacyChatSearchParams;
+}): Promise<never> {
+  return redirectLegacyChatToAsk({
+    defaults: {
+      prompt:
+        'Read my current Jaimini destiny chapter and tell me what it means for my life now.',
+      school: 'JAIMINI',
+      sourceScreen: 'Jaimini Predicta',
+    },
+    searchParams,
+  });
 }

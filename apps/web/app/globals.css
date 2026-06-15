@@ -3959,6 +3959,19 @@ button:disabled,
   text-align: center;
 }
 
+.dashboard-mobile-primary-shortcuts {
+  display: grid;
+  gap: 10px;
+}
+
+.dashboard-mobile-primary-shortcuts a {
+  align-items: center;
+  display: flex !important;
+  justify-content: center;
+  min-height: 48px;
+  text-align: center;
+}
+
 .dashboard-mobile-nav-drawer {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-quiet);

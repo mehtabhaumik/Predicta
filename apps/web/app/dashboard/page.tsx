@@ -46,7 +46,7 @@ function DashboardPageClient(): React.JSX.Element {
     searchParams.get('view') === 'library' ||
     searchParams.get('source') === 'family-friends';
   const hasSavedKundli = Boolean(activeKundli) || savedCount > 0;
-  const askSourceScreen = labels.nav.dashboard;
+  const askSourceScreen = labels.nav.library;
   const askHref = buildPredictaChatHref({
     kundliId: activeKundli?.id,
     prompt: activeKundli
