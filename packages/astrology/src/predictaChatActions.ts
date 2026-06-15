@@ -128,6 +128,23 @@ export type PredictaActionReply = {
   text?: string;
 };
 
+export type PredictaRouterDecisionReason =
+  | 'deterministic_action_available'
+  | 'empty_input'
+  | 'local_memory_available'
+  | 'missing_kundli'
+  | 'open_ended_ai_required'
+  | 'open_ended_blocked_needs_credit';
+
+export type PredictaRouterDecision = {
+  action?: PredictaAppActionId;
+  canAnswerWithoutKundli: boolean;
+  normalizedText: string;
+  providerDecision: PredictaProviderDecisionLabel;
+  reason: PredictaRouterDecisionReason;
+  shouldCallProvider: boolean;
+};
+
 export type PredictaLanguageContext = {
   acknowledgement?: string;
   dominantLanguage: SupportedLanguage;
@@ -506,8 +523,14 @@ export function buildPredictaActionReply({
     detectPredictaAppAction(languageContext.normalizedText),
     predictaSchool,
   );
-  const responseLanguage = shouldPreferNumerologyRoomLanguage({
+  const routerDecision = classifyPredictaRouterDecision({
     action,
+    aiCreditsExhausted,
+    kundli,
+    normalizedText: languageContext.normalizedText,
+  });
+  const responseLanguage = shouldPreferNumerologyRoomLanguage({
+    action: routerDecision.action,
     explicitLanguage: detectExplicitPredictaReplyLanguage(text),
     predictaSchool,
     selectedLanguage: language,
@@ -517,48 +540,42 @@ export function buildPredictaActionReply({
   const nextMemory = learnPredictaInteraction(
     memory,
     text,
-    action,
+    routerDecision.action,
     kundli,
     responseLanguage,
   );
 
-  if (!action) {
+  if (!routerDecision.action) {
     return {
       handled: false,
       memory: nextMemory,
-      providerDecision: aiCreditsExhausted ? 'blocked_needs_credit' : 'ai_required',
+      providerDecision: routerDecision.providerDecision,
     };
   }
 
-  const canAnswerWithoutKundli =
-    action === 'kundli-karma' &&
-    isKundliKarmaDefinitionQuestion(languageContext.normalizedText);
-
-  if (!kundli && actionRequiresKundli(action) && !canAnswerWithoutKundli) {
+  if (routerDecision.providerDecision === 'missing_data_question') {
     return {
-      action,
+      action: routerDecision.action,
       handled: true,
       memory: nextMemory,
-      providerDecision: 'missing_data_question',
+      providerDecision: routerDecision.providerDecision,
       text: withLanguageAcknowledgement(
         languageContext,
-        buildNeedsKundliReply(responseLanguage, action),
+        buildNeedsKundliReply(responseLanguage, routerDecision.action),
       ),
     };
   }
 
-  const providerDecision = classifyProviderDecision(action);
-
   return {
-    action,
+    action: routerDecision.action,
     handled: true,
-    localMemoryUsed: providerDecision === 'local_memory_answer',
+    localMemoryUsed: routerDecision.providerDecision === 'local_memory_answer',
     memory: nextMemory,
-    providerDecision,
+    providerDecision: routerDecision.providerDecision,
     text: withLanguageAcknowledgement(
       languageContext,
       buildActionText({
-        action,
+        action: routerDecision.action,
         chartContext,
         hasPremiumAccess,
         kundli,
@@ -568,6 +585,74 @@ export function buildPredictaActionReply({
         text,
       }),
     ),
+  };
+}
+
+export function classifyPredictaRouterDecision({
+  action,
+  aiCreditsExhausted = false,
+  kundli,
+  normalizedText,
+}: {
+  action?: PredictaAppActionId;
+  aiCreditsExhausted?: boolean;
+  kundli?: KundliData;
+  normalizedText: string;
+}): PredictaRouterDecision {
+  if (!normalizedText.trim()) {
+    return {
+      action,
+      canAnswerWithoutKundli: false,
+      normalizedText,
+      providerDecision: 'missing_data_question',
+      reason: 'empty_input',
+      shouldCallProvider: false,
+    };
+  }
+
+  if (!action) {
+    const providerDecision = aiCreditsExhausted
+      ? 'blocked_needs_credit'
+      : 'ai_required';
+    return {
+      action,
+      canAnswerWithoutKundli: false,
+      normalizedText,
+      providerDecision,
+      reason: aiCreditsExhausted
+        ? 'open_ended_blocked_needs_credit'
+        : 'open_ended_ai_required',
+      shouldCallProvider: providerDecision === 'ai_required',
+    };
+  }
+
+  const canAnswerWithoutKundli =
+    action === 'kundli-karma' &&
+    isKundliKarmaDefinitionQuestion(normalizedText);
+
+  if (!kundli && actionRequiresKundli(action) && !canAnswerWithoutKundli) {
+    return {
+      action,
+      canAnswerWithoutKundli,
+      normalizedText,
+      providerDecision: 'missing_data_question',
+      reason: 'missing_kundli',
+      shouldCallProvider: false,
+    };
+  }
+
+  const providerDecision = classifyProviderDecision(action);
+
+  return {
+    action,
+    canAnswerWithoutKundli,
+    normalizedText,
+    providerDecision,
+    reason:
+      providerDecision === 'local_memory_answer'
+        ? 'local_memory_available'
+        : 'deterministic_action_available',
+    shouldCallProvider: false,
   };
 }
 
