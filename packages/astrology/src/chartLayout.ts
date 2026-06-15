@@ -60,6 +60,7 @@ export type ChartRenderCell = ChartCell & {
   ariaLabel: string;
   hasManyPlanets: boolean;
   hiddenPlanetCount: number;
+  labelBox: ChartLabelBox;
   labelDensity: 'compact' | 'normal' | 'stacked';
   maxVisiblePlanets: number;
   planetGlyphSize: 'compact' | 'full';
@@ -68,6 +69,13 @@ export type ChartRenderCell = ChartCell & {
   showPlanetStatusMarks: boolean;
   renderPlanets: ChartRenderPlanet[];
   supportingPoints: PlanetPosition[];
+};
+
+export type ChartLabelBox = {
+  height: number;
+  width: number;
+  x: number;
+  y: number;
 };
 
 export type ChartRenderLegendItem = {
@@ -433,7 +441,7 @@ const CHART_SURFACE_PRESETS: Record<ChartRenderPresentation, ChartSurfacePreset>
       compact: 2,
       stacked: 4,
     },
-    maxVisiblePlanets: 7,
+    maxVisiblePlanets: 12,
     planetGlyphSize: 'compact',
     showPlanetDegrees: true,
     showPlanetSign: false,
@@ -482,6 +490,21 @@ export const NORTH_INDIAN_HOUSE_POSITIONS: Record<
   10: { col: 4, row: 2, x: 75, y: 50 },
   11: { col: 4, row: 1, x: 87.5, y: 25 },
   12: { col: 3, row: 0, x: 75, y: 12.5 },
+};
+
+export const NORTH_INDIAN_HOUSE_LABEL_BOXES: Record<number, ChartLabelBox> = {
+  1: { height: 18, width: 30, x: 50, y: 25 },
+  2: { height: 11, width: 22, x: 25, y: 8 },
+  3: { height: 14, width: 14, x: 10, y: 25 },
+  4: { height: 20, width: 28, x: 25, y: 50 },
+  5: { height: 14, width: 14, x: 10, y: 75 },
+  6: { height: 11, width: 22, x: 25, y: 92 },
+  7: { height: 18, width: 30, x: 50, y: 75 },
+  8: { height: 11, width: 22, x: 75, y: 92 },
+  9: { height: 14, width: 14, x: 90, y: 75 },
+  10: { height: 20, width: 28, x: 75, y: 50 },
+  11: { height: 14, width: 14, x: 90, y: 25 },
+  12: { height: 11, width: 22, x: 75, y: 8 },
 };
 
 export const NORTH_INDIAN_CHART_LINE_PATHS = [
@@ -573,6 +596,7 @@ export function buildNorthIndianChartCells(
     ({
       ariaLabel: _ariaLabel,
       hasManyPlanets: _hasManyPlanets,
+      labelBox: _labelBox,
       labelDensity: _labelDensity,
       renderPlanets: _renderPlanets,
       ...cell
@@ -661,6 +685,7 @@ export function buildChartRenderModel({
       ),
       house,
       key: `house-${house}`,
+      labelBox: getNorthIndianHouseLabelBox(house, labelDensity, presentation),
       labelDensity,
       maxVisiblePlanets: cellDisplay.maxVisiblePlanets,
       planetGlyphSize: cellDisplay.planetGlyphSize,
@@ -883,7 +908,7 @@ function deriveCellPresentationSettings(
         presentation === 'main' ||
         presentation === 'creation' ||
         presentation === 'report'
-          ? Math.min(3, preset.maxVisiblePlanets)
+          ? preset.maxVisiblePlanets
           : Math.min(1, preset.maxVisiblePlanets),
       planetGlyphSize: 'compact',
       showPlanetDegrees: false,
@@ -907,7 +932,7 @@ function deriveCellPresentationSettings(
       presentation === 'main' ||
       presentation === 'creation' ||
       presentation === 'report'
-        ? Math.min(2, preset.maxVisiblePlanets)
+        ? preset.maxVisiblePlanets
         : presentation === 'library'
           ? Math.min(1, preset.maxVisiblePlanets)
           : 1,
@@ -915,6 +940,40 @@ function deriveCellPresentationSettings(
     showPlanetDegrees: false,
     showPlanetSign: false,
     showPlanetStatusMarks: false,
+  };
+}
+
+function getNorthIndianHouseLabelBox(
+  house: number,
+  labelDensity: ChartRenderCell['labelDensity'],
+  presentation: ChartRenderPresentation,
+): ChartLabelBox {
+  const base = NORTH_INDIAN_HOUSE_LABEL_BOXES[house] ?? NORTH_INDIAN_HOUSE_LABEL_BOXES[1];
+
+  if (presentation === 'chat') {
+    return shrinkChartLabelBox(base, 0.72);
+  }
+
+  if (presentation === 'landing' || presentation === 'library') {
+    return shrinkChartLabelBox(base, 0.68);
+  }
+
+  if (presentation === 'charts') {
+    return shrinkChartLabelBox(base, labelDensity === 'normal' ? 0.96 : 0.9);
+  }
+
+  if (presentation === 'full' || presentation === 'report') {
+    return shrinkChartLabelBox(base, labelDensity === 'stacked' ? 0.92 : 0.98);
+  }
+
+  return shrinkChartLabelBox(base, labelDensity === 'stacked' ? 0.9 : 1);
+}
+
+function shrinkChartLabelBox(box: ChartLabelBox, ratio: number): ChartLabelBox {
+  return {
+    ...box,
+    height: Number((box.height * ratio).toFixed(3)),
+    width: Number((box.width * ratio).toFixed(3)),
   };
 }
 

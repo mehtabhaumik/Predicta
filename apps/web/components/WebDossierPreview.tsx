@@ -9,6 +9,7 @@ import {
 } from '@pridicta/config';
 import {
   Fragment,
+  type CSSProperties,
   useEffect,
   useMemo,
   useRef,
@@ -1968,6 +1969,12 @@ function ReportChartSnapshot({
             className={`north-house-label north-house-label-${cell.house} north-house-label-${cell.labelDensity}`}
             data-density={cell.labelDensity}
             key={`${snapshot.chartType}-${cell.house}`}
+            style={{
+              ['--label-h' as string]: `${cell.labelBox.height}%`,
+              ['--label-w' as string]: `${cell.labelBox.width}%`,
+              ['--label-x' as string]: `${cell.labelBox.x}%`,
+              ['--label-y' as string]: `${cell.labelBox.y}%`,
+            } as CSSProperties}
           >
             <span className="north-house-meta">
               <span className="north-house-number">{cell.house}</span>

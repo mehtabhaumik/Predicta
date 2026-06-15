@@ -289,6 +289,10 @@ export function WebKundliChart({
               ...getKundliAnimationStyle(index, 'signs', animationSurface),
               ['--house-x' as string]: `${cell.x}%`,
               ['--house-y' as string]: `${cell.y}%`,
+              ['--label-h' as string]: `${cell.labelBox.height}%`,
+              ['--label-w' as string]: `${cell.labelBox.width}%`,
+              ['--label-x' as string]: `${cell.labelBox.x}%`,
+              ['--label-y' as string]: `${cell.labelBox.y}%`,
             } as CSSProperties}
           >
             <span className="north-house-meta">
@@ -317,9 +321,6 @@ export function WebKundliChart({
                     size={cell.planetGlyphSize}
                   />
                 ))}
-                {cell.hiddenPlanetCount ? (
-                  <span className="chart-overflow-counter">+{cell.hiddenPlanetCount}</span>
-                ) : null}
               </small>
             ) : null}
           </div>

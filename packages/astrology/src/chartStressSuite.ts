@@ -3,6 +3,7 @@ import type { BirthDetails, ChartData, PlanetPosition } from '@pridicta/types';
 import {
   buildChartRenderModel,
   findNorthIndianHouseAtPoint,
+  isPointInNorthIndianHouse,
   NORTH_INDIAN_CHART_LINE_PATHS,
   NORTH_INDIAN_HOUSE_POSITIONS,
 } from './chartLayout';
@@ -101,8 +102,8 @@ export function runChartStressSuite(): ChartStressSuiteResult {
       assertFullSurfacePreservesDegreesOnCrowdedHouses,
     ),
     stressCase(
-      'compact overflow prioritizes Rahu and Ketu when a surface must truncate',
-      assertNodePriorityOnCompactOverflow,
+      'report charts never hide core planets behind overflow counters',
+      assertReportSurfaceNeverUsesOverflowCounters,
     ),
     stressCase('default Vedic D1 hides outer and subtle supporting points', assertDefaultVedicD1HidesSupportingPoints),
     stressCase('full Vedic D1 can still expose supporting points when asked', assertFullVedicD1KeepsSupportingPoints),
@@ -240,7 +241,7 @@ function assertMajorSurfacesKeepThreePlanetCompactHousesVisible(): void {
   }
 }
 
-function assertNodePriorityOnCompactOverflow(): void {
+function assertReportSurfaceNeverUsesOverflowCounters(): void {
   const chart = makeChart({
     ascendantSign: 'Leo',
     chartType: 'D1',
@@ -262,15 +263,15 @@ function assertNodePriorityOnCompactOverflow(): void {
   });
   const cell = renderModel.cells.find(item => item.house === 12);
 
-  assert(cell !== undefined, 'Missing overflow-priority cell for report presentation.');
+  assert(cell !== undefined, 'Missing no-overflow cell for report presentation.');
   assertEqual(
-    cell.renderPlanets.slice(0, cell.maxVisiblePlanets).map(planet => planet.name),
-    ['Rahu', 'Sun'],
-    'When report must truncate a crowded KP house, Rahu should stay visible ahead of repeated classical planets.',
+    cell.renderPlanets.map(planet => planet.name),
+    ['Mercury', 'Sun', 'Jupiter', 'Rahu'],
+    'Report charts must preserve every core planet in the crowded house instead of truncating to a +n counter.',
   );
   assert(
-    cell.hiddenPlanetCount === 2,
-    'Crowded KP report houses should still disclose the remaining hidden planet count accurately.',
+    cell.hiddenPlanetCount === 0,
+    'Report charts must not hide planets behind overflow counters.',
   );
 }
 
@@ -454,11 +455,26 @@ function assertChartLabelsResolveInsideHouses(
   renderModel: ReturnType<typeof buildChartRenderModel>,
 ): void {
   for (const cell of renderModel.cells) {
+    assert(cell.house !== undefined, 'Chart render cells must include a house before containment checks.');
     const resolvedHouse = findNorthIndianHouseAtPoint(cell.x, cell.y);
     assert(
       resolvedHouse === cell.house,
       `House ${cell.house} label anchor ${cell.x},${cell.y} resolves to ${resolvedHouse ?? 'none'}.`,
     );
+    const box = cell.labelBox;
+    const corners = [
+      { x: box.x - box.width / 2, y: box.y - box.height / 2 },
+      { x: box.x + box.width / 2, y: box.y - box.height / 2 },
+      { x: box.x + box.width / 2, y: box.y + box.height / 2 },
+      { x: box.x - box.width / 2, y: box.y + box.height / 2 },
+    ];
+
+    for (const corner of corners) {
+      assert(
+        isPointInNorthIndianHouse(corner.x, corner.y, cell.house),
+        `House ${cell.house} label box leaks at ${corner.x.toFixed(2)},${corner.y.toFixed(2)}.`,
+      );
+    }
   }
 }
 

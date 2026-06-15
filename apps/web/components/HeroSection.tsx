@@ -7,6 +7,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import {
   getChartSurfacePreset,
   getChartRenderTheme,
+  NORTH_INDIAN_HOUSE_LABEL_BOXES,
   NORTH_INDIAN_HOUSE_POSITIONS,
   type ChartRenderTheme,
 } from '@pridicta/astrology';
@@ -106,6 +107,10 @@ export function HeroSection(): React.JSX.Element {
                 ...getKundliAnimationStyle(index, 'signs', 'landing'),
                 ['--house-x' as string]: `${house.x}%`,
                 ['--house-y' as string]: `${house.y}%`,
+                ['--label-h' as string]: `${house.labelBox.height}%`,
+                ['--label-w' as string]: `${house.labelBox.width}%`,
+                ['--label-x' as string]: `${house.labelBox.x}%`,
+                ['--label-y' as string]: `${house.labelBox.y}%`,
               } as CSSProperties}
             >
               <small className="hero-sign-meta">
@@ -135,11 +140,6 @@ export function HeroSection(): React.JSX.Element {
                       size={landingPreset.planetGlyphSize}
                     />
                   ))}
-                  {house.planets.length > landingPreset.maxVisiblePlanets ? (
-                    <span className="chart-overflow-counter">
-                      +{house.planets.length - landingPreset.maxVisiblePlanets}
-                    </span>
-                  ) : null}
                 </span>
               ) : null}
             </span>
@@ -193,8 +193,10 @@ function heroHouse(
   planets: ReturnType<typeof heroPlanet>[],
 ) {
   const position = NORTH_INDIAN_HOUSE_POSITIONS[house];
+  const labelBox = NORTH_INDIAN_HOUSE_LABEL_BOXES[house] ?? NORTH_INDIAN_HOUSE_LABEL_BOXES[1];
   return {
     house,
+    labelBox,
     planets,
     sign,
     signGlyph,

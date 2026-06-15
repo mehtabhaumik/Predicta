@@ -271,11 +271,11 @@ function ChartHouseCell({
         onPress={() => onFocusChange?.({ house: cell.house })}
         style={[styles.house, selected ? styles.selectedHouse : undefined]}
       >
-        <View className="flex-row items-center justify-between">
-          <AppText tone="secondary" variant="caption">
+        <View style={styles.cellHeader}>
+          <AppText numberOfLines={1} tone="secondary" variant="caption">
             H{cell.house}
           </AppText>
-          <AppText tone="secondary" variant="caption">
+          <AppText numberOfLines={1} tone="secondary" variant="caption">
             {cell.displaySignShort}
           </AppText>
         </View>
@@ -293,7 +293,7 @@ function ChartHouseCell({
                 }
                 style={styles.cellPlanetPill}
               >
-                <AppText variant="caption">
+                <AppText numberOfLines={1} variant="caption">
                   {formatPlanetChip(planet.name, planet.degree, chartLanguage)}
                 </AppText>
               </Pressable>
@@ -410,6 +410,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(77, 175, 255, 0.32)',
     borderRadius: 6,
     borderWidth: 1,
+    maxWidth: '100%',
     minWidth: 28,
     paddingHorizontal: 4,
     paddingVertical: 2,
@@ -420,6 +421,15 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 3,
     marginTop: 6,
+    maxHeight: 58,
+    overflow: 'hidden',
+  },
+  cellHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 4,
+    justifyContent: 'space-between',
+    minWidth: 0,
   },
   centerCell: {
     alignItems: 'center',
@@ -488,6 +498,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     borderWidth: StyleSheet.hairlineWidth,
     height: '100%',
+    overflow: 'hidden',
     padding: 7,
     width: '100%',
   },

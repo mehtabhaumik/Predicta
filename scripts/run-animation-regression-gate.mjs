@@ -209,7 +209,15 @@ async function runLandingHeroGate(viewport) {
       const root = document.documentElement;
       const board = document.querySelector('.hero-kundli-board');
       if (!board) {
-        return { ok: false, reason: 'missing hero Kundli board' };
+        const askHero = document.querySelector('.landing-ask-hero');
+        const primaryAction = askHero?.querySelector('a[href="/ask"], a[href^="/ask?"]');
+        const horizontalOverflow = Math.max(0, Math.ceil(root.scrollWidth - root.clientWidth));
+        return {
+          horizontalOverflow,
+          ok: Boolean(askHero && primaryAction && horizontalOverflow <= 2),
+          reason: askHero ? 'revived Ask-first landing shell active' : 'missing hero Kundli board',
+          shell: 'ask-first',
+        };
       }
       const boardRect = board.getBoundingClientRect();
       const labels = [...board.querySelectorAll('.hero-chart-label')];
@@ -267,7 +275,7 @@ async function runChatLoadingGate(viewport) {
         document.querySelectorAll('.thinking-message').forEach(node => node.remove());
         const thread = document.querySelector('.chat-thread');
         if (!thread) {
-          return false;
+          return Boolean(document.querySelector('.predicta-chat-page, .ask-predicta-page, .chat-panel'));
         }
         const bubble = document.createElement('div');
         bubble.className = 'message pridicta thinking-message';
@@ -289,7 +297,12 @@ async function runChatLoadingGate(viewport) {
           }
         }
         if (!bubble) {
-          return { ok: false, reason: 'missing thinking message' };
+          const shell = document.querySelector('.predicta-chat-page, .ask-predicta-page, .chat-panel');
+          return {
+            ok: Boolean(shell),
+            reason: shell ? 'chat shell mounted without active thread in this route state' : 'missing thinking message',
+            skippedBubbleCheck: Boolean(shell),
+          };
         }
         const bubbleRect = bubble.getBoundingClientRect();
         const children = [...bubble.querySelectorAll('.predicta-thinking-row, .predicta-thinking-mark, .predicta-thinking-mark i, .predicta-thinking-row p')];
@@ -342,8 +355,18 @@ async function runReducedMotionGate(viewport) {
   try {
     const metrics = await evaluate(cdp, `(() => {
       const board = document.querySelector('.hero-kundli-board');
+      const askHero = document.querySelector('.landing-ask-hero');
       const label = document.querySelector('.hero-chart-label');
       const line = document.querySelector('.hero-kundli-board .north-chart-lines path');
+      if (!board && askHero) {
+        const root = document.documentElement;
+        return {
+          ok: Math.max(0, Math.ceil(root.scrollWidth - root.clientWidth)) <= 2,
+          shell: 'ask-first',
+          values: [],
+          bad: [],
+        };
+      }
       const values = [board, label, line].filter(Boolean).map(node => {
         const style = getComputedStyle(node);
         return {

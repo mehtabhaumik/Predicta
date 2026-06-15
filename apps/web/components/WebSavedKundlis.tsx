@@ -389,6 +389,10 @@ function MiniKundliPreview({
           style={{
             ['--house-x' as string]: `${cell.x}%`,
             ['--house-y' as string]: `${cell.y}%`,
+            ['--library-label-h' as string]: `${cell.labelBox.height}%`,
+            ['--library-label-w' as string]: `${cell.labelBox.width}%`,
+            ['--library-label-x' as string]: `${cell.labelBox.x}%`,
+            ['--library-label-y' as string]: `${cell.labelBox.y}%`,
           } as CSSProperties}
         >
           <span className="kundli-library-mini-sign">{cell.signNumber}</span>
@@ -400,9 +404,6 @@ function MiniKundliPreview({
                   {planet.status.retrograde ? <i>R</i> : null}
                 </b>
               ))}
-              {cell.hiddenPlanetCount ? (
-                <span className="chart-overflow-counter">+{cell.hiddenPlanetCount}</span>
-              ) : null}
             </div>
           ) : null}
         </div>

@@ -189,6 +189,12 @@ export type PdfHouseWisePlanetRow = {
 export type PdfChartSnapshotCell = {
   house?: number;
   hiddenPlanetCount: number;
+  labelBox: {
+    height: number;
+    width: number;
+    x: number;
+    y: number;
+  };
   labelDensity: 'compact' | 'normal' | 'stacked';
   maxVisiblePlanets: number;
   planetGlyphSize: 'compact' | 'full';
@@ -3051,6 +3057,7 @@ function buildPdfChartSnapshots(
       cells: model.cells.map(cell => ({
         house: cell.house,
         hiddenPlanetCount: 0,
+        labelBox: cell.labelBox,
         labelDensity: cell.labelDensity,
         maxVisiblePlanets: Math.max(cell.maxVisiblePlanets, cell.renderPlanets.length),
         planetGlyphSize: cell.planetGlyphSize,

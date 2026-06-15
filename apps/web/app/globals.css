@@ -14261,12 +14261,14 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   display: grid;
   gap: 3px;
   justify-items: center;
-  left: var(--house-x);
-  max-width: 27%;
+  height: var(--library-label-h, 18%);
+  left: var(--library-label-x, var(--house-x));
+  max-width: none;
   pointer-events: none;
   position: absolute;
-  top: var(--house-y);
+  top: var(--library-label-y, var(--house-y));
   transform: translate(-50%, -50%);
+  width: var(--library-label-w, 27%);
   z-index: 3;
 }
 
@@ -21694,16 +21696,18 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   display: flex;
   flex-direction: column;
   gap: clamp(2px, 0.5vw, 5px);
+  height: var(--label-h, auto);
   justify-content: center;
-  left: var(--house-x);
-  max-width: 18%;
+  left: var(--label-x, var(--house-x));
+  max-width: none;
   min-width: 0;
+  overflow: hidden;
   pointer-events: none;
   position: absolute;
   text-align: center;
-  top: var(--house-y);
+  top: var(--label-y, var(--house-y));
   transform: translate(-50%, -50%);
-  width: clamp(52px, 15%, 118px);
+  width: var(--label-w, clamp(52px, 15%, 118px));
   z-index: 3;
 }
 
@@ -25282,14 +25286,14 @@ select::-ms-expand {
   .hero-kundli-board .hero-chart-label {
     block-size: auto !important;
     box-sizing: border-box !important;
-    width: clamp(38px, 12.4vw, 50px) !important;
-    left: var(--house-x) !important;
+    width: var(--label-w, clamp(38px, 12.4vw, 50px)) !important;
+    left: var(--label-x, var(--house-x)) !important;
     max-height: 60px !important;
-    max-width: 50px !important;
+    max-width: none !important;
     overflow: clip !important;
     padding: 1px !important;
     position: absolute !important;
-    top: var(--house-y) !important;
+    top: var(--label-y, var(--house-y)) !important;
     transform: translate(-50%, -50%) !important;
     white-space: normal !important;
   }
@@ -25298,7 +25302,7 @@ select::-ms-expand {
   .hero-kundli-board .hero-chart-label-5,
   .hero-kundli-board .hero-chart-label-9,
   .hero-kundli-board .hero-chart-label-11 {
-    transform: translate(-58%, -50%) !important;
+    transform: translate(-50%, -50%) !important;
   }
 
   .hero-kundli-board .hero-sign-name {
@@ -25592,27 +25596,28 @@ select::-ms-expand {
 
 .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label {
   gap: clamp(1px, 0.34vw, 4px);
-  max-height: 54px;
-  max-width: 16%;
+  height: var(--label-h, auto);
+  max-height: none;
+  max-width: none;
   overflow: hidden;
   padding: 1px;
-  width: clamp(40px, 13.5%, 96px);
+  width: var(--label-w, clamp(40px, 13.5%, 96px));
 }
 
 .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-1,
 .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-4,
 .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-7,
 .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-10 {
-  max-width: 19%;
-  width: clamp(46px, 17%, 110px);
+  max-width: none;
+  width: var(--label-w, clamp(46px, 17%, 110px));
 }
 
 .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-3,
 .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-5,
 .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-9,
 .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-11 {
-  max-width: 13%;
-  width: clamp(34px, 11.6%, 78px);
+  max-width: none;
+  width: var(--label-w, clamp(34px, 11.6%, 78px));
 }
 
 .hero-kundli-board[data-chart-presentation='landing'] .hero-sign-name {
@@ -25644,20 +25649,15 @@ select::-ms-expand {
 
 @media (max-width: 720px) {
   .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label {
-    max-height: 50px;
-    width: clamp(36px, 12.2vw, 72px);
+    max-height: none;
+    width: var(--label-w, clamp(36px, 12.2vw, 72px));
   }
 
   .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-3,
   .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-5,
   .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-9,
   .hero-kundli-board[data-chart-presentation='landing'] .hero-chart-label-11 {
-    width: clamp(30px, 10vw, 58px);
-  }
-
-  .hero-kundli-board[data-chart-presentation='landing'] .chart-overflow-counter,
-  .chat-mini-chart[data-chart-presentation='chat'] .chart-overflow-counter {
-    display: none;
+    width: var(--label-w, clamp(30px, 10vw, 58px));
   }
 
   .chat-mini-chart[data-chart-presentation='chat'] .north-house-label {
@@ -25767,10 +25767,13 @@ select::-ms-expand {
 
 .kundli-library-mini-chart[data-chart-presentation='library'] .kundli-library-mini-cell {
   gap: 2px;
+  height: var(--library-label-h, 18%);
+  left: var(--library-label-x, var(--house-x));
   max-width: none;
   min-height: 0;
   overflow: hidden;
   padding: 1px;
+  top: var(--library-label-y, var(--house-y));
   width: var(--library-label-w, 26%);
 }
 
@@ -25812,25 +25815,6 @@ select::-ms-expand {
   font-size: clamp(0.5rem, 0.72vw, 0.58rem);
   max-width: 40px;
   padding: 2px 4px;
-}
-
-.chart-overflow-counter {
-  align-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 999px;
-  color: var(--kundli-label-muted);
-  display: inline-flex;
-  flex: 0 0 auto;
-  font-size: clamp(7px, 0.62vw, 10px);
-  font-style: normal;
-  font-weight: 900;
-  justify-content: center;
-  line-height: 1;
-  max-width: 100%;
-  min-height: 14px;
-  min-width: 14px;
-  padding: 1px 4px;
 }
 
 @media (max-width: 820px) {
