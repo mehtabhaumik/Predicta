@@ -4357,6 +4357,7 @@ button:disabled,
   align-items: center;
   cursor: pointer;
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   justify-content: space-between;
   list-style: none;
@@ -11360,6 +11361,15 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   font-size: 13px;
   line-height: 1.45;
   margin: 0;
+  text-align: right;
+}
+
+.pass-cost-meter small {
+  color: rgba(248, 219, 156, 0.82);
+  flex-basis: 100%;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
   text-align: right;
 }
 

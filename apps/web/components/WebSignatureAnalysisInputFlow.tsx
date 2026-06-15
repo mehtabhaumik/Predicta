@@ -1,6 +1,10 @@
 'use client';
 
-import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
+import {
+  formatNativeCopy,
+  getNativeCopy,
+  getPredictaMicroMessage,
+} from '@pridicta/config';
 import { useRouter } from 'next/navigation';
 import {
   useEffect,
@@ -247,7 +251,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
       body:
         'Once a signature is ready, Predicta can explain what shape, pressure, spacing, and rhythm usually represent in simple language.',
       empty: 'No signature selected yet.',
-      ready: 'Signature ready locally',
+      ready: getPredictaMicroMessage('en', 'signatureReady'),
       title: 'Signature preview',
     },
     report: {
@@ -280,7 +284,7 @@ const SIGNATURE_COPY: Record<SupportedLanguage, SignatureCopy> = {
         'Your previous signature image was not stored. Please re-upload or re-draw it to continue.',
       notAssessed: 'Not assessed',
       privacyShort: SIGNATURE_SHORT_PRIVACY_COPY,
-      ready: 'Signature traits ready. Please confirm what looks right.',
+      ready: getPredictaMicroMessage('en', 'signatureReady'),
       scanned: 'Signature scanned',
       scanning: 'Scanning your signature expression...',
       scanLabels: SIGNATURE_SCAN_LABELS,

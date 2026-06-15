@@ -1,0 +1,25 @@
+{
+  "phase": "PREDICTA_INTELLIGENCE_PHASE_5_MICRO_DETAILING_AND_MICRO_MESSAGING",
+  "status": "green",
+  "requiredIds": [
+    "careerTimingFocus",
+    "checkingTimingFirst",
+    "deterministicModeActive",
+    "elegantFunSpark",
+    "kpUsefulEventQuestion",
+    "kundliSelected",
+    "needBirthPlacePrecision",
+    "passNearingExhaustion",
+    "reportReady",
+    "signatureReady"
+  ],
+  "strictAudit": true,
+  "verified": [
+    "translation-backed microcopy ids",
+    "short progress messages",
+    "careful pass exhaustion nudge",
+    "signature ready shared microcopy",
+    "deterministic action micro-prelude capped at two lines",
+    "no noisy banned phrases"
+  ]
+}

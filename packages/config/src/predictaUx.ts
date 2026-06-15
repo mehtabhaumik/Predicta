@@ -37,12 +37,25 @@ type PredictaUxLocalizedCopy = {
   birthIntakeWelcome: string;
   friendlyGreetingLines: string[];
   listeningMicrocopy: string[];
+  microMessages: Record<PredictaMicroMessageId, string>;
 };
 
 const PREDICTA_UX_COPY = predictaUxTranslations.copy as Record<
   SupportedLanguage,
   PredictaUxLocalizedCopy
 >;
+
+export type PredictaMicroMessageId =
+  | 'careerTimingFocus'
+  | 'checkingTimingFirst'
+  | 'deterministicModeActive'
+  | 'elegantFunSpark'
+  | 'kpUsefulEventQuestion'
+  | 'kundliSelected'
+  | 'needBirthPlacePrecision'
+  | 'passNearingExhaustion'
+  | 'reportReady'
+  | 'signatureReady';
 
 function getPredictaUxCopy(language: SupportedLanguage): PredictaUxLocalizedCopy {
   return PREDICTA_UX_COPY[language] ?? PREDICTA_UX_COPY.en;
@@ -69,6 +82,14 @@ export function getListeningMicrocopy(language: SupportedLanguage): string {
   const index = Math.floor(Math.random() * items.length);
 
   return items[index] ?? items[0];
+}
+
+export function getPredictaMicroMessage(
+  language: SupportedLanguage,
+  id: PredictaMicroMessageId,
+): string {
+  const copy = getPredictaUxCopy(language);
+  return copy.microMessages[id] ?? PREDICTA_UX_COPY.en.microMessages[id];
 }
 
 export function getBirthExtractionFailureReply(

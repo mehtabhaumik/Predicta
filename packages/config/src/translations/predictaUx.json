@@ -106,8 +106,22 @@
         "Preparing the Lagna and core chart factors...",
         "Checking nakshatra, dasha, and transit context...",
         "Reading the chart evidence before I answer...",
-        "Calculating quietly so the guidance stays grounded..."
-      ]
+        "Calculating quietly so the guidance stays grounded...",
+        "I am checking timing first.",
+        "KP is useful here because this is an event question."
+      ],
+      "microMessages": {
+        "careerTimingFocus": "You were looking at career timing; I will keep this event-focused.",
+        "checkingTimingFirst": "I am checking timing first.",
+        "deterministicModeActive": "Deterministic mode is active, so this does not spend an AI credit.",
+        "elegantFunSpark": "Small star-note: evidence first, quiet sparkle second.",
+        "kpUsefulEventQuestion": "KP is useful here because this is an event question.",
+        "kundliSelected": "Kundli selected. I will read this profile, not a generic chart.",
+        "needBirthPlacePrecision": "I need your birth place before I can be precise.",
+        "passNearingExhaustion": "You are close to the limit. I will warn you before a paid action is needed.",
+        "reportReady": "Your report is ready, so I can explain the exact section.",
+        "signatureReady": "Signature ready. I will use only confirmed visible traits."
+      }
     },
     "hi": {
       "birthExtractionFailureLines": [
@@ -129,8 +143,22 @@
         "लग्न, चंद्र और मुख्य चार्ट संकेत देखे जा रहे हैं...",
         "नक्षत्र, दशा और गोचर संदर्भ जांचा जा रहा है...",
         "उत्तर देने से पहले चार्ट प्रमाण पढ़ रही हूं...",
-        "गणना शांत तरीके से हो रही है ताकि मार्गदर्शन जमीन से जुड़ा रहे..."
-      ]
+        "गणना शांत तरीके से हो रही है ताकि मार्गदर्शन जमीन से जुड़ा रहे...",
+        "मैं पहले समय संकेत देख रही हूं.",
+        "यह घटना वाला सवाल है, इसलिए यहां KP उपयोगी है."
+      ],
+      "microMessages": {
+        "careerTimingFocus": "आप करियर टाइमिंग देख रहे थे; मैं इसे घटना-केंद्रित रखूंगी.",
+        "checkingTimingFirst": "मैं पहले समय संकेत देख रही हूं.",
+        "deterministicModeActive": "निश्चित गणना मोड सक्रिय है, इसलिए एआई क्रेडिट खर्च नहीं होगा.",
+        "elegantFunSpark": "छोटा तारकीय संकेत: पहले प्रमाण, फिर हल्की चमक.",
+        "kpUsefulEventQuestion": "यह घटना वाला सवाल है, इसलिए यहां KP उपयोगी है.",
+        "kundliSelected": "कुंडली चुनी गई. मैं इसी profile को पढ़ूंगी, generic chart नहीं.",
+        "needBirthPlacePrecision": "सटीकता के लिए मुझे जन्म स्थान चाहिए.",
+        "passNearingExhaustion": "आप limit के पास हैं. Paid action से पहले मैं आपको बता दूंगी.",
+        "reportReady": "आपकी रिपोर्ट तैयार है, इसलिए मैं सही अनुभाग समझा सकती हूं.",
+        "signatureReady": "हस्ताक्षर तैयार है. मैं सिर्फ पक्के दिखने वाले संकेतों का उपयोग करूंगी."
+      }
     },
     "gu": {
       "birthExtractionFailureLines": [
@@ -152,8 +180,22 @@
         "લગ્ન, ચંદ્ર અને મુખ્ય ચાર્ટ સંકેતો તપાસી રહી છું...",
         "નક્ષત્ર, દશા અને ગોચર સંદર્ભ જોઈ રહી છું...",
         "જવાબ પહેલાં ચાર્ટ પુરાવા વાંચી રહી છું...",
-        "માર્ગદર્શન જમીન સાથે જોડાયેલું રહે તે માટે શાંતિથી ગણતરી કરી રહી છું..."
-      ]
+        "માર્ગદર્શન જમીન સાથે જોડાયેલું રહે તે માટે શાંતિથી ગણતરી કરી રહી છું...",
+        "હું પહેલા સમય સંકેત જોઈ રહી છું.",
+        "આ ઘટના સંબંધિત સવાલ છે, એટલે અહીં KP ઉપયોગી છે."
+      ],
+      "microMessages": {
+        "careerTimingFocus": "તમે કરિયર સમય જોઈ રહ્યા હતા; હું આને ઘટના-કેન્દ્રિત રાખીશ.",
+        "checkingTimingFirst": "હું પહેલા સમય સંકેત જોઈ રહી છું.",
+        "deterministicModeActive": "નિશ્ચિત ગણતરી મોડ સક્રિય છે, એટલે એઆઈ ક્રેડિટ વપરાશે નહીં.",
+        "elegantFunSpark": "નાનો તારક સંકેત: પહેલાં પુરાવો, પછી શાંત ચમક.",
+        "kpUsefulEventQuestion": "આ ઘટના સંબંધિત સવાલ છે, એટલે અહીં KP ઉપયોગી છે.",
+        "kundliSelected": "કુંડળી પસંદ થઈ. હું આ પ્રોફાઇલ વાંચીશ, સામાન્ય ચાર્ટ નહીં.",
+        "needBirthPlacePrecision": "ચોક્કસતા માટે મને જન્મ સ્થળ જોઈએ.",
+        "passNearingExhaustion": "તમે limit પાસે છો. Paid action પહેલાં હું તમને જણાવીશ.",
+        "reportReady": "તમારો રિપોર્ટ તૈયાર છે, એટલે હું ચોક્કસ વિભાગ સમજાવી શકું છું.",
+        "signatureReady": "હસ્તાક્ષર તૈયાર છે. હું ફક્ત પુષ્ટિ થયેલા દેખાતા સંકેતોનો ઉપયોગ કરીશ."
+      }
     }
   }
 }

@@ -1,0 +1,18 @@
+corepack pnpm test:predicta-intelligence-phase-5
+PASS - PREDICTA_INTELLIGENCE_PHASE_5_MICRO_DETAILING_AND_MICRO_MESSAGING: passed
+
+corepack pnpm --filter @pridicta/config typecheck
+PASS - tsc --noEmit
+
+corepack pnpm --filter @pridicta/astrology typecheck
+PASS - tsc --noEmit
+
+corepack pnpm --filter @pridicta/web typecheck
+PASS - next typegen && tsc --noEmit
+
+corepack pnpm test:predicta-intelligence-phase-4
+PASS - PREDICTA_INTELLIGENCE_PHASE_4_MULTI_SCHOOL_CONSULTATION_ENGINE: passed
+
+corepack pnpm test:specialist-room-qa
+PASS - Specialist room QA gate passed.
+

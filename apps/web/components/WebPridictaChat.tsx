@@ -5,6 +5,7 @@ import {
   formatPredictaWebChatCopy,
   getMonetizationReportRequirementCopy,
   getNativeCopy,
+  getPredictaMicroMessage,
   getPredictaWebChatCopy,
 } from '@pridicta/config';
 import Link from 'next/link';
@@ -1952,6 +1953,11 @@ export function WebPridictaChat({
           <div className={`pass-cost-meter ${passCostDisplay.tone}`}>
             <span>{passCostDisplay.title}</span>
             <p>{passCostDisplay.body}</p>
+            {passCostDisplay.tone === 'careful' ? (
+              <small>
+                {getPredictaMicroMessage(language, 'passNearingExhaustion')}
+              </small>
+            ) : null}
           </div>
         ) : null}
         <div aria-live="polite" className="chat-thread" ref={threadRef}>

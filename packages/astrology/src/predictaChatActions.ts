@@ -1,4 +1,8 @@
-import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
+import {
+  formatNativeCopy,
+  getNativeCopy,
+  getPredictaMicroMessage,
+} from '@pridicta/config';
 import type {
   ChartContext,
   KundliData,
@@ -1164,7 +1168,10 @@ function buildActionText({
   memory: PredictaInteractionMemory;
   predictaSchool?: PredictaSchool;
 }): string {
-  const intro = actionIntro(language);
+  const intro = joinSections([
+    actionIntro(language),
+    buildMicroPrelude({ action, kundli, language, text }),
+  ]);
   const insight = buildMemoryInsight(language, memory, kundli, savedKundlis);
   const upsell = buildUpsell(language, action, hasPremiumAccess);
 
@@ -1856,6 +1863,65 @@ function actionIntro(language: SupportedLanguage): string {
     return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.0e2af953d7");
   }
   return 'Yes. I can do that right here.';
+}
+
+function buildMicroPrelude({
+  action,
+  kundli,
+  language,
+  text,
+}: {
+  action: PredictaAppActionId;
+  kundli?: KundliData;
+  language: SupportedLanguage;
+  text: string;
+}): string | undefined {
+  const normalized = text.toLowerCase();
+  const messages: string[] = [];
+
+  if (action === 'create-kundli') {
+    messages.push(
+      getPredictaMicroMessage(language, 'needBirthPlacePrecision'),
+      getPredictaMicroMessage(language, 'deterministicModeActive'),
+    );
+  }
+
+  if (action === 'multi-school-consultation') {
+    messages.push(getPredictaMicroMessage(language, 'checkingTimingFirst'));
+
+    if (
+      /\b(will|when|likely|possible|chance|timing|trigger|delay)\b/i.test(
+        normalized,
+      )
+    ) {
+      messages.push(getPredictaMicroMessage(language, 'kpUsefulEventQuestion'));
+    }
+
+    if (/\b(career|job|promotion|work)\b/i.test(normalized)) {
+      messages.push(getPredictaMicroMessage(language, 'careerTimingFocus'));
+    }
+  }
+
+  if (action === 'pass-redemption') {
+    messages.push(getPredictaMicroMessage(language, 'passNearingExhaustion'));
+  }
+
+  if (action === 'report') {
+    messages.push(getPredictaMicroMessage(language, 'reportReady'));
+  }
+
+  if (
+    kundli &&
+    (action === 'chart' ||
+      action === 'mahadasha' ||
+      action === 'saved-kundlis' ||
+      action === 'transit-gochar')
+  ) {
+    messages.push(getPredictaMicroMessage(language, 'kundliSelected'));
+  }
+
+  const uniqueMessages = mergeUnique([], messages, 2);
+  return uniqueMessages.length ? uniqueMessages.join('\n') : undefined;
 }
 
 function conciergeMenu(
