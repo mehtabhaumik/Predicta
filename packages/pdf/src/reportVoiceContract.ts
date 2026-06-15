@@ -1,13 +1,13 @@
 import type { PdfSection } from './index';
 
 export const REPORT_VOICE_SEQUENCE = [
-  'technical evidence',
   'plain prediction',
   'timing / current relevance',
   'what helps',
   'what blocks',
   'what to do next',
   'confidence / caution',
+  'supporting evidence / appendix',
 ] as const;
 
 const TOOLKIT_LANGUAGE_REWRITES: Array<[RegExp, string]> = [
@@ -23,8 +23,10 @@ const TOOLKIT_LANGUAGE_REWRITES: Array<[RegExp, string]> = [
   [/\btechnical proof before user meaning\b/gi, 'supporting proof after user meaning'],
   [/\bmethod lesson\b/gi, 'supporting appendix'],
   [/\btoolkit\b/gi, 'guided reading'],
+  [/\bsupportive toolkit\b/gi, 'supportive rhythm guide'],
   [/\bhow to use this report\b/gi, 'what this report is saying'],
   [/\bhow to read this report\b/gi, 'what this means for you'],
+  [/\byou will learn\b/gi, 'Predicta will answer'],
   [/\buse this report as a starting point\b/gi, 'use this prediction as grounded guidance'],
   [/\bchart-backed notes\b/gi, 'chart-backed prediction'],
   [/\bmeaningful insight\b/gi, 'specific prediction and guidance'],
@@ -72,5 +74,5 @@ export function hasPredictionFirstSignal(section: PdfSection): boolean {
 
 export function hasSchoolingFirstRisk(section: PdfSection): boolean {
   const firstText = `${section.body} ${section.bullets.slice(0, 2).join(' ')}`.toLowerCase();
-  return /\b(represents|governs|how to read|how to use this report|method lesson|toolkit|technical classroom|internal system|internal contract|qa artifact|starting point|method-boundary page|technical proof before user meaning)\b/.test(firstText);
+  return /\b(represents|governs|you will learn|how to read|how to use this report|method lesson|toolkit|technical classroom|internal system|internal contract|qa artifact|starting point|method-boundary page|technical proof before user meaning)\b/.test(firstText);
 }

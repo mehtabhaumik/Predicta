@@ -1309,7 +1309,7 @@ export function PredictaReportPdfDocument({
                 ? 'Numerology next step'
                 : reportFocus === 'SIGNATURE'
                   ? 'Signature next step'
-                : 'Fun chart note'}
+                : 'Kundli prediction to carry'}
           </Text>
           <Text style={[styles.panelTitle, displayTextStyle]}>
             {reportFocus === 'LIFE_ATLAS'
@@ -1322,7 +1322,7 @@ export function PredictaReportPdfDocument({
                 ? 'Use the current cycle this week.'
                 : reportFocus === 'SIGNATURE'
                   ? 'Refine expression without changing who you are.'
-                : buildThemeFunFact(report.chartSnapshots[0]?.theme ?? 'unknown', report.cover.metadata[0] ?? '')}
+                : 'Let the chart point become one practical next step.'}
           </Text>
           <Text style={styles.panelBody}>
             {reportFocus === 'LIFE_ATLAS'
@@ -1335,7 +1335,7 @@ export function PredictaReportPdfDocument({
                   ? 'Numerology works best when the number insight becomes a small practical choice: use the current cycle, strengthen what repeats, and practice what feels missing without turning numbers into fear.'
                 : reportFocus === 'SIGNATURE'
                   ? 'Signature Predicta uses only confirmed visible traits from the current session. Let the reading improve clarity, rhythm, and presentation without turning it into a fixed identity label.'
-                : 'Predicta keeps the same time-of-day chart atmosphere in the PDF so the document still feels like your Kundli, not like a disconnected export.'}
+                : `${buildThemeFunFact(report.chartSnapshots[0]?.theme ?? 'unknown', report.cover.metadata[0] ?? '')} Carry the strongest chart message into action instead of treating the report as decoration.`}
           </Text>
         </View>
         <View
@@ -1683,10 +1683,10 @@ function buildPlannedSpreads({
     addSpread(
       'Jaimini appendix',
       'The evidence behind the destiny reading',
-      'The appendix preserves calculations for audit without making the main report feel like a technical workbook.',
+      'The appendix preserves calculations for audit after the user has already received the prediction and action.',
       ['jaimini-appendix'],
       1,
-      'Technical evidence',
+      'Supporting evidence',
     );
   } else if (isFocusedRoom) {
     addSpread(
@@ -1704,14 +1704,14 @@ function buildPlannedSpreads({
       reportFocus === 'KP' ? 'KP evidence' : 'Core evidence',
     );
     addSpread(
-      reportFocus === 'KP' ? 'KP technical evidence' : 'Focused technical evidence',
+      reportFocus === 'KP' ? 'KP support evidence' : 'Focused support evidence',
       'The calculations that support the prediction',
       reportFocus === 'KP'
         ? 'KP cusps, planets, houses represented, ruling planets, and timing support stay visible here, with each row tied to a prediction.'
         : 'These are the chart or method details that change the practical meaning, not just raw terminology.',
       ['foundation', 'chart-synthesis', 'planets', 'timing', 'transits', 'rectification'],
       2,
-      reportFocus === 'KP' ? 'KP technical support' : 'Why this prediction holds',
+      reportFocus === 'KP' ? 'KP support behind the answer' : 'Why this prediction holds',
     );
     addSpread(
       'Prediction into action',
@@ -1740,11 +1740,11 @@ function buildPlannedSpreads({
     );
     addSpread(
       'Foundation',
-      'Technical chart foundation',
-      'This spread preserves the birth data, chart structure, and calculation confidence; every technical point exists to support the prediction that follows.',
+      'Chart foundation behind the answer',
+      'This spread preserves birth data, chart structure, and calculation confidence after the main prediction is clear.',
       ['foundation', 'chart-synthesis', 'rectification'],
       2,
-      'Technical evidence',
+      'Supporting evidence',
     );
     addSpread(
       'Timing',
@@ -1820,13 +1820,13 @@ function buildPlannedSpreads({
         ? 'Life Atlas continuation'
         : isFocusedRoom
           ? reportFocus === 'KP'
-            ? 'KP technical evidence'
+            ? 'KP support evidence'
             : 'Prediction evidence'
         : report.mode === 'PREMIUM'
-          ? 'Technical appendix'
+          ? 'Evidence appendix'
           : 'Classical evidence',
       lead: isLifeAtlas
-        ? 'These remaining Life Atlas notes continue the human reading without turning it into technical proof.'
+        ? 'These remaining Life Atlas notes continue the human reading without turning it into a proof packet.'
         : isFocusedRoom
           ? reportFocus === 'KP'
             ? 'These KP details preserve cusps, houses, lords, timing signals, and represented houses after the prediction has already been made clear.'
@@ -1847,10 +1847,10 @@ function buildPlannedSpreads({
         ? 'Additional Life Atlas guidance'
         : isFocusedRoom
           ? reportFocus === 'KP'
-            ? 'KP technical appendix'
+            ? 'KP support appendix'
             : 'Prediction evidence appendix'
         : report.mode === 'PREMIUM'
-          ? 'Technical appendix and supporting evidence'
+          ? 'Evidence appendix and supporting detail'
           : 'Classical supporting evidence'),
     });
   }
@@ -1925,9 +1925,9 @@ function buildOnboardingCards(
     {
       body: scope === 'focused'
         ? architecture.reportPromise
-        : architecture.stages.find(stage => stage.id === 'personal-opening')?.purpose ?? 'Read the summary first, then the chart spread, then the life-area spreads before you open late proof pages.',
+        : architecture.stages.find(stage => stage.id === 'personal-opening')?.purpose ?? 'Start with the clearest prediction, then use charts and evidence to understand why it holds.',
       eyebrow: 'Start here',
-      title: 'Use the spreads in order',
+      title: 'Start with the answer',
     },
     {
       body: 'The PDF keeps the same sign, planet, degree, and status-mark language as the app so the charts still feel like your Kundli.',
@@ -1937,7 +1937,7 @@ function buildOnboardingCards(
     {
       body: activeDepth.promise,
       eyebrow: mode === 'PREMIUM' ? 'Premium depth' : 'Free value',
-      title: mode === 'PREMIUM' ? 'Depth stays, clutter goes' : 'Free is not a teaser',
+      title: mode === 'PREMIUM' ? 'Depth stays, clutter goes' : 'Free gives real guidance',
     },
     {
       body: 'Use proof pages to support decisions, not to replace context, judgment, or professional help in serious matters.',

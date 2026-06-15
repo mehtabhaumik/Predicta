@@ -145,7 +145,7 @@ const documentSource = read('packages/pdf/src/reportDocument.tsx');
 [
   'The strengths and lessons you carry',
   'Your gifts and repeating lessons are named together',
-  'technical workbook',
+  'prediction and action',
 ].forEach(fragment => assertIncludes(documentSource, fragment, 'Life Atlas document renderer'));
 
 const audit = read(`${auditDir}/life-atlas-flagship-rebuild-audit.md`);

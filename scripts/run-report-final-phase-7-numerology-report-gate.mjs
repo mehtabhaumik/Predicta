@@ -80,7 +80,7 @@ const contract = read('packages/pdf/src/numerologyReportValueContract.ts');
   'Name Refinement',
   'Compatibility Lens',
   'Personal Year Timeline',
-  'Supportive Toolkit',
+  'Supportive Rhythm Guide',
   'Number Calculation Appendix',
   'Numerology report as renamed Kundli report',
   'D1 or D9 Parashari chart in Numerology report',
@@ -172,7 +172,7 @@ assert(manifest.reportLane === 'NUMEROLOGY', 'manifest lane must be NUMEROLOGY')
   'Name Refinement',
   'Compatibility Lens',
   'Personal Year Timeline',
-  'Supportive Toolkit',
+  'Supportive Rhythm Guide',
   'Number Calculation Appendix',
 ].forEach(module => assert(manifest.requiredModules?.includes(module), `manifest missing Numerology module ${module}`));
 

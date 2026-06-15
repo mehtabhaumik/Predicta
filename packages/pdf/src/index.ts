@@ -263,7 +263,7 @@ const DEBILITATION_SIGNS: Record<string, string> = {
 // "What this can and cannot tell you"
 // "buildFocusedSchoolTrustSection"
 // "Life Theme Sentence"
-// "Lucky/Supportive Toolkit"
+// "Lucky/Supportive Rhythm Guide"
 // "How Predicta calculated your numbers"
 // "Signature Predicta premium synthesis"
 // "reportFocus === 'LIFE_ATLAS' ? [] : buildPdfHouseWisePlanetRows"
@@ -471,7 +471,7 @@ function buildEventOracleReportAlignmentSection(
     body: alignment.directPromise,
     bullets: [
       alignment.timingPromise,
-      ...alignment.userWillLearn.map(item => `You will learn ${item}.`),
+      ...alignment.userWillLearn.map(item => `Predicta will answer ${item}.`),
       mode === 'PREMIUM' ? alignment.premiumDepth : alignment.freeDepth,
       alignment.actionPromise,
     ],

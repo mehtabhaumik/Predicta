@@ -106,7 +106,7 @@ type ReportSchoolLane = {
 
 const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
   {
-    bestFor: 'Learn what the Kundli is saying about life direction, current timing, pressure points, and practical remedy direction.',
+    bestFor: 'Get a direct Kundli answer about life direction, current timing, pressure points, and practical remedy direction.',
     boundary:
       'Vedic reports use Parashari Jyotish only. KP, Jaimini, Numerology, and Signature stay outside this lane.',
     freeDepth:
@@ -130,7 +130,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
     title: 'Vedic Reports',
   },
   {
-    bestFor: 'Learn whether a specific event looks supported, delayed, blocked, or unclear, then see the KP proof only after the answer.',
+    bestFor: 'Get a direct KP answer on whether an event looks supported, delayed, blocked, or unclear, then see the proof after the answer.',
     boundary:
       'KP reports use cusps, star lords, sub lords, sub-sub lords where available, significators, ruling planets, dasha support, and transit triggers. They do not become Vedic personality reports.',
     freeDepth:
@@ -144,7 +144,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
     title: 'KP Reports',
   },
   {
-    bestFor: 'Learn the soul role, visible path, career dharma, relationship mirror, and active destiny chapter.',
+    bestFor: 'See the soul role, visible path, career dharma, relationship mirror, and active destiny chapter.',
     boundary:
       'Jaimini reports use karakas, Karakamsha, Swamsa, Arudha, Upapada, Jaimini aspects, and Chara Dasha where calculated evidence is available. They do not use KP cusp logic or unsupported story claims.',
     freeDepth:
@@ -158,7 +158,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
     title: 'Jaimini Reports',
   },
   {
-    bestFor: 'Learn what the name and birth numbers emphasize, what cycle is active now, and how to use that rhythm.',
+    bestFor: 'See what the name and birth numbers emphasize, what cycle is active now, and how to use that rhythm.',
     boundary:
       'Numerology reports use number logic only. They do not include Kundli judgement unless a future synthesis report explicitly says so.',
     freeDepth:
@@ -172,7 +172,7 @@ const REPORT_SCHOOL_LANES: ReportSchoolLane[] = [
     title: 'Numerology Reports',
   },
   {
-    bestFor: 'Learn what confirmed visible traits may reflect about expression, confidence rhythm, consistency, and improvement focus.',
+    bestFor: 'See what confirmed visible traits may reflect about expression, confidence rhythm, consistency, and improvement focus.',
     boundary:
       'Signature reports use confirmed visible traits only. They do not include Numerology or Vedic synthesis unless a future synthesis report explicitly says so.',
     freeDepth:

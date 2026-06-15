@@ -19,7 +19,7 @@ export const NUMEROLOGY_FINAL_REPORT_REQUIRED_MODULES = [
   'Name Refinement',
   'Compatibility Lens',
   'Personal Year Timeline',
-  'Supportive Toolkit',
+  'Supportive Rhythm Guide',
   'Number Calculation Appendix',
 ] as const;
 
@@ -83,7 +83,7 @@ export function buildNumerologyReportValueContract({
       'Technical calculation proof before number prediction',
     ],
     evidencePromise:
-      'Numerology technical knowledge is preserved through number mandala, name rhythm, name scanner, birth code, destiny direction, current cycle, missing/repeated grid, name fit, compatibility lens, personal year timeline, supportive toolkit, and calculation appendix.',
+      'Numerology technical knowledge is preserved through number mandala, name rhythm, name scanner, birth code, destiny direction, current cycle, missing/repeated grid, name fit, compatibility lens, personal year timeline, supportive rhythm guide, and calculation appendix.',
     freeDepthPromise:
       'Free Numerology gives a real number identity reading: core numbers, current cycle, strengths, cautions, missing/repeated pattern, and one practical action.',
     openingPrediction:
@@ -91,7 +91,7 @@ export function buildNumerologyReportValueContract({
         ? `${kundli.birthDetails.name}'s Numerology report reads name rhythm ${nameRoot}, birth code ${birthRoot}, destiny direction ${destinyRoot}, and personal year ${yearRoot}. Premium turns this into name projection, life rhythm, cycle timing, missing/repeated pattern guidance, compatibility/refinement where available, and a practical action plan.`
         : `${kundli.birthDetails.name}'s Numerology report points to this number rhythm now: ${dashboard.lifeThemeSentence} The strongest current use is ${dashboard.bestUseOfCurrentCycle}. Repeated numbers: ${repeated}. Missing numbers: ${missing}. The useful focus is what to use, what to soften, and what small action brings the number pattern into daily life.`,
     paidDepthPromise:
-      'Premium Numerology adds a deeper name scanner, name fit score, name refinement, compatibility lens, supportive toolkit, full personal year timeline, and calculation proof while staying Numerology-only.',
+      'Premium Numerology adds a deeper name scanner, name fit score, name refinement, compatibility lens, supportive rhythm guide, full personal year timeline, and calculation proof while staying Numerology-only.',
     requiredModules: NUMEROLOGY_FINAL_REPORT_REQUIRED_MODULES,
     sectionOrder: NUMEROLOGY_FINAL_REPORT_SECTION_ORDER,
     timingPromise:

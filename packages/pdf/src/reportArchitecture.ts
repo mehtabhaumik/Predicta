@@ -87,12 +87,6 @@ const BASE_STAGES: ReportArchitectureStage[] = [
     required: true,
   },
   {
-    id: 'method-evidence',
-    label: 'Method-specific evidence',
-    purpose: 'Show the school-specific calculations that support the reading without mixing schools.',
-    required: true,
-  },
-  {
     id: 'prediction-chapters',
     label: 'Prediction chapters',
     purpose: 'Translate the evidence into direct life prediction and guidance.',
@@ -108,6 +102,12 @@ const BASE_STAGES: ReportArchitectureStage[] = [
     id: 'action-plan',
     label: 'Action plan',
     purpose: 'End the main reading with practical next steps, remedies, or behavior guidance.',
+    required: true,
+  },
+  {
+    id: 'method-evidence',
+    label: 'Method-specific evidence',
+    purpose: 'Show the school-specific calculations that support the reading without mixing schools.',
     required: true,
   },
   {

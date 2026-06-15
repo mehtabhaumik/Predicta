@@ -55,7 +55,7 @@ const roadmap = read('docs/PREDICTA_REPORTS_FINAL_VALUE_REBUILD_STRICT_PHASES.md
   'PREDICTA_REPORT_FINAL_PHASE_11_PREDICTA_MEMORY_AND_CHAT_REPORT_MASTERY',
   'PREDICTA_REPORT_FINAL_PHASE_12_GOLDEN_ARTIFACT_AND_NO_GO_REAUDIT',
   'Reports must predict, guide, and satisfy',
-  'technical evidence -> plain prediction',
+  'plain prediction -> timing/current relevance',
   'Free reports are not hollow previews',
   'Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas reports stay',
   'No report may look like an internal system contract',

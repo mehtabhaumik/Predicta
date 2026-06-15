@@ -22,7 +22,7 @@ alignment in user-facing language.
 - Free Numerology includes core number identity, current cycle, strengths,
   cautions, missing/repeated pattern, and one practical action.
 - Premium Numerology adds deeper name scanner, name fit score, name refinement,
-  compatibility lens, supportive toolkit, full personal year timeline, and
+  compatibility lens, supportive rhythm guide, full personal year timeline, and
   calculation proof.
 
 ## Required Modules Audited
@@ -41,7 +41,7 @@ alignment in user-facing language.
 - Name Refinement
 - Compatibility Lens
 - Personal Year Timeline
-- Supportive Toolkit
+- Supportive Rhythm Guide
 - Number Calculation Appendix
 
 ## Strict No-Go Failures Locked

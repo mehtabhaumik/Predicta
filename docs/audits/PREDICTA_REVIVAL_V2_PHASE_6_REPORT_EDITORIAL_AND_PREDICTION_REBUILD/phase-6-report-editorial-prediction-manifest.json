@@ -1,0 +1,48 @@
+{
+  "phase": "PREDICTA_REVIVAL_V2_PHASE_6_REPORT_EDITORIAL_AND_PREDICTION_REBUILD",
+  "status": "GREEN",
+  "reportLanes": [
+    "VEDIC",
+    "KP",
+    "JAIMINI",
+    "NUMEROLOGY",
+    "SIGNATURE",
+    "LIFE_ATLAS"
+  ],
+  "modes": [
+    "FREE",
+    "PREMIUM"
+  ],
+  "sourceContract": "answer-first",
+  "goldenMatrixCases": 12,
+  "noGoLedger": {
+    "critical": 0,
+    "major": 0,
+    "medium": 0,
+    "minor": 0
+  },
+  "bannedCopyRemoved": [
+    "Fun chart note",
+    "Use the spreads in order",
+    "Free is not a teaser",
+    "Supportive Toolkit",
+    "You will learn"
+  ],
+  "finalVerificationCommands": [
+    "corepack pnpm test:revival-v2-phase-6",
+    "corepack pnpm test:report-final-phase-4",
+    "corepack pnpm test:report-final-phase-5",
+    "corepack pnpm test:report-final-phase-6",
+    "corepack pnpm test:report-final-phase-1",
+    "corepack pnpm test:report-final-phase-7",
+    "corepack pnpm test:report-final-phase-8",
+    "corepack pnpm test:report-final-phase-9",
+    "corepack pnpm test:report-final-phase-12",
+    "corepack pnpm test:pdf-golden",
+    "corepack pnpm --filter @pridicta/pdf typecheck",
+    "corepack pnpm --filter @pridicta/web typecheck",
+    "corepack pnpm --filter @pridicta/mobile exec tsc --noEmit",
+    "corepack pnpm build:web",
+    "git diff --check"
+  ]
+}

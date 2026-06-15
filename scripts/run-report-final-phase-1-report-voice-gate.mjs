@@ -55,13 +55,13 @@ const roadmap = read('docs/PREDICTA_REPORTS_FINAL_VALUE_REBUILD_STRICT_PHASES.md
 const contract = read('packages/pdf/src/reportVoiceContract.ts');
 [
   'REPORT_VOICE_SEQUENCE',
-  'technical evidence',
   'plain prediction',
   'timing / current relevance',
   'what helps',
   'what blocks',
   'what to do next',
   'confidence / caution',
+  'supporting evidence / appendix',
   'TOOLKIT_LANGUAGE_REWRITES',
   'rewriteReportVoiceText',
   'applyReportVoiceContractToSection',
@@ -79,6 +79,8 @@ const contract = read('packages/pdf/src/reportVoiceContract.ts');
   'technical proof before user meaning',
   'how to use this report',
   'what this report is saying',
+  'you will learn',
+  'Predicta will answer',
   'use this report as a starting point',
   'use this prediction as grounded guidance',
   'internal system contract',

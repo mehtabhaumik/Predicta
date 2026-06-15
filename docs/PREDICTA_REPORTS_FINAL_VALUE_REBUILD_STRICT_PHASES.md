@@ -33,11 +33,11 @@ start delivering prediction, guidance, evidence, timing, and value.
 
 1. Reports must predict, guide, and satisfy. They must not teach astrology as
    the main experience.
-2. Technical evidence must be preserved, but prediction must immediately follow
-   the evidence.
+2. Technical evidence must be preserved, but prediction must come before dense
+   evidence in the main user-facing reading.
 3. Every meaningful section follows this rhythm:
-   `technical evidence -> plain prediction -> timing/current relevance -> what
-   helps -> what blocks -> what to do next -> confidence/caution`.
+   `plain prediction -> timing/current relevance -> what helps -> what blocks ->
+   what to do next -> confidence/caution -> supporting evidence/appendix`.
 4. Free reports are not hollow previews. Free reports must provide useful,
    specific, human-facing prediction.
 5. Paid reports add depth, contradictions, timing, evidence, and practical
@@ -167,8 +167,8 @@ instructions, and internal method-boundary paragraphs as primary content.
 - Add a shared report voice contract that every report section can pass through
   before localization/rendering.
 - Lock the required section rhythm:
-  `technical evidence -> plain prediction -> timing/current relevance -> what
-  helps -> what blocks -> what to do next -> confidence/caution`.
+  `plain prediction -> timing/current relevance -> what helps -> what blocks ->
+  what to do next -> confidence/caution -> supporting evidence/appendix`.
 - Rewrite user-facing report copy away from:
   - toolkit language
   - internal system-document language
@@ -496,14 +496,14 @@ paid name refinement where available.
   Current Cycle Action Plan, Missing / Repeated Number Grid, Strengths and
   Cautions, Work / Relationship / Money / Self-expression guidance, Name Fit
   Score, Name Refinement, Compatibility Lens, Personal Year Timeline,
-  Supportive Toolkit, and Number Calculation Appendix.
+  Supportive Rhythm Guide, and Number Calculation Appendix.
 - Numerology reports must not render D1/D9 Parashari chart pages, Vedic graha
   tables, sunrise chart notes, KP event proof, Jaimini destiny proof, or
   Signature trait claims.
 - Free Numerology must include core number identity, current cycle, strengths,
   cautions, missing/repeated pattern, and one practical action.
 - Premium Numerology must add deeper name scanner, name fit score, name
-  refinement, compatibility lens, supportive toolkit, full personal year
+  refinement, compatibility lens, supportive rhythm guide, full personal year
   timeline, and calculation proof.
 - Missing numbers must be framed as practice cues, not fear. Name refinement
   must never pressure a user or promise guaranteed success.
