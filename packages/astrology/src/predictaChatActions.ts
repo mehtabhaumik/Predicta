@@ -50,11 +50,13 @@ import { composeTransitGocharIntelligence } from './transitGocharIntelligence';
 import { composeYearlyHoroscopeVarshaphal } from './yearlyHoroscopeVarshaphal';
 
 export type PredictaAppActionId =
+  | 'account-settings'
   | 'advanced-jyotish'
   | 'birth-time'
   | 'chart'
   | 'bhav-chalit'
   | 'concierge'
+  | 'create-kundli'
   | 'daily-briefing'
   | 'decision-timing'
   | 'destiny-passport'
@@ -73,8 +75,10 @@ export type PredictaAppActionId =
   | 'numerology-predicta'
   | 'signature-handoff'
   | 'signature-predicta'
+  | 'support-help'
   | 'holistic-reading-rooms'
   | 'personal-panchang'
+  | 'pass-redemption'
   | 'pricing'
   | 'purushartha'
   | 'relationship'
@@ -119,8 +123,24 @@ export type PredictaActionRequest = {
   text: string;
 };
 
+export type PredictaAppFunctionHandoff = {
+  context: {
+    action: PredictaAppActionId;
+    originalQuestion: string;
+    requiresEntitlement?: boolean;
+    requiresKundli?: boolean;
+    requiresSignIn?: boolean;
+  };
+  href: string;
+  label: string;
+  preserveDraftIntent: boolean;
+  reason: string;
+  targetScreen: string;
+};
+
 export type PredictaActionReply = {
   action?: PredictaAppActionId;
+  handoff?: PredictaAppFunctionHandoff;
   handled: boolean;
   localMemoryUsed?: boolean;
   memory: PredictaInteractionMemory;
@@ -158,6 +178,31 @@ const ACTION_PATTERNS: Array<{
   id: PredictaAppActionId;
   pattern: RegExp;
 }> = [
+  {
+    id: 'account-settings',
+    pattern:
+      /\b(account|settings|profile|login|log\s*in|sign\s*in|signin|google\s*sign\s*in|google\s*login|manage\s*account|my\s*account)\b/i,
+  },
+  {
+    id: 'support-help',
+    pattern:
+      /\b(contact\s*support|support\s*team|help\s*team|customer\s*support|report\s*a\s*bug|bug\s*report|feedback|complaint|email\s*team|talk\s*to\s*team)\b/i,
+  },
+  {
+    id: 'pass-redemption',
+    pattern:
+      /\b(redeem|coupon|coupon\s*code|pass\s*code|redeem\s*pass|family\s*pass|friend\s*pass|promo\s*code|credits?\s*left|ai\s*credits?|question\s*credits?|question\s*pack|pass\s*limit|limit\s*left)\b/i,
+  },
+  {
+    id: 'create-kundli',
+    pattern:
+      /\b(create|make|generate|build|prepare|new)\b[\s\w-]{0,40}\b(kundli|kundali|janam\s*kundli|birth\s*chart|chart)\b|\b(kundli|kundali|janam\s*kundli|birth\s*chart)\b[\s\w-]{0,40}\b(create|make|generate|build|prepare|new)\b/i,
+  },
+  {
+    id: 'saved-kundlis',
+    pattern:
+      /\b(saved|save|store|profiles|family\s*member|members|switch\s*kundli|change\s*kundli|edit\s*kundli|kundli\s*library|saved\s*kundlis|saved\s*profiles)\b/i,
+  },
   {
     id: 'jaimini-handoff',
     pattern:
@@ -326,10 +371,6 @@ const ACTION_PATTERNS: Array<{
     id: 'pricing',
     pattern:
       /\b(price|pricing|premium|subscription|plan|day\s*pass|purchase|buy|unlock)\b/i,
-  },
-  {
-    id: 'saved-kundlis',
-    pattern: /\b(saved|save|store|profiles|family\s*member|members)\b/i,
   },
   {
     id: 'concierge',
@@ -556,6 +597,11 @@ export function buildPredictaActionReply({
   if (routerDecision.providerDecision === 'missing_data_question') {
     return {
       action: routerDecision.action,
+      handoff: buildPredictaAppFunctionHandoff(
+        routerDecision.action,
+        text,
+        routerDecision,
+      ),
       handled: true,
       memory: nextMemory,
       providerDecision: routerDecision.providerDecision,
@@ -568,6 +614,11 @@ export function buildPredictaActionReply({
 
   return {
     action: routerDecision.action,
+    handoff: buildPredictaAppFunctionHandoff(
+      routerDecision.action,
+      text,
+      routerDecision,
+    ),
     handled: true,
     localMemoryUsed: routerDecision.providerDecision === 'local_memory_answer',
     memory: nextMemory,
@@ -867,7 +918,10 @@ function isParashariRoomAction(action: PredictaAppActionId): boolean {
 
 function actionRequiresKundli(action: PredictaAppActionId): boolean {
   return ![
+    'account-settings',
     'concierge',
+    'create-kundli',
+    'family-map',
     'kp-handoff',
     'jaimini-handoff',
     'nadi-handoff',
@@ -876,8 +930,185 @@ function actionRequiresKundli(action: PredictaAppActionId): boolean {
     'signature-handoff',
     'signature-predicta',
     'vedic-handoff',
+    'pass-redemption',
     'pricing',
+    'report',
     'saved-kundlis',
+    'support-help',
+  ].includes(action);
+}
+
+function buildPredictaAppFunctionHandoff(
+  action: PredictaAppActionId,
+  originalQuestion: string,
+  decision: PredictaRouterDecision,
+): PredictaAppFunctionHandoff | undefined {
+  const route = appActionRoute(action);
+
+  if (!route) {
+    return undefined;
+  }
+
+  const params = new URLSearchParams();
+  params.set('predictaAction', action);
+  params.set('from', 'predicta-chat');
+  params.set('intent', originalQuestion);
+
+  if (decision.reason === 'missing_kundli') {
+    params.set('needs', 'kundli');
+  }
+
+  return {
+    context: {
+      action,
+      originalQuestion,
+      requiresEntitlement:
+        action === 'pricing' ||
+        action === 'pass-redemption' ||
+        decision.providerDecision === 'blocked_needs_credit',
+      requiresKundli: actionRequiresKundli(action),
+      requiresSignIn: signInRecommendedForAction(action),
+    },
+    href: `${route.href}?${params.toString()}`,
+    label: route.label,
+    preserveDraftIntent: true,
+    reason: route.reason,
+    targetScreen: route.targetScreen,
+  };
+}
+
+function appActionRoute(
+  action: PredictaAppActionId,
+):
+  | {
+      href: string;
+      label: string;
+      reason: string;
+      targetScreen: string;
+    }
+  | undefined {
+  switch (action) {
+    case 'account-settings':
+      return {
+        href: '/dashboard/account',
+        label: 'Open account',
+        reason: 'Account and settings actions need the user identity surface.',
+        targetScreen: 'Settings',
+      };
+    case 'family-map':
+      return {
+        href: '/dashboard/family',
+        label: 'Open Family Vault',
+        reason: 'Family assignment and comparison rules belong in Family Vault.',
+        targetScreen: 'FamilyKarmaMap',
+      };
+    case 'pass-redemption':
+      return {
+        href: '/dashboard/redeem-pass',
+        label: 'Redeem pass',
+        reason: 'Pass redemption must happen in the signed-in redemption flow.',
+        targetScreen: 'RedeemPassCode',
+      };
+    case 'pricing':
+      return {
+        href: '/pricing',
+        label: 'See plans',
+        reason: 'Entitlements, premium, question packs, and report packs belong on pricing.',
+        targetScreen: 'Paywall',
+      };
+    case 'report':
+      return {
+        href: '/dashboard/report',
+        label: 'Open report composer',
+        reason: 'Report selection, section choices, and download actions belong in the composer.',
+        targetScreen: 'Report',
+      };
+    case 'saved-kundlis':
+      return {
+        href: '/dashboard/saved-kundlis',
+        label: 'Open saved Kundlis',
+        reason: 'Editing, switching, and assigning Kundlis starts from the saved Kundli library.',
+        targetScreen: 'SavedKundlis',
+      };
+    case 'signature-handoff':
+    case 'signature-predicta':
+      return {
+        href: '/dashboard/signature',
+        label: 'Open Signature Predicta',
+        reason: 'Signature upload, drawing, scanning, and confirmed traits belong in Signature Predicta.',
+        targetScreen: 'SignaturePredicta',
+      };
+    case 'support-help':
+      return {
+        href: '/feedback',
+        label: 'Contact Predicta',
+        reason: 'Support, bug reports, and team contact belong in the feedback surface.',
+        targetScreen: 'SafetyPromise',
+      };
+    case 'chart':
+      return {
+        href: '/dashboard/charts',
+        label: 'Open charts',
+        reason: 'Chart viewing and selectable Vargas belong in the chart surface.',
+        targetScreen: 'Charts',
+      };
+    case 'create-kundli':
+      return {
+        href: '/dashboard/kundli',
+        label: 'Create Kundli',
+        reason: 'Kundli creation starts from birth details and stays deterministic before AI is needed.',
+        targetScreen: 'Kundli',
+      };
+    case 'kp-handoff':
+    case 'kp-predicta':
+      return {
+        href: '/dashboard/kp',
+        label: 'Open KP Predicta',
+        reason: 'KP event questions belong in the KP room.',
+        targetScreen: 'KpPredicta',
+      };
+    case 'jaimini-handoff':
+    case 'jaimini-predicta':
+    case 'nadi-handoff':
+    case 'nadi-predicta':
+      return {
+        href: '/dashboard/jaimini',
+        label: 'Open Jaimini Predicta',
+        reason: 'Jaimini destiny and karaka questions belong in the Jaimini room.',
+        targetScreen: 'JaiminiPredicta',
+      };
+    case 'numerology-handoff':
+    case 'numerology-predicta':
+      return {
+        href: '/dashboard/numerology',
+        label: 'Open Numerology Predicta',
+        reason: 'Number, name, and cycle questions belong in Numerology Predicta.',
+        targetScreen: 'NumerologyPredicta',
+      };
+    case 'vedic-handoff':
+      return {
+        href: '/dashboard/vedic',
+        label: 'Open Vedic Predicta',
+        reason: 'Parashari chart, dasha, Vargas, Gochar, Yog, Dosh, Shrap, and Lal Kitab belong in Vedic Predicta.',
+        targetScreen: 'Kundli',
+      };
+    default:
+      return undefined;
+  }
+}
+
+function signInRecommendedForAction(action: PredictaAppActionId): boolean {
+  return [
+    'account-settings',
+    'create-kundli',
+    'family-map',
+    'pass-redemption',
+    'pricing',
+    'report',
+    'saved-kundlis',
+    'signature-handoff',
+    'signature-predicta',
+    'support-help',
   ].includes(action);
 }
 
@@ -926,6 +1157,38 @@ function buildActionText({
     return joinSections([
       intro,
       pricingReply(language, hasPremiumAccess),
+      insight,
+    ]);
+  }
+
+  if (action === 'pass-redemption') {
+    return joinSections([
+      intro,
+      passRedemptionReply(language, hasPremiumAccess),
+      insight,
+    ]);
+  }
+
+  if (action === 'account-settings') {
+    return joinSections([
+      intro,
+      accountSettingsReply(language),
+      insight,
+    ]);
+  }
+
+  if (action === 'support-help') {
+    return joinSections([
+      intro,
+      supportHelpReply(language),
+      insight,
+    ]);
+  }
+
+  if (action === 'create-kundli') {
+    return joinSections([
+      intro,
+      createKundliReply(language),
       insight,
     ]);
   }
@@ -1038,6 +1301,15 @@ function buildActionText({
       }),
       insight,
       buildUpsell(language, 'kundli-karma', hasPremiumAccess),
+    ]);
+  }
+
+  if (action === 'family-map' && !kundli) {
+    return joinSections([
+      intro,
+      familyVaultSetupReply(language, savedKundlis.length),
+      insight,
+      upsell,
     ]);
   }
 
@@ -1411,6 +1683,15 @@ function buildActionText({
   }
 
   if (action === 'family-map') {
+    if (!kundli) {
+      return joinSections([
+        intro,
+        familyVaultSetupReply(language, savedKundlis.length),
+        insight,
+        upsell,
+      ]);
+    }
+
     const familyKundlis = [
       kundli,
       ...savedKundlis.filter(item => item.id !== kundli.id),
@@ -1577,6 +1858,132 @@ function pricingReply(
     return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.695bfc2b0c");
   }
   return 'Premium path: Monthly/Yearly for deeper AI, Life Calendar, remedies, and reports. One-time Premium PDF for impulse purchase. Day Pass for trial. Compatibility/Marriage report as a separate high-intent purchase.';
+}
+
+function passRedemptionReply(
+  language: SupportedLanguage,
+  hasPremiumAccess: boolean,
+): string {
+  const activeLine = hasPremiumAccess
+    ? 'Premium is active. Passes can still add report/question packs for family or one-off needs.'
+    : 'Passes unlock exact benefits only after sign-in: AI question credits, report credits, Premium access, or family/friend offers.';
+
+  if (language === 'hi') {
+    return [
+      activeLine,
+      'Redeem pass screen par code enter karo. Predicta unfinished question ko preserve rakhegi, isliye pass apply hone ke baad wahi intent continue ho sakta hai.',
+      'Cost control rule: deterministic Kundli, charts, dasha, Gochar, saved profiles, and Family Vault help AI credit spend nahi karte.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      activeLine,
+      'Redeem pass screen ma code enter karo. Predicta tamaro unfinished question preserve rakhshe, etle pass apply thata j same intent continue thai shake.',
+      'Cost control rule: deterministic Kundli, charts, dasha, Gochar, saved profiles, ane Family Vault help AI credit spend nathi karta.',
+    ].join('\n\n');
+  }
+
+  return [
+    activeLine,
+    'Open Redeem Pass, enter the code, and I will keep your unfinished question attached so you can continue after the pass is applied.',
+    'Cost-control promise: this deterministic help does not spend AI credits, including Kundli creation, saved profiles, charts, dasha, Gochar, and Family Vault rules.',
+  ].join('\n\n');
+}
+
+function accountSettingsReply(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return [
+      'Account aur Settings mein Google sign-in, profile, language, plan, saved access, and trust controls manage hote hain.',
+      'Agar action sign-in maangta hai, main aapka current intent preserve rakhungi so you do not have to repeat yourself.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Account ane Settings ma Google sign-in, profile, language, plan, saved access, ane trust controls manage thay chhe.',
+      'Jo action sign-in mange, hu tamaro current intent preserve rakhish so tame farithi repeat na karvu pade.',
+    ].join('\n\n');
+  }
+
+  return [
+    'Account and Settings handle Google sign-in, profile, language, plan access, saved access, and trust controls.',
+    'If the next step needs sign-in, I will preserve your current intent so you do not have to repeat the question.',
+  ].join('\n\n');
+}
+
+function supportHelpReply(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return [
+      'Predicta team ko contact kar sakte ho. Report, payment, Kundli, Signature, login, coupon, ya bug issue ho to category clear likho.',
+      'Support email mein astrology prediction generate nahi hoti; prediction/report ke liye app ka proper reading flow use hoga.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Predicta team ne contact kari shako cho. Report, payment, Kundli, Signature, login, coupon, ke bug issue hoy to category clear lakho.',
+      'Support email ma astrology prediction generate thati nathi; prediction/report mate app nu proper reading flow use thashe.',
+    ].join('\n\n');
+  }
+
+  return [
+    'You can contact the Predicta team for report, payment, Kundli, Signature, login, coupon, or bug issues. Clear category details help us respond faster.',
+    'Support email is not a prediction channel; astrology predictions and reports stay inside the proper Predicta reading flow.',
+  ].join('\n\n');
+}
+
+function createKundliReply(language: SupportedLanguage): string {
+  if (language === 'hi') {
+    return [
+      'Kundli create karne ke liye mujhe name, date of birth, birth time, aur birth place chahiye.',
+      'Agar birth time exact nahi hai, approximate time bhejo. Main time-confidence mark karungi aur sensitive predictions mein caution rakhungi.',
+      'Ye deterministic flow hai; Kundli creation ke liye AI credit spend nahi hota.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      'Kundli create karva mate mane name, date of birth, birth time, ane birth place joiye.',
+      'Jo birth time exact na hoy, approximate time moklo. Hu time-confidence mark karish ane sensitive predictions ma caution rakhish.',
+      'Aa deterministic flow chhe; Kundli creation mate AI credit spend thato nathi.',
+    ].join('\n\n');
+  }
+
+  return [
+    'To create a Kundli, send name, date of birth, birth time, and birth place.',
+    'If the birth time is not exact, send the closest known time. I will mark the confidence and stay careful with sensitive predictions.',
+    'This is a deterministic app action, so Kundli creation does not spend an AI credit.',
+  ].join('\n\n');
+}
+
+function familyVaultSetupReply(
+  language: SupportedLanguage,
+  savedKundliCount: number,
+): string {
+  const countLine = `Saved Kundlis available: ${savedKundliCount}.`;
+
+  if (language === 'hi') {
+    return [
+      countLine,
+      'Family Vault mein saved Kundlis assign karo. Family comparison ke liye minimum 2 aur maximum 4 Kundlis ek saath allowed hain.',
+      'Agar Kundli missing hai, pehle chat se birth details bhejo; main profile create karke Vault flow continue kar sakti hoon.',
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      countLine,
+      'Family Vault ma saved Kundlis assign karo. Family comparison mate minimum 2 ane maximum 4 Kundlis ek sathe allowed chhe.',
+      'Jo Kundli missing hoy, pehla chat ma birth details moklo; hu profile create kari Vault flow continue kari shakish.',
+    ].join('\n\n');
+  }
+
+  return [
+    countLine,
+    'Assign saved Kundlis inside Family Vault. Family comparison needs at least 2 Kundlis and allows at most 4 at a time.',
+    'If a Kundli is missing, send birth details in chat first; I can create the profile and keep the Family Vault intent alive.',
+  ].join('\n\n');
 }
 
 function buildWowRadarReply({
@@ -2742,8 +3149,8 @@ function signatureHandoffReply(language: SupportedLanguage): string {
 
   return [
     'That belongs to Signature Predicta. I will not casually mix it with Kundli, KP, Jaimini, or Numerology methods.',
-    'Use “Open Signature Predicta” below. I will carry your question into the signature room.',
-    'Signature Predicta reads confirmed visual traits, self-expression patterns, and practical improvement suggestions. It is not identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice, or a guaranteed prediction.',
+    'Use “Open Signature Predicta” below. I will carry your question into the signature room, where you can upload a signature or draw one before analysis.',
+    'Signature Predicta reads confirmed traits only after the signature is ready: visual traits, self-expression patterns, and practical improvement suggestions. It is not identity verification, handwriting forensics, legal proof, medical diagnosis, hiring advice, or a guaranteed prediction.',
   ].join('\n\n');
 }
 

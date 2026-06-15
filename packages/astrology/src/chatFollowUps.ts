@@ -23,8 +23,13 @@ export function buildChatFollowUps({
   language,
   lastText,
 }: FollowUpInput): ChatSuggestedCta[] {
+  const appAction = appActionFollowUps(lastText, kundli, language);
   const schoolHandoff = schoolHandoffFollowUps(lastText, kundli, language);
   const normalized = lastText.toLowerCase();
+
+  if (appAction.length) {
+    return appAction;
+  }
 
   if (schoolHandoff.length) {
     return schoolHandoff;
@@ -423,6 +428,184 @@ function localizeActions(
     label: localizeLabel(prompt, language),
     prompt,
   }));
+}
+
+function appActionFollowUps(
+  text: string,
+  kundli: KundliData | undefined,
+  language: SupportedLanguage,
+): ChatSuggestedCta[] {
+  const normalized = text.toLowerCase();
+  const action = resolveAppActionFollowUp(normalized);
+
+  if (!action) {
+    return [];
+  }
+
+  const params = new URLSearchParams();
+  params.set('from', 'predicta-chat');
+  params.set('intent', text);
+  if (kundli?.id) {
+    params.set('kundliId', kundli.id);
+  }
+
+  const href = `${action.href}?${params.toString()}`;
+  const primaryLabel =
+    language === 'hi'
+      ? action.hindiLabel
+      : language === 'gu'
+        ? action.gujaratiLabel
+        : action.label;
+
+  return [
+    {
+      context: {
+        handoffQuestion: text,
+        kundliId: kundli?.id,
+        selectedSection: action.prompt,
+        sourceScreen: 'Predicta App Action',
+      },
+      href,
+      id: action.id,
+      label: primaryLabel,
+      prompt: action.prompt,
+      targetScreen: action.targetScreen,
+    },
+    {
+      id: `${action.id}-keep-intent`,
+      label:
+        language === 'hi'
+          ? 'Yahi intent rakho'
+          : language === 'gu'
+            ? 'Aa intent rakho'
+            : 'Keep this intent',
+      prompt: action.prompt,
+    },
+  ];
+}
+
+function resolveAppActionFollowUp(
+  normalized: string,
+):
+  | {
+      gujaratiLabel: string;
+      hindiLabel: string;
+      href: string;
+      id: string;
+      label: string;
+      prompt: string;
+      targetScreen: string;
+    }
+  | undefined {
+  if (/\b(create|make|generate|build|prepare|new)\b[\s\w-]{0,40}\b(kundli|kundali|janam\s*kundli|birth\s*chart|chart)\b|\b(kundli|kundali|janam\s*kundli|birth\s*chart)\b[\s\w-]{0,40}\b(create|make|generate|build|prepare|new)\b/i.test(normalized)) {
+    return {
+      gujaratiLabel: 'Kundli banao',
+      hindiLabel: 'Kundli banao',
+      href: '/dashboard/kundli',
+      id: 'create-kundli',
+      label: 'Create Kundli',
+      prompt: 'Create a Kundli from birth details without spending AI credit.',
+      targetScreen: 'Kundli',
+    };
+  }
+
+  if (/\b(contact\s*support|support\s*team|help\s*team|bug|feedback|complaint)\b/i.test(normalized)) {
+    return {
+      gujaratiLabel: 'Predicta team ne contact karo',
+      hindiLabel: 'Predicta team ko contact karo',
+      href: '/feedback',
+      id: 'contact-predicta',
+      label: 'Contact Predicta',
+      prompt: 'Open feedback and keep this support context.',
+      targetScreen: 'SafetyPromise',
+    };
+  }
+
+  if (/\b(report|pdf|dossier|composer|download)\b/i.test(normalized)) {
+    return {
+      gujaratiLabel: 'Report composer kholo',
+      hindiLabel: 'Report composer kholo',
+      href: '/dashboard/report',
+      id: 'open-report-composer',
+      label: 'Open report composer',
+      prompt: 'Open the report composer and keep my selected report intent.',
+      targetScreen: 'Report',
+    };
+  }
+
+  if (/\b(signature|autograph|hastakshar|sahi)\b/i.test(normalized)) {
+    return {
+      gujaratiLabel: 'Signature Predicta kholo',
+      hindiLabel: 'Signature Predicta kholo',
+      href: '/dashboard/signature',
+      id: 'open-signature-predicta',
+      label: 'Open Signature Predicta',
+      prompt: 'Open Signature Predicta and keep this signature question ready.',
+      targetScreen: 'SignaturePredicta',
+    };
+  }
+
+  if (/\b(saved|switch\s*kundli|change\s*kundli|edit\s*kundli|kundli\s*library|saved\s*profiles)\b/i.test(normalized)) {
+    return {
+      gujaratiLabel: 'Saved Kundlis kholo',
+      hindiLabel: 'Saved Kundlis kholo',
+      href: '/dashboard/saved-kundlis',
+      id: 'open-saved-kundlis',
+      label: 'Open saved Kundlis',
+      prompt: 'Open saved Kundlis so I can switch, edit, or assign profiles.',
+      targetScreen: 'SavedKundlis',
+    };
+  }
+
+  if (/\b(family|vault|compare\s*family|family\s*comparison|parivar|kutumb)\b/i.test(normalized)) {
+    return {
+      gujaratiLabel: 'Family Vault kholo',
+      hindiLabel: 'Family Vault kholo',
+      href: '/dashboard/family',
+      id: 'open-family-vault',
+      label: 'Open Family Vault',
+      prompt: 'Open Family Vault. Comparison needs 2 to 4 Kundlis.',
+      targetScreen: 'FamilyKarmaMap',
+    };
+  }
+
+  if (/\b(redeem|coupon|pass\s*code|promo\s*code|credits?\s*left|ai\s*credits?|question\s*pack)\b/i.test(normalized)) {
+    return {
+      gujaratiLabel: 'Pass redeem karo',
+      hindiLabel: 'Pass redeem karo',
+      href: '/dashboard/redeem-pass',
+      id: 'open-redeem-pass',
+      label: 'Redeem pass',
+      prompt: 'Open pass redemption and keep my unfinished Predicta question.',
+      targetScreen: 'RedeemPassCode',
+    };
+  }
+
+  if (/\b(price|pricing|premium|subscription|plan|purchase|buy|unlock)\b/i.test(normalized)) {
+    return {
+      gujaratiLabel: 'Plans dekho',
+      hindiLabel: 'Plans dekho',
+      href: '/pricing',
+      id: 'open-pricing',
+      label: 'See plans',
+      prompt: 'Open pricing and show the best option for this need.',
+      targetScreen: 'Paywall',
+    };
+  }
+
+  if (/\b(account|settings|profile|sign\s*in|signin|login|google\s*login)\b/i.test(normalized)) {
+    return {
+      gujaratiLabel: 'Account kholo',
+      hindiLabel: 'Account kholo',
+      href: '/dashboard/account',
+      id: 'open-account',
+      label: 'Open account',
+      prompt: 'Open account settings and keep my current intent.',
+      targetScreen: 'Settings',
+    };
+  }
+
+  return undefined;
 }
 
 function schoolHandoffFollowUps(
