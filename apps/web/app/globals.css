@@ -6031,52 +6031,82 @@ button:disabled,
 }
 
 .kundli-form-grid {
+  align-items: start;
+  column-gap: 18px;
   display: grid;
-  gap: 14px;
+  row-gap: 18px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.kundli-form-grid label {
+.kundli-form-grid label,
+.kundli-form-field {
+  align-content: start;
   display: grid;
-  gap: 8px;
+  gap: 10px;
+  min-width: 0;
+}
+
+.kundli-form-grid label:has(.birth-place-search),
+.birth-place-form-field {
+  grid-column: 1 / -1;
 }
 
 .kundli-form-grid span,
 .kundli-checkbox {
   color: var(--muted);
+  display: block;
   font-size: 13px;
   font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1.28;
 }
 
 .kundli-form-grid input,
 .kundli-form-grid select {
+  appearance: none;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 14px;
+  box-sizing: border-box;
   color: var(--text);
-  min-height: 46px;
-  padding: 10px 12px;
+  display: block;
+  font-size: clamp(15px, 0.9vw, 17px);
+  font-weight: 760;
+  line-height: 1.35;
+  min-height: 56px;
+  padding: 14px 16px;
   width: 100%;
+}
+
+.kundli-form-grid input::placeholder {
+  color: rgba(235, 238, 255, 0.52);
+  opacity: 1;
 }
 
 .birth-place-search {
   display: grid;
-  gap: 8px;
+  gap: 10px;
+  min-width: 0;
   position: relative;
+  width: 100%;
 }
 
 .birth-place-search small {
   color: var(--muted);
-  font-size: 12px;
+  display: block;
+  font-size: 13px;
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.45;
+  margin: 0;
+  max-width: 72ch;
 }
 
 .birth-place-input-row {
   align-items: stretch;
   display: grid;
-  gap: 10px;
+  gap: 12px;
   grid-template-columns: minmax(0, 1fr) auto;
+  width: 100%;
 }
 
 .birth-place-input-row input[readonly] {
@@ -6087,16 +6117,16 @@ button:disabled,
   align-items: center;
   background: rgba(77, 175, 255, 0.09);
   border: 1px solid rgba(77, 175, 255, 0.26);
-  border-radius: 8px;
+  border-radius: 14px;
   color: var(--text);
   display: flex;
-  font-size: 15px;
+  font-size: clamp(15px, 0.9vw, 17px);
   font-weight: 850;
   line-height: 1.35;
-  min-height: 46px;
+  min-height: 56px;
   min-width: 0;
   overflow-wrap: anywhere;
-  padding: 10px 12px;
+  padding: 14px 16px;
   word-break: break-word;
 }
 
@@ -6104,7 +6134,7 @@ button:disabled,
   align-items: center;
   background: rgba(77, 175, 255, 0.1);
   border: 1px solid rgba(77, 175, 255, 0.28);
-  border-radius: 8px;
+  border-radius: 14px;
   color: var(--text);
   cursor: pointer;
   display: inline-flex;
@@ -6112,8 +6142,8 @@ button:disabled,
   font-weight: 850;
   justify-content: center;
   letter-spacing: 0.08em;
-  min-height: 46px;
-  padding: 10px 14px;
+  min-height: 56px;
+  padding: 14px 18px;
   text-transform: uppercase;
   white-space: nowrap;
 }

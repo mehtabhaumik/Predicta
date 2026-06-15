@@ -1152,7 +1152,7 @@ export function WebKundliWizard(): React.JSX.Element {
         </p>
 
         <div className="kundli-form-grid">
-          <label>
+          <label className="kundli-form-field">
             <span>{labels.nameLabel}</span>
             <input
               onChange={event => {
@@ -1163,7 +1163,7 @@ export function WebKundliWizard(): React.JSX.Element {
               value={name}
             />
           </label>
-          <label>
+          <label className="kundli-form-field">
             <span>{labels.birthDateLabel}</span>
             <input
               onChange={event => {
@@ -1174,7 +1174,7 @@ export function WebKundliWizard(): React.JSX.Element {
               value={date}
             />
           </label>
-          <label>
+          <label className="kundli-form-field">
             <span>{labels.birthTimeLabel}</span>
             <input
               onChange={event => {
@@ -1185,7 +1185,7 @@ export function WebKundliWizard(): React.JSX.Element {
               value={time}
             />
           </label>
-          <label>
+          <label className="kundli-form-field birth-place-form-field">
             <span>{labels.birthPlaceLabel}</span>
             <div
               className="birth-place-search"
