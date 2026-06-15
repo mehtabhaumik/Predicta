@@ -1,0 +1,352 @@
+# PREDICTA_INTELLIGENCE_PHASE_10_GOLDEN_CHAT_EXPERIENCE_AUDIT Golden Chat Transcripts
+
+## no Kundli / en
+
+- Action: `mahadasha`
+- Provider decision: `missing_data_question`
+
+```text
+Yes, I can do Mahadasha right here in chat. First I need your Kundli. Send date of birth, birth time, and birth place; I will create the Kundli and continue the work here. If you only know the DOB, send that first. I will ask for the rest gently.
+```
+
+## saved Kundli / en
+
+- Action: `saved-kundlis`
+- Provider decision: `deterministic_action`
+
+```text
+I have the thread. I will continue from your current context. Kundli selected. I will read this profile, not a generic chart. You have 2 saved Kundli profiles: Bhaumik Mehta, Family Member. I can use them for relationship, family map, and pattern comparison. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: Switch my saved Kundli. Go deeper option: Turn this into a deeper map when you want proof, timing confidence, and report-grade synthesis. The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.
+```
+
+## exhausted credits / en
+
+- Action: `none`
+- Provider decision: `blocked_needs_credit`
+
+```text
+Your 3 free AI questions are used. I preserved your question so you can continue after unlocking more Predicta AI guidance. Saved question: "Tell me everything about my destiny in a deeply personal way" Choose 10 questions, 25 questions, 100 questions, or Premium to continue with AI. I can still help with deterministic Kundli, charts, reports, and Family Vault actions without spending AI.
+```
+
+## Vedic / en
+
+- Action: `mahadasha`
+- Provider decision: `deterministic_action`
+
+```text
+Let me keep this focused and answer the next useful part. Kundli selected. I will read this profile, not a generic chart. Direct answer: I am reading your Venus/Saturn from the dasha timing layer. Timing: Active conditions should be judged through dasha/transit activation, not fear or instant conclusions. Useful insight: this Venus/Saturn period is likely to make income, gains, networks, elder siblings, and fulfillment of desires the big chapter, while career, status, authority, karma, and public responsibility becomes the active sub-focus until 22 Aug 2027. Confidence: high Proof: - Current Vimshottari period: Venus/Saturn runs until 22 Aug 2027. - Mahadasha lord: Venus is in Gemini, house 11, Ardra pada undefined. - Antardasha lord: Saturn is in Taurus, house 10, Krittika pada undefined. Timing windows: - Saturn Antardasha: 22 Aug 2024 to 22 Aug 2027 - Mercury Antardasha: 23 Aug 2027 to 22 Jun 2029 Premium deepens this into Antardasha/Pratyantardasha timing, dasha plus transit overlap, remedies, and report-ready evidence tables. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: Show my current Mahadasha and timing. | school: PARASHARI.
+```
+
+## KP / en
+
+- Action: `kp-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+Yes. I can do that right here. Direct answer: Not enough proof. KP is reading the strongest visible outcome signals now; a future exact event question can narrow timing later. Timing: Timing is not ready for a strong statement yet because ruling planets are missing. Confidence: Low. The promise is pending until significators are available. Action/remedy: If a real decision is in front of the user, KP can narrow the prediction with a specific event and time window. KP horoscope details will appear automatically once Predicta calculates KP cusps, star lords, and sub lords from the saved birth profile. Evidence: The promise is pending until significators are available. | The main block is not a negative fate signal; it is missing proof for the exact event question. Premium expands Parashari Chalit and KP separately: Chalit house delivery, KP event judgement, cusp and sub-lord logic, significator strength, dasha support, ruling-planet checks, and report-ready synthesis. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: KP Predicta: will my promotion happen? | school: KP. Go deeper option: Turn this into a KP event reading when you want cusp-by-cusp sub-lord judgment, significator strength, ruling-planet checks, dasha support, and event-focused report depth. The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.
+```
+
+## Jaimini / en
+
+- Action: `jaimini-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+I have the thread. I will continue from your current context. Direct answer: The deeper pattern is that responsibility, desire, and turning points will repeatedly push you back toward communication, learning, trade, and flexible intelligence. When you avoid that lane, life can feel scattered; when you accept it, your decisions become cleaner and your confidence becomes less dependent on applause. Timing: Jaimini gives destiny direction first; exact timing should be confirmed through dasha/KP when the question needs a date window. Confidence: Medium. This is destiny-direction evidence, not a stand-alone event verdict. Action/remedy: Choose the steadier expression of wisdom, guidance, and principled growth this season. The lesson is not to become someone else; it is to mature the part of you that already keeps returning through Gemini. Evidence: - Atmakaraka: Jupiter in Gemini, house 11, 22.4 degrees. - Amatyakaraka: Venus in Gemini, house 11, 19.8 degrees. - Bhratrikaraka: Moon in Sagittarius, house 5, 11.8 degrees. - Matrikaraka: Sun in Leo, house 1, 5.5 degrees. Premium Jaimini adds fuller karaka evidence, visible identity, relationship mirror, Chara Dasha depth, and report-ready synthesis. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: Jaimini Predicta destiny direction for my life path. | school: JAIMINI. Go deeper option: Turn this into a Jaimini destiny reading when you want karaka depth, Arudha/Upapada evidence, Chara Dasha chapters, relationship mirror, and a separate Jaimini report. The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.
+```
+
+## Numerology / en
+
+- Action: `numerology-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+Let me keep this focused and answer the next useful part. Direct answer: Bhaumik Mehta carries name number 4, birth number 4, and destiny number 3. Today sits in a personal day 7 rhythm. Timing: personal year 4, month 1, day 7. Confidence: Medium. Numerology is a timing-color and name-rhythm layer, not a hard event promise by itself. Action/remedy: use today as a seeker day; keep decisions aligned with the current cycle instead of forcing everything at once. Bhaumik Mehta: name number 4 (Builder), birth number 4 (Builder), destiny number 3 (Creator). Strengths: structure, discipline, foundation, expression Care points: rigidity, overwork, fear of change Evidence: - Name number 4 comes from chaldean letter values applied to "BHAUMIKMEHTA". - Birth number 4 comes from the birth day in 1980-08-22. - Destiny number 3 comes from the full birth date 1980-08-22. Free insight stays useful. Premium adds spelling comparison, yearly/monthly timing, compatibility numbers, and a polished numerology report. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: Numerology Predicta personal year cycle guidance. | school: NUMEROLOGY. Go deeper option: Turn this into a numerology life map when you want name spelling comparison, personal year/month/day planning, compatibility numbers, and a polished report. The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.
+```
+
+## Signature / en
+
+- Action: `signature-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+Yes. I can do that right here. Direct answer: Signature reading is ready from 7 visual traits. Main signals: Upward baseline, Moderate flourish, Partly readable signature. Timing: this reflects the current signature sample only. Confidence: Medium reflective confidence. Signature is reflective guidance, not prediction or forensic proof. Action/remedy: Keep the signature natural; do not force a new style suddenly. Keep the same rhythm across repeated signatures so the public mark feels stable. Observed traits: Baseline upward, Flourish moderate, Legibility partial, Pressure medium, Slant right, Spacing balanced, Writing rhythm moderate. Writing rhythm: The signature rhythm looks measured; it can show controlled timing and steady effort. Confidence expression: The confidence expression looks balanced or still needs more confirmed traits. Evidence: Baseline: upward (clear confidence). | Flourish: moderate (clear confidence). | Legibility: partial (partial confidence). Free insight stays useful. Premium adds deeper comparison, name rhythm, optional numerology/Kundli synthesis, and a polished signature report. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: Signature Predicta context observed traits: baseline upward, slant right, pressure medium, sp... | school: SIGNATURE. Go deeper option: Turn this into a signature expression report when you want deeper trait comparison, improvement practices, name rhythm, and optional Kundli or numerology synthesis. The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.
+```
+
+## Reports / en
+
+- Action: `report`
+- Provider decision: `deterministic_action`
+
+```text
+I have the thread. I will continue from your current context. Your report is ready, so I can explain the exact section. Direct answer: I would start Bhaumik Mehta with the Life Atlas or Vedic report, depending on whether you want life direction or chart proof first. Birth signal: Leo Lagna, Sagittarius Moon, Venus/Saturn timing. What this means: Today: Moon day with Artha emphasis. Life balance: Artha is leading; Moksha needs steadier care. Action now: Conduct - Respect spouse, partners, women, and mutual consent. Life Atlas thread: The hidden thread is this: your life keeps asking you to turn security, skill, and meaningful resources into mature self-direction, while repeated pressure becomes clearer only when you pause, validate the pattern, and respond differently. The number rhythm adds: Your number pattern asks you to turn structure into expression while keeping structure steady. Report lanes stay separate: Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas each keep their own purpose. Free will stay concise and useful; Premium adds deeper timing, proof, and remedies. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: Open my report composer for my Kundli. | school: SIGNATURE. Go deeper option: Turn this into a polished PDF when you want the full version. The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.
+```
+
+## Life Atlas / en
+
+- Action: `report`
+- Provider decision: `deterministic_action`
+
+```text
+Let me keep this focused and answer the next useful part. Your report is ready, so I can explain the exact section. Direct answer: I would start Bhaumik Mehta with the Life Atlas or Vedic report, depending on whether you want life direction or chart proof first. Birth signal: Leo Lagna, Sagittarius Moon, Venus/Saturn timing. What this means: Today: Moon day with Artha emphasis. Life balance: Artha is leading; Moksha needs steadier care. Action now: Conduct - Respect spouse, partners, women, and mutual consent. Life Atlas thread: The hidden thread is this: your life keeps asking you to turn security, skill, and meaningful resources into mature self-direction, while repeated pressure becomes clearer only when you pause, validate the pattern, and respond differently. The number rhythm adds: Your number pattern asks you to turn structure into expression while keeping structure steady. Report lanes stay separate: Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas each keep their own purpose. Free will stay concise and useful; Premium adds deeper timing, proof, and remedies. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: Open Life Atlas report for my life purpose. | school: SIGNATURE.
+```
+
+## Kundli Karma / en
+
+- Action: `kundli-karma`
+- Provider decision: `local_memory_answer`
+
+```text
+Yes. I can do that right here. Direct answer: your Kundli Karma snapshot is ready from calculated Predicta memory. No AI credit is needed. Timing: active conditions should be judged through their dasha/transit activation, not fear or instant conclusions. Confidence: Medium. This snapshot ranks deterministic Dosh, Shrap, Yog, and Lal Kitab signals but still keeps remedies proportional. Predicta ranked Lal Kitab Saturn in house 10, Lal Kitab Saturn upay, Lal Kitab Ketu in house 6 as the top Kundli Karma conditions to review first. Top active conditions: - #1 Lal Kitab Saturn in house 10: Saturn in house 10 gives a Lal Kitab planet-in-house observation. - #2 Lal Kitab Saturn upay: Safe one-at-a-time Lal Kitab upay selected for Saturn. - #3 Lal Kitab Ketu in house 6: Ketu in house 6 gives a Lal Kitab planet-in-house observation. Evidence: Lal Kitab Saturn in house 10, Lal Kitab Saturn upay, Lal Kitab Ketu in house 6 Start safely with: One safe 40-day correction. For Lal Kitab Saturn in house 10, do one safe correction for 40 days: simple service, respectful conduct, clean routine, or the specific one-planet upay shown in the reading. I will never describe Shrap as a curse. I read it as a karmic pressure indicator with evidence, timing, and safe corrective action. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: Show my Kundli Karma Dosh Shrap Yog Lal Kitab snapshot. | school: SIGNATURE. Go deeper option: Premium Kundli Karma adds deeper Dosh/Shrap/Yog/Lal Kitab evidence, activation timing, cross-chart support, and a consolidated remedy plan without fear-selling. The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.
+```
+
+## Family Vault / en
+
+- Action: `family-map`
+- Provider decision: `deterministic_action`
+
+```text
+I have the thread. I will continue from your current context. 2 Kundlis selected. Predicta can run this family comparison. Family Karma Map for 2 profiles Shared themes and pairwise patterns are grouped into gentle guidance, not blame. Repeated theme: Venus timing overlap - A shared Mahadasha can make the same life lesson echo across the house at the same time. Use this map for reflection and better handling, not for blame, labeling, or forcing one person to carry another person’s destiny. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: Open Family Vault comparison. | school: SIGNATURE. Go deeper option: Turn this into a deeper map when you want proof, timing confidence, and report-grade synthesis. The free answer stays useful first; choose Premium, a Day Pass, or a one-time report only when you want the detailed map.
+```
+
+## pass/redeem / en
+
+- Action: `pass-redemption`
+- Provider decision: `deterministic_action`
+
+```text
+Let me keep this focused and answer the next useful part. You are close to the limit. I will warn you before a paid action is needed. Passes unlock exact benefits only after sign-in: AI question credits, report credits, Premium access, or family/friend offers. Open Redeem Pass, enter the code, and I will keep your unfinished question attached so you can continue after the pass is applied. Cost-control promise: this deterministic help does not spend AI credits, including Kundli creation, saved profiles, charts, dasha, Gochar, and Family Vault rules. I remember this chart signature now: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. As more Kundlis enter your vault, I will compare this pattern automatically. Context remembered: goal: Redeem pass and show AI credits left. | school: SIGNATURE.
+```
+
+## no Kundli / hi
+
+- Action: `mahadasha`
+- Provider decision: `missing_data_question`
+
+```text
+हाँ, मैं Mahadasha यहीं चैट में कर सकती हूं. पहले आपकी कुंडली चाहिए. जन्मतिथि, जन्म समय और जन्म स्थान भेज दीजिए; मैं कुंडली बनाकर इसी काम को आगे बढ़ाऊंगी. अगर सिर्फ जन्मतिथि पता है, वही भेजिए. बाकी मैं आराम से पूछ लूंगी.
+```
+
+## saved Kundli / hi
+
+- Action: `saved-kundlis`
+- Provider decision: `deterministic_action`
+
+```text
+मुझे संदर्भ याद है. मैं आपकी मौजूदा स्थिति से आगे बढ़ूंगी. कुंडली चुनी गई. मैं इसी जन्म-प्रोफ़ाइल को पढ़ूंगी, सामान्य चार्ट नहीं. आपके पास 2 सहेजी गई कुंडली प्रोफाइल हैं: Bhaumik Mehta, Family Member. मैं इन्हें संबंध, परिवार मानचित्र और पैटर्न तुलना के लिए उपयोग कर सकती हूं. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं.
+```
+
+## exhausted credits / hi
+
+- Action: `none`
+- Provider decision: `blocked_needs_credit`
+
+```text
+आपके 3 मुफ्त AI सवाल इस्तेमाल हो चुके हैं. मैंने आपका सवाल सुरक्षित रखा है ताकि अधिक Predicta AI मार्गदर्शन अनलॉक करने के बाद आप वहीं से जारी रख सकें. सुरक्षित सवाल: "Tell me everything about my destiny in a deeply personal way" AI जारी रखने के लिए 10 सवाल, 25 सवाल, 100 सवाल या प्रीमियम चुनें. बिना AI खर्च किए मैं अभी भी कुंडली, चार्ट, रिपोर्ट और फैमिली वॉल्ट जैसे गणना-आधारित कामों में मदद कर सकती हूं.
+```
+
+## Vedic / hi
+
+- Action: `mahadasha`
+- Provider decision: `deterministic_action`
+
+```text
+मैं इसे केंद्रित रखकर अगला उपयोगी उत्तर दूंगी. कुंडली चुनी गई. मैं इसी जन्म-प्रोफ़ाइल को पढ़ूंगी, सामान्य चार्ट नहीं. सीधा उत्तर: मैं Venus/Saturn को दशा समय-संकेत परत से पढ़ रही हूं. समय संकेत: सक्रिय संकेतों को दशा और गोचर से देखना चाहिए, डर या तुरंत निष्कर्ष से नहीं. भरोसा: उच्च प्रमाण: जहां उपलब्ध था, वैदिक, KP, Jaimini, Kundli Karma, Numerology और Life Atlas प्रमाण देखे गए. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी.
+```
+
+## KP / hi
+
+- Action: `kp-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+हां. मैं यह यहीं कर सकती हूं. KP प्रेडिक्टा मोड: मैं सिर्फ KP कस्प, नक्षत्र स्वामी, उप-स्वामी, संकेतक ग्रह और निर्णय ग्रह से बोलूंगी. घटना का निष्कर्ष: प्रमाण अभी पूरा नहीं समय संकेत: KP समय को घटना-वादा, कस्प/उप-स्वामी सहारा, संकेतक ग्रह, निर्णय ग्रह और दशा सहारे से पढ़ता है. भरोसा: कम उपाय/अगला कदम: एक साफ़ घटना-सवाल पूछिए ताकि KP वादा, रुकावट, समय और प्रमाण देख सके. प्रमाण: KP में कस्प, उप-स्वामी, संकेतक ग्रह, निर्णय ग्रह और समय प्रमाण देखे जाते हैं; इसे Parashari चार्ट पढ़ाई से नहीं मिलाया गया. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं.
+```
+
+## Jaimini / hi
+
+- Action: `jaimini-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+मुझे संदर्भ याद है. मैं आपकी मौजूदा स्थिति से आगे बढ़ूंगी. जैमिनी प्रेडिक्टा मोड: मैं आत्म भूमिका, दृश्य पहचान और भाग्य अध्याय से सीधा मार्गदर्शन दूंगी। सीधा उत्तर: यह जीवन-दिशा का संकेत है, जिसे भूमिका, कर्म, दृश्य पहचान और संबंध-दर्पण से पढ़ा गया है. समय संकेत: Jaimini पहले भाग्य-दिशा बताता है; तारीख वाली घटना के लिए दशा और KP से समय पक्का करना चाहिए. भरोसा: मध्यम. यह भाग्य-दिशा का प्रमाण है, अकेला घटना निष्कर्ष नहीं. उपाय/अगला कदम: समय का वादा जबरन करने से पहले भाग्य-दिशा को निर्णय की कसौटी बनाएं. प्रमाण: Atmakaraka, Amatyakaraka, Karakamsha, Swamsa, Arudha और संबंधित Jaimini संकेत देखे गए. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं.
+```
+
+## Numerology / hi
+
+- Action: `numerology-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+मैं इसे केंद्रित रखकर अगला उपयोगी उत्तर दूंगी. अंक प्रेडिक्टा मोड: मैं नाम और जन्म-तिथि अंकों से पढ़ूंगी. जब तक आप संयुक्त सार न मांगें, वैदिक, KP या जैमिनी तर्क नहीं मिलाऊंगी. Bhaumik Mehta: नाम अंक 4 (निर्माता), जन्म अंक 4 (निर्माता), भाग्य अंक 3 (रचनाकार). वर्तमान लय: निजी वर्ष 4, महीना 1, दिन 7. उपयोगी समझ: Bhaumik Mehta में व्यवस्था और अनुशासन, व्यवस्था और अनुशासन और अभिव्यक्ति और रचनात्मकता की संयुक्त लय दिखती है. आज निजी दिन 7 की दिशा में चल रहा है. ताकतें: व्यवस्था और अनुशासन, व्यवस्था और अनुशासन, अभिव्यक्ति और रचनात्मकता ध्यान बिंदु: कठोरता और अति-मेहनत से बचें, कठोरता और अति-मेहनत से बचें अंक प्रमाण: - नाम अंक 4 CHALDEAN पद्धति से "BHAUMIKMEHTA" पर निकला है. - जन्म अंक 4 जन्म दिन 1980-08-22 से निकला है. - भाग्य अंक 3 पूरी जन्म तिथि 1980-08-22 से निकला है. मुफ्त समझ उपयोगी रहेगी. प्रीमियम में नाम-वर्तनी तुलना, वार्षिक/मासिक समय, संगतता अंक और सुंदर अंक-रिपोर्ट मिलती है. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं.
+```
+
+## Signature / hi
+
+- Action: `signature-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+हां. मैं यह यहीं कर सकती हूं. सीधा उत्तर: हस्ताक्षर प्रेडिक्टा मोड: हस्ताक्षर संकेत तैयार हैं. मैं सिर्फ पक्के दिखने वाले संकेत पढ़ूंगी, छिपी पहचान या दस्तावेज़ सत्यता नहीं. दिखे हुए संकेत: आधार रेखा ऊपर की ओर, सजावट मध्यम, स्पष्टता आंशिक, दबाव मध्यम, झुकाव दाईं ओर, अंतर संतुलित, लय मध्यम समय संकेत: यह केवल मौजूदा हस्ताक्षर नमूने/सत्र पर आधारित है; दोहराए नमूने दिखा सकते हैं कि लय स्थिर है या बदल रही है. भरोसा: मध्यम चिंतन-आधारित भरोसा. हस्ताक्षर मार्गदर्शन चिंतन के लिए है, भविष्यवाणी या फोरेंसिक प्रमाण नहीं. प्रमाण: सिर्फ पक्के दिखने वाले संकेत उपयोग होते हैं: आकार, झुकाव, दबाव, अंतर, आधार रेखा, स्पष्टता, सजावट और रेखांकन. उपाय/अगला कदम: डर वाले उपायों के बजाय एक सरल कर्म/धर्म सुधार से सुरक्षित शुरुआत करें. हस्ताक्षर प्रेडिक्टा केवल चिंतन और आत्म-समझ के लिए है. यह पहचान सत्यापन, फॉरेंसिक लिखावट जांच, कानूनी प्रमाण, नियुक्ति सलाह, चिकित्सा निदान या मानसिक-स्वास्थ्य निदान नहीं है. हर अर्थ को नरम संकेत मानें, चरित्र या भविष्य की पक्की बात नहीं. कच्ची हस्ताक्षर छवि संग्रहित नहीं होती; सत्र बंद होने पर फिर से अपलोड या ड्रॉ करना पड़ सकता है. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं.
+```
+
+## Reports / hi
+
+- Action: `report`
+- Provider decision: `deterministic_action`
+
+```text
+मुझे संदर्भ याद है. मैं आपकी मौजूदा स्थिति से आगे बढ़ूंगी. आपकी रिपोर्ट तैयार है, इसलिए मैं सही अनुभाग समझा सकती हूं. सीधा उत्तर: मैं Bhaumik Mehta के लिए पहले लाइफ एटलस या वैदिक रिपोर्ट चुनूंगी; जीवन दिशा चाहिए तो लाइफ एटलस, चार्ट प्रमाण चाहिए तो वैदिक रिपोर्ट. जन्म संकेत: Leo लग्न, Sagittarius चंद्र, और Venus/Saturn समय अभी मुख्य पृष्ठभूमि बना रहे हैं. इसका अर्थ: Today: Moon day with Artha emphasis. जीवन संतुलन: Artha आगे चल रहा है; Moksha को अधिक स्थिर देखभाल चाहिए. अभी का कदम: Conduct - Respect spouse, partners, women, and mutual consent. लाइफ एटलस का मुख्य सूत्र: The hidden thread is this: your life keeps asking you to turn security, skill, and meaningful resources into mature self-direction, while repeated pressure becomes clearer only when you pause, validate the pattern, and respond differently. The number rhythm adds: Your number pattern asks you to turn structure into expression while keeping structure steady. रिपोर्ट लेन अलग रहेंगी: वैदिक, KP, जैमिनी, अंक ज्योतिष, हस्ताक्षर और लाइफ एटलस अपना अलग उद्देश्य रखेंगे. मुफ्त रिपोर्ट संक्षिप्त और उपयोगी रहेगी; प्रीमियम में गहरी टाइमिंग, प्रमाण और उपाय जुड़ेंगे. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं.
+```
+
+## Life Atlas / hi
+
+- Action: `report`
+- Provider decision: `deterministic_action`
+
+```text
+मैं इसे केंद्रित रखकर अगला उपयोगी उत्तर दूंगी. आपकी रिपोर्ट तैयार है, इसलिए मैं सही अनुभाग समझा सकती हूं. सीधा उत्तर: मैं Bhaumik Mehta के लिए पहले लाइफ एटलस या वैदिक रिपोर्ट चुनूंगी; जीवन दिशा चाहिए तो लाइफ एटलस, चार्ट प्रमाण चाहिए तो वैदिक रिपोर्ट. जन्म संकेत: Leo लग्न, Sagittarius चंद्र, और Venus/Saturn समय अभी मुख्य पृष्ठभूमि बना रहे हैं. इसका अर्थ: Today: Moon day with Artha emphasis. जीवन संतुलन: Artha आगे चल रहा है; Moksha को अधिक स्थिर देखभाल चाहिए. अभी का कदम: Conduct - Respect spouse, partners, women, and mutual consent. लाइफ एटलस का मुख्य सूत्र: The hidden thread is this: your life keeps asking you to turn security, skill, and meaningful resources into mature self-direction, while repeated pressure becomes clearer only when you pause, validate the pattern, and respond differently. The number rhythm adds: Your number pattern asks you to turn structure into expression while keeping structure steady. रिपोर्ट लेन अलग रहेंगी: वैदिक, KP, जैमिनी, अंक ज्योतिष, हस्ताक्षर और लाइफ एटलस अपना अलग उद्देश्य रखेंगे. मुफ्त रिपोर्ट संक्षिप्त और उपयोगी रहेगी; प्रीमियम में गहरी टाइमिंग, प्रमाण और उपाय जुड़ेंगे. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी.
+```
+
+## Kundli Karma / hi
+
+- Action: `kundli-karma`
+- Provider decision: `local_memory_answer`
+
+```text
+हां. मैं यह यहीं कर सकती हूं. सीधा उत्तर: आपकी Kundli Karma झलक Predicta की गणना-स्मृति से तैयार है. समय संकेत: सक्रिय संकेतों को दशा और गोचर से देखना चाहिए, डर या तुरंत निष्कर्ष से नहीं. भरोसा: मध्यम मुख्य सक्रिय संकेत: - Lal Kitab - Lal Kitab - Lal Kitab प्रमाण: Lal Kitab, Lal Kitab, Lal Kitab उपाय/अगला कदम: डर वाले उपायों के बजाय एक सरल कर्म/धर्म सुधार से सुरक्षित शुरुआत करें. मैं Shrap को कभी शाप नहीं कहूंगी. इसे प्रमाण, समय और सुरक्षित सुधार के साथ कर्म-दबाव संकेत की तरह पढ़ती हूं. यह उत्तर Predicta की गणना-स्मृति से आया है. एआई क्रेडिट खर्च नहीं हुआ. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं.
+```
+
+## Family Vault / hi
+
+- Action: `family-map`
+- Provider decision: `deterministic_action`
+
+```text
+मुझे संदर्भ याद है. मैं आपकी मौजूदा स्थिति से आगे बढ़ूंगी. 2 Kundlis selected. Predicta can run this family comparison. Family Karma Map for 2 profiles Shared themes and pairwise patterns are grouped into gentle guidance, not blame. Repeated theme: Venus timing overlap - A shared Mahadasha can make the same life lesson echo across the house at the same time. Use this map for reflection and better handling, not for blame, labeling, or forcing one person to carry another person’s destiny. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी. फ्री गहराई उपयोगी अर्थ और सुरक्षित शुरुआती कदम देती है. प्रीमियम में गहरा समय, क्रॉस-चार्ट प्रमाण और बिना डर के संरचित उपाय मिलते हैं.
+```
+
+## pass/redeem / hi
+
+- Action: `pass-redemption`
+- Provider decision: `deterministic_action`
+
+```text
+मैं इसे केंद्रित रखकर अगला उपयोगी उत्तर दूंगी. आप सीमा के पास हैं. भुगतान वाले कदम से पहले मैं आपको बता दूंगी. Passes unlock exact benefits only after sign-in: AI question credits, report credits, Premium access, or family/friend offers. Redeem pass screen par code enter karo. Predicta unfinished question ko preserve rakhegi, isliye pass apply hone ke baad wahi intent continue ho sakta hai. Cost control rule: deterministic Kundli, charts, dasha, Gochar, saved profiles, and Family Vault help AI credit spend nahi karte. मुझे अब यह चार्ट हस्ताक्षर याद है: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. जैसे-जैसे और कुंडलियाँ संग्रह में आएंगी, मैं पैटर्न तुलना अपने-आप करूंगी.
+```
+
+## no Kundli / gu
+
+- Action: `mahadasha`
+- Provider decision: `missing_data_question`
+
+```text
+હા, હું Mahadasha અહીં ચેટ માં કરી શકું છું. પહેલા તમારી કુંડળી જોઈએ. જન્મ તારીખ, જન્મ સમય અને જન્મ સ્થળ મોકલો; હું કુંડળી બનાવીને આ કામ આગળ વધારીશ. ફક્ત જન્મ તારીખ ખબર હોય તો એ મોકલો. બાકી હું શાંતિથી પૂછી લઈશ.
+```
+
+## saved Kundli / gu
+
+- Action: `saved-kundlis`
+- Provider decision: `deterministic_action`
+
+```text
+મને સંદર્ભ યાદ છે. હું તમારી હાલની સ્થિતિથી આગળ વધું છું. કુંડળી પસંદ થઈ. હું આ જન્મ પ્રોફાઇલ વાંચીશ, સામાન્ય ચાર્ટ નહીં. તમારી પાસે 2 સાચવેલી કુંડળી પ્રોફાઇલ છે: Bhaumik Mehta, Family Member. હું સંબંધ, પરિવાર નકશો અને પેટર્ન તુલના માટે તેનો ઉપયોગ કરી શકું છું. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે.
+```
+
+## exhausted credits / gu
+
+- Action: `none`
+- Provider decision: `blocked_needs_credit`
+
+```text
+તમારા 3 મફત AI સવાલો વપરાઈ ગયા છે. વધુ Predicta AI માર્ગદર્શન અનલૉક કર્યા પછી તમે ત્યાંથી ચાલુ રાખી શકો તે માટે મેં તમારો સવાલ સાચવી રાખ્યો છે. સાચવેલો સવાલ: "Tell me everything about my destiny in a deeply personal way" AI ચાલુ રાખવા માટે 10 સવાલ, 25 સવાલ, 100 સવાલ અથવા પ્રીમિયમ પસંદ કરો. AI ખર્ચ્યા વગર પણ હું કુન્ડલી, ચાર્ટ, રિપોર્ટ અને ફેમિલી વૉલ્ટ જેવા ગણતરી આધારિત કામોમાં મદદ કરી શકું છું.
+```
+
+## Vedic / gu
+
+- Action: `mahadasha`
+- Provider decision: `deterministic_action`
+
+```text
+હું આને કેન્દ્રિત રાખીને આગળનો ઉપયોગી જવાબ આપું છું. કુંડળી પસંદ થઈ. હું આ જન્મ પ્રોફાઇલ વાંચીશ, સામાન્ય ચાર્ટ નહીં. સીધો જવાબ: હું Venus/Saturn ને દશા સમય સંકેત પરત થી જોઈ રહી છું. સમય સંકેત: સક્રિય સંકેતોને દશા અને ગોચરથી જોવાના છે, ડર અથવા ઉતાવળના નિષ્કર્ષથી નહીં. વિશ્વાસ: ઉચ્ચ પુરાવો: જ્યાં ઉપલબ્ધ હતું ત્યાં Vedic, KP, Jaimini, Kundli Karma, Numerology અને Life Atlas પુરાવા તપાસ્યા. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ.
+```
+
+## KP / gu
+
+- Action: `kp-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+હા. હું આ અહીંથી કરી શકું છું. KP પ્રેડિક્ટા મોડ: હું ફક્ત KP કસ્પ, નક્ષત્ર સ્વામી, ઉપ-સ્વામી, સૂચક ગ્રહો અને નિર્ણય ગ્રહો થી બોલીશ. ઘટનાનો નિષ્કર્ષ: પુરાવો હજુ પૂરતો નથી સમય સંકેત: KP સમયને ઘટના-વચન, કસ્પ/ઉપ-સ્વામી સહારો, સૂચક ગ્રહો, નિર્ણય ગ્રહો અને દશા સહારે વાંચે છે. વિશ્વાસ: ઓછો ઉપાય/આગળનું પગલું: એક ચોક્કસ ઘટના-સવાલ પૂછો જેથી KP વચન, અવરોધ, સમય અને પુરાવો જોઈ શકે. પુરાવો: KPમાં કસ્પ, ઉપ-સ્વામી, સૂચક ગ્રહો, નિર્ણય ગ્રહો અને સમય પુરાવો જોવામાં આવે છે; તેને Parashari ચાર્ટ વાંચન સાથે ભેળવાયું નથી. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે.
+```
+
+## Jaimini / gu
+
+- Action: `jaimini-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+મને સંદર્ભ યાદ છે. હું તમારી હાલની સ્થિતિથી આગળ વધું છું. જૈમિની પ્રેડિક્ટા મોડ: હું આત્મ ભૂમિકા, દેખાતી ઓળખ અને ભાગ્ય અધ્યાય પરથી સીધું માર્ગદર્શન આપીશ. સીધો જવાબ: આ જીવન-દિશાનો સંકેત છે, જેને ભૂમિકા, કર્મ, દેખાતી ઓળખ અને સંબંધ-દર્પણથી વાંચવામાં આવ્યો છે. સમય સંકેત: Jaimini પહેલા ભાગ્ય-દિશા આપે છે; તારીખવાળી ઘટના માટે દશા અને KPથી સમય પક્કો કરવો જોઈએ. વિશ્વાસ: મધ્યમ. આ ભાગ્ય-દિશાનો પુરાવો છે, એકલું ઘટના નિષ્કર્ષ નથી. ઉપાય/આગળનું પગલું: સમયનું વચન જબરદસ્તી કરવા પહેલાં ભાગ્ય-દિશાને નિર્ણયની કસોટી બનાવો. પુરાવો: Atmakaraka, Amatyakaraka, Karakamsha, Swamsa, Arudha અને સંબંધિત Jaimini સંકેતો જોયા. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે.
+```
+
+## Numerology / gu
+
+- Action: `numerology-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+હું આને કેન્દ્રિત રાખીને આગળનો ઉપયોગી જવાબ આપું છું. અંક પ્રેડિક્ટા મોડ: હું નામ અને જન્મ-તારીખના અંકો પરથી વાંચીશ. જ્યાં સુધી તમે સંયુક્ત સાર ન માગો, ત્યાં સુધી વૈદિક, KP કે જૈમિની તર્ક ભેળવીશ નહીં. Bhaumik Mehta: નામ અંક 4 (નિર્માતા), જન્મ અંક 4 (નિર્માતા), ભાગ્ય અંક 3 (રચનાકાર). વર્તમાન લય: વ્યક્તિગત વર્ષ 4, મહિનો 1, દિવસ 7. ઉપયોગી સમજ: Bhaumik Mehta માં વ્યવસ્થા અને અનુશાસન, વ્યવસ્થા અને અનુશાસન અને અભિવ્યક્તિ અને સર્જનાત્મકતા ની સંયુક્ત લય દેખાય છે. આજે વ્યક્તિગત દિવસ 7 ની દિશામાં ચાલે છે. તાકાતો: વ્યવસ્થા અને અનુશાસન, વ્યવસ્થા અને અનુશાસન, અભિવ્યક્તિ અને સર્જનાત્મકતા ધ્યાન રાખવાના મુદ્દા: કઠોરતા અને અતિ-મહેનતથી બચો, કઠોરતા અને અતિ-મહેનતથી બચો અંક આધાર: - નામ અંક 4 CHALDEAN પદ્ધતિથી "BHAUMIKMEHTA" પરથી નીકળ્યો છે. - જન્મ અંક 4 જન્મ દિવસ 1980-08-22 પરથી નીકળ્યો છે. - ભાગ્ય અંક 3 આખી જન્મ તારીખ 1980-08-22 પરથી નીકળ્યો છે. મફત સમજ ઉપયોગી રહેશે. પ્રીમિયમમાં નામ-જોડણી તુલના, વાર્ષિક/માસિક સમય, સુસંગતતા અંક અને સુંદર અંક-રિપોર્ટ મળે છે. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે.
+```
+
+## Signature / gu
+
+- Action: `signature-predicta`
+- Provider decision: `deterministic_action`
+
+```text
+હા. હું આ અહીંથી કરી શકું છું. સીધો જવાબ: હસ્તાક્ષર પ્રેડિક્ટા મોડ: હસ્તાક્ષર સંકેતો તૈયાર છે. હું ફક્ત પુષ્ટિ થયેલા દેખાતા સંકેતો વાંચીશ, છુપાયેલી ઓળખ અથવા દસ્તાવેજ સત્યતા નહીં. દેખાયેલા સંકેતો: આધાર રેખા ઉપર તરફ, સજાવટ મધ્યમ, સ્પષ્ટતા આંશિક, દબાણ મધ્યમ, ઝુકાવ જમણી તરફ, અંતર સંતુલિત, લય મધ્યમ સમય સંકેત: આ ફક્ત હાલના હસ્તાક્ષર નમૂના/સત્ર પર આધારિત છે; ફરી નમૂનાઓ બતાવી શકે કે લય સ્થિર છે કે બદલાઈ રહી છે. વિશ્વાસ: મધ્યમ પ્રતિબિંબ આધારિત વિશ્વાસ. હસ્તાક્ષર માર્ગદર્શન પ્રતિબિંબ માટે છે, આગાહી અથવા ફોરેન્સિક પુરાવો નથી. પુરાવો: ફક્ત પુષ્ટિ થયેલા દેખાતા સંકેતો વપરાય છે: કદ, ઝુકાવ, દબાણ, અંતર, આધાર રેખા, સ્પષ્ટતા, સજાવટ અને રેખાંકન. ઉપાય/આગળનું પગલું: ડર આધારિત ઉપાયો બદલે એક સરળ કર્મ/ધર્મ સુધારાથી સુરક્ષિત શરૂઆત કરો. હસ્તાક્ષર પ્રેડિક્ટા માત્ર વિચાર અને સ્વ-સમજ માટે છે. આ ઓળખ ચકાસણી, ફોરેન્સિક લખાણ તપાસ, કાનૂની પુરાવો, ભરતી સલાહ, તબીબી નિદાન અથવા માનસિક-આરોગ્ય નિદાન નથી. દરેક અર્થને નરમ સંકેત માનો, સ્વભાવ કે ભવિષ્યની પક્કી વાત નહીં. કાચી સહીની છબી સંગ્રહિત થતી નથી; સત્ર બંધ થાય તો ફરી અપલોડ અથવા ડ્રૉ કરવાની જરૂર પડી શકે. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે.
+```
+
+## Reports / gu
+
+- Action: `report`
+- Provider decision: `deterministic_action`
+
+```text
+મને સંદર્ભ યાદ છે. હું તમારી હાલની સ્થિતિથી આગળ વધું છું. તમારો રિપોર્ટ તૈયાર છે, એટલે હું ચોક્કસ વિભાગ સમજાવી શકું છું. સીધો જવાબ: હું Bhaumik Mehta માટે પહેલા લાઇફ એટલસ અથવા વૈદિક રિપોર્ટ પસંદ કરીશ; જીવન દિશા જોઈએ તો લાઇફ એટલસ, ચાર્ટ પુરાવો જોઈએ તો વૈદિક રિપોર્ટ. જન્મ સંકેત: Leo લગ્ન, Sagittarius ચંદ્ર, અને Venus/Saturn સમય અત્યારે મુખ્ય પૃષ્ઠભૂમિ બનાવી રહ્યા છે. આનો અર્થ: Today: Moon day with Artha emphasis. જીવન સંતુલન: Artha આગળ છે; Moksha ને વધુ સ્થિર કાળજી જોઈએ. હમણાંનો પગલું: Conduct - Respect spouse, partners, women, and mutual consent. લાઇફ એટલસનો મુખ્ય સૂત્ર: The hidden thread is this: your life keeps asking you to turn security, skill, and meaningful resources into mature self-direction, while repeated pressure becomes clearer only when you pause, validate the pattern, and respond differently. The number rhythm adds: Your number pattern asks you to turn structure into expression while keeping structure steady. રિપોર્ટ લેન અલગ રહેશે: વૈદિક, KP, જૈમિની, અંક જ્યોતિષ, હસ્તાક્ષર અને લાઇફ એટલસ પોતાનો અલગ હેતુ રાખશે. મફત રિપોર્ટ ટૂંકો અને ઉપયોગી રહેશે; પ્રીમિયમમાં ઊંડી ટાઇમિંગ, પુરાવો અને ઉપાય ઉમેરાશે. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે.
+```
+
+## Life Atlas / gu
+
+- Action: `report`
+- Provider decision: `deterministic_action`
+
+```text
+હું આને કેન્દ્રિત રાખીને આગળનો ઉપયોગી જવાબ આપું છું. તમારો રિપોર્ટ તૈયાર છે, એટલે હું ચોક્કસ વિભાગ સમજાવી શકું છું. સીધો જવાબ: હું Bhaumik Mehta માટે પહેલા લાઇફ એટલસ અથવા વૈદિક રિપોર્ટ પસંદ કરીશ; જીવન દિશા જોઈએ તો લાઇફ એટલસ, ચાર્ટ પુરાવો જોઈએ તો વૈદિક રિપોર્ટ. જન્મ સંકેત: Leo લગ્ન, Sagittarius ચંદ્ર, અને Venus/Saturn સમય અત્યારે મુખ્ય પૃષ્ઠભૂમિ બનાવી રહ્યા છે. આનો અર્થ: Today: Moon day with Artha emphasis. જીવન સંતુલન: Artha આગળ છે; Moksha ને વધુ સ્થિર કાળજી જોઈએ. હમણાંનો પગલું: Conduct - Respect spouse, partners, women, and mutual consent. લાઇફ એટલસનો મુખ્ય સૂત્ર: The hidden thread is this: your life keeps asking you to turn security, skill, and meaningful resources into mature self-direction, while repeated pressure becomes clearer only when you pause, validate the pattern, and respond differently. The number rhythm adds: Your number pattern asks you to turn structure into expression while keeping structure steady. રિપોર્ટ લેન અલગ રહેશે: વૈદિક, KP, જૈમિની, અંક જ્યોતિષ, હસ્તાક્ષર અને લાઇફ એટલસ પોતાનો અલગ હેતુ રાખશે. મફત રિપોર્ટ ટૂંકો અને ઉપયોગી રહેશે; પ્રીમિયમમાં ઊંડી ટાઇમિંગ, પુરાવો અને ઉપાય ઉમેરાશે. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ.
+```
+
+## Kundli Karma / gu
+
+- Action: `kundli-karma`
+- Provider decision: `local_memory_answer`
+
+```text
+હા. હું આ અહીંથી કરી શકું છું. સીધો જવાબ: તમારી Kundli Karma ઝલક Predicta ની ગણતરી-સ્મૃતિથી તૈયાર છે. સમય સંકેત: સક્રિય સંકેતોને દશા અને ગોચરથી જોવાના છે, ડર અથવા ઉતાવળના નિષ્કર્ષથી નહીં. વિશ્વાસ: મધ્યમ મુખ્ય સક્રિય સંકેતો: - Lal Kitab - Lal Kitab - Lal Kitab પુરાવો: Lal Kitab, Lal Kitab, Lal Kitab ઉપાય/આગળનું પગલું: ડર આધારિત ઉપાયો બદલે એક સરળ કર્મ/ધર્મ સુધારાથી સુરક્ષિત શરૂઆત કરો. હું Shrap ને ક્યારેય શાપ નહીં કહું. તેને પુરાવો, સમય અને સુરક્ષિત સુધારા સાથે કર્મ-દબાણ સંકેત તરીકે વાંચું છું. આ જવાબ Predicta ની ગણતરી-સ્મૃતિમાંથી આવ્યો છે. એઆઈ ક્રેડિટ વપરાયો નથી. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે.
+```
+
+## Family Vault / gu
+
+- Action: `family-map`
+- Provider decision: `deterministic_action`
+
+```text
+મને સંદર્ભ યાદ છે. હું તમારી હાલની સ્થિતિથી આગળ વધું છું. 2 Kundlis selected. Predicta can run this family comparison. Family Karma Map for 2 profiles Shared themes and pairwise patterns are grouped into gentle guidance, not blame. Repeated theme: Venus timing overlap - A shared Mahadasha can make the same life lesson echo across the house at the same time. Use this map for reflection and better handling, not for blame, labeling, or forcing one person to carry another person’s destiny. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ. ફ્રી ઊંડાણ ઉપયોગી અર્થ અને સુરક્ષિત શરૂઆત આપે છે. પ્રીમિયમમાં વધુ ઊંડો સમય, ક્રોસ-ચાર્ટ પુરાવો અને ડર વગરના રચનાત્મક ઉપાય મળે છે.
+```
+
+## pass/redeem / gu
+
+- Action: `pass-redemption`
+- Provider decision: `deterministic_action`
+
+```text
+હું આને કેન્દ્રિત રાખીને આગળનો ઉપયોગી જવાબ આપું છું. તમે સીમા પાસે છો. ચૂકવણીવાળા પગલાં પહેલાં હું તમને જણાવીશ. Passes unlock exact benefits only after sign-in: AI question credits, report credits, Premium access, or family/friend offers. Redeem pass screen ma code enter karo. Predicta tamaro unfinished question preserve rakhshe, etle pass apply thata j same intent continue thai shake. Cost control rule: deterministic Kundli, charts, dasha, Gochar, saved profiles, ane Family Vault help AI credit spend nathi karta. મને આ ચાર્ટ હસ્તાક્ષર હવે યાદ છે: Leo Lagna / Sagittarius Moon / Mula / Venus-Saturn. જેમ-જેમ વધુ કુંડળીઓ સંગ્રહ માં આવશે, હું પેટર્ન તુલના આપમેળે કરીશ.
+```

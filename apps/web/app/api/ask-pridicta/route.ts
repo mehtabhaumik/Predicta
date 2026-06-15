@@ -5,6 +5,7 @@ import {
   AI_PREMIUM_RUNTIME_POLICY,
   type AIGovernanceEntitlementSource,
 } from '@pridicta/config/aiCostGovernance';
+import { formatNativeCopy, getNativeCopy } from '@pridicta/config';
 import {
   FREE_AI_QUESTION_LIFETIME_LIMIT,
   evaluateAiCreditEntitlement,
@@ -13,7 +14,7 @@ import {
   shouldConsumeFreeAiCredit,
   type ServerEntitlementLedger,
 } from '@pridicta/monetization';
-import type { PridictaChatResponse } from '@pridicta/types';
+import type { PridictaChatResponse, SupportedLanguage } from '@pridicta/types';
 import { getAstroApiUrl, readJsonBody } from '../../../lib/astro-api';
 import { requireFirebaseUser } from '../../../lib/firebase/server-auth';
 import {
@@ -398,6 +399,7 @@ function buildFreeAiUpsellResponse({
     payload && typeof payload === 'object' && !Array.isArray(payload)
       ? String((payload as Record<string, unknown>).message ?? '').trim()
       : '';
+  const language = readChatLanguage(payload);
 
   return {
     freeAiCreditsRemaining: getFreeAiCreditsRemaining(ledger),
@@ -409,13 +411,61 @@ function buildFreeAiUpsellResponse({
     },
     model: 'predicta-entitlement-ledger',
     provider: 'deterministic',
-    text: [
-      'Your 3 free AI questions are used.',
-      'I preserved your question so you can continue after unlocking more Predicta AI guidance.',
-      preservedQuestion ? `Saved question: "${preservedQuestion}"` : undefined,
-      'Choose 10 questions, 25 questions, 100 questions, or Premium to continue with AI. I can still help with deterministic Kundli, charts, reports, and Family Vault actions without spending AI.',
+    text: buildFreeAiUpsellText(language, preservedQuestion),
+  };
+}
+
+function readChatLanguage(payload: unknown): SupportedLanguage {
+  if (payload && typeof payload === 'object' && !Array.isArray(payload)) {
+    const language = (payload as Record<string, unknown>).language;
+    if (language === 'hi' || language === 'gu' || language === 'en') {
+      return language;
+    }
+  }
+
+  return 'en';
+}
+
+function buildFreeAiUpsellText(
+  language: SupportedLanguage,
+  preservedQuestion: string,
+): string {
+  if (language === 'hi') {
+    return [
+      getNativeCopy("native.apps.web.app.api.ask-pridicta.route.ts.free_ai_used_hi"),
+      getNativeCopy("native.apps.web.app.api.ask-pridicta.route.ts.free_ai_preserved_hi"),
+      preservedQuestion
+        ? formatNativeCopy("native.apps.web.app.api.ask-pridicta.route.ts.free_ai_saved_question_hi", [
+            preservedQuestion,
+          ])
+        : undefined,
+      getNativeCopy("native.apps.web.app.api.ask-pridicta.route.ts.free_ai_deterministic_help_hi"),
     ]
       .filter(Boolean)
-      .join('\n\n'),
-  };
+      .join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      getNativeCopy("native.apps.web.app.api.ask-pridicta.route.ts.free_ai_used_gu"),
+      getNativeCopy("native.apps.web.app.api.ask-pridicta.route.ts.free_ai_preserved_gu"),
+      preservedQuestion
+        ? formatNativeCopy("native.apps.web.app.api.ask-pridicta.route.ts.free_ai_saved_question_gu", [
+            preservedQuestion,
+          ])
+        : undefined,
+      getNativeCopy("native.apps.web.app.api.ask-pridicta.route.ts.free_ai_deterministic_help_gu"),
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+  }
+
+  return [
+    'Your 3 free AI questions are used.',
+    'I preserved your question so you can continue after unlocking more Predicta AI guidance.',
+    preservedQuestion ? `Saved question: "${preservedQuestion}"` : undefined,
+    'Choose 10 questions, 25 questions, 100 questions, or Premium to continue with AI. I can still help with deterministic Kundli, charts, reports, and Family Vault actions without spending AI.',
+  ]
+    .filter(Boolean)
+    .join('\n\n');
 }

@@ -19332,6 +19332,162 @@
         " पहले मुफ्त उत्तर उपयोगी रहेगा; विस्तृत मानचित्र चाहिए तब प्रीमियम, दिवसीय पास या एक-समय रिपोर्ट चुनें करें."
       ]
     },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_ready_hi": {
+      "kind": "template",
+      "parts": [
+        "मैं ",
+        " के लिए पहले लाइफ एटलस या वैदिक रिपोर्ट चुनूंगी; जीवन दिशा चाहिए तो लाइफ एटलस, चार्ट प्रमाण चाहिए तो वैदिक रिपोर्ट."
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_signal_hi": {
+      "kind": "template",
+      "parts": [
+        "जन्म संकेत: ",
+        " लग्न, ",
+        " चंद्र, और ",
+        "/",
+        " समय अभी मुख्य पृष्ठभूमि बना रहे हैं."
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_rhythm_hi": {
+      "kind": "template",
+      "parts": [
+        "इसका अर्थ: ",
+        ""
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_balance_hi": {
+      "kind": "template",
+      "parts": [
+        "जीवन संतुलन: ",
+        " आगे चल रहा है; ",
+        " को अधिक स्थिर देखभाल चाहिए."
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_sadhana_hi": {
+      "kind": "template",
+      "parts": [
+        "अभी का कदम: ",
+        " - ",
+        ""
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_life_atlas_hi": {
+      "kind": "template",
+      "parts": [
+        "लाइफ एटलस का मुख्य सूत्र: ",
+        ""
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_school_lane_hi": {
+      "kind": "text",
+      "value": "रिपोर्ट लेन अलग रहेंगी: वैदिक, KP, जैमिनी, अंक ज्योतिष, हस्ताक्षर और लाइफ एटलस अपना अलग उद्देश्य रखेंगे."
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_depth_free_hi": {
+      "kind": "text",
+      "value": "मुफ्त रिपोर्ट संक्षिप्त और उपयोगी रहेगी; प्रीमियम में गहरी टाइमिंग, प्रमाण और उपाय जुड़ेंगे."
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_depth_premium_hi": {
+      "kind": "text",
+      "value": "प्रीमियम में टाइमिंग विंडो, विरोधाभास, उपाय और प्रमाण तालिकाएं गहराई से जुड़ेंगी."
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_ready_gu": {
+      "kind": "template",
+      "parts": [
+        "હું ",
+        " માટે પહેલા લાઇફ એટલસ અથવા વૈદિક રિપોર્ટ પસંદ કરીશ; જીવન દિશા જોઈએ તો લાઇફ એટલસ, ચાર્ટ પુરાવો જોઈએ તો વૈદિક રિપોર્ટ."
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_signal_gu": {
+      "kind": "template",
+      "parts": [
+        "જન્મ સંકેત: ",
+        " લગ્ન, ",
+        " ચંદ્ર, અને ",
+        "/",
+        " સમય અત્યારે મુખ્ય પૃષ્ઠભૂમિ બનાવી રહ્યા છે."
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_rhythm_gu": {
+      "kind": "template",
+      "parts": [
+        "આનો અર્થ: ",
+        ""
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_balance_gu": {
+      "kind": "template",
+      "parts": [
+        "જીવન સંતુલન: ",
+        " આગળ છે; ",
+        " ને વધુ સ્થિર કાળજી જોઈએ."
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_sadhana_gu": {
+      "kind": "template",
+      "parts": [
+        "હમણાંનો પગલું: ",
+        " - ",
+        ""
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_life_atlas_gu": {
+      "kind": "template",
+      "parts": [
+        "લાઇફ એટલસનો મુખ્ય સૂત્ર: ",
+        ""
+      ]
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_school_lane_gu": {
+      "kind": "text",
+      "value": "રિપોર્ટ લેન અલગ રહેશે: વૈદિક, KP, જૈમિની, અંક જ્યોતિષ, હસ્તાક્ષર અને લાઇફ એટલસ પોતાનો અલગ હેતુ રાખશે."
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_depth_free_gu": {
+      "kind": "text",
+      "value": "મફત રિપોર્ટ ટૂંકો અને ઉપયોગી રહેશે; પ્રીમિયમમાં ઊંડી ટાઇમિંગ, પુરાવો અને ઉપાય ઉમેરાશે."
+    },
+    "native.packages.astrology.src.predictaChatActions.ts.report_brief_depth_premium_gu": {
+      "kind": "text",
+      "value": "પ્રીમિયમમાં ટાઇમિંગ વિન્ડો, વિરોધાભાસ, ઉપાય અને પુરાવા કોષ્ટકો ઊંડાઈથી જોડાશે."
+    },
+    "native.apps.web.app.api.ask-pridicta.route.ts.free_ai_used_hi": {
+      "kind": "text",
+      "value": "आपके 3 मुफ्त AI सवाल इस्तेमाल हो चुके हैं."
+    },
+    "native.apps.web.app.api.ask-pridicta.route.ts.free_ai_preserved_hi": {
+      "kind": "text",
+      "value": "मैंने आपका सवाल सुरक्षित रखा है ताकि अधिक Predicta AI मार्गदर्शन अनलॉक करने के बाद आप वहीं से जारी रख सकें."
+    },
+    "native.apps.web.app.api.ask-pridicta.route.ts.free_ai_saved_question_hi": {
+      "kind": "template",
+      "parts": [
+        "सुरक्षित सवाल: \"",
+        "\""
+      ]
+    },
+    "native.apps.web.app.api.ask-pridicta.route.ts.free_ai_deterministic_help_hi": {
+      "kind": "text",
+      "value": "AI जारी रखने के लिए 10 सवाल, 25 सवाल, 100 सवाल या प्रीमियम चुनें. बिना AI खर्च किए मैं अभी भी कुंडली, चार्ट, रिपोर्ट और फैमिली वॉल्ट जैसे गणना-आधारित कामों में मदद कर सकती हूं."
+    },
+    "native.apps.web.app.api.ask-pridicta.route.ts.free_ai_used_gu": {
+      "kind": "text",
+      "value": "તમારા 3 મફત AI સવાલો વપરાઈ ગયા છે."
+    },
+    "native.apps.web.app.api.ask-pridicta.route.ts.free_ai_preserved_gu": {
+      "kind": "text",
+      "value": "વધુ Predicta AI માર્ગદર્શન અનલૉક કર્યા પછી તમે ત્યાંથી ચાલુ રાખી શકો તે માટે મેં તમારો સવાલ સાચવી રાખ્યો છે."
+    },
+    "native.apps.web.app.api.ask-pridicta.route.ts.free_ai_saved_question_gu": {
+      "kind": "template",
+      "parts": [
+        "સાચવેલો સવાલ: \"",
+        "\""
+      ]
+    },
+    "native.apps.web.app.api.ask-pridicta.route.ts.free_ai_deterministic_help_gu": {
+      "kind": "text",
+      "value": "AI ચાલુ રાખવા માટે 10 સવાલ, 25 સવાલ, 100 સવાલ અથવા પ્રીમિયમ પસંદ કરો. AI ખર્ચ્યા વગર પણ હું કુન્ડલી, ચાર્ટ, રિપોર્ટ અને ફેમિલી વૉલ્ટ જેવા ગણતરી આધારિત કામોમાં મદદ કરી શકું છું."
+    },
     "native.packages.astrology.src.predictaChatActions.ts.503f2f681b": {
       "kind": "text",
       "value": "અભિવ્યક્તિ અને સર્જનાત્મકતા"

@@ -1983,33 +1983,13 @@ function buildActionText({
   }
 
   if (action === 'report') {
-    const guidance = composeHolisticDailyGuidance(kundli, { language });
-    const balance = composePurusharthaLifeBalance(kundli);
-    const path = composeSadhanaRemedyPath(kundli);
-    const lifeAtlas = composeLifeAtlasReport(kundli, {
-      depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
-    });
-    const activeStage =
-      path.stages.find(stage => stage.status === 'active' || stage.status === 'review') ??
-      path.stages[0];
     return joinSections([
       intro,
-      [
-        `I staged the report brief for ${kundli.birthDetails.name}.`,
-        `Executive signal: ${kundli.lagna} Lagna, ${kundli.moonSign} Moon, ${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha} timing.`,
-        `Holistic spine: ${guidance.headline}`,
-        `Daily rhythm: morning - ${guidance.morningPractice}; midday - ${guidance.middayCheck}; evening - ${guidance.eveningReview}`,
-        `Life balance: ${balance.dominant.label} leads now; ${balance.needsCare.label} needs steadier care.`,
-        `Sadhana: ${activeStage.label} - ${activeStage.practice}`,
-        `Life Atlas: ${lifeAtlas.name} is the separate synthesis report. Hidden thread: ${lifeAtlas.hiddenThread}`,
-        `Life Atlas signature rule: ${lifeAtlas.signatureNote}`,
-        `Life Atlas boundary: it is not placed inside Vedic, KP, Jaimini, Numerology, or Signature reports.`,
-        `Reports are school-lane aware: Vedic, KP, Jaimini, Numerology, Signature, and the separate Life Atlas synthesis lane must not become a mixed bag.`,
-        `Vedic report memory includes Moon/Chandra Lagna, Swamsa, Karakamsha, Mahadasha Phala, house-wise planets, friendship table, functional benefics/malefics, Chalit, Panchang, Samsa, Ghatak/favorable, Ashtakavarga, Prastarashtakavarga, and Avakhada chakra.`,
-        `Free report: every included section stays useful with concise insight and confidence limits.`,
-        `Premium PDF bundle: the same calculation truth with deeper analysis, timing windows, contradictions, remedies, evidence tables, and report-ready depth.`,
-        `Ask “prepare premium PDF bundle” when you want me to deepen it.`,
-      ].join('\n'),
+      buildReportBriefText({
+        hasPremiumAccess,
+        kundli,
+        language,
+      }),
       insight,
       buildUpsell(language, 'report', hasPremiumAccess, memory),
     ]);
@@ -2050,6 +2030,132 @@ function buildNeedsKundliReply(
     'First I need your Kundli. Send date of birth, birth time, and birth place; I will create the Kundli and continue the work here.',
     'If you only know the DOB, send that first. I will ask for the rest gently.',
   ].join('\n\n');
+}
+
+function buildReportBriefText({
+  hasPremiumAccess,
+  kundli,
+  language,
+}: {
+  hasPremiumAccess: boolean;
+  kundli: KundliData;
+  language: SupportedLanguage;
+}): string {
+  const guidance = composeHolisticDailyGuidance(kundli, { language });
+  const balance = composePurusharthaLifeBalance(kundli);
+  const path = composeSadhanaRemedyPath(kundli);
+  const lifeAtlas = composeLifeAtlasReport(kundli, {
+    depth: hasPremiumAccess ? 'PREMIUM' : 'FREE',
+  });
+  const activeStage =
+    path.stages.find(stage => stage.status === 'active' || stage.status === 'review') ??
+    path.stages[0];
+  const reportDepth = hasPremiumAccess
+    ? 'Premium will add timing windows, contradictions, remedies, and evidence tables.'
+    : 'Free will stay concise and useful; Premium adds deeper timing, proof, and remedies.';
+
+  if (language === 'hi') {
+    return [
+      chatLine(
+        language,
+        'directAnswer',
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_ready_hi", [
+          kundli.birthDetails.name,
+        ]),
+      ),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_signal_hi", [
+        kundli.lagna,
+        kundli.moonSign,
+        kundli.dasha.current.mahadasha,
+        kundli.dasha.current.antardasha,
+      ]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_rhythm_hi", [
+        guidance.headline,
+      ]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_balance_hi", [
+        balance.dominant.label,
+        balance.needsCare.label,
+      ]),
+      activeStage
+        ? formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_sadhana_hi", [
+            activeStage.label,
+            activeStage.practice,
+          ])
+        : undefined,
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_life_atlas_hi", [
+        lifeAtlas.hiddenThread,
+      ]),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_school_lane_hi"),
+      getNativeCopy(
+        hasPremiumAccess
+          ? "native.packages.astrology.src.predictaChatActions.ts.report_brief_depth_premium_hi"
+          : "native.packages.astrology.src.predictaChatActions.ts.report_brief_depth_free_hi",
+      ),
+    ]
+      .filter(Boolean)
+      .join('\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      chatLine(
+        language,
+        'directAnswer',
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_ready_gu", [
+          kundli.birthDetails.name,
+        ]),
+      ),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_signal_gu", [
+        kundli.lagna,
+        kundli.moonSign,
+        kundli.dasha.current.mahadasha,
+        kundli.dasha.current.antardasha,
+      ]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_rhythm_gu", [
+        guidance.headline,
+      ]),
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_balance_gu", [
+        balance.dominant.label,
+        balance.needsCare.label,
+      ]),
+      activeStage
+        ? formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_sadhana_gu", [
+            activeStage.label,
+            activeStage.practice,
+          ])
+        : undefined,
+      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_life_atlas_gu", [
+        lifeAtlas.hiddenThread,
+      ]),
+      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.report_brief_school_lane_gu"),
+      getNativeCopy(
+        hasPremiumAccess
+          ? "native.packages.astrology.src.predictaChatActions.ts.report_brief_depth_premium_gu"
+          : "native.packages.astrology.src.predictaChatActions.ts.report_brief_depth_free_gu",
+      ),
+    ]
+      .filter(Boolean)
+      .join('\n');
+  }
+
+  return [
+    chatLine(
+      language,
+      'directAnswer',
+      `I would start ${kundli.birthDetails.name} with the Life Atlas or Vedic report, depending on whether you want life direction or chart proof first.`,
+    ),
+    `Birth signal: ${kundli.lagna} Lagna, ${kundli.moonSign} Moon, ${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha} timing.`,
+    `What this means: ${guidance.headline}`,
+    `Life balance: ${balance.dominant.label} is leading; ${balance.needsCare.label} needs steadier care.`,
+    activeStage
+      ? `Action now: ${activeStage.label} - ${activeStage.practice}`
+      : undefined,
+    `Life Atlas thread: ${lifeAtlas.hiddenThread}`,
+    'Report lanes stay separate: Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas each keep their own purpose.',
+    reportDepth,
+  ]
+    .filter(Boolean)
+    .join('\n');
 }
 
 function actionIntro(
@@ -3755,18 +3861,13 @@ function buildSignaturePredictaReply(
   if (analysis.status === 'ready') {
     return [
       `Direct answer: ${analysis.summary}`,
-      'Signature Predicta mode: reflective confirmed-trait reading only.',
-      'Timing: this reflects the current signature sample/session only; repeat samples can show whether the expression pattern is stable or changing.',
+      'Timing: this reflects the current signature sample only.',
       'Confidence: Medium reflective confidence. Signature is reflective guidance, not prediction or forensic proof.',
       `Action/remedy: ${analysis.improvementPlan.slice(0, 2).join(' ')}`,
-      `Improvement plan: ${analysis.improvementPlan.slice(0, 4).join(' ')}`,
       `Observed traits: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
       `Writing rhythm: ${analysis.rhythm.summary}`,
       `Confidence expression: ${analysis.confidenceExpression.summary}`,
-      `Consistency: ${analysis.consistency.summary}`,
       `Evidence: ${analysis.evidence.slice(0, 3).join(' | ')}`,
-      analysis.synthesisReadiness.rule,
-      analysis.safetyBoundaries.join(' '),
       premiumLine,
     ].join('\n\n');
   }
