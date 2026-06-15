@@ -1,0 +1,58 @@
+{
+  "phase": "PREDICTA_REVIVAL_V2_PHASE_8_PREDICTA_MASTERY_AND_NO_SCHOOLING_CHAT_GATE",
+  "status": "GREEN",
+  "strictAudit": true,
+  "checks": [
+    "roadmap Phase 8 contract is present",
+    "web Predicta CTA URLs carry source, selected section, school, report, and handoff context",
+    "web chat hydrates URL context, preserves pre-auth questions, stores specialist memory, and normalizes room-safe context",
+    "mobile context builder carries generated report context, active context, app memory digest, and report section memory",
+    "Predicta memory contains section-aware handoff rules for Vedic, KP, Jaimini, Numerology, Signature, Life Atlas, and Kundli Karma",
+    "golden chat transcripts cover all major worlds and report handoffs in English, Hindi, and Gujarati",
+    "no-schooling/toolkit/internal-language patterns are rejected in transcript artifacts"
+  ],
+  "handoffSamples": [
+    {
+      "id": "vedic-room",
+      "sourceScreen": "Vedic Room",
+      "school": "PARASHARI",
+      "selectedSection": "Mahadasha Phala"
+    },
+    {
+      "id": "kp-room",
+      "sourceScreen": "KP Predicta",
+      "school": "KP",
+      "selectedSection": "KP event verdict"
+    },
+    {
+      "id": "jaimini-room",
+      "sourceScreen": "Jaimini Predicta",
+      "school": "JAIMINI",
+      "selectedSection": "Jaimini soul role"
+    },
+    {
+      "id": "numerology-room",
+      "sourceScreen": "Numerology Predicta",
+      "school": "NUMEROLOGY",
+      "selectedSection": "Personal year cycle"
+    },
+    {
+      "id": "signature-room",
+      "sourceScreen": "Signature Predicta",
+      "school": "SIGNATURE",
+      "selectedSection": "Confirmed Signature Trait Map"
+    },
+    {
+      "id": "life-atlas-report",
+      "sourceScreen": "Report",
+      "reportFocus": "LIFE_ATLAS",
+      "selectedSection": "Hidden Thread"
+    },
+    {
+      "id": "kundli-karma",
+      "sourceScreen": "Kundli Karma Room",
+      "school": "PARASHARI",
+      "selectedSection": "Kundli Karma: Shrapit Dosh"
+    }
+  ]
+}

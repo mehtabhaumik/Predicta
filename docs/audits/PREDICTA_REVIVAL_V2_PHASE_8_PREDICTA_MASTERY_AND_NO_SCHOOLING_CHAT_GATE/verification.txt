@@ -1,0 +1,5 @@
+PREDICTA_REVIVAL_V2_PHASE_8_PREDICTA_MASTERY_AND_NO_SCHOOLING_CHAT_GATE: GREEN
+
+Verified by scripts/run-revival-v2-phase-8-predicta-mastery-chat-gate.mjs.
+Golden chat transcript coverage is delegated to and checked from PREDICTA_INTELLIGENCE_PHASE_10_GOLDEN_CHAT_EXPERIENCE_AUDIT.
+Every checked handoff URL carries source context; report handoffs carry report focus/mode/lane/section metadata; specialist room handoffs carry room-safe school context.

@@ -27,6 +27,30 @@ const phaseName =
   'PREDICTA_INTELLIGENCE_PHASE_9_COST_GOVERNANCE_AND_AI_USAGE_PROOF';
 const auditDir = path.join(repoRoot, 'docs/audits', phaseName);
 const failures = [];
+const RealDate = Date;
+const fixedAuditDate = new RealDate('2026-06-15T06:30:00.000Z');
+
+globalThis.Date = class PredictaCostGovernanceAuditDate extends RealDate {
+  constructor(...args) {
+    if (args.length === 0) {
+      super(fixedAuditDate.getTime());
+      return;
+    }
+    super(...args);
+  }
+
+  static now() {
+    return fixedAuditDate.getTime();
+  }
+
+  static parse(value) {
+    return RealDate.parse(value);
+  }
+
+  static UTC(...args) {
+    return RealDate.UTC(...args);
+  }
+};
 
 const originalResolveFilename = Module._resolveFilename;
 Module._resolveFilename = function resolveWorkspaceAlias(

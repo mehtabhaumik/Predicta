@@ -1,0 +1,100 @@
+[
+  {
+    "href": "/ask?sourceScreen=Vedic+Room&handoffMode=room_safe&prompt=Give+my+Vedic+prediction+first%2C+then+the+dasha+proof.&autoSend=true&school=PARASHARI&handoffQuestion=What+is+my+current+Mahadasha+asking+me+to+do%3F&selectedSection=Mahadasha+Phala",
+    "id": "vedic-room",
+    "params": {
+      "sourceScreen": "Vedic Room",
+      "handoffMode": "room_safe",
+      "prompt": "Give my Vedic prediction first, then the dasha proof.",
+      "autoSend": "true",
+      "school": "PARASHARI",
+      "handoffQuestion": "What is my current Mahadasha asking me to do?",
+      "selectedSection": "Mahadasha Phala"
+    }
+  },
+  {
+    "href": "/ask?sourceScreen=KP+Predicta&handoffMode=room_safe&prompt=Answer+the+promotion+verdict+first.&autoSend=true&school=KP&from=PARASHARI&handoffQuestion=Will+my+promotion+happen+in+the+next+six+months%3F&selectedSection=KP+event+verdict",
+    "id": "kp-room",
+    "params": {
+      "sourceScreen": "KP Predicta",
+      "handoffMode": "room_safe",
+      "prompt": "Answer the promotion verdict first.",
+      "autoSend": "true",
+      "school": "KP",
+      "from": "PARASHARI",
+      "handoffQuestion": "Will my promotion happen in the next six months?",
+      "selectedSection": "KP event verdict"
+    }
+  },
+  {
+    "href": "/ask?sourceScreen=Jaimini+Predicta&handoffMode=room_safe&prompt=Answer+my+Jaimini+soul+role+first.&autoSend=true&school=JAIMINI&handoffQuestion=What+is+my+soul+role+and+destiny+direction%3F&selectedSection=Jaimini+soul+role",
+    "id": "jaimini-room",
+    "params": {
+      "sourceScreen": "Jaimini Predicta",
+      "handoffMode": "room_safe",
+      "prompt": "Answer my Jaimini soul role first.",
+      "autoSend": "true",
+      "school": "JAIMINI",
+      "handoffQuestion": "What is my soul role and destiny direction?",
+      "selectedSection": "Jaimini soul role"
+    }
+  },
+  {
+    "href": "/ask?sourceScreen=Numerology+Predicta&handoffMode=room_safe&prompt=What+is+my+current+number+cycle+saying%3F&autoSend=true&school=NUMEROLOGY&selectedSection=Personal+year+cycle",
+    "id": "numerology-room",
+    "params": {
+      "sourceScreen": "Numerology Predicta",
+      "handoffMode": "room_safe",
+      "prompt": "What is my current number cycle saying?",
+      "autoSend": "true",
+      "school": "NUMEROLOGY",
+      "selectedSection": "Personal year cycle"
+    }
+  },
+  {
+    "href": "/ask?sourceScreen=Signature+Predicta&handoffMode=room_safe&prompt=Explain+only+my+confirmed+visible+signature+traits.&autoSend=true&school=SIGNATURE&selectedSection=Confirmed+Signature+Trait+Map",
+    "id": "signature-room",
+    "params": {
+      "sourceScreen": "Signature Predicta",
+      "handoffMode": "room_safe",
+      "prompt": "Explain only my confirmed visible signature traits.",
+      "autoSend": "true",
+      "school": "SIGNATURE",
+      "selectedSection": "Confirmed Signature Trait Map"
+    }
+  },
+  {
+    "href": "/ask?sourceScreen=Report&prompt=Explain+my+Life+Atlas+hidden+thread+first.&autoSend=true&selectedSection=Hidden+Thread&reportFocus=LIFE_ATLAS&reportMode=PREMIUM&reportSchoolLane=SYNTHESIS&reportSectionId=hidden-thread&reportSectionTitle=Hidden+Thread&reportSubjectName=Bhaumik+Mehta&reportType=Premium+Predicta+Life+Atlas&reportAvailableSections=Opening+Soul+Portrait%7C%7CHidden+Thread%7C%7CCurrent+Life+Chapter&reportSelectedSections=Opening+Soul+Portrait%7C%7CHidden+Thread",
+    "id": "life-atlas-report",
+    "params": {
+      "sourceScreen": "Report",
+      "prompt": "Explain my Life Atlas hidden thread first.",
+      "autoSend": "true",
+      "selectedSection": "Hidden Thread",
+      "reportFocus": "LIFE_ATLAS",
+      "reportMode": "PREMIUM",
+      "reportSchoolLane": "SYNTHESIS",
+      "reportSectionId": "hidden-thread",
+      "reportSectionTitle": "Hidden Thread",
+      "reportSubjectName": "Bhaumik Mehta",
+      "reportType": "Premium Predicta Life Atlas",
+      "reportAvailableSections": "Opening Soul Portrait||Hidden Thread||Current Life Chapter",
+      "reportSelectedSections": "Opening Soul Portrait||Hidden Thread"
+    }
+  },
+  {
+    "href": "/ask?sourceScreen=Kundli+Karma+Room&prompt=Explain+this+Dosh+without+fear+and+give+one+remedy.&autoSend=true&school=PARASHARI&selectedSection=Kundli+Karma%3A+Shrapit+Dosh&selectedKundliKarmaEvidenceSummary=Saturn+and+Rahu+pressure+is+active+but+mitigated.&selectedKundliKarmaItemId=shrapit-dosh&selectedKundliKarmaModule=dosh&selectedKundliKarmaRuleId=saturn-rahu-pressure",
+    "id": "kundli-karma",
+    "params": {
+      "sourceScreen": "Kundli Karma Room",
+      "prompt": "Explain this Dosh without fear and give one remedy.",
+      "autoSend": "true",
+      "school": "PARASHARI",
+      "selectedSection": "Kundli Karma: Shrapit Dosh",
+      "selectedKundliKarmaEvidenceSummary": "Saturn and Rahu pressure is active but mitigated.",
+      "selectedKundliKarmaItemId": "shrapit-dosh",
+      "selectedKundliKarmaModule": "dosh",
+      "selectedKundliKarmaRuleId": "saturn-rahu-pressure"
+    }
+  }
+]

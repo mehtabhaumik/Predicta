@@ -2285,7 +2285,7 @@ function buildMobileSchoolContextIntro(
   return [
     `${school} is ready.`,
     fromSchool
-      ? `Context was carried from ${fromSchool}. The method will not be mixed.`
+      ? `Context was carried from ${fromSchool}. I will use this room's evidence for the answer.`
       : undefined,
     chartFocus ? `Selected chart: ${chartFocus}.` : undefined,
     reportLine ? `Report context: ${reportLine}.` : undefined,
