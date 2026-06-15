@@ -10,8 +10,6 @@ export default async function NumerologyPredictaChatPage({
 }): Promise<never> {
   return redirectLegacyChatToAsk({
     defaults: {
-      prompt:
-        'Read my number pattern and tell me what it means for my life right now.',
       school: 'NUMEROLOGY',
       sourceScreen: 'Numerology Predicta',
     },

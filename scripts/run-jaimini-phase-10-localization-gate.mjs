@@ -180,8 +180,13 @@ const componentLocalizationChecks = [
   },
   {
     file: 'apps/web/app/dashboard/jaimini/chat/page.tsx',
-    required: ['getJaiminiLocalizationCopy', 'copy.chatTitle', 'copy.chatBody', 'copy.chatPrompt'],
-    forbidden: ['Chat with Jaimini Predicta.', 'Jaimini Predicta keeps the reading'],
+    required: ['redirectLegacyChatToAsk', "school: 'JAIMINI'", "sourceScreen: 'Jaimini Predicta'"],
+    forbidden: [
+      'Chat with Jaimini Predicta.',
+      'Jaimini Predicta keeps the reading',
+      'Read my current Jaimini destiny chapter',
+      'prompt:',
+    ],
   },
 ];
 
@@ -246,7 +251,8 @@ for (const forbidden of [
 
 for (const legacyRoute of [
   ['apps/web/app/dashboard/nadi/page.tsx', "redirect('/dashboard/jaimini')"],
-  ['apps/web/app/dashboard/nadi/chat/page.tsx', "redirect('/dashboard/jaimini/chat')"],
+  ['apps/web/app/dashboard/nadi/chat/page.tsx', 'redirectLegacyChatToAsk'],
+  ['apps/web/app/dashboard/nadi/chat/page.tsx', "school: 'JAIMINI'"],
 ]) {
   assertIncludes(read(legacyRoute[0]), legacyRoute[1], `${legacyRoute[0]} redirects to Jaimini`);
 }
@@ -261,14 +267,14 @@ for (const file of [
 }
 
 assertIncludes(
-  read('apps/web/app/pricing/page.tsx'),
+  read('apps/web/app/pricing/PricingPageRuntime.tsx'),
   'getMonetizationProductCopy',
-  'apps/web/app/pricing/page.tsx exposes Jaimini report product through shared product copy',
+  'apps/web/app/pricing/PricingPageRuntime.tsx exposes Jaimini report product through shared product copy',
 );
 assertIncludes(
-  read('apps/web/app/dashboard/premium/page.tsx'),
+  read('apps/web/components/WebPremiumPage.tsx'),
   'JAIMINI_REPORT',
-  'apps/web/app/dashboard/premium/page.tsx exposes Jaimini report product',
+  'apps/web/components/WebPremiumPage.tsx exposes Jaimini report product',
 );
 assertIncludes(
   read('packages/config/src/translations/monetization.json'),

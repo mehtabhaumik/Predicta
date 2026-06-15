@@ -1,0 +1,5 @@
+PREDICTA_REVIVAL_V2_PHASE_9_TRANSLATION_ZERO_LEAK_SWEEP: GREEN
+
+Verified by scripts/run-revival-v2-phase-9-translation-zero-leak-gate.mjs.
+This gate delegates to the global AST translation sweep, translation trust, localization architecture, native-script chat, pre-live Phase 9, graha name, Jaimini, Kundli Karma, monetization, and Predicta native-tone gates.
+Route surface audit covers Ask Predicta, dashboard, Vedic/Kundli, KP, Jaimini, Numerology, Signature, Reports/PDF, Pricing/Checkout/Redeem, Account/Family/Settings, and mobile parity screens.

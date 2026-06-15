@@ -1,0 +1,403 @@
+[
+  {
+    "id": "ask-predicta",
+    "files": [
+      {
+        "file": "apps/web/components/WebPridictaChat.tsx",
+        "translationAdapters": [
+          "getNativeCopy",
+          "formatNativeCopy",
+          "translateUiText",
+          "getPredictaWebChatCopy",
+          "getMonetizationReportRequirementCopy",
+          "getLanguageLabels"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/AskPredictaLightShell.tsx",
+        "translationAdapters": [
+          "getLightweightCompetitorResponseCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/AskPredictaLeanHeader.tsx",
+        "translationAdapters": [
+          "getLightweightAppShellLabels",
+          "getLightweightCompetitorResponseCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      }
+    ],
+    "requiredAdapters": [
+      "getPredictaWebChatCopy",
+      "translateUiText",
+      "getNativeCopy"
+    ]
+  },
+  {
+    "id": "dashboard-shell",
+    "files": [
+      {
+        "file": "apps/web/app/dashboard/page.tsx",
+        "translationAdapters": [
+          "getLightweightAppShellLabels",
+          "getLightweightCompetitorResponseCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebDashboardAstrologyCockpit.tsx",
+        "translationAdapters": [
+          "translateUiText"
+        ],
+        "hardcodedNativeScriptLines": []
+      }
+    ],
+    "requiredAdapters": [
+      "getLightweightCompetitorResponseCopy",
+      "getLightweightAppShellLabels"
+    ]
+  },
+  {
+    "id": "vedic-kundli",
+    "files": [
+      {
+        "file": "apps/web/app/dashboard/vedic/page.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/app/dashboard/kundli/page.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebVedicWorldPage.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebKundliWizard.tsx",
+        "translationAdapters": [
+          "getNativeCopy",
+          "formatNativeCopy",
+          "translateUiText"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebVedicIntelligencePanel.tsx",
+        "translationAdapters": [
+          "translateUiText"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/mobile/src/screens/KundliScreen.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      }
+    ],
+    "requiredAdapters": [
+      "translateUiText",
+      "getNativeCopy"
+    ]
+  },
+  {
+    "id": "kp",
+    "files": [
+      {
+        "file": "apps/web/app/dashboard/kp/page.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebKpPage.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebKpPredictaPanel.tsx",
+        "translationAdapters": [
+          "getNativeCopy",
+          "formatNativeCopy",
+          "translateUiText"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/mobile/src/screens/KpPredictaScreen.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      }
+    ],
+    "requiredAdapters": [
+      "translateUiText",
+      "getNativeCopy"
+    ]
+  },
+  {
+    "id": "jaimini",
+    "files": [
+      {
+        "file": "apps/web/app/dashboard/jaimini/page.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebJaiminiPage.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebJaiminiPredictaPanel.tsx",
+        "translationAdapters": [
+          "translateUiText"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/mobile/src/screens/JaiminiPredictaScreen.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      }
+    ],
+    "requiredAdapters": [
+      "getJaiminiLocalizationCopy",
+      "translateUiText"
+    ]
+  },
+  {
+    "id": "numerology",
+    "files": [
+      {
+        "file": "apps/web/app/dashboard/numerology/page.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebNumerologyPage.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebNumerologyPredictaPanel.tsx",
+        "translationAdapters": [
+          "getNativeCopy",
+          "formatNativeCopy",
+          "translateUiText"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/mobile/src/screens/NumerologyPredictaScreen.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      }
+    ],
+    "requiredAdapters": [
+      "translateUiText",
+      "getNativeCopy"
+    ]
+  },
+  {
+    "id": "signature",
+    "files": [
+      {
+        "file": "apps/web/app/dashboard/signature/page.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebSignaturePage.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebSignatureAnalysisInputFlow.tsx",
+        "translationAdapters": [
+          "getNativeCopy",
+          "formatNativeCopy",
+          "translateUiText"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/mobile/src/screens/SignaturePredictaScreen.tsx",
+        "translationAdapters": [
+          "getNativeCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      }
+    ],
+    "requiredAdapters": [
+      "translateUiText",
+      "getNativeCopy"
+    ]
+  },
+  {
+    "id": "reports",
+    "files": [
+      {
+        "file": "apps/web/app/dashboard/report/page.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebReportPage.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebDossierPreview.tsx",
+        "translationAdapters": [
+          "getNativeCopy",
+          "formatNativeCopy",
+          "translateUiText",
+          "getMonetizationReportRequirementCopy",
+          "getLanguageLabels"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/mobile/src/screens/ReportScreen.tsx",
+        "translationAdapters": [
+          "getMonetizationReportRequirementCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "packages/pdf/src/reportDocument.tsx",
+        "translationAdapters": [
+          "getNativeCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "packages/pdf/src/index.ts",
+        "translationAdapters": [
+          "translateUiText",
+          "translations/reportLabels.json"
+        ],
+        "hardcodedNativeScriptLines": []
+      }
+    ],
+    "requiredAdapters": [
+      "translateUiText",
+      "getNativeCopy",
+      "translations/reportLabels.json"
+    ]
+  },
+  {
+    "id": "pricing-checkout-redeem",
+    "files": [
+      {
+        "file": "apps/web/app/pricing/PricingPageRuntime.tsx",
+        "translationAdapters": [
+          "getPricingPageCopy",
+          "getPricingPagePlanCopy",
+          "getPricingPagePremiumFeatureStory",
+          "getMonetizationProductCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/app/checkout/CheckoutPageRuntime.tsx",
+        "translationAdapters": [
+          "getNativeCopy",
+          "formatNativeCopy",
+          "getMonetizationProductCopy",
+          "getMonetizationReportRequirementCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebRedeemPassPage.tsx",
+        "translationAdapters": [
+          "getNativeCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebRedeemPassForm.tsx",
+        "translationAdapters": [
+          "getNativeCopy",
+          "formatNativeCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/mobile/src/screens/RedeemPassCodeScreen.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      }
+    ],
+    "requiredAdapters": [
+      "getPricingPageCopy",
+      "getPricingPagePlanCopy",
+      "getMonetizationProductCopy",
+      "getMonetizationReportRequirementCopy",
+      "getNativeCopy"
+    ]
+  },
+  {
+    "id": "account-family-settings",
+    "files": [
+      {
+        "file": "apps/web/app/dashboard/settings/page.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/app/dashboard/family/page.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebProfileSettings.tsx",
+        "translationAdapters": [
+          "getNativeCopy",
+          "getMonetizationReportRequirementCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebFamilyVault.tsx",
+        "translationAdapters": [
+          "getNativeCopy",
+          "formatNativeCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/web/components/WebFamilyPairComparisonPage.tsx",
+        "translationAdapters": [
+          "getNativeCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/mobile/src/screens/SettingsScreen.tsx",
+        "translationAdapters": [
+          "getMonetizationReportRequirementCopy"
+        ],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/mobile/src/screens/SavedKundlisScreen.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      },
+      {
+        "file": "apps/mobile/src/screens/FamilyKarmaMapScreen.tsx",
+        "translationAdapters": [],
+        "hardcodedNativeScriptLines": []
+      }
+    ],
+    "requiredAdapters": [
+      "getNativeCopy"
+    ]
+  }
+]

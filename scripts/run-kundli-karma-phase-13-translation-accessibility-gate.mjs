@@ -12,7 +12,7 @@ const files = {
   packageJson: readFileSync('package.json', 'utf8'),
   reportLabelsJson: readFileSync('packages/pdf/src/translations/reportLabels.json', 'utf8'),
   roadmap: readFileSync('docs/PREDICTA_KUNDLI_KARMA_INTELLIGENCE_STRICT_PHASES.md', 'utf8'),
-  webPage: readFileSync('apps/web/app/dashboard/vedic/page.tsx', 'utf8'),
+  webPage: readFileSync('apps/web/components/WebVedicIntelligencePanelRuntime.tsx', 'utf8'),
   webPanel: readFileSync('apps/web/components/WebVedicIntelligencePanel.tsx', 'utf8'),
 };
 
@@ -164,7 +164,7 @@ for (const fragment of [
   assertIncludes(files.chartsScreen, fragment, `mobile ChartsScreen passes language ${fragment}`);
 }
 
-assertIncludes(files.webPage, 'language={language}', 'web Vedic page passes language into Kundli Karma panel');
+assertIncludes(files.webPage, 'language={language}', 'web Vedic runtime passes language into Kundli Karma panel');
 
 const bannedComponentLiterals = [
   'Dosh, Shrap, Yog and Lal Kitab without fear',

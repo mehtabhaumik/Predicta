@@ -1,0 +1,52 @@
+[
+  {
+    "name": "global translation source coverage",
+    "status": "passed",
+    "summary": "Global translation source coverage gate passed: audited web/mobile JSX text, labels, placeholders, titles, hidden controls, and accessibility copy are registered in dedicated translation JSON."
+  },
+  {
+    "name": "translation trust",
+    "status": "passed",
+    "summary": "Translation completion trust gate passed: prominent Hindi/Gujarati UI copy uses native script, has no empty values, and avoids known mixed-language trust leaks."
+  },
+  {
+    "name": "localization architecture",
+    "status": "passed",
+    "summary": "Localization architecture gate passed: production source has no hardcoded Hindi/Gujarati script, native copy is JSON-backed, and translation JSON imports stay behind dedicated adapters."
+  },
+  {
+    "name": "native script chat",
+    "status": "passed",
+    "summary": "Native-script Predicta chat language checks passed."
+  },
+  {
+    "name": "pre-live localization sweep",
+    "status": "passed",
+    "summary": "Pre-live Phase 9 localization sweep gate passed: audited user-facing surfaces use translation JSON/adapters, native copy has no mixed-language leaks, checkout/pricing/report/PDF labels are JSON-backed, and source has no hardcoded Indic UI strings."
+  },
+  {
+    "name": "graha names localization",
+    "status": "passed",
+    "summary": "Graha name localization gate passed: English, Hindi, and Gujarati planet display names are locked."
+  },
+  {
+    "name": "Jaimini localization",
+    "status": "passed",
+    "summary": "PREDICTA_JAIMINI_PHASE_10_LOCALIZATION_AND_TRANSLATION_REBUILD passed: Jaimini localization, stale Nadi copy removal, and hardcoded-copy guards are green."
+  },
+  {
+    "name": "Kundli Karma translation accessibility",
+    "status": "passed",
+    "summary": "PREDICTA_KUNDLI_KARMA_PHASE_13_TRANSLATION_ACCESSIBILITY_AND_NO_HARDCODED_COPY_SWEEP passed: Kundli Karma translations, accessibility markers, chat language handoff, and no-hardcoded-copy sweep are green."
+  },
+  {
+    "name": "monetization localization trust",
+    "status": "passed",
+    "summary": "Monetization Phase 10 localization/trust gate passed: paid-flow copy is JSON-backed, English/Hindi/Gujarati entries are complete, hardcoded monetization phrases are absent from audited surfaces, and trust copy avoids fear/unlimited claims."
+  },
+  {
+    "name": "Predicta native tone chat",
+    "status": "passed",
+    "summary": "PREDICTA_INTELLIGENCE_PHASE_8_TRANSLATION_NATIVE_TONE_CHAT_GATE: passed"
+  }
+]

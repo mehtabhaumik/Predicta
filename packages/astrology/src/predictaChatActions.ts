@@ -228,15 +228,14 @@ function localizedConfidence(
   language: SupportedLanguage,
   confidence: string,
 ): string {
-  if (language === 'hi') {
-    if (/high|clear/i.test(confidence)) return 'उच्च';
-    if (/low|weak|uncertain/i.test(confidence)) return 'कम';
-    return 'मध्यम';
-  }
-  if (language === 'gu') {
-    if (/high|clear/i.test(confidence)) return 'ઉચ્ચ';
-    if (/low|weak|uncertain/i.test(confidence)) return 'ઓછો';
-    return 'મધ્યમ';
+  if (language === 'hi' || language === 'gu') {
+    if (/high|clear/i.test(confidence)) {
+      return nativeAstrologyCopy(`astrology.common.confidence.high.${language}`, confidence);
+    }
+    if (/low|weak|uncertain/i.test(confidence)) {
+      return nativeAstrologyCopy(`astrology.common.confidence.low.${language}`, confidence);
+    }
+    return nativeAstrologyCopy(`astrology.common.confidence.medium.${language}`, confidence);
   }
   return confidence;
 }
@@ -247,20 +246,20 @@ function localizedKpVerdict(
 ): string {
   const normalized = verdict.toLowerCase();
   if (language === 'hi') {
-    if (normalized.includes('likely')) return 'संभावना मजबूत';
-    if (normalized.includes('delayed')) return 'देरी दिखती है';
-    if (normalized.includes('blocked')) return 'रुकावट मजबूत';
-    if (normalized.includes('clarity')) return 'एक साफ़ सवाल चाहिए';
-    if (normalized.includes('proof')) return 'प्रमाण अभी पूरा नहीं';
-    return 'मिश्रित संकेत';
+    if (normalized.includes('likely')) return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.likely.hi', verdict);
+    if (normalized.includes('delayed')) return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.delayed.hi', verdict);
+    if (normalized.includes('blocked')) return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.blocked.hi', verdict);
+    if (normalized.includes('clarity')) return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.clarity.hi', verdict);
+    if (normalized.includes('proof')) return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.proof.hi', verdict);
+    return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.mixed.hi', verdict);
   }
   if (language === 'gu') {
-    if (normalized.includes('likely')) return 'સંભાવના મજબૂત';
-    if (normalized.includes('delayed')) return 'વિલંબ દેખાય છે';
-    if (normalized.includes('blocked')) return 'અવરોધ મજબૂત';
-    if (normalized.includes('clarity')) return 'એક સ્પષ્ટ સવાલ જોઈએ';
-    if (normalized.includes('proof')) return 'પુરાવો હજુ પૂરતો નથી';
-    return 'મિશ્ર સંકેત';
+    if (normalized.includes('likely')) return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.likely.gu', verdict);
+    if (normalized.includes('delayed')) return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.delayed.gu', verdict);
+    if (normalized.includes('blocked')) return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.blocked.gu', verdict);
+    if (normalized.includes('clarity')) return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.clarity.gu', verdict);
+    if (normalized.includes('proof')) return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.proof.gu', verdict);
+    return nativeAstrologyCopy('astrology.predictaChatActions.kpVerdict.mixed.gu', verdict);
   }
   return verdict;
 }
@@ -276,40 +275,29 @@ function nativeSignatureTraitList(
   language: SupportedLanguage,
   traits: Array<{ label: string; value: string }>,
 ): string {
-  const labelMap: Record<string, { hi: string; gu: string }> = {
-    baseline: { hi: 'आधार रेखा', gu: 'આધાર રેખા' },
-    flourish: { hi: 'सजावट', gu: 'સજાવટ' },
-    legibility: { hi: 'स्पष्टता', gu: 'સ્પષ્ટતા' },
-    pressure: { hi: 'दबाव', gu: 'દબાણ' },
-    size: { hi: 'आकार', gu: 'કદ' },
-    slant: { hi: 'झुकाव', gu: 'ઝુકાવ' },
-    spacing: { hi: 'अंतर', gu: 'અંતર' },
-    speed: { hi: 'लय', gu: 'લય' },
-    'writing rhythm': { hi: 'लय', gu: 'લય' },
-    underline: { hi: 'रेखांकन', gu: 'રેખાંકન' },
-  };
-  const valueMap: Record<string, { hi: string; gu: string }> = {
-    balanced: { hi: 'संतुलित', gu: 'સંતુલિત' },
-    clear: { hi: 'साफ़', gu: 'સ્પષ્ટ' },
-    flowing: { hi: 'प्रवाही', gu: 'પ્રવાહી' },
-    high: { hi: 'उच्च', gu: 'ઉચ્ચ' },
-    low: { hi: 'कम', gu: 'ઓછું' },
-    medium: { hi: 'मध्यम', gu: 'મધ્યમ' },
-    moderate: { hi: 'मध्यम', gu: 'મધ્યમ' },
-    partial: { hi: 'आंशिक', gu: 'આંશિક' },
-    right: { hi: 'दाईं ओर', gu: 'જમણી તરફ' },
-    upward: { hi: 'ऊपर की ओर', gu: 'ઉપર તરફ' },
-  };
   const target = language === 'gu' ? 'gu' : 'hi';
   return traits
     .map(trait => {
-      const label =
-        labelMap[trait.label.toLowerCase()]?.[target] ?? trait.label;
-      const value =
-        valueMap[trait.value.toLowerCase()]?.[target] ?? trait.value;
+      const label = nativeAstrologyCopy(
+        `astrology.predictaChatActions.signatureTrait.label.${nativeCopySlug(trait.label)}.${target}`,
+        trait.label,
+      );
+      const value = nativeAstrologyCopy(
+        `astrology.predictaChatActions.signatureTrait.value.${nativeCopySlug(trait.value)}.${target}`,
+        trait.value,
+      );
       return `${label} ${value}`;
     })
     .join(', ');
+}
+
+function nativeAstrologyCopy(key: string, fallback: string): string {
+  const value = getNativeCopy(key);
+  return value === key ? fallback : value;
+}
+
+function nativeCopySlug(value: string): string {
+  return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
 }
 
 function kundliKarmaModuleTerm(item: KundliKarmaItem): string {

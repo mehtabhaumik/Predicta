@@ -10,8 +10,6 @@ export default async function SignaturePredictaChatPage({
 }): Promise<never> {
   return redirectLegacyChatToAsk({
     defaults: {
-      prompt:
-        'Read my confirmed signature traits safely and tell me what they reflect.',
       school: 'SIGNATURE',
       sourceScreen: 'Signature Predicta',
     },

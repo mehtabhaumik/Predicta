@@ -10,8 +10,6 @@ export default async function KpPredictaChatPage({
 }): Promise<never> {
   return redirectLegacyChatToAsk({
     defaults: {
-      prompt:
-        'Answer my KP question clearly with timing, likely trigger, and what I should do next.',
       school: 'KP',
       sourceScreen: 'KP Predicta',
     },

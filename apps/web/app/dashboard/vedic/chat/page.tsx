@@ -10,8 +10,6 @@ export default async function VedicPredictaChatPage({
 }): Promise<never> {
   return redirectLegacyChatToAsk({
     defaults: {
-      prompt:
-        'Read my Vedic chart and tell me what it means for my life right now.',
       school: 'PARASHARI',
       sourceScreen: 'Vedic Predicta',
     },

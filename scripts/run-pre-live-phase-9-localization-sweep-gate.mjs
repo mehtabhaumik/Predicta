@@ -106,8 +106,18 @@ assertFileContains(
 );
 assertFileContains(
   'apps/web/app/pricing/PricingPageRuntime.tsx',
-  'getNativeCopy',
-  'pricing page must use native JSON-backed copy',
+  'getPricingPageCopy',
+  'pricing page must use dedicated pricingPage JSON-backed page copy',
+);
+assertFileContains(
+  'apps/web/app/pricing/PricingPageRuntime.tsx',
+  'getPricingPagePlanCopy',
+  'pricing page plan labels must use dedicated pricingPage JSON-backed copy',
+);
+assertFileContains(
+  'apps/web/app/pricing/PricingPageRuntime.tsx',
+  'getPricingPagePremiumFeatureStory',
+  'pricing page premium story must use dedicated pricingPage JSON-backed copy',
 );
 assertFileContains(
   'apps/web/components/WebDossierPreview.tsx',

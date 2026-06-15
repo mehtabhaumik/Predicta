@@ -25,6 +25,7 @@ const allowedNativeCopyLatinTerms = new Set([
   'KP',
   'PDF',
   'PNG',
+  'Predicta',
   'URL',
   'WebP',
 ]);

@@ -21384,6 +21384,446 @@
     "kundliWizard.yourFallbackName.hi": {
       "kind": "text",
       "value": "आपकी"
+    },
+    "astrology.common.confidence.high.hi": {
+      "kind": "text",
+      "value": "उच्च"
+    },
+    "astrology.common.confidence.high.gu": {
+      "kind": "text",
+      "value": "ઉચ્ચ"
+    },
+    "astrology.common.confidence.low.hi": {
+      "kind": "text",
+      "value": "कम"
+    },
+    "astrology.common.confidence.low.gu": {
+      "kind": "text",
+      "value": "ઓછો"
+    },
+    "astrology.common.confidence.medium.hi": {
+      "kind": "text",
+      "value": "मध्यम"
+    },
+    "astrology.common.confidence.medium.gu": {
+      "kind": "text",
+      "value": "મધ્યમ"
+    },
+    "astrology.predictaChatActions.kpVerdict.likely.hi": {
+      "kind": "text",
+      "value": "संभावना मजबूत"
+    },
+    "astrology.predictaChatActions.kpVerdict.likely.gu": {
+      "kind": "text",
+      "value": "સંભાવના મજબૂત"
+    },
+    "astrology.predictaChatActions.kpVerdict.delayed.hi": {
+      "kind": "text",
+      "value": "देरी दिखती है"
+    },
+    "astrology.predictaChatActions.kpVerdict.delayed.gu": {
+      "kind": "text",
+      "value": "વિલંબ દેખાય છે"
+    },
+    "astrology.predictaChatActions.kpVerdict.blocked.hi": {
+      "kind": "text",
+      "value": "रुकावट मजबूत"
+    },
+    "astrology.predictaChatActions.kpVerdict.blocked.gu": {
+      "kind": "text",
+      "value": "અવરોધ મજબૂત"
+    },
+    "astrology.predictaChatActions.kpVerdict.clarity.hi": {
+      "kind": "text",
+      "value": "एक साफ़ सवाल चाहिए"
+    },
+    "astrology.predictaChatActions.kpVerdict.clarity.gu": {
+      "kind": "text",
+      "value": "એક સ્પષ્ટ સવાલ જોઈએ"
+    },
+    "astrology.predictaChatActions.kpVerdict.proof.hi": {
+      "kind": "text",
+      "value": "प्रमाण अभी पूरा नहीं"
+    },
+    "astrology.predictaChatActions.kpVerdict.proof.gu": {
+      "kind": "text",
+      "value": "પુરાવો હજુ પૂરતો નથી"
+    },
+    "astrology.predictaChatActions.kpVerdict.mixed.hi": {
+      "kind": "text",
+      "value": "मिश्रित संकेत"
+    },
+    "astrology.predictaChatActions.kpVerdict.mixed.gu": {
+      "kind": "text",
+      "value": "મિશ્ર સંકેત"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.baseline.hi": {
+      "kind": "text",
+      "value": "आधार रेखा"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.baseline.gu": {
+      "kind": "text",
+      "value": "આધાર રેખા"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.flourish.hi": {
+      "kind": "text",
+      "value": "सजावट"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.flourish.gu": {
+      "kind": "text",
+      "value": "સજાવટ"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.legibility.hi": {
+      "kind": "text",
+      "value": "स्पष्टता"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.legibility.gu": {
+      "kind": "text",
+      "value": "સ્પષ્ટતા"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.pressure.hi": {
+      "kind": "text",
+      "value": "दबाव"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.pressure.gu": {
+      "kind": "text",
+      "value": "દબાણ"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.size.hi": {
+      "kind": "text",
+      "value": "आकार"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.size.gu": {
+      "kind": "text",
+      "value": "કદ"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.slant.hi": {
+      "kind": "text",
+      "value": "झुकाव"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.slant.gu": {
+      "kind": "text",
+      "value": "ઝુકાવ"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.spacing.hi": {
+      "kind": "text",
+      "value": "अंतर"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.spacing.gu": {
+      "kind": "text",
+      "value": "અંતર"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.speed.hi": {
+      "kind": "text",
+      "value": "लय"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.speed.gu": {
+      "kind": "text",
+      "value": "લય"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.writing_rhythm.hi": {
+      "kind": "text",
+      "value": "लय"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.writing_rhythm.gu": {
+      "kind": "text",
+      "value": "લય"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.underline.hi": {
+      "kind": "text",
+      "value": "रेखांकन"
+    },
+    "astrology.predictaChatActions.signatureTrait.label.underline.gu": {
+      "kind": "text",
+      "value": "રેખાંકન"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.balanced.hi": {
+      "kind": "text",
+      "value": "संतुलित"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.balanced.gu": {
+      "kind": "text",
+      "value": "સંતુલિત"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.clear.hi": {
+      "kind": "text",
+      "value": "साफ़"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.clear.gu": {
+      "kind": "text",
+      "value": "સ્પષ્ટ"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.flowing.hi": {
+      "kind": "text",
+      "value": "प्रवाही"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.flowing.gu": {
+      "kind": "text",
+      "value": "પ્રવાહી"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.high.hi": {
+      "kind": "text",
+      "value": "उच्च"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.high.gu": {
+      "kind": "text",
+      "value": "ઉચ્ચ"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.low.hi": {
+      "kind": "text",
+      "value": "कम"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.low.gu": {
+      "kind": "text",
+      "value": "ઓછું"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.medium.hi": {
+      "kind": "text",
+      "value": "मध्यम"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.medium.gu": {
+      "kind": "text",
+      "value": "મધ્યમ"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.moderate.hi": {
+      "kind": "text",
+      "value": "मध्यम"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.moderate.gu": {
+      "kind": "text",
+      "value": "મધ્યમ"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.partial.hi": {
+      "kind": "text",
+      "value": "आंशिक"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.partial.gu": {
+      "kind": "text",
+      "value": "આંશિક"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.right.hi": {
+      "kind": "text",
+      "value": "दाईं ओर"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.right.gu": {
+      "kind": "text",
+      "value": "જમણી તરફ"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.upward.hi": {
+      "kind": "text",
+      "value": "ऊपर की ओर"
+    },
+    "astrology.predictaChatActions.signatureTrait.value.upward.gu": {
+      "kind": "text",
+      "value": "ઉપર તરફ"
+    },
+    "astrology.predictaMultiSchool.eventTimingHonesty.hi": {
+      "kind": "text",
+      "value": "समय संकेत दशा, गोचर और घटना-प्रमाण के साथ पढ़ा गया है; इसे पक्की तारीख नहीं मानना चाहिए."
+    },
+    "astrology.predictaMultiSchool.eventTimingHonesty.gu": {
+      "kind": "text",
+      "value": "સમય સંકેત દશા, ગોચર અને ઘટના-પુરાવા સાથે વાંચવામાં આવ્યો છે; તેને ચોક્કસ તારીખ ન માનવી."
+    },
+    "astrology.predictaMultiSchool.conflictRespect.hi": {
+      "kind": "text",
+      "value": "कुछ संकेत सावधानी मांगते हैं, इसलिए प्रेडिक्टा उत्तर को ज़बरदस्ती पक्का नहीं बना रही."
+    },
+    "astrology.predictaMultiSchool.conflictRespect.gu": {
+      "kind": "text",
+      "value": "કેટલાક સંકેતો સાવધાની માંગે છે, એટલે પ્રેડિક્ટા જવાબને જબરદસ્તી પક્કો બનાવી રહી નથી."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.business_growth.hi": {
+      "kind": "text",
+      "value": "व्यवसाय में बढ़त संभव है, लेकिन एक साफ़ दिशा और समय-सहारा चाहिए."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.business_growth.gu": {
+      "kind": "text",
+      "value": "વ્યવસાયમાં વૃદ્ધિ શક્ય છે, પરંતુ સ્પષ્ટ દિશા અને સમય સહારો જોઈએ."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.career_move.hi": {
+      "kind": "text",
+      "value": "करियर में अर्थपूर्ण बदलाव संभव दिखता है; इसे तैयारी और सही अवसर से मजबूत करें."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.career_move.gu": {
+      "kind": "text",
+      "value": "કરિયરમાં અર્થપૂર્ણ ફેરફાર શક્ય લાગે છે; તૈયારી અને યોગ્ય તકથી તેને મજબૂત કરો."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.court_litigation.hi": {
+      "kind": "text",
+      "value": "कानूनी मामले में जल्दबाज़ी नहीं; कागज़ और सलाह को प्राथमिकता दें."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.court_litigation.gu": {
+      "kind": "text",
+      "value": "કાનૂની બાબતમાં ઉતાવળ નહીં; કાગળ અને સલાહને પ્રાથમિકતા આપો."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.education_study_stream.hi": {
+      "kind": "text",
+      "value": "पढ़ाई की दिशा में रुचि से ज्यादा स्थिरता और अभ्यास निर्णायक रहेंगे."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.education_study_stream.gu": {
+      "kind": "text",
+      "value": "અભ્યાસની દિશામાં રસ કરતાં સ્થિરતા અને અભ્યાસ વધારે નિર્ણાયક રહેશે."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.family_child_matching.hi": {
+      "kind": "text",
+      "value": "परिवार या मिलान में प्रगति संभव है, पर भावनात्मक दबाव को शांत रखना होगा."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.family_child_matching.gu": {
+      "kind": "text",
+      "value": "પરિવાર અથવા મેળાપમાં પ્રગતિ શક્ય છે, પણ ભાવનાત્મક દબાણ શાંત રાખવું પડશે."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.foreign_travel.hi": {
+      "kind": "text",
+      "value": "विदेश से जुड़ा अवसर संभव है; संकेत काम, दस्तावेज़ या संस्था के माध्यम से खुल सकते हैं."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.foreign_travel.gu": {
+      "kind": "text",
+      "value": "વિદેશ સંબંધિત તક શક્ય છે; સંકેત કામ, દસ્તાવેજ અથવા સંસ્થા મારફતે ખુલી શકે છે."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.guide_me.hi": {
+      "kind": "text",
+      "value": "पहला सही सवाल वही है जहां अभी दबाव और समय-संकेत सबसे सक्रिय हैं."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.guide_me.gu": {
+      "kind": "text",
+      "value": "પહેલો સાચો સવાલ ત્યાં છે જ્યાં દબાણ અને સમય સંકેત સૌથી સક્રિય છે."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.job_change.hi": {
+      "kind": "text",
+      "value": "नौकरी बदलने का संकेत संभव है; स्थिरता बचाकर चुनिंदा अवसरों पर ध्यान दें."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.job_change.gu": {
+      "kind": "text",
+      "value": "નોકરી બદલવાનો સંકેત શક્ય છે; સ્થિરતા બચાવીને પસંદગીના અવસરો પર ધ્યાન આપો."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.marriage_timing.hi": {
+      "kind": "text",
+      "value": "विवाह की दिशा में संकेत बन सकते हैं, लेकिन परिवार, तैयारी और समय साथ आने चाहिए."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.marriage_timing.gu": {
+      "kind": "text",
+      "value": "લગ્નની દિશામાં સંકેતો બની શકે છે, પરંતુ પરિવાર, તૈયારી અને સમય સાથે આવવા જોઈએ."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.money_property.hi": {
+      "kind": "text",
+      "value": "धन या संपत्ति का निर्णय संभव है, पर कागज़, नकदी और समय को दोबारा जांचें."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.money_property.gu": {
+      "kind": "text",
+      "value": "પૈસા અથવા મિલકતનો નિર્ણય શક્ય છે, પણ કાગળ, રોકડ પ્રવાહ અને સમય ફરી તપાસો."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.promotion.hi": {
+      "kind": "text",
+      "value": "प्रमोशन या पहचान की संभावना है; काम को दिखाई देने लायक बनाना जरूरी है."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.promotion.gu": {
+      "kind": "text",
+      "value": "પ્રમોશન અથવા ઓળખની સંભાવના છે; કામને દેખાય તેવું બનાવવું જરૂરી છે."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.relationship_outcome.hi": {
+      "kind": "text",
+      "value": "रिश्ते में दिशा तभी मजबूत होगी जब व्यवहार वादों से मेल खाए."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.relationship_outcome.gu": {
+      "kind": "text",
+      "value": "સંબંધની દિશા ત્યારે જ મજબૂત થશે જ્યારે વર્તન વચનો સાથે મેળ ખાય."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.relocation.hi": {
+      "kind": "text",
+      "value": "स्थान परिवर्तन संभव है; लाभ तभी बढ़ेगा जब भूमिका, घर और परिवार की जमीन साफ़ हो."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.relocation.gu": {
+      "kind": "text",
+      "value": "સ્થળ બદલાવ શક્ય છે; લાભ ત્યારે વધશે જ્યારે ભૂમિકા, ઘર અને પરિવારની જમીન સ્પષ્ટ હોય."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.visa_pr.hi": {
+      "kind": "text",
+      "value": "वीज़ा या दस्तावेज़ प्रगति संभव है; कागज़ और संस्था-सहारा सबसे अहम हैं."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.visa_pr.gu": {
+      "kind": "text",
+      "value": "વીઝા અથવા દસ્તાવેજ પ્રગતિ શક્ય છે; કાગળ અને સંસ્થા સહારો સૌથી મહત્વનું છે."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.wellness_caution.hi": {
+      "kind": "text",
+      "value": "स्वास्थ्य में यह सावधानी का संकेत है, निदान नहीं; दिनचर्या और डॉक्टर की सलाह प्राथमिक रखें."
+    },
+    "astrology.predictaMultiSchool.eventDirectAnswer.wellness_caution.gu": {
+      "kind": "text",
+      "value": "સ્વાસ્થ્યમાં આ સાવચેતીનો સંકેત છે, નિદાન નહીં; રૂટિન અને ડોક્ટરની સલાહ પ્રાથમિક રાખો."
+    },
+    "astrology.predictaMultiSchool.eventTrigger.foreign_travel.hi": {
+      "kind": "text",
+      "value": "काम की जरूरत, दस्तावेज़, वरिष्ठ व्यक्ति, टीम बदलाव या यात्रा-स्वीकृति."
+    },
+    "astrology.predictaMultiSchool.eventTrigger.foreign_travel.gu": {
+      "kind": "text",
+      "value": "કામની જરૂર, દસ્તાવેજ, વરિષ્ઠ વ્યક્તિ, ટીમ ફેરફાર અથવા પ્રવાસ મંજૂરી."
+    },
+    "astrology.predictaMultiSchool.eventTrigger.career_move.hi": {
+      "kind": "text",
+      "value": "मैनेजर बदलाव, भूमिका खुलना, समीक्षा समय, भर्ती संपर्क या दिखता हुआ काम."
+    },
+    "astrology.predictaMultiSchool.eventTrigger.career_move.gu": {
+      "kind": "text",
+      "value": "મેનેજર ફેરફાર, ભૂમિકા ખુલવી, સમીક્ષા સમય, ભરતી સંપર્ક અથવા દેખાતું કામ."
+    },
+    "astrology.predictaMultiSchool.eventTrigger.marriage_timing.hi": {
+      "kind": "text",
+      "value": "गंभीर बातचीत, परिवार की भागीदारी, प्रस्ताव, सुलह या प्रतिबद्धता निर्णय."
+    },
+    "astrology.predictaMultiSchool.eventTrigger.marriage_timing.gu": {
+      "kind": "text",
+      "value": "ગંભીર વાતચીત, પરિવારની ભાગીદારી, પ્રસ્તાવ, સમાધાન અથવા પ્રતિબદ્ધતા નિર્ણય."
+    },
+    "astrology.predictaMultiSchool.eventTrigger.money_property.hi": {
+      "kind": "text",
+      "value": "कागज़, ऋण अपडेट, खरीददार/विक्रेता उत्तर, नकदी स्पष्टता या समय सीमा."
+    },
+    "astrology.predictaMultiSchool.eventTrigger.money_property.gu": {
+      "kind": "text",
+      "value": "કાગળ, લોન અપડેટ, ખરીદદાર/વેચનાર જવાબ, રોકડ સ્પષ્ટતા અથવા સમયમર્યાદા."
+    },
+    "astrology.predictaMultiSchool.eventTrigger.default.hi": {
+      "kind": "text",
+      "value": "व्यावहारिक अवसर, बातचीत, मंजूरी, जिम्मेदारी या समय-सीमा."
+    },
+    "astrology.predictaMultiSchool.eventTrigger.default.gu": {
+      "kind": "text",
+      "value": "વ્યવહારુ તક, વાતચીત, મંજૂરી, જવાબદારી અથવા સમયમર્યાદા."
+    },
+    "astrology.predictaMultiSchool.eventAction.money_property.hi": {
+      "kind": "text",
+      "value": "कागज़, बजट और नकदी सुरक्षा जांचकर ही अगला कदम लें."
+    },
+    "astrology.predictaMultiSchool.eventAction.money_property.gu": {
+      "kind": "text",
+      "value": "કાગળ, બજેટ અને રોકડ સુરક્ષા તપાસીને જ આગળનું પગલું લો."
+    },
+    "astrology.predictaMultiSchool.eventAction.foreign_travel.hi": {
+      "kind": "text",
+      "value": "दस्तावेज़ तैयार रखें और काम/संस्था से आने वाले संकेतों पर ध्यान दें."
+    },
+    "astrology.predictaMultiSchool.eventAction.foreign_travel.gu": {
+      "kind": "text",
+      "value": "દસ્તાવેજ તૈયાર રાખો અને કામ/સંસ્થા તરફથી આવતા સંકેતો પર ધ્યાન આપો."
+    },
+    "astrology.predictaMultiSchool.eventAction.marriage_timing.hi": {
+      "kind": "text",
+      "value": "भावना से पहले स्पष्ट बातचीत और व्यवहार की निरंतरता देखें."
+    },
+    "astrology.predictaMultiSchool.eventAction.marriage_timing.gu": {
+      "kind": "text",
+      "value": "ભાવના પહેલાં સ્પષ્ટ વાતચીત અને વર્તનની સતતતા જુઓ."
+    },
+    "astrology.predictaMultiSchool.eventAction.default.hi": {
+      "kind": "text",
+      "value": "तैयारी साफ़ रखें, जल्दबाज़ी न करें, और संकेत दिखते ही व्यावहारिक कदम लें."
+    },
+    "astrology.predictaMultiSchool.eventAction.default.gu": {
+      "kind": "text",
+      "value": "તૈયારી સ્પષ્ટ રાખો, ઉતાવળ ન કરો, અને સંકેત દેખાય ત્યારે વ્યવહારુ પગલું લો."
     }
   }
 }
