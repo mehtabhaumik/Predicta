@@ -35,6 +35,8 @@ export const PREDICTA_OUTCOME_ENTRIES =
 type PredictaUxLocalizedCopy = {
   birthExtractionFailureLines: string[];
   birthIntakeWelcome: string;
+  chatLabels: Record<PredictaChatLabelId, string>;
+  chatPhrases: Record<PredictaChatPhraseId, string>;
   friendlyGreetingLines: string[];
   listeningMicrocopy: string[];
   microMessages: Record<PredictaMicroMessageId, string>;
@@ -57,6 +59,66 @@ export type PredictaMicroMessageId =
   | 'passNearingExhaustion'
   | 'reportReady'
   | 'signatureReady';
+
+export type PredictaChatLabelId =
+  | 'actionRemedy'
+  | 'availableEvidence'
+  | 'boundary'
+  | 'confidence'
+  | 'conflicts'
+  | 'consistency'
+  | 'directAnswer'
+  | 'eventVerdict'
+  | 'evidence'
+  | 'guidance'
+  | 'karmaSupport'
+  | 'lifeBalance'
+  | 'mostLikelyTrigger'
+  | 'nextStep'
+  | 'observedTraits'
+  | 'proof'
+  | 'schoolsConsulted'
+  | 'signatureRhythm'
+  | 'timing'
+  | 'timingWindows'
+  | 'topActiveConditions';
+
+export type PredictaChatPhraseId =
+  | 'activeConditionTiming'
+  | 'broadConditionLowConfidence'
+  | 'calculatedMemoryNoAi'
+  | 'decisionMediumConfidence'
+  | 'decisionAction'
+  | 'decisionDirect'
+  | 'decisionGuidance'
+  | 'decisionKarmaSupport'
+  | 'decisionLifeBalance'
+  | 'eventEvidenceGeneric'
+  | 'eventNoConflict'
+  | 'freeDepth'
+  | 'jaiminiMediumConfidence'
+  | 'jaiminiAction'
+  | 'jaiminiDirect'
+  | 'jaiminiEvidence'
+  | 'jaiminiTiming'
+  | 'kpActionQuestion'
+  | 'kpEvidenceGeneric'
+  | 'kpTimingGeneric'
+  | 'kundliKarmaDefinition'
+  | 'kundliKarmaNoActive'
+  | 'kundliKarmaPending'
+  | 'kundliKarmaSnapshotReady'
+  | 'kundliKarmaSpecificPending'
+  | 'nativeSchoolBoundary'
+  | 'premiumDepth'
+  | 'remedySafeStart'
+  | 'roomSafeMainPredicta'
+  | 'shrapSafety'
+  | 'signaturePendingSummary'
+  | 'signatureReadySummary'
+  | 'signatureReflectiveConfidence'
+  | 'signatureSessionTiming'
+  | 'signatureTraitEvidence';
 
 function getPredictaUxCopy(language: SupportedLanguage): PredictaUxLocalizedCopy {
   return PREDICTA_UX_COPY[language] ?? PREDICTA_UX_COPY.en;
@@ -91,6 +153,22 @@ export function getPredictaMicroMessage(
 ): string {
   const copy = getPredictaUxCopy(language);
   return copy.microMessages[id] ?? PREDICTA_UX_COPY.en.microMessages[id];
+}
+
+export function getPredictaChatLabel(
+  language: SupportedLanguage,
+  id: PredictaChatLabelId,
+): string {
+  const copy = getPredictaUxCopy(language);
+  return copy.chatLabels[id] ?? PREDICTA_UX_COPY.en.chatLabels[id];
+}
+
+export function getPredictaChatPhrase(
+  language: SupportedLanguage,
+  id: PredictaChatPhraseId,
+): string {
+  const copy = getPredictaUxCopy(language);
+  return copy.chatPhrases[id] ?? PREDICTA_UX_COPY.en.chatPhrases[id];
 }
 
 export function getPredictaResponseOpening(

@@ -2,7 +2,9 @@ import type {
   KundliData,
   PredictaSchool,
   SignatureAnalysisModel,
+  SupportedLanguage,
 } from '@pridicta/types';
+import { getPredictaChatLabel, getPredictaChatPhrase } from '@pridicta/config';
 import {
   buildEventOracleEvidenceContract,
   createReadySupportLayer,
@@ -34,6 +36,7 @@ export type PredictaMultiSchoolConsultationStatus =
 export type PredictaMultiSchoolConsultationInput = {
   hasPremiumAccess?: boolean;
   kundli?: KundliData;
+  language?: SupportedLanguage;
   predictaSchool?: PredictaSchool;
   question: string;
   signatureAnalysis?: SignatureAnalysisModel;
@@ -77,6 +80,7 @@ export function isPredictaMultiSchoolQuestion(question: string): boolean {
 export function composePredictaMultiSchoolConsultation({
   hasPremiumAccess = false,
   kundli,
+  language = 'en',
   predictaSchool,
   question,
   signatureAnalysis,
@@ -177,8 +181,10 @@ export function composePredictaMultiSchoolConsultation({
     reply: buildReply({
       conflicts,
       evidenceUsed,
+      language,
       nextAction,
       prediction,
+      refinement,
     }),
     status: 'ready',
   };
@@ -415,14 +421,49 @@ function buildTriggerSummary(categoryId: EventQuestionRefinement['categoryId']):
 function buildReply({
   conflicts,
   evidenceUsed,
+  language,
   nextAction,
   prediction,
+  refinement,
 }: {
   conflicts: string[];
   evidenceUsed: string[];
+  language: SupportedLanguage;
   nextAction: string;
   prediction: EventOraclePredictionObject;
+  refinement: EventQuestionRefinement;
 }): string {
+  if (language === 'hi' || language === 'gu') {
+    const nativeAnswer = nativeEventDirectAnswer(language, refinement.categoryId);
+    return [
+      nativeLine(language, 'directAnswer', nativeAnswer),
+      nativeLine(
+        language,
+        'timing',
+        nativeEventTimingHonesty(language),
+      ),
+      nativeLine(
+        language,
+        'mostLikelyTrigger',
+        nativeEventTrigger(language, refinement.categoryId),
+      ),
+      nativeLine(
+        language,
+        'confidence',
+        `${nativeConfidence(language, prediction.confidence.label)} (${prediction.confidence.score}/100)`,
+      ),
+      nativeLine(language, 'actionRemedy', nativeEventAction(language, refinement.categoryId)),
+      nativeLine(language, 'evidence', getPredictaChatPhrase(language, 'eventEvidenceGeneric')),
+      nativeLine(
+        language,
+        'conflicts',
+        conflicts.length
+          ? nativeConflictRespect(language)
+          : getPredictaChatPhrase(language, 'eventNoConflict'),
+      ),
+      nativeLine(language, 'nextStep', nativeEventAction(language, refinement.categoryId)),
+    ].join('\n\n');
+  }
   return [
     `Direct answer: ${prediction.directAnswer}`,
     `Timing: ${prediction.timingWindow.label}. ${prediction.timingWindow.honestyNote}`,
@@ -437,4 +478,131 @@ function buildReply({
       : 'Conflicts: no major conflict strong enough to downgrade the answer heavily.',
     `Next action: ${nextAction}`,
   ].join('\n\n');
+}
+
+function nativeLine(
+  language: SupportedLanguage,
+  labelId: Parameters<typeof getPredictaChatLabel>[1],
+  value: string,
+): string {
+  return `${getPredictaChatLabel(language, labelId)}: ${value}`;
+}
+
+function nativeConfidence(language: SupportedLanguage, label: string): string {
+  if (language === 'hi') {
+    if (/high/i.test(label)) return 'उच्च';
+    if (/low|not enough/i.test(label)) return 'कम';
+    return 'मध्यम';
+  }
+  if (/high/i.test(label)) return 'ઉચ્ચ';
+  if (/low|not enough/i.test(label)) return 'ઓછો';
+  return 'મધ્યમ';
+}
+
+function nativeEventTimingHonesty(language: SupportedLanguage): string {
+  return language === 'hi'
+    ? 'समय संकेत दशा, गोचर और घटना-प्रमाण के साथ पढ़ा गया है; इसे पक्की तारीख नहीं मानना चाहिए.'
+    : 'સમય સંકેત દશા, ગોચર અને ઘટના-પુરાવા સાથે વાંચવામાં આવ્યો છે; તેને ચોક્કસ તારીખ ન માનવી.';
+}
+
+function nativeConflictRespect(language: SupportedLanguage): string {
+  return language === 'hi'
+    ? 'कुछ संकेत सावधानी मांगते हैं, इसलिए Predicta उत्तर को ज़बरदस्ती पक्का नहीं बना रही.'
+    : 'કેટલાક સંકેતો સાવધાની માંગે છે, એટલે Predicta જવાબને જબરદસ્તી પક્કો બનાવી રહી નથી.';
+}
+
+function nativeEventDirectAnswer(
+  language: SupportedLanguage,
+  categoryId: EventQuestionRefinement['categoryId'],
+): string {
+  const hi: Record<EventQuestionRefinement['categoryId'], string> = {
+    business_growth: 'व्यवसाय में बढ़त संभव है, लेकिन एक साफ़ दिशा और समय-सहारा चाहिए.',
+    career_move: 'करियर में अर्थपूर्ण बदलाव संभव दिखता है; इसे तैयारी और सही अवसर से मजबूत करें.',
+    court_litigation: 'कानूनी मामले में जल्दबाज़ी नहीं; कागज़ और सलाह को प्राथमिकता दें.',
+    education_study_stream: 'पढ़ाई की दिशा में रुचि से ज्यादा स्थिरता और अभ्यास निर्णायक रहेंगे.',
+    family_child_matching: 'परिवार या मिलान में प्रगति संभव है, पर भावनात्मक दबाव को शांत रखना होगा.',
+    foreign_travel: 'विदेश से जुड़ा अवसर संभव है; संकेत काम, दस्तावेज़ या संस्था के माध्यम से खुल सकते हैं.',
+    guide_me: 'पहला सही सवाल वही है जहां अभी दबाव और समय-संकेत सबसे सक्रिय हैं.',
+    job_change: 'नौकरी बदलने का संकेत संभव है; स्थिरता बचाकर चुनिंदा अवसरों पर ध्यान दें.',
+    marriage_timing: 'विवाह की दिशा में संकेत बन सकते हैं, लेकिन परिवार, तैयारी और समय साथ आने चाहिए.',
+    money_property: 'धन या संपत्ति का निर्णय संभव है, पर कागज़, नकदी और समय को दोबारा जांचें.',
+    promotion: 'प्रमोशन या पहचान की संभावना है; काम को दिखाई देने लायक बनाना जरूरी है.',
+    relationship_outcome: 'रिश्ते में दिशा तभी मजबूत होगी जब व्यवहार वादों से मेल खाए.',
+    relocation: 'स्थान परिवर्तन संभव है; लाभ तभी बढ़ेगा जब भूमिका, घर और परिवार की जमीन साफ़ हो.',
+    visa_pr: 'वीज़ा या दस्तावेज़ प्रगति संभव है; कागज़ और संस्था-सहारा सबसे अहम हैं.',
+    wellness_caution: 'स्वास्थ्य में यह सावधानी का संकेत है, निदान नहीं; दिनचर्या और डॉक्टर की सलाह प्राथमिक रखें.',
+  };
+  const gu: Record<EventQuestionRefinement['categoryId'], string> = {
+    business_growth: 'વ્યવસાયમાં વૃદ્ધિ શક્ય છે, પરંતુ સ્પષ્ટ દિશા અને સમય સહારો જોઈએ.',
+    career_move: 'કરિયરમાં અર્થપૂર્ણ ફેરફાર શક્ય લાગે છે; તૈયારી અને યોગ્ય તકથી તેને મજબૂત કરો.',
+    court_litigation: 'કાનૂની બાબતમાં ઉતાવળ નહીં; કાગળ અને સલાહને પ્રાથમિકતા આપો.',
+    education_study_stream: 'અભ્યાસની દિશામાં રસ કરતાં સ્થિરતા અને અભ્યાસ વધારે નિર્ણાયક રહેશે.',
+    family_child_matching: 'પરિવાર અથવા મેળાપમાં પ્રગતિ શક્ય છે, પણ ભાવનાત્મક દબાણ શાંત રાખવું પડશે.',
+    foreign_travel: 'વિદેશ સંબંધિત તક શક્ય છે; સંકેત કામ, દસ્તાવેજ અથવા સંસ્થા મારફતે ખુલી શકે છે.',
+    guide_me: 'પહેલો સાચો સવાલ ત્યાં છે જ્યાં દબાણ અને સમય સંકેત સૌથી સક્રિય છે.',
+    job_change: 'નોકરી બદલવાનો સંકેત શક્ય છે; સ્થિરતા બચાવીને પસંદગીના અવસરો પર ધ્યાન આપો.',
+    marriage_timing: 'લગ્નની દિશામાં સંકેતો બની શકે છે, પરંતુ પરિવાર, તૈયારી અને સમય સાથે આવવા જોઈએ.',
+    money_property: 'પૈસા અથવા મિલકતનો નિર્ણય શક્ય છે, પણ કાગળ, રોકડ પ્રવાહ અને સમય ફરી તપાસો.',
+    promotion: 'પ્રમોશન અથવા ઓળખની સંભાવના છે; કામને દેખાય તેવું બનાવવું જરૂરી છે.',
+    relationship_outcome: 'સંબંધની દિશા ત્યારે જ મજબૂત થશે જ્યારે વર્તન વચનો સાથે મેળ ખાય.',
+    relocation: 'સ્થળ બદલાવ શક્ય છે; લાભ ત્યારે વધશે જ્યારે ભૂમિકા, ઘર અને પરિવારની જમીન સ્પષ્ટ હોય.',
+    visa_pr: 'વીઝા અથવા દસ્તાવેજ પ્રગતિ શક્ય છે; કાગળ અને સંસ્થા સહારો સૌથી મહત્વનું છે.',
+    wellness_caution: 'સ્વાસ્થ્યમાં આ સાવચેતીનો સંકેત છે, નિદાન નહીં; રૂટિન અને ડોક્ટરની સલાહ પ્રાથમિક રાખો.',
+  };
+  return language === 'hi' ? hi[categoryId] : gu[categoryId];
+}
+
+function nativeEventTrigger(
+  language: SupportedLanguage,
+  categoryId: EventQuestionRefinement['categoryId'],
+): string {
+  const isHi = language === 'hi';
+  if (categoryId === 'foreign_travel' || categoryId === 'visa_pr') {
+    return isHi
+      ? 'काम की जरूरत, दस्तावेज़, वरिष्ठ व्यक्ति, टीम बदलाव या यात्रा-स्वीकृति.'
+      : 'કામની જરૂર, દસ્તાવેજ, વરિષ્ઠ વ્યક્તિ, ટીમ ફેરફાર અથવા પ્રવાસ મંજૂરી.';
+  }
+  if (categoryId === 'career_move' || categoryId === 'job_change' || categoryId === 'promotion') {
+    return isHi
+      ? 'मैनेजर बदलाव, भूमिका खुलना, समीक्षा समय, भर्ती संपर्क या दिखता हुआ काम.'
+      : 'મેનેજર ફેરફાર, ભૂમિકા ખુલવી, સમીક્ષા સમય, ભરતી સંપર્ક અથવા દેખાતું કામ.';
+  }
+  if (categoryId === 'marriage_timing' || categoryId === 'relationship_outcome') {
+    return isHi
+      ? 'गंभीर बातचीत, परिवार की भागीदारी, प्रस्ताव, सुलह या प्रतिबद्धता निर्णय.'
+      : 'ગંભીર વાતચીત, પરિવારની ભાગીદારી, પ્રસ્તાવ, સમાધાન અથવા પ્રતિબદ્ધતા નિર્ણય.';
+  }
+  if (categoryId === 'money_property') {
+    return isHi
+      ? 'कागज़, ऋण अपडेट, खरीददार/विक्रेता उत्तर, नकदी स्पष्टता या समय सीमा.'
+      : 'કાગળ, લોન અપડેટ, ખરીદદાર/વેચનાર જવાબ, રોકડ સ્પષ્ટતા અથવા સમયમર્યાદા.';
+  }
+  return isHi
+    ? 'व्यावहारिक अवसर, बातचीत, मंजूरी, जिम्मेदारी या समय-सीमा.'
+    : 'વ્યવહારુ તક, વાતચીત, મંજૂરી, જવાબદારી અથવા સમયમર્યાદા.';
+}
+
+function nativeEventAction(
+  language: SupportedLanguage,
+  categoryId: EventQuestionRefinement['categoryId'],
+): string {
+  const isHi = language === 'hi';
+  if (categoryId === 'money_property') {
+    return isHi
+      ? 'कागज़, बजट और नकदी सुरक्षा जांचकर ही अगला कदम लें.'
+      : 'કાગળ, બજેટ અને રોકડ સુરક્ષા તપાસીને જ આગળનું પગલું લો.';
+  }
+  if (categoryId === 'foreign_travel' || categoryId === 'visa_pr') {
+    return isHi
+      ? 'दस्तावेज़ तैयार रखें और काम/संस्था से आने वाले संकेतों पर ध्यान दें.'
+      : 'દસ્તાવેજ તૈયાર રાખો અને કામ/સંસ્થા તરફથી આવતા સંકેતો પર ધ્યાન આપો.';
+  }
+  if (categoryId === 'marriage_timing' || categoryId === 'relationship_outcome') {
+    return isHi
+      ? 'भावना से पहले स्पष्ट बातचीत और व्यवहार की निरंतरता देखें.'
+      : 'ભાવના પહેલાં સ્પષ્ટ વાતચીત અને વર્તનની સતતતા જુઓ.';
+  }
+  return isHi
+    ? 'तैयारी साफ़ रखें, जल्दबाज़ी न करें, और संकेत दिखते ही व्यावहारिक कदम लें.'
+    : 'તૈયારી સ્પષ્ટ રાખો, ઉતાવળ ન કરો, અને સંકેત દેખાય ત્યારે વ્યવહારુ પગલું લો.';
 }

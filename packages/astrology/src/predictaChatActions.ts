@@ -1,5 +1,7 @@
 import {
   formatNativeCopy,
+  getPredictaChatLabel,
+  getPredictaChatPhrase,
   getNativeCopy,
   getPredictaMicroMessage,
   getPredictaResponseOpening,
@@ -201,6 +203,120 @@ export type PredictaLanguageContext = {
 };
 
 export type PredictaEnglishSwitchDecision = 'approve' | 'none' | 'reject';
+
+function isNativeChatLanguage(language: SupportedLanguage): boolean {
+  return language === 'hi' || language === 'gu';
+}
+
+function chatLine(
+  language: SupportedLanguage,
+  labelId: Parameters<typeof getPredictaChatLabel>[1],
+  value: string,
+): string {
+  return `${getPredictaChatLabel(language, labelId)}: ${value}`;
+}
+
+function chatPhrase(
+  language: SupportedLanguage,
+  phraseId: Parameters<typeof getPredictaChatPhrase>[1],
+): string {
+  return getPredictaChatPhrase(language, phraseId);
+}
+
+function localizedConfidence(
+  language: SupportedLanguage,
+  confidence: string,
+): string {
+  if (language === 'hi') {
+    if (/high|clear/i.test(confidence)) return 'उच्च';
+    if (/low|weak|uncertain/i.test(confidence)) return 'कम';
+    return 'मध्यम';
+  }
+  if (language === 'gu') {
+    if (/high|clear/i.test(confidence)) return 'ઉચ્ચ';
+    if (/low|weak|uncertain/i.test(confidence)) return 'ઓછો';
+    return 'મધ્યમ';
+  }
+  return confidence;
+}
+
+function localizedKpVerdict(
+  language: SupportedLanguage,
+  verdict: string,
+): string {
+  const normalized = verdict.toLowerCase();
+  if (language === 'hi') {
+    if (normalized.includes('likely')) return 'संभावना मजबूत';
+    if (normalized.includes('delayed')) return 'देरी दिखती है';
+    if (normalized.includes('blocked')) return 'रुकावट मजबूत';
+    if (normalized.includes('clarity')) return 'एक साफ़ सवाल चाहिए';
+    if (normalized.includes('proof')) return 'प्रमाण अभी पूरा नहीं';
+    return 'मिश्रित संकेत';
+  }
+  if (language === 'gu') {
+    if (normalized.includes('likely')) return 'સંભાવના મજબૂત';
+    if (normalized.includes('delayed')) return 'વિલંબ દેખાય છે';
+    if (normalized.includes('blocked')) return 'અવરોધ મજબૂત';
+    if (normalized.includes('clarity')) return 'એક સ્પષ્ટ સવાલ જોઈએ';
+    if (normalized.includes('proof')) return 'પુરાવો હજુ પૂરતો નથી';
+    return 'મિશ્ર સંકેત';
+  }
+  return verdict;
+}
+
+function nativePremiumLine(
+  language: SupportedLanguage,
+  hasPremiumAccess: boolean,
+): string {
+  return chatPhrase(language, hasPremiumAccess ? 'premiumDepth' : 'freeDepth');
+}
+
+function nativeSignatureTraitList(
+  language: SupportedLanguage,
+  traits: Array<{ label: string; value: string }>,
+): string {
+  const labelMap: Record<string, { hi: string; gu: string }> = {
+    baseline: { hi: 'आधार रेखा', gu: 'આધાર રેખા' },
+    flourish: { hi: 'सजावट', gu: 'સજાવટ' },
+    legibility: { hi: 'स्पष्टता', gu: 'સ્પષ્ટતા' },
+    pressure: { hi: 'दबाव', gu: 'દબાણ' },
+    size: { hi: 'आकार', gu: 'કદ' },
+    slant: { hi: 'झुकाव', gu: 'ઝુકાવ' },
+    spacing: { hi: 'अंतर', gu: 'અંતર' },
+    speed: { hi: 'लय', gu: 'લય' },
+    'writing rhythm': { hi: 'लय', gu: 'લય' },
+    underline: { hi: 'रेखांकन', gu: 'રેખાંકન' },
+  };
+  const valueMap: Record<string, { hi: string; gu: string }> = {
+    balanced: { hi: 'संतुलित', gu: 'સંતુલિત' },
+    clear: { hi: 'साफ़', gu: 'સ્પષ્ટ' },
+    flowing: { hi: 'प्रवाही', gu: 'પ્રવાહી' },
+    high: { hi: 'उच्च', gu: 'ઉચ્ચ' },
+    low: { hi: 'कम', gu: 'ઓછું' },
+    medium: { hi: 'मध्यम', gu: 'મધ્યમ' },
+    moderate: { hi: 'मध्यम', gu: 'મધ્યમ' },
+    partial: { hi: 'आंशिक', gu: 'આંશિક' },
+    right: { hi: 'दाईं ओर', gu: 'જમણી તરફ' },
+    upward: { hi: 'ऊपर की ओर', gu: 'ઉપર તરફ' },
+  };
+  const target = language === 'gu' ? 'gu' : 'hi';
+  return traits
+    .map(trait => {
+      const label =
+        labelMap[trait.label.toLowerCase()]?.[target] ?? trait.label;
+      const value =
+        valueMap[trait.value.toLowerCase()]?.[target] ?? trait.value;
+      return `${label} ${value}`;
+    })
+    .join(', ');
+}
+
+function kundliKarmaModuleTerm(item: KundliKarmaItem): string {
+  if (item.module === 'DOSH') return 'Dosh';
+  if (item.module === 'SHRAP') return 'Shrap';
+  if (item.module === 'LAL_KITAB') return 'Lal Kitab';
+  return 'Yog';
+}
 
 const ACTION_PATTERNS: Array<{
   id: PredictaAppActionId;
@@ -1471,6 +1587,30 @@ function buildActionText({
       language,
       question: text,
     });
+    if (isNativeChatLanguage(language)) {
+      return joinSections([
+        intro,
+        [
+          chatLine(language, 'directAnswer', chatPhrase(language, 'decisionDirect')),
+          chatLine(language, 'timing', chatPhrase(language, 'activeConditionTiming')),
+          chatLine(language, 'confidence', chatPhrase(language, 'decisionMediumConfidence')),
+          chatLine(language, 'actionRemedy', chatPhrase(language, 'decisionAction')),
+          chatLine(language, 'guidance', chatPhrase(language, 'decisionGuidance')),
+          chatLine(language, 'lifeBalance', chatPhrase(language, 'decisionLifeBalance')),
+          chatLine(language, 'karmaSupport', chatPhrase(language, 'decisionKarmaSupport')),
+          chatLine(
+            language,
+            'evidence',
+            chatPhrase(language, 'eventEvidenceGeneric'),
+          ),
+          chatLine(language, 'boundary', chatPhrase(language, 'nativeSchoolBoundary')),
+        ]
+          .filter(Boolean)
+          .join('\n'),
+        insight,
+        buildUpsell(language, 'decision-timing', hasPremiumAccess, memory),
+      ]);
+    }
     const proof = synthesis.signals
       .slice(0, hasPremiumAccess ? 5 : 3)
       .map(signal => `- ${signal.label}: ${signal.headline}`)
@@ -2166,6 +2306,7 @@ function buildMultiSchoolConsultationReply({
   const consultation = composePredictaMultiSchoolConsultation({
     hasPremiumAccess,
     kundli,
+    language,
     predictaSchool,
     question: text,
   });
@@ -2178,25 +2319,25 @@ function buildMultiSchoolConsultationReply({
     return consultation.reply;
   }
 
-  const schoolLine = `Schools consulted: ${consultation.consultedSchools.join(', ')}.`;
-  const boundary =
-    'I am naming the schools I used instead of silently mixing methods.';
-
   if (language === 'hi') {
     return [
       consultation.reply,
-      schoolLine,
-      boundary,
+      chatLine(language, 'schoolsConsulted', consultation.consultedSchools.join(', ')),
+      chatPhrase(language, 'nativeSchoolBoundary'),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     return [
       consultation.reply,
-      schoolLine,
-      boundary,
+      chatLine(language, 'schoolsConsulted', consultation.consultedSchools.join(', ')),
+      chatPhrase(language, 'nativeSchoolBoundary'),
     ].join('\n\n');
   }
+
+  const schoolLine = `Schools consulted: ${consultation.consultedSchools.join(', ')}.`;
+  const boundary =
+    'I am naming the schools I used instead of silently mixing methods.';
 
   return [
     consultation.reply,
@@ -2340,12 +2481,15 @@ function buildMahadashaReply(
 
   if (language === 'hi') {
     return [
-      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.16851ef744", [dasha.current.mahadasha, dasha.current.antardasha]),
-      dasha.current.freeInsight,
-      `Confidence: ${dasha.current.confidence}`,
-      evidence ? `Proof:\n${evidence}` : '',
-      windows ? `Timing windows:\n${windows}` : '',
-      premiumLine,
+      chatLine(
+        language,
+        'directAnswer',
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.16851ef744", [dasha.current.mahadasha, dasha.current.antardasha]),
+      ),
+      chatLine(language, 'timing', chatPhrase(language, 'activeConditionTiming')),
+      chatLine(language, 'confidence', localizedConfidence(language, dasha.current.confidence)),
+      chatLine(language, 'proof', chatPhrase(language, 'eventEvidenceGeneric')),
+      nativePremiumLine(language, hasPremiumAccess),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -2353,19 +2497,23 @@ function buildMahadashaReply(
 
   if (language === 'gu') {
     return [
-      formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8942035854", [dasha.current.mahadasha, dasha.current.antardasha]),
-      dasha.current.freeInsight,
-      `Confidence: ${dasha.current.confidence}`,
-      evidence ? `Proof:\n${evidence}` : '',
-      windows ? `Timing windows:\n${windows}` : '',
-      premiumLine,
+      chatLine(
+        language,
+        'directAnswer',
+        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8942035854", [dasha.current.mahadasha, dasha.current.antardasha]),
+      ),
+      chatLine(language, 'timing', chatPhrase(language, 'activeConditionTiming')),
+      chatLine(language, 'confidence', localizedConfidence(language, dasha.current.confidence)),
+      chatLine(language, 'proof', chatPhrase(language, 'eventEvidenceGeneric')),
+      nativePremiumLine(language, hasPremiumAccess),
     ]
       .filter(Boolean)
       .join('\n\n');
   }
 
   return [
-    `I am reading your ${dasha.current.mahadasha}/${dasha.current.antardasha} from the dasha timing layer.`,
+    `Direct answer: I am reading your ${dasha.current.mahadasha}/${dasha.current.antardasha} from the dasha timing layer.`,
+    `Timing: ${chatPhrase(language, 'activeConditionTiming')}`,
     dasha.current.freeInsight,
     `Confidence: ${dasha.current.confidence}`,
     evidence ? `Proof:\n${evidence}` : '',
@@ -2380,6 +2528,7 @@ function buildKundliKarmaLocalMemoryReply({
   chartContext,
   hasPremiumAccess,
   kundli,
+  language,
   text,
 }: {
   chartContext?: ChartContext;
@@ -2412,6 +2561,30 @@ function buildKundliKarmaLocalMemoryReply({
     !selectedItem &&
     /\b(top\s*3|three|snapshot|overview|summary|kundli\s*karma)\b/i.test(text)
   ) {
+    if (isNativeChatLanguage(language)) {
+      const top = snapshot.topThreeActiveConditions
+        .map(condition => `- ${kundliKarmaModuleTerm(condition.item)}`)
+        .join('\n');
+      return [
+        chatLine(language, 'directAnswer', chatPhrase(language, 'kundliKarmaSnapshotReady')),
+        chatLine(language, 'timing', chatPhrase(language, 'activeConditionTiming')),
+        chatLine(language, 'confidence', localizedConfidence(language, 'Medium')),
+        top
+          ? chatLine(language, 'topActiveConditions', `\n${top}`)
+          : chatLine(language, 'topActiveConditions', chatPhrase(language, 'kundliKarmaNoActive')),
+        chatLine(
+          language,
+          'evidence',
+          snapshot.rankedConditions
+            .slice(0, 3)
+            .map(condition => kundliKarmaModuleTerm(condition.item))
+            .join(', ') || chatPhrase(language, 'kundliKarmaNoActive'),
+        ),
+        chatLine(language, 'actionRemedy', chatPhrase(language, 'remedySafeStart')),
+        chatPhrase(language, 'shrapSafety'),
+        chatPhrase(language, 'calculatedMemoryNoAi'),
+      ].join('\n\n');
+    }
     const top = snapshot.topThreeActiveConditions
       .map(condition => formatKundliKarmaConditionLine(condition))
       .join('\n');
@@ -2435,6 +2608,23 @@ function buildKundliKarmaLocalMemoryReply({
   const item = selectedItem ?? condition?.item;
 
   if (!item) {
+    if (isNativeChatLanguage(language)) {
+      return [
+        chatLine(language, 'directAnswer', chatPhrase(language, 'kundliKarmaDefinition')),
+        chatLine(language, 'timing', chatPhrase(language, 'kundliKarmaPending')),
+        chatLine(language, 'confidence', chatPhrase(language, 'broadConditionLowConfidence')),
+        chatLine(
+          language,
+          'evidence',
+          snapshot.rankedConditions
+            .slice(0, 3)
+            .map(condition => kundliKarmaModuleTerm(condition.item))
+            .join(', ') || chatPhrase(language, 'kundliKarmaNoActive'),
+        ),
+        chatLine(language, 'nextStep', chatPhrase(language, 'kpActionQuestion')),
+        chatPhrase(language, 'calculatedMemoryNoAi'),
+      ].join('\n\n');
+    }
     return [
       'Direct answer: I can read Kundli Karma when the Dosh, Shrap, Yog, or Lal Kitab item is identifiable in your calculated chart. No AI credit is needed.',
       'Timing: pending until a specific active item is selected.',
@@ -2446,6 +2636,20 @@ function buildKundliKarmaLocalMemoryReply({
   }
 
   if (item.status === 'not_present' || item.status === 'blocked_context') {
+    if (isNativeChatLanguage(language)) {
+      return [
+        chatLine(
+          language,
+          'directAnswer',
+          `${item.displayName}: ${formatKundliKarmaStatus(item.status)}`,
+        ),
+        chatLine(language, 'timing', item.activation.summary),
+        chatLine(language, 'confidence', localizedConfidence(language, item.confidence)),
+        chatLine(language, 'evidence', formatKundliKarmaEvidence(item)),
+        chatLine(language, 'guidance', chatPhrase(language, 'remedySafeStart')),
+        chatPhrase(language, 'calculatedMemoryNoAi'),
+      ].join('\n\n');
+    }
     return [
       `Direct answer: ${item.displayName} is ${formatKundliKarmaStatus(item.status)} in this check.`,
       `Timing: ${item.activation.summary}`,
@@ -2461,6 +2665,26 @@ function buildKundliKarmaLocalMemoryReply({
   }
 
   if (item.status === 'needs_data' || item.status === 'pending_evidence') {
+    if (isNativeChatLanguage(language)) {
+      return [
+        chatLine(
+          language,
+          'directAnswer',
+          `${item.displayName}: ${formatKundliKarmaStatus(item.status)}`,
+        ),
+        chatLine(language, 'timing', item.activation.summary),
+        chatLine(language, 'confidence', localizedConfidence(language, item.confidence)),
+        chatLine(
+          language,
+          'availableEvidence',
+          item.evidence.length
+            ? formatKundliKarmaEvidence(item)
+            : chatPhrase(language, 'kundliKarmaNoActive'),
+        ),
+        chatPhrase(language, 'kundliKarmaSpecificPending'),
+        chatPhrase(language, 'calculatedMemoryNoAi'),
+      ].join('\n\n');
+    }
     return [
       `Direct answer: ${item.displayName} is ${formatKundliKarmaStatus(item.status)} right now.`,
       `Timing: ${item.activation.summary}`,
@@ -2486,6 +2710,25 @@ function buildKundliKarmaLocalMemoryReply({
     .join('\n');
 
   return [
+    ...(isNativeChatLanguage(language)
+      ? [
+          chatLine(
+            language,
+            'directAnswer',
+            `${item.displayName}: ${formatKundliKarmaStatus(item.status)}, ${item.strength}`,
+          ),
+          chatLine(language, 'evidence', formatKundliKarmaEvidence(item)),
+          chatLine(language, 'timing', item.activation.summary),
+          chatLine(language, 'confidence', localizedConfidence(language, item.confidence)),
+          chatLine(
+            language,
+            'actionRemedy',
+            remedies || chatPhrase(language, 'remedySafeStart'),
+          ),
+          nativePremiumLine(language, hasPremiumAccess),
+          chatPhrase(language, 'calculatedMemoryNoAi'),
+        ]
+      : [
     `Direct answer: ${item.displayName} is ${formatKundliKarmaStatus(item.status)} with ${item.strength} strength and ${item.confidence} confidence.`,
     `Why this appears: ${item.whyPresent}`,
     `Evidence:\n${formatKundliKarmaEvidence(item)}`,
@@ -2501,6 +2744,7 @@ function buildKundliKarmaLocalMemoryReply({
       ? 'Premium depth is active, so I can include deeper remedy timing and cross-chart evidence when the report asks for it.'
       : 'Free depth gives the useful meaning and safe starting action. Premium adds deeper timing, cross-chart evidence, and structured remedies without fear-selling.',
     'This answer uses your calculated Predicta memory. No AI credit is needed.',
+        ]),
   ].join('\n\n');
 }
 
@@ -2999,12 +3243,16 @@ function buildKpPredictaReply(
   if (language === 'hi') {
     return [
       getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.0f0614b58d"),
-      `Event verdict: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
-      kp.freeInsight,
-      cuspLine ? `Cusps:\n${cuspLine}` : '',
-      significators ? `Significators:\n${significators}` : '',
-      ruling,
-      hasPremiumAccess ? kp.premiumSynthesis : foundation.premiumUnlock,
+      chatLine(
+        language,
+        'eventVerdict',
+        localizedKpVerdict(language, kp.eventJudgement.verdictLabel),
+      ),
+      chatLine(language, 'timing', chatPhrase(language, 'kpTimingGeneric')),
+      chatLine(language, 'confidence', localizedConfidence(language, confidenceLabel)),
+      chatLine(language, 'actionRemedy', chatPhrase(language, 'kpActionQuestion')),
+      chatLine(language, 'evidence', chatPhrase(language, 'kpEvidenceGeneric')),
+      nativePremiumLine(language, hasPremiumAccess),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -3013,12 +3261,16 @@ function buildKpPredictaReply(
   if (language === 'gu') {
     return [
       getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5aac1f7478"),
-      `Event verdict: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
-      kp.freeInsight,
-      cuspLine ? `Cusps:\n${cuspLine}` : '',
-      significators ? `Significators:\n${significators}` : '',
-      ruling,
-      hasPremiumAccess ? kp.premiumSynthesis : foundation.premiumUnlock,
+      chatLine(
+        language,
+        'eventVerdict',
+        localizedKpVerdict(language, kp.eventJudgement.verdictLabel),
+      ),
+      chatLine(language, 'timing', chatPhrase(language, 'kpTimingGeneric')),
+      chatLine(language, 'confidence', localizedConfidence(language, confidenceLabel)),
+      chatLine(language, 'actionRemedy', chatPhrase(language, 'kpActionQuestion')),
+      chatLine(language, 'evidence', chatPhrase(language, 'kpEvidenceGeneric')),
+      nativePremiumLine(language, hasPremiumAccess),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -3089,13 +3341,16 @@ function buildJaiminiPredictaReply(
   if (language === 'hi') {
     return [
       getNativeCopy('astrology.jaimini.mode.hi'),
-      interpretation.summary,
-      firstBlock ? `${firstBlock.title}: ${firstBlock.prediction}` : undefined,
-      firstBlock ? `Next step: ${firstBlock.guidance}` : undefined,
-      interpretation.technicalEvidence.length
-        ? `Evidence:\n${interpretation.technicalEvidence.slice(0, 4).map(item => `- ${item}`).join('\n')}`
-        : undefined,
-      premiumLine,
+      chatLine(
+        language,
+        'directAnswer',
+        chatPhrase(language, 'jaiminiDirect'),
+      ),
+      chatLine(language, 'timing', chatPhrase(language, 'jaiminiTiming')),
+      chatLine(language, 'confidence', chatPhrase(language, 'jaiminiMediumConfidence')),
+      chatLine(language, 'actionRemedy', chatPhrase(language, 'jaiminiAction')),
+      chatLine(language, 'evidence', chatPhrase(language, 'jaiminiEvidence')),
+      nativePremiumLine(language, hasPremiumAccess),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -3104,13 +3359,16 @@ function buildJaiminiPredictaReply(
   if (language === 'gu') {
     return [
       getNativeCopy('astrology.jaimini.mode.gu'),
-      interpretation.summary,
-      firstBlock ? `${firstBlock.title}: ${firstBlock.prediction}` : undefined,
-      firstBlock ? `Next step: ${firstBlock.guidance}` : undefined,
-      interpretation.technicalEvidence.length
-        ? `Evidence:\n${interpretation.technicalEvidence.slice(0, 4).map(item => `- ${item}`).join('\n')}`
-        : undefined,
-      premiumLine,
+      chatLine(
+        language,
+        'directAnswer',
+        chatPhrase(language, 'jaiminiDirect'),
+      ),
+      chatLine(language, 'timing', chatPhrase(language, 'jaiminiTiming')),
+      chatLine(language, 'confidence', chatPhrase(language, 'jaiminiMediumConfidence')),
+      chatLine(language, 'actionRemedy', chatPhrase(language, 'jaiminiAction')),
+      chatLine(language, 'evidence', chatPhrase(language, 'jaiminiEvidence')),
+      nativePremiumLine(language, hasPremiumAccess),
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -3444,58 +3702,56 @@ function buildSignaturePredictaReply(
   if (language === 'hi') {
     if (analysis.status === 'ready') {
       return [
-        getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.3c85ccbb21"),
-        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.137999bcf4", [analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')]),
-        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.b5ff3c7ab1", [analysis.rhythm.summary]),
-        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.9f79999b19", [analysis.confidenceExpression.summary]),
-        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5cfb28687b", [analysis.consistency.summary]),
-        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5febe3034b", [analysis.improvementPlan.slice(0, 3).join(' ')]),
-        analysis.synthesisReadiness.rule,
+        chatLine(language, 'directAnswer', chatPhrase(language, 'signatureReadySummary')),
+        chatLine(
+          language,
+          'observedTraits',
+          nativeSignatureTraitList(language, analysis.observedTraits),
+        ),
+        chatLine(language, 'timing', chatPhrase(language, 'signatureSessionTiming')),
+        chatLine(language, 'confidence', chatPhrase(language, 'signatureReflectiveConfidence')),
+        chatLine(language, 'evidence', chatPhrase(language, 'signatureTraitEvidence')),
+        chatLine(language, 'actionRemedy', chatPhrase(language, 'remedySafeStart')),
         buildSignatureSafetyReply(language),
-        hasPremiumAccess
-          ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8693f76105")
-          : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.37661ca05e"),
+        nativePremiumLine(language, hasPremiumAccess),
       ].join('\n\n');
     }
     return [
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d809e5ea83"),
+      chatLine(language, 'directAnswer', chatPhrase(language, 'signaturePendingSummary')),
       promptHasConfirmedTraits
         ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.a2aaa90b2c")
         : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.266e3f0e1c"),
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.04084f8b45"),
+      chatLine(language, 'evidence', chatPhrase(language, 'signatureTraitEvidence')),
       buildSignatureSafetyReply(language),
-      hasPremiumAccess
-        ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.8693f76105")
-        : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.37661ca05e"),
+      nativePremiumLine(language, hasPremiumAccess),
     ].join('\n\n');
   }
 
   if (language === 'gu') {
     if (analysis.status === 'ready') {
       return [
-        getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.19438314a3"),
-        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.d49acb1d59", [analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')]),
-        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.7bdd1b3aae", [analysis.rhythm.summary]),
-        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.5b3f1b3e99", [analysis.confidenceExpression.summary]),
-        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.6dd421f350", [analysis.consistency.summary]),
-        formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.efabd4020f", [analysis.improvementPlan.slice(0, 3).join(' ')]),
-        analysis.synthesisReadiness.rule,
+        chatLine(language, 'directAnswer', chatPhrase(language, 'signatureReadySummary')),
+        chatLine(
+          language,
+          'observedTraits',
+          nativeSignatureTraitList(language, analysis.observedTraits),
+        ),
+        chatLine(language, 'timing', chatPhrase(language, 'signatureSessionTiming')),
+        chatLine(language, 'confidence', chatPhrase(language, 'signatureReflectiveConfidence')),
+        chatLine(language, 'evidence', chatPhrase(language, 'signatureTraitEvidence')),
+        chatLine(language, 'actionRemedy', chatPhrase(language, 'remedySafeStart')),
         buildSignatureSafetyReply(language),
-        hasPremiumAccess
-          ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.1887861c4c")
-          : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.c374e6b5f8"),
+        nativePremiumLine(language, hasPremiumAccess),
       ].join('\n\n');
     }
     return [
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.1604456c1b"),
+      chatLine(language, 'directAnswer', chatPhrase(language, 'signaturePendingSummary')),
       promptHasConfirmedTraits
         ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.368254f316")
         : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.9ea028a5cb"),
-      getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.96c53fceea"),
+      chatLine(language, 'evidence', chatPhrase(language, 'signatureTraitEvidence')),
       buildSignatureSafetyReply(language),
-      hasPremiumAccess
-        ? getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.1887861c4c")
-        : getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.c374e6b5f8"),
+      nativePremiumLine(language, hasPremiumAccess),
     ].join('\n\n');
   }
 
@@ -3741,6 +3997,10 @@ function buildUpsell(
   const actionCount = memory?.actionCounts[action] ?? 0;
   if (actionCount > 1) {
     return '';
+  }
+
+  if (isNativeChatLanguage(language)) {
+    return nativePremiumLine(language, hasPremiumAccess);
   }
 
   if (hasPremiumAccess) {

@@ -1,0 +1,133 @@
+{
+  "phase": "PREDICTA_INTELLIGENCE_PHASE_8_TRANSLATION_NATIVE_TONE_CHAT_GATE",
+  "status": "green",
+  "strictAudit": true,
+  "transcriptAssertions": {
+    "englishHasNoNativeScriptLeak": true,
+    "nativeHasNoEnglishBodyLabels": true,
+    "nativeMajorAnswerModesCovered": true,
+    "translationFileBackedChatLabels": true
+  },
+  "transcript": [
+    {
+      "action": "multi-school-consultation",
+      "id": "multi-school-foreign-travel-en",
+      "preview": "Yes. I can do that right here. I am checking timing first. KP is useful here because this is an event question. Direct answer: Delayed: Foreign movement is possible, but Predicta needs cleaner timing before calling it a strong opening. Conflicting evidence suggests the result may take longer or need one more trigger be"
+    },
+    {
+      "action": "multi-school-consultation",
+      "id": "multi-school-foreign-travel-hi",
+      "preview": "हां. मैं यह यहीं कर सकती हूं. मैं पहले समय संकेत देख रही हूं. यह घटना वाला सवाल है, इसलिए यहां KP उपयोगी है. सीधा उत्तर: विदेश से जुड़ा अवसर संभव है; संकेत काम, दस्तावेज़ या संस्था के माध्यम से खुल सकते हैं. समय संकेत: समय संकेत दशा, गोचर और घटना-प्रमाण के साथ पढ़ा गया है; इसे पक्की तारीख नहीं मानना चाहिए. संभावित कारण"
+    },
+    {
+      "action": "multi-school-consultation",
+      "id": "multi-school-foreign-travel-gu",
+      "preview": "હા. હું આ અહીંથી કરી શકું છું. હું પહેલા સમય સંકેત જોઈ રહી છું. આ ઘટના સંબંધિત સવાલ છે, એટલે અહીં KP ઉપયોગી છે. સીધો જવાબ: વિદેશ સંબંધિત તક શક્ય છે; સંકેત કામ, દસ્તાવેજ અથવા સંસ્થા મારફતે ખુલી શકે છે. સમય સંકેત: સમય સંકેત દશા, ગોચર અને ઘટના-પુરાવા સાથે વાંચવામાં આવ્યો છે; તેને ચોક્કસ તારીખ ન માનવી. શક્ય કારણ: કામની જરૂ"
+    },
+    {
+      "action": "decision-timing",
+      "id": "decision-property-en",
+      "preview": "Yes. I can do that right here. Direct answer: Wealth timing: Green means the chart supports a careful wealth move, as long as practical facts agree. Timing: Wealth decisions should be tested inside the current Venus/Saturn period, ending 2027-08-22. Confidence: Medium. This combines decision posture, dasha, Gochar, lif"
+    },
+    {
+      "action": "decision-timing",
+      "id": "decision-property-hi",
+      "preview": "हां. मैं यह यहीं कर सकती हूं. सीधा उत्तर: निर्णय आगे बढ़ सकता है, लेकिन समय, दस्तावेज़ और स्थिरता पर एक व्यावहारिक जांच जरूरी है. समय संकेत: सक्रिय संकेतों को दशा और गोचर से देखना चाहिए, डर या तुरंत निष्कर्ष से नहीं. भरोसा: मध्यम. इसमें निर्णय की स्थिति, दशा, गोचर, जीवन संतुलन और उपाय सहारा साथ पढ़े गए हैं; इसे योजना म"
+    },
+    {
+      "action": "decision-timing",
+      "id": "decision-property-gu",
+      "preview": "હા. હું આ અહીંથી કરી શકું છું. સીધો જવાબ: નિર્ણય આગળ વધી શકે છે, પરંતુ સમય, દસ્તાવેજ અને સ્થિરતા પર એક વ્યવહારુ તપાસ જરૂરી છે. સમય સંકેત: સક્રિય સંકેતોને દશા અને ગોચરથી જોવાના છે, ડર અથવા ઉતાવળના નિષ્કર્ષથી નહીં. વિશ્વાસ: મધ્યમ. તેમાં નિર્ણય સ્થિતિ, દશા, ગોચર, જીવન સંતુલન અને ઉપાય સહારો સાથે વાંચ્યા છે; તેને આયોજન માર્"
+    },
+    {
+      "action": "kp-predicta",
+      "id": "kp-event-question-en",
+      "preview": "Yes. I can do that right here. Direct answer: Not enough proof. KP is reading the strongest visible outcome signals now; a future exact event question can narrow timing later. Timing: Timing is not ready for a strong statement yet because ruling planets are missing. Confidence: Low. The promise is pending until signifi"
+    },
+    {
+      "action": "kp-predicta",
+      "id": "kp-event-question-hi",
+      "preview": "हां. मैं यह यहीं कर सकती हूं. KP प्रेडिक्टा मोड: मैं सिर्फ KP कस्प, नक्षत्र स्वामी, उप-स्वामी, संकेतक ग्रह और निर्णय ग्रह से बोलूंगी. घटना का निष्कर्ष: प्रमाण अभी पूरा नहीं समय संकेत: KP समय को घटना-वादा, कस्प/उप-स्वामी सहारा, संकेतक ग्रह, निर्णय ग्रह और दशा सहारे से पढ़ता है. भरोसा: कम उपाय/अगला कदम: एक साफ़ घटना-सवाल"
+    },
+    {
+      "action": "kp-predicta",
+      "id": "kp-event-question-gu",
+      "preview": "હા. હું આ અહીંથી કરી શકું છું. KP પ્રેડિક્ટા મોડ: હું ફક્ત KP કસ્પ, નક્ષત્ર સ્વામી, ઉપ-સ્વામી, સૂચક ગ્રહો અને નિર્ણય ગ્રહો થી બોલીશ. ઘટનાનો નિષ્કર્ષ: પુરાવો હજુ પૂરતો નથી સમય સંકેત: KP સમયને ઘટના-વચન, કસ્પ/ઉપ-સ્વામી સહારો, સૂચક ગ્રહો, નિર્ણય ગ્રહો અને દશા સહારે વાંચે છે. વિશ્વાસ: ઓછો ઉપાય/આગળનું પગલું: એક ચોક્કસ ઘટના-સ"
+    },
+    {
+      "action": "jaimini-predicta",
+      "id": "jaimini-destiny-en",
+      "preview": "Yes. I can do that right here. Direct answer: The deeper pattern is that responsibility, desire, and turning points will repeatedly push you back toward communication, learning, trade, and flexible intelligence. When you avoid that lane, life can feel scattered; when you accept it, your decisions become cleaner and you"
+    },
+    {
+      "action": "jaimini-predicta",
+      "id": "jaimini-destiny-hi",
+      "preview": "हां. मैं यह यहीं कर सकती हूं. जैमिनी प्रेडिक्टा मोड: मैं आत्म भूमिका, दृश्य पहचान और भाग्य अध्याय से सीधा मार्गदर्शन दूंगी। सीधा उत्तर: यह जीवन-दिशा का संकेत है, जिसे भूमिका, कर्म, दृश्य पहचान और संबंध-दर्पण से पढ़ा गया है. समय संकेत: Jaimini पहले भाग्य-दिशा बताता है; तारीख वाली घटना के लिए दशा और KP से समय पक्का करना "
+    },
+    {
+      "action": "jaimini-predicta",
+      "id": "jaimini-destiny-gu",
+      "preview": "હા. હું આ અહીંથી કરી શકું છું. જૈમિની પ્રેડિક્ટા મોડ: હું આત્મ ભૂમિકા, દેખાતી ઓળખ અને ભાગ્ય અધ્યાય પરથી સીધું માર્ગદર્શન આપીશ. સીધો જવાબ: આ જીવન-દિશાનો સંકેત છે, જેને ભૂમિકા, કર્મ, દેખાતી ઓળખ અને સંબંધ-દર્પણથી વાંચવામાં આવ્યો છે. સમય સંકેત: Jaimini પહેલા ભાગ્ય-દિશા આપે છે; તારીખવાળી ઘટના માટે દશા અને KPથી સમય પક્કો કરવ"
+    },
+    {
+      "action": "numerology-predicta",
+      "id": "numerology-cycle-en",
+      "preview": "Yes. I can do that right here. Direct answer: Bhaumik Mehta carries name number 4, birth number 4, and destiny number 3. Today sits in a personal day 7 rhythm. Timing: personal year 4, month 1, day 7. Confidence: Medium. Numerology is a timing-color and name-rhythm layer, not a hard event promise by itself. Action/reme"
+    },
+    {
+      "action": "numerology-predicta",
+      "id": "numerology-cycle-hi",
+      "preview": "हां. मैं यह यहीं कर सकती हूं. अंक प्रेडिक्टा मोड: मैं नाम और जन्म-तिथि अंकों से पढ़ूंगी. जब तक आप संयुक्त सार न मांगें, वैदिक, KP या जैमिनी तर्क नहीं मिलाऊंगी. Bhaumik Mehta: नाम अंक 4 (निर्माता), जन्म अंक 4 (निर्माता), भाग्य अंक 3 (रचनाकार). वर्तमान लय: निजी वर्ष 4, महीना 1, दिन 7. उपयोगी समझ: Bhaumik Mehta में व्यवस्"
+    },
+    {
+      "action": "numerology-predicta",
+      "id": "numerology-cycle-gu",
+      "preview": "હા. હું આ અહીંથી કરી શકું છું. અંક પ્રેડિક્ટા મોડ: હું નામ અને જન્મ-તારીખના અંકો પરથી વાંચીશ. જ્યાં સુધી તમે સંયુક્ત સાર ન માગો, ત્યાં સુધી વૈદિક, KP કે જૈમિની તર્ક ભેળવીશ નહીં. Bhaumik Mehta: નામ અંક 4 (નિર્માતા), જન્મ અંક 4 (નિર્માતા), ભાગ્ય અંક 3 (રચનાકાર). વર્તમાન લય: વ્યક્તિગત વર્ષ 4, મહિનો 1, દિવસ 7. ઉપયોગી સમજ: "
+    },
+    {
+      "action": "signature-predicta",
+      "id": "signature-confirmed-traits-en",
+      "preview": "Yes. I can do that right here. Direct answer: Signature reading is ready from 7 visual traits. Main signals: Upward baseline, Moderate flourish, Partly readable signature. Signature Predicta mode: reflective confirmed-trait reading only. Timing: this reflects the current signature sample/session only; repeat samples ca"
+    },
+    {
+      "action": "signature-predicta",
+      "id": "signature-confirmed-traits-hi",
+      "preview": "हां. मैं यह यहीं कर सकती हूं. सीधा उत्तर: हस्ताक्षर प्रेडिक्टा मोड: हस्ताक्षर संकेत तैयार हैं. मैं सिर्फ पक्के दिखने वाले संकेत पढ़ूंगी, छिपी पहचान या दस्तावेज़ सत्यता नहीं. दिखे हुए संकेत: आधार रेखा ऊपर की ओर, सजावट मध्यम, स्पष्टता आंशिक, दबाव मध्यम, झुकाव दाईं ओर, अंतर संतुलित, लय मध्यम समय संकेत: यह केवल मौजूदा हस्त"
+    },
+    {
+      "action": "signature-predicta",
+      "id": "signature-confirmed-traits-gu",
+      "preview": "હા. હું આ અહીંથી કરી શકું છું. સીધો જવાબ: હસ્તાક્ષર પ્રેડિક્ટા મોડ: હસ્તાક્ષર સંકેતો તૈયાર છે. હું ફક્ત પુષ્ટિ થયેલા દેખાતા સંકેતો વાંચીશ, છુપાયેલી ઓળખ અથવા દસ્તાવેજ સત્યતા નહીં. દેખાયેલા સંકેતો: આધાર રેખા ઉપર તરફ, સજાવટ મધ્યમ, સ્પષ્ટતા આંશિક, દબાણ મધ્યમ, ઝુકાવ જમણી તરફ, અંતર સંતુલિત, લય મધ્યમ સમય સંકેત: આ ફક્ત હાલના હ"
+    },
+    {
+      "action": "kundli-karma",
+      "id": "kundli-karma-snapshot-en",
+      "preview": "Yes. I can do that right here. Direct answer: your Kundli Karma snapshot is ready from calculated Predicta memory. No AI credit is needed. Timing: active conditions should be judged through their dasha/transit activation, not fear or instant conclusions. Confidence: Medium. This snapshot ranks deterministic Dosh, Shrap"
+    },
+    {
+      "action": "kundli-karma",
+      "id": "kundli-karma-snapshot-hi",
+      "preview": "हां. मैं यह यहीं कर सकती हूं. सीधा उत्तर: आपकी Kundli Karma झलक Predicta की गणना-स्मृति से तैयार है. समय संकेत: सक्रिय संकेतों को दशा और गोचर से देखना चाहिए, डर या तुरंत निष्कर्ष से नहीं. भरोसा: मध्यम मुख्य सक्रिय संकेत: - Lal Kitab - Lal Kitab - Lal Kitab प्रमाण: Lal Kitab, Lal Kitab, Lal Kitab उपाय/अगला कदम: डर वाले "
+    },
+    {
+      "action": "kundli-karma",
+      "id": "kundli-karma-snapshot-gu",
+      "preview": "હા. હું આ અહીંથી કરી શકું છું. સીધો જવાબ: તમારી Kundli Karma ઝલક Predicta ની ગણતરી-સ્મૃતિથી તૈયાર છે. સમય સંકેત: સક્રિય સંકેતોને દશા અને ગોચરથી જોવાના છે, ડર અથવા ઉતાવળના નિષ્કર્ષથી નહીં. વિશ્વાસ: મધ્યમ મુખ્ય સક્રિય સંકેતો: - Lal Kitab - Lal Kitab - Lal Kitab પુરાવો: Lal Kitab, Lal Kitab, Lal Kitab ઉપાય/આગળનું પગલું: ડ"
+    },
+    {
+      "action": "mahadasha",
+      "id": "mahadasha-current-en",
+      "preview": "Yes. I can do that right here. Kundli selected. I will read this profile, not a generic chart. Direct answer: I am reading your Venus/Saturn from the dasha timing layer. Timing: Active conditions should be judged through dasha/transit activation, not fear or instant conclusions. Useful insight: this Venus/Saturn period"
+    },
+    {
+      "action": "mahadasha",
+      "id": "mahadasha-current-hi",
+      "preview": "हां. मैं यह यहीं कर सकती हूं. कुंडली चुनी गई. मैं इसी जन्म-प्रोफ़ाइल को पढ़ूंगी, सामान्य चार्ट नहीं. सीधा उत्तर: मैं Venus/Saturn को दशा समय-संकेत परत से पढ़ रही हूं. समय संकेत: सक्रिय संकेतों को दशा और गोचर से देखना चाहिए, डर या तुरंत निष्कर्ष से नहीं. भरोसा: उच्च प्रमाण: जहां उपलब्ध था, वैदिक, KP, Jaimini, Kundli Kar"
+    },
+    {
+      "action": "mahadasha",
+      "id": "mahadasha-current-gu",
+      "preview": "હા. હું આ અહીંથી કરી શકું છું. કુંડળી પસંદ થઈ. હું આ જન્મ પ્રોફાઇલ વાંચીશ, સામાન્ય ચાર્ટ નહીં. સીધો જવાબ: હું Venus/Saturn ને દશા સમય સંકેત પરત થી જોઈ રહી છું. સમય સંકેત: સક્રિય સંકેતોને દશા અને ગોચરથી જોવાના છે, ડર અથવા ઉતાવળના નિષ્કર્ષથી નહીં. વિશ્વાસ: ઉચ્ચ પુરાવો: જ્યાં ઉપલબ્ધ હતું ત્યાં Vedic, KP, Jaimini, Kundli K"
+    }
+  ]
+}

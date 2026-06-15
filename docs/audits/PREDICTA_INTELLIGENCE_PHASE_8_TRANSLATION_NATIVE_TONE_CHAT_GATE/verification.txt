@@ -1,0 +1,16 @@
+PREDICTA_INTELLIGENCE_PHASE_8_TRANSLATION_NATIVE_TONE_CHAT_GATE verification
+
+PASS corepack pnpm test:predicta-intelligence-phase-8
+PASS corepack pnpm --filter @pridicta/config typecheck
+PASS corepack pnpm --filter @pridicta/astrology typecheck
+PASS corepack pnpm test:translation-trust
+PASS corepack pnpm test:native-script-chat
+PASS corepack pnpm test:predicta-intelligence-phase-7
+PASS corepack pnpm test:specialist-room-qa
+PASS git diff --check
+
+Manual transcript audit:
+- English replies had no Hindi/Gujarati script leakage.
+- Hindi replies used Devanagari labels and avoided English answer labels/body scaffolding.
+- Gujarati replies used Gujarati labels and avoided English answer labels/body scaffolding.
+- Signature, KP, Kundli Karma, and Mahadasha were explicitly checked because they previously leaked English body copy.
