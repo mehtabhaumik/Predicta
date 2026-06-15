@@ -57,7 +57,7 @@
   --predicta-focus-ring: 2px;
   --predicta-focus-offset: 3px;
   --predicta-disabled-opacity: 0.56;
-  --predicta-touch-target: 44px;
+  --predicta-touch-target: 48px;
   --predicta-max-content: 1180px;
   --predicta-max-dashboard: 1280px;
   --predicta-z-base: 0;
@@ -26581,4 +26581,286 @@ select,
 textarea,
 input:not([type='radio']):not([type='checkbox']):not([type='hidden']):not([type='file']) {
   min-height: var(--predicta-touch-target) !important;
+}
+
+/* Revival V2 Phase 3: personal-space contract. This final layer intentionally wins over route-local drift. */
+:root {
+  --predicta-space-action-gap: clamp(12px, 1.4vw, 18px);
+  --predicta-space-action-gap-tight: max(var(--predicta-space-personal-tight), 10px);
+  --predicta-space-field-gap: 10px;
+  --predicta-space-cluster-gap: clamp(14px, 1.7vw, 22px);
+  --predicta-space-card-inset: clamp(18px, 2.2vw, 28px);
+  --predicta-space-inline-boundary: max(var(--predicta-space-personal-boundary), 8px);
+}
+
+:where(
+  .action-row,
+  .hero-actions,
+  .predicta-action-row,
+  .predicta-world-primary-actions,
+  .predicta-world-phase4-guidance .action-row,
+  .kundli-primary-action-row,
+  .active-kundli-action-row,
+  .report-download-actions,
+  .report-selected-actions,
+  .report-preview-actions,
+  .report-builder-actions,
+  .report-inline-actions,
+  .dashboard-ask-dock-actions,
+  .dashboard-topbar-actions,
+  .header-actions,
+  .mobile-menu-actions,
+  .signature-action-row,
+  .gochar-cta-row,
+  .saturn-cta-row,
+  .mahadasha-cta-row,
+  .admin-action-row
+) {
+  align-items: center;
+  column-gap: var(--predicta-space-action-gap);
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  row-gap: var(--predicta-space-action-gap-tight);
+}
+
+:where(
+  .action-row,
+  .hero-actions,
+  .predicta-action-row,
+  .predicta-world-primary-actions,
+  .kundli-primary-action-row,
+  .active-kundli-action-row,
+  .report-download-actions,
+  .report-selected-actions,
+  .report-preview-actions,
+  .report-builder-actions,
+  .dashboard-ask-dock-actions,
+  .signature-action-row,
+  .admin-action-row
+) > :where(.button, .predicta-button, button, a[role='button']) {
+  flex: 0 1 auto;
+  justify-content: center;
+  line-height: 1.18;
+  min-height: var(--predicta-touch-target);
+  min-width: max(var(--predicta-touch-target), min(100%, 9rem));
+  padding: 12px 18px;
+  white-space: normal;
+}
+
+:where(
+  .predicta-pill,
+  .predicta-badge,
+  .status-pill,
+  .school-badge,
+  .signature-scan-state-pill,
+  .report-inline-chip-grid span,
+  .report-selected-product-card span,
+  .planet-chip-row > *,
+  .chat-proof-chip-row > *,
+  .chat-evidence-chips > *,
+  .gochar-radar-legend button,
+  .gochar-range-toggle button,
+  .kp-event-row button,
+  .kp-question-mode-row button,
+  .kp-question-preset-grid button,
+  .language-options button,
+  .chart-language-selector button,
+  .report-school-subnav a,
+  .report-language-options button,
+  .dossier-mode-switch button
+) {
+  align-items: center;
+  border-radius: var(--predicta-radius-chip);
+  display: inline-flex;
+  gap: var(--predicta-space-personal-tight);
+  min-height: var(--predicta-touch-target);
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding-block: max(10px, var(--predicta-space-inline-boundary));
+  padding-inline: max(14px, var(--predicta-space-personal));
+  white-space: normal;
+}
+
+:where(
+  .language-options,
+  .chart-language-selector > div,
+  .report-language-options,
+  .report-school-subnav,
+  .dossier-mode-switch,
+  .planet-chip-row,
+  .chat-proof-chip-row,
+  .chat-evidence-chips,
+  .gochar-range-toggle,
+  .gochar-radar-legend,
+  .kp-event-row,
+  .kp-question-mode-row,
+  .kp-question-preset-grid,
+  .signature-trait-options
+) {
+  gap: var(--predicta-space-action-gap-tight);
+  padding: max(var(--predicta-space-inline-boundary), 8px);
+}
+
+:where(
+  .field-stack,
+  .kundli-form-grid label,
+  .kundli-form-field,
+  .birth-place-form-field,
+  .kp-question-input,
+  .auth-email-form,
+  .admin-form-grid label,
+  .relationship-profile-slot,
+  .family-member-slot,
+  .pair-comparison-slot
+) {
+  display: grid;
+  gap: var(--predicta-space-field-gap);
+  min-width: 0;
+}
+
+:where(
+  input:not([type='radio']):not([type='checkbox']):not([type='hidden']):not([type='file']),
+  select,
+  textarea,
+  .predicta-input,
+  .predicta-select
+) {
+  border-radius: var(--predicta-radius-input);
+  line-height: 1.35;
+  padding-block: 12px;
+  padding-inline: 16px;
+}
+
+:where(
+  .predicta-card,
+  .predicta-panel,
+  .glass-panel,
+  .plain-summary,
+  .secondary-kundli-form,
+  .signature-input-card,
+  .signature-input-hero,
+  .report-marketplace,
+  .report-quick-composer,
+  .report-selected-panel,
+  .report-builder,
+  .predicta-world-hero,
+  .predicta-world-primary-guidance,
+  .predicta-world-phase4-guidance,
+  .school-answer-first,
+  .predicta-world-local-map,
+  .predicta-world-focus-panel
+) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+:where(
+  .report-drawer summary,
+  .info-drawer summary,
+  .predicta-world-context-note summary,
+  .predicta-world-disclosure-summary,
+  .predicta-world-proof-disclosure summary,
+  .library-proof-drawer summary,
+  .library-secondary-drawer summary,
+  .library-outcome-drawer summary,
+  .evidence-room-proof-drawer summary,
+  .evidence-room-detail-loader summary,
+  .kundli-tools-drawer summary,
+  .signature-trait-details summary,
+  .chart-guide-drawer summary,
+  .chart-supporting-points-drawer summary,
+  .chat-utility-menu summary,
+  .jaimini-technical-drawer summary,
+  .dashboard-mobile-nav-drawer summary,
+  .sidebar-nav-drawer summary
+) {
+  align-items: center;
+  gap: var(--predicta-space-action-gap-tight);
+  min-height: var(--predicta-touch-target);
+  padding-block: 12px;
+  padding-inline: 16px;
+}
+
+:where(.report-drawer, .info-drawer, .predicta-world-context-note, .kundli-tools-drawer, .chart-guide-drawer) {
+  border-radius: var(--predicta-radius-card);
+}
+
+@media (max-width: 980px) {
+  :where(
+    .report-marketplace-header,
+    .report-selected-panel,
+    .report-builder-header,
+    .report-download-hero,
+    .vedic-intelligence-heading,
+    .checkout-summary,
+    .feedback-form-head
+  ) {
+    display: grid;
+    gap: var(--predicta-space-cluster-gap);
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  :where(
+    .predicta-page-shell,
+    .dashboard-content,
+    .report-marketplace,
+    .report-quick-composer,
+    .report-builder,
+    .predicta-world-hero,
+    .predicta-world-local-map,
+    .predicta-world-focus-panel,
+    .signature-input-card,
+    .signature-input-hero,
+    .secondary-kundli-form,
+    .plain-summary
+  ) {
+    padding-inline: var(--predicta-space-page-mobile);
+  }
+
+  :where(
+    .hero-actions,
+    .predicta-world-primary-actions,
+    .kundli-primary-action-row,
+    .report-download-actions,
+    .report-selected-actions,
+    .report-preview-actions,
+    .dashboard-ask-dock-actions,
+    .signature-action-row,
+    .admin-action-row
+  ) {
+    display: grid;
+    gap: var(--predicta-space-action-gap-tight);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  :where(
+    .hero-actions,
+    .predicta-world-primary-actions,
+    .kundli-primary-action-row,
+    .report-download-actions,
+    .report-selected-actions,
+    .report-preview-actions,
+    .dashboard-ask-dock-actions,
+    .signature-action-row,
+    .admin-action-row
+  ) > :where(.button, .predicta-button, button, a[role='button']) {
+    width: 100%;
+  }
+
+  .report-school-subnav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--predicta-space-personal-boundary);
+  }
+
+  .report-school-subnav a {
+    width: 100%;
+  }
+
+  :where(.report-school-subnav, .kp-question-mode-row, .kp-question-preset-grid, .signature-trait-options) {
+    gap: var(--predicta-space-action-gap-tight);
+  }
 }
