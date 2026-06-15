@@ -1,0 +1,69 @@
+{
+  "critical": [],
+  "major": [
+    {
+      "id": "v2-1-major-primary-doorway-reverify",
+      "phaseOwner": "PREDICTA_REVIVAL_V2_PHASE_1_PRIMARY_ASK_HOME_AND_NAV_CUT",
+      "issue": "Predicta Chat is now contractually the primary product doorway, but V2.1 has not yet re-verified landing, nav, dashboard, and legacy entry points under the new controlling roadmap.",
+      "whyItHurts": "If users still enter through dashboard/control-panel paths, the product feels like software navigation instead of a premium astrology guide.",
+      "requiredFix": "Make Ask Predicta unmistakable on landing and primary mobile nav, keep specialist worlds secondary, and prove direct ask in one click/tap."
+    },
+    {
+      "id": "v2-1-major-action-first-pages",
+      "phaseOwner": "PREDICTA_REVIVAL_V2_PHASE_2_ACTION_FIRST_PAGE_REWRITE",
+      "issue": "Action-first route hierarchy is not yet re-audited under V2.1 across Vedic, KP, Jaimini, Numerology, Signature, Reports, Pricing, Account, Family, Redeem Pass, and Kundli.",
+      "whyItHurts": "Any long chatter before value makes users feel lectured instead of helped.",
+      "requiredFix": "Every major route must show meaning/action first, compact support second, and evidence only after the user has a reason to open it."
+    },
+    {
+      "id": "v2-1-major-personal-space-system",
+      "phaseOwner": "PREDICTA_REVIVAL_V2_PHASE_3_LAYOUT_SPACING_AND_PERSONAL_SPACE_SYSTEM",
+      "issue": "Global margin, padding, form, chip, badge, pill, CTA, dropdown, and label personal-space rules are not yet locked by the V2.1 roadmap.",
+      "whyItHurts": "Cramped UI makes the app feel unfinished even when the astrology engine is strong.",
+      "requiredFix": "Create and enforce route-level personal-space checks for stacked containers, forms, action groups, chips, badges, pills, dropdowns, and sticky bars."
+    },
+    {
+      "id": "v2-1-major-chart-containment-trust",
+      "phaseOwner": "PREDICTA_REVIVAL_V2_PHASE_5_KUNDLI_CHART_RENDERING_CONTAINMENT_LOCK",
+      "issue": "Kundli chart containment remains a trust-critical V2.1 blocker because planet, degree, sign, and house labels have previously leaked across chart boundaries.",
+      "whyItHurts": "A leaked label can imply a planet belongs to the wrong house, which destroys prediction trust.",
+      "requiredFix": "Lock web, mobile, and PDF chart label placement so labels use available in-house space and never cross boundaries."
+    },
+    {
+      "id": "v2-1-major-report-visual-editorial-reaudit",
+      "phaseOwner": "PREDICTA_REVIVAL_V2_PHASE_6_REPORT_EDITORIAL_AND_PREDICTION_REBUILD / PREDICTA_REVIVAL_V2_PHASE_7_REPORT_VISUAL_PREMIUM_AND_PDF_ARTIFACT_GATE",
+      "issue": "Report final gates are green, but V2.1 requires another app-preview plus PDF artifact audit focused on premium feel, prediction-first editing, chart width, watermark, orphan pages, and no schooling.",
+      "whyItHurts": "Reports are the biggest perceived-value surface; a technically green report can still feel basic, verbose, or visually under-premium.",
+      "requiredFix": "Regenerate free and paid artifacts for all six lanes, inspect rendered pages, and fail on filler, weak prediction, repeated remedies, sparse pages, or chart defects."
+    },
+    {
+      "id": "v2-1-major-translation-zero-leak",
+      "phaseOwner": "PREDICTA_REVIVAL_V2_PHASE_9_TRANSLATION_ZERO_LEAK_SWEEP",
+      "issue": "Translation gates exist, but V2.1 has not yet run a dedicated zero-leak sweep across hidden drawers, modals, forms, errors, empty states, reports, and chat after the latest intelligence updates.",
+      "whyItHurts": "Mixed English/Hindi/Gujarati copy is a trust break for astrology users and makes the app feel patched together.",
+      "requiredFix": "Dump and audit visible/hidden copy in English, Hindi, and Gujarati, then move remaining user-facing hardcoded copy to JSON/config sources."
+    }
+  ],
+  "medium": [
+    {
+      "id": "v2-1-medium-mobile-tablet-reproof",
+      "phaseOwner": "PREDICTA_REVIVAL_V2_PHASE_4_MOBILE_TABLET_APP_FEEL_REBUILD",
+      "issue": "Existing mobile/tablet screenshots are available, but V2.1 needs a refreshed post-intelligence pass across 360, 390, 430, 768, 834, 1024, and desktop.",
+      "requiredFix": "Re-run mobile/tablet screenshots and fail on overflow, hidden CTAs, cramped touch targets, or sticky overlap."
+    },
+    {
+      "id": "v2-1-medium-golden-journey-reproof",
+      "phaseOwner": "PREDICTA_REVIVAL_V2_PHASE_10_PERFORMANCE_LINK_AND_GOLDEN_JOURNEY_GATE",
+      "issue": "Existing golden journeys are strong, but the final V2.1 gate must prove fast links, stable ask flow, deterministic zero-credit help, report download, pass redemption, and language switching together.",
+      "requiredFix": "Run build, typecheck, link, overflow, spacing, translation, chart, report, and golden journey gates as one release-style proof."
+    }
+  ],
+  "minor": [
+    {
+      "id": "v2-1-minor-historical-nadi-artifacts",
+      "phaseOwner": "PREDICTA_REVIVAL_V2_PHASE_0_CURRENT_TRUTH_AND_NO_GO_LOCK",
+      "issue": "Some historical screenshot/PDF evidence still contains Nadi-era filenames even though active product taxonomy is Jaimini.",
+      "requiredFix": "Do not treat historical Nadi artifacts as active product proof; future screenshots must use active Jaimini lanes."
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+PREDICTA_REVIVAL_V2_PHASE_0_CURRENT_TRUTH_AND_NO_GO_LOCK: GREEN BASELINE ONLY
+
+Product status remains NO-GO under V2.1.
+No implementation begins until this baseline is committed.
+Next phase: PREDICTA_REVIVAL_V2_PHASE_1_PRIMARY_ASK_HOME_AND_NAV_CUT

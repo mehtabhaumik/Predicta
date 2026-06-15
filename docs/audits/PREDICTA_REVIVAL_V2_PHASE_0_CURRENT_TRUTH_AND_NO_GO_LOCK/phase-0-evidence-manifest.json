@@ -1,0 +1,85 @@
+{
+  "evidence": [
+    {
+      "category": "mobile-tablet-desktop-screenshots",
+      "fileCount": 63,
+      "path": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots",
+      "sampleFiles": [
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-ask.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-jaimini.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-kp.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-numerology.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-report.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-signature.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard-vedic.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-dashboard.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/desktop-1440-home.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-ask.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-dashboard-jaimini.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_8_MOBILE_APP_FEEL_AND_TOUCH_FLOW_AUDIT/screenshots/laptop-1024-dashboard-kp.png"
+      ]
+    },
+    {
+      "category": "golden-user-journey-screenshots",
+      "fileCount": 17,
+      "path": "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots",
+      "sampleFiles": [
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/desktop-1440-chat-driven-report-composer.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/desktop-1440-jaimini-evidence-handoff.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/desktop-1440-kp-evidence-handoff.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/desktop-1440-vedic-evidence-handoff.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/mobile-390-dashboard-ask-accessible-handoff.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/mobile-390-dashboard-primary-ask-doorway.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/mobile-390-language-gujarati.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/mobile-390-language-hindi.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/mobile-390-legacy-dashboard-chat-redirects-to-ask.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/mobile-390-legacy-specialist-chat-redirects-to-ask.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/mobile-390-mobile-navigation-primary-links.png",
+        "docs/audits/PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT/screenshots/mobile-390-new-visitor-asks-question.png"
+      ]
+    },
+    {
+      "category": "competitor-response-screenshots",
+      "fileCount": 40,
+      "path": "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots",
+      "sampleFiles": [
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/desktop-dashboard-positioning.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/desktop-home-positioning.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/desktop-jaimini-boundary.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/desktop-kp-boundary.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/desktop-numerology-boundary.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/desktop-pricing-value.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/desktop-redeem-cost-control.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/desktop-report-marketplace.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/desktop-signature-boundary.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/desktop-vedic-boundary.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/mobile-dashboard-positioning.png",
+        "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_9_GOLDEN_ARTIFACT_COMPETITOR_NO_GO_REAUDIT/screenshots/mobile-home-positioning.png"
+      ]
+    },
+    {
+      "category": "pdf-golden-artifacts",
+      "fileCount": 9,
+      "path": "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs",
+      "sampleFiles": [
+        "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/crowded-chart-kundli-en.pdf",
+        "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/free-kundli-en.pdf",
+        "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/free-kundli-gu.pdf",
+        "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/free-kundli-hi.pdf",
+        "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/kp-report-en.pdf",
+        "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/nadi-report-en.pdf",
+        "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/numerology-report-en.pdf",
+        "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/premium-kundli-en.pdf",
+        "docs/audits/PREDICTA_REPORT_PDF_PHASE_9_GOLDEN_ARTIFACT_RELEASE_AUDIT/pdfs/signature-report-en.pdf"
+      ]
+    }
+  ],
+  "generatedAt": "2026-06-15T13:14:50.416Z",
+  "phase": "PREDICTA_REVIVAL_V2_PHASE_0_CURRENT_TRUTH_AND_NO_GO_LOCK",
+  "priorGreenLedgers": {
+    "competitorResponse": "zero critical/major",
+    "eventOracle": "zero critical/major",
+    "finalReports": "zero critical/major",
+    "goldenChatTranscriptCount": 39
+  }
+}
