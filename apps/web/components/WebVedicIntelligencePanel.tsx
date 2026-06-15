@@ -22,6 +22,7 @@ import type {
   VedicIntelligenceSection,
 } from '@pridicta/types';
 import { buildPredictaChatHref } from '../lib/predicta-chat-cta';
+import { getEvidenceRoomCopy } from '../lib/evidence-room-copy';
 import { WebKundliChart } from './WebKundliChart';
 
 type ProgressiveChartCard = {
@@ -90,16 +91,24 @@ export function WebVedicIntelligencePanel({
     selectedSection: t('Vedic dasha, chart, yog, and Kundli Karma context'),
     sourceScreen: 'Vedic Predicta',
   });
+  const actionFirstTitle = getEvidenceRoomCopy('vedic', 'title', language);
+  const actionFirstBody = getEvidenceRoomCopy('vedic', 'body', language);
 
   return (
     <section className="vedic-intelligence-panel glass-panel">
       <div className="vedic-intelligence-heading">
         <div>
           <p className="section-title">{t('PREDICTA VEDIC')}</p>
-          <h2>{t('Clean Vedic snapshot, not a 56-page wall')}</h2>
-          <p>
-            {t('Start with the essentials, open advanced tables only when you want proof, and use the PDF as the full deep reading surface.')}
-          </p>
+          <h2>{actionFirstTitle}</h2>
+          <p>{actionFirstBody}</p>
+          <div className="report-download-actions">
+            <Link className="button primary" href={vedicAskHref}>
+              {t('Ask Predicta')}
+            </Link>
+            <Link className="button secondary" href="/dashboard/report">
+              {t('Download Full Report')}
+            </Link>
+          </div>
         </div>
         <div className="vedic-intelligence-snapshot">
           <span>{t('Birth Snapshot')}</span>

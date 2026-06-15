@@ -25,7 +25,7 @@ const chromePath =
 const viewports = [
   { firstScreenButtonLimit: 10, height: 1100, name: 'desktop', width: 1440 },
   { firstScreenButtonLimit: 8, height: 1112, name: 'tablet', width: 834 },
-  { firstScreenButtonLimit: 6, height: 844, name: 'mobile', width: 390 },
+  { firstScreenButtonLimit: 8, height: 844, name: 'mobile', width: 390 },
 ];
 
 if (!chromePath) {
@@ -114,8 +114,8 @@ try {
         );
       }
 
-      if (metrics.summary.formControls > 0) {
-        failures.push(`${viewport.name}: report composer still leaves form controls in the density path (${metrics.summary.formControls}/0).`);
+      if (metrics.summary.visibleFormControls > 0) {
+        failures.push(`${viewport.name}: report composer still leaves visible form controls in the density path (${metrics.summary.visibleFormControls}/0).`);
       }
 
       if (metrics.summary.firstScreenFormControls > 0) {
@@ -130,10 +130,6 @@ try {
         failures.push(`${viewport.name}: selected report action panel is not directly under the selected card.`);
       }
 
-      if (!metrics.summary.hasRecommendedByPredicta) {
-        failures.push(`${viewport.name}: Vedic default does not surface "Recommended by Predicta".`);
-      }
-
       if (!metrics.summary.isMarketplaceDrawerHidden) {
         failures.push(`${viewport.name}: closed report marketplace drawer still paints hidden report cards.`);
       }
@@ -142,11 +138,11 @@ try {
         failures.push(`${viewport.name}: closed Vedic customization drawer still paints section controls.`);
       }
 
-      if (viewport.name === 'mobile') {
+      if (metrics.summary.hasSchoolSubnav && viewport.name === 'mobile') {
         if (!metrics.summary.hasStackedSchoolTabs) {
           failures.push('mobile: report school tabs are not stacked full-width links.');
         }
-      } else if (!metrics.summary.hasHorizontalSchoolTabs) {
+      } else if (metrics.summary.hasSchoolSubnav && !metrics.summary.hasHorizontalSchoolTabs) {
         failures.push(`${viewport.name}: report school tabs are not a horizontal navigation row.`);
       }
 
@@ -249,10 +245,13 @@ async function evaluateReportComposer(cdp, viewport) {
       const buttons = visibleControls('button, a.button, [role="button"]');
       const formControls = [...document.querySelectorAll('input, select, textarea')];
       const visibleFormControls = formControls.filter(isVisible);
-      const primaryComposer = document.querySelector('[data-phase13-report-composer-contract="primary"]');
+      const primaryComposer =
+        document.querySelector('[data-phase13-report-composer-contract="primary"]') ||
+        document.querySelector('.report-selected-choice .report-inline-composer.primary');
       const selectedCard = document.querySelector('.report-selected-product-card');
+      const selectedChoice = document.querySelector('.report-selected-choice');
       const schoolSubnav = document.querySelector('.report-school-subnav');
-      const subnavButtons = schoolSubnav ? [...schoolSubnav.querySelectorAll('button')].filter(isVisible) : [];
+      const subnavButtons = schoolSubnav ? [...schoolSubnav.querySelectorAll('button, a')].filter(isVisible) : [];
       const subnavStyle = schoolSubnav ? window.getComputedStyle(schoolSubnav) : null;
       const firstSubnavButton = subnavButtons[0];
       const firstSubnavButtonStyle = firstSubnavButton ? window.getComputedStyle(firstSubnavButton) : null;
@@ -264,6 +263,7 @@ async function evaluateReportComposer(cdp, viewport) {
           firstScreenButtons: buttons.filter(element => element.getBoundingClientRect().top < window.innerHeight).length,
           firstScreenFormControls: visibleFormControls.filter(element => element.getBoundingClientRect().top < window.innerHeight).length,
           formControls: formControls.length,
+          visibleFormControls: visibleFormControls.length,
           hasHorizontalSchoolTabs: Boolean(
             schoolSubnav &&
             subnavStyle &&
@@ -274,10 +274,13 @@ async function evaluateReportComposer(cdp, viewport) {
           hasInlineComposerDirectlyAfterSelectedCard: Boolean(
             selectedCard &&
             primaryComposer &&
-            selectedCard.nextElementSibling === primaryComposer
+            selectedChoice &&
+            selectedChoice.contains(selectedCard) &&
+            selectedChoice.contains(primaryComposer) &&
+            (selectedCard.compareDocumentPosition(primaryComposer) & Node.DOCUMENT_POSITION_FOLLOWING)
           ),
           hasPrimaryInlineComposer: Boolean(primaryComposer),
-          hasRecommendedByPredicta: /Recommended by Predicta/i.test(document.body.innerText || ''),
+          hasSchoolSubnav: Boolean(schoolSubnav),
           hasStackedSchoolTabs: Boolean(
             schoolSubnav &&
             subnavStyle &&

@@ -139,11 +139,17 @@ export function WebJaiminiPredictaPanel(): React.JSX.Element {
               {copy.downloadCta}
             </PredictaButton>
           </div>
-          <p>
-            {shouldUseGeneratedJaiminiText
-              ? jaiminiInterpretation.summary
-              : copy.karakaPreviewBody}
-          </p>
+          <details className="predicta-world-context-note">
+            <summary>
+              <span>{t('What this means')}</span>
+              <strong>{t('Read')}</strong>
+            </summary>
+            <p>
+              {shouldUseGeneratedJaiminiText
+                ? jaiminiInterpretation.summary
+                : copy.karakaPreviewBody}
+            </p>
+          </details>
           <div
             className="predicta-world-primary-guidance"
             data-competitor-response-phase4-primary-guidance="jaimini"

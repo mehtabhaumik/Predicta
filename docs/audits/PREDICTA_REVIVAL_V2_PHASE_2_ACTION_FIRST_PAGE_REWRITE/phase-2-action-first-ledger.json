@@ -1,0 +1,13 @@
+{
+  "phase": "PREDICTA_REVIVAL_V2_PHASE_2_ACTION_FIRST_PAGE_REWRITE",
+  "verdict": "GREEN",
+  "lockedBehavior": {
+    "evidenceRooms": "primary Ask action before proof drawer",
+    "jaimini": "summary moved behind compact Read drawer after primary actions",
+    "kp": "hero guidance uses current answer and next guidance, not question-schooling copy",
+    "reports": "selected report action composer renders before marketplace explanation",
+    "vedic": "first heading contains direct Vedic guidance plus Ask and Download actions",
+    "worldFrame": "primary actions render before context/proof explanations"
+  },
+  "failures": []
+}

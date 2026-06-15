@@ -23,11 +23,11 @@ const chromePath =
   ].find(candidate => existsSync(candidate));
 
 const routes = [
-  { interaction: 'vedic', label: 'vedic', path: '/dashboard/vedic', primaryText: /Chat with Vedic|Vedic Predicta/i, secondaryText: /Build Vedic report|Create report/i },
-  { interaction: 'kp', label: 'kp', path: '/dashboard/kp', primaryText: /Chat with KP|Ask KP/i, secondaryText: /Build KP report/i },
-  { interaction: 'jaimini', label: 'jaimini', path: '/dashboard/jaimini', primaryText: /Ask Jaimini|Jaimini Predicta/i, secondaryText: /Build Jaimini report|Download Jaimini/i },
-  { interaction: 'numerology', label: 'numerology', path: '/dashboard/numerology', primaryText: /Chat with Numerology|Ask Numerology/i, secondaryText: /Build Numerology report/i },
-  { interaction: 'signature', label: 'signature', path: '/dashboard/signature', primaryText: /Chat with Signature|Ask Predicta/i, secondaryText: /Build Signature report/i },
+  { interaction: 'vedic', label: 'vedic', path: '/dashboard/vedic', primaryText: /Ask for my main Vedic guidance|Ask Predicta/i },
+  { interaction: 'kp', label: 'kp', path: '/dashboard/kp', primaryText: /Ask my KP event question|Ask Predicta/i },
+  { interaction: 'jaimini', label: 'jaimini', path: '/dashboard/jaimini', primaryText: /Ask about my destiny direction|Ask Predicta/i },
+  { interaction: 'numerology', label: 'numerology', path: '/dashboard/numerology', primaryText: /Ask what my numbers say now|Ask Predicta/i },
+  { interaction: 'signature', label: 'signature', path: '/dashboard/signature', primaryText: /Ask about my confirmed signature traits|Ask Predicta/i },
 ];
 
 const viewports = [
@@ -38,10 +38,13 @@ const viewports = [
 
 const sourceFailures = [];
 const sourceChecks = [
+  ['apps/web/components/WebEvidenceRoomEntry.tsx', 'data-app-revival-phase5-evidence-room={room}'],
+  ['apps/web/components/WebEvidenceRoomEntry.tsx', 'className="evidence-room-entry-actions"'],
+  ['apps/web/components/WebEvidenceRoomEntry.tsx', 'className="evidence-room-proof-drawer"'],
+  ['apps/web/components/WebEvidenceRoomDeferredSection.tsx', 'data-app-revival-deferred-evidence-room={room}'],
   ['apps/web/components/PredictaWorldFrame.tsx', 'predicta-world-hero-interaction'],
   ['apps/web/components/PredictaWorldFrame.tsx', 'predicta-world-primary-actions'],
   ['apps/web/components/PredictaWorldFrame.tsx', 'predicta-world-proof-disclosure'],
-  ['apps/web/components/WebVedicWorldPage.tsx', 'data-audit1-phase6-hero-interaction="vedic"'],
   ['apps/web/components/WebKpPredictaPanel.tsx', 'data-audit1-phase6-hero-interaction="kp"'],
   ['apps/web/components/WebJaiminiPredictaPanel.tsx', 'data-audit1-phase6-hero-interaction="jaimini"'],
   ['apps/web/components/WebNumerologyPredictaPanel.tsx', 'data-audit1-phase6-hero-interaction="numerology"'],
@@ -113,7 +116,6 @@ try {
           route: route.path,
           url,
         });
-        await openDeferredEvidenceRoom(cdp, route.interaction);
         const metrics = await evaluateSpecialistRoom(cdp, route);
         const screenshot = await cdp.send('Page.captureScreenshot', {
           captureBeyondViewport: false,
@@ -140,20 +142,20 @@ try {
           failures.push(`${viewport.name} ${route.path}: clips ${metrics.summary.clippedText} text nodes.`);
         }
 
-        if (!metrics.summary.hasUniqueHeroInteraction) {
-          failures.push(`${viewport.name} ${route.path}: missing unique hero interaction for ${route.interaction}.`);
+        if (!metrics.summary.hasEvidenceRoomEntry) {
+          failures.push(`${viewport.name} ${route.path}: missing Ask-first evidence room entry for ${route.interaction}.`);
         }
 
         if (!metrics.summary.hasCollapsedProof) {
-          failures.push(`${viewport.name} ${route.path}: proof/method cards are not collapsed by default.`);
+          failures.push(`${viewport.name} ${route.path}: proof drawer is not collapsed by default.`);
         }
 
         if (!metrics.summary.hasSinglePrimaryHeroCta) {
           failures.push(`${viewport.name} ${route.path}: hero must expose exactly one primary Ask Predicta CTA.`);
         }
 
-        if (!metrics.summary.hasSecondaryReportEntry) {
-          failures.push(`${viewport.name} ${route.path}: report/download entry is missing or dominant instead of secondary.`);
+        if (!metrics.summary.hasDeferredDetailRoom) {
+          failures.push(`${viewport.name} ${route.path}: specialist detail room is not deferred behind the entry.`);
         }
 
         for (const item of metrics.wideElements) {
@@ -270,41 +272,27 @@ async function evaluateSpecialistRoom(cdp, route) {
         }
       }
 
-      const hero = document.querySelector('.predicta-world-hero');
-      const heroButtons = hero ? [...hero.querySelectorAll('.button, .predicta-button, button, a')].filter(isVisible) : [];
+      const entry = document.querySelector('[data-app-revival-phase5-evidence-room="' + route.interaction + '"]');
+      const deferredDetails = document.querySelector('[data-app-revival-deferred-evidence-room="' + route.interaction + '"]');
+      const heroButtons = entry ? [...entry.querySelectorAll('.button, .predicta-button, button, a')].filter(isVisible) : [];
       function isPrimaryButton(element) {
-        return element.classList.contains('primary') || element.classList.contains('predicta-button--primary');
-      }
-      function isSecondaryButton(element) {
-        return element.classList.contains('secondary') || element.classList.contains('predicta-button--secondary');
+        return element.classList.contains('button') ||
+          element.classList.contains('primary') ||
+          element.classList.contains('predicta-button--primary');
       }
       const primaryButtons = heroButtons.filter(element => {
         const text = (element.textContent || '').replace(/\\s+/g, ' ').trim();
-        return isPrimaryButton(element) && primaryPattern.test(text);
+        return isPrimaryButton(element) && primaryPattern.test(text) && element.closest('.evidence-room-proof-drawer') === null;
       });
-      const secondaryPattern = new RegExp(${JSON.stringify(route.secondaryText.source)}, ${JSON.stringify(route.secondaryText.flags)});
-      const dominantReportButtons = heroButtons.filter(element => {
-        const text = (element.textContent || '').replace(/\\s+/g, ' ').trim();
-        return isPrimaryButton(element) && secondaryPattern.test(text);
-      });
-      const secondaryReportButtons = heroButtons.filter(element => {
-        const text = (element.textContent || '').replace(/\\s+/g, ' ').trim();
-        return isSecondaryButton(element) && secondaryPattern.test(text);
-      });
-      const proofDisclosure = document.querySelector('.predicta-world-proof-disclosure');
-      const proofGrid = document.querySelector('.predicta-world-proof-disclosure .predicta-world-proof-grid');
+      const proofDisclosure = entry?.querySelector('.evidence-room-proof-drawer');
 
       return {
         summary: {
           clippedText: clippedText.length,
-          hasCollapsedProof: Boolean(
-            proofDisclosure &&
-            !proofDisclosure.open &&
-            (!proofGrid || window.getComputedStyle(proofGrid).display === 'none')
-          ),
-          hasSecondaryReportEntry: secondaryReportButtons.length >= 1 && dominantReportButtons.length === 0,
+          hasCollapsedProof: Boolean(proofDisclosure && !proofDisclosure.open),
+          hasDeferredDetailRoom: Boolean(deferredDetails && !deferredDetails.open),
+          hasEvidenceRoomEntry: Boolean(entry),
           hasSinglePrimaryHeroCta: primaryButtons.length === 1,
-          hasUniqueHeroInteraction: Boolean(document.querySelector('[data-audit1-phase6-hero-interaction="' + route.interaction + '"]')),
           horizontalOverflow: Math.max(
             0,
             Math.ceil(Math.max(root.scrollWidth, body.scrollWidth) - viewportWidth),
@@ -317,61 +305,6 @@ async function evaluateSpecialistRoom(cdp, route) {
   });
 
   return response.result.value;
-}
-
-async function openDeferredEvidenceRoom(cdp, room) {
-  await cdp.send('Runtime.evaluate', {
-    awaitPromise: true,
-    expression: `new Promise(resolve => {
-      let details;
-      const done = () =>
-        Boolean(
-          details?.querySelector('.predicta-world-hero') ||
-          document.querySelector('[data-audit1-phase6-hero-interaction="${room}"]'),
-        );
-
-      const openDetails = () => {
-        details = document.querySelector('[data-app-revival-deferred-evidence-room="${room}"]');
-
-        if (!details) {
-          return false;
-        }
-
-        if (!details.open) {
-          const summary = details.querySelector('summary');
-          if (summary) {
-            summary.click();
-          } else {
-            details.open = true;
-            details.dispatchEvent(new Event('toggle', { bubbles: true }));
-          }
-        }
-
-        return true;
-      };
-
-      openDetails();
-
-      if (done()) {
-        resolve(true);
-        return;
-      }
-
-      const timer = setInterval(() => {
-        openDetails();
-
-        if (done()) {
-          clearInterval(timer);
-          resolve(true);
-        }
-      }, 100);
-
-      setTimeout(() => {
-        clearInterval(timer);
-        resolve(false);
-      }, 8000);
-    })()`,
-  });
 }
 
 async function waitForChrome(debugPort) {

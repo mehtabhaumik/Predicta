@@ -13528,6 +13528,10 @@ html[data-predicta-language="gu"] .predicta-i18n-link-gu {
   color: var(--muted);
 }
 
+.vedic-intelligence-heading .report-download-actions {
+  margin-top: 16px;
+}
+
 .vedic-intelligence-snapshot,
 .vedic-chart-order article,
 .vedic-intelligence-card,

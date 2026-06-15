@@ -310,7 +310,8 @@ export function DashboardShell({
   const isTaskFlowRoute = DASHBOARD_TASK_FLOW_ROUTES.has(pathname);
   const canShowAskDock =
     !isChatRoute &&
-    !pathname.startsWith('/dashboard/admin');
+    !pathname.startsWith('/dashboard/admin') &&
+    !pathname.startsWith('/dashboard/report');
   const useCompactAskDock =
     canShowAskDock &&
     (isDashboardHomeRoute || isPrimaryWorldRoute || isTaskFlowRoute);

@@ -57,9 +57,9 @@
       "markerVisible": true
     },
     {
-      "fileName": "desktop-life-atlas.png",
-      "finalUrl": "http://127.0.0.1:3009/dashboard/report#report-lane-life-atlas",
-      "route": "/dashboard/report#report-lane-life-atlas",
+      "fileName": "desktop-report-composer.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
       "viewport": "desktop",
       "viewportWidth": 1440,
       "clippedText": 0,
@@ -123,9 +123,9 @@
       "markerVisible": true
     },
     {
-      "fileName": "tablet-life-atlas.png",
-      "finalUrl": "http://127.0.0.1:3009/dashboard/report#report-lane-life-atlas",
-      "route": "/dashboard/report#report-lane-life-atlas",
+      "fileName": "tablet-report-composer.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
       "viewport": "tablet",
       "viewportWidth": 834,
       "clippedText": 0,
@@ -189,9 +189,9 @@
       "markerVisible": true
     },
     {
-      "fileName": "mobile-life-atlas.png",
-      "finalUrl": "http://127.0.0.1:3009/dashboard/report#report-lane-life-atlas",
-      "route": "/dashboard/report#report-lane-life-atlas",
+      "fileName": "mobile-report-composer.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
       "viewport": "mobile",
       "viewportWidth": 390,
       "clippedText": 0,
@@ -255,9 +255,9 @@
       "markerVisible": true
     },
     {
-      "fileName": "narrow-mobile-life-atlas.png",
-      "finalUrl": "http://127.0.0.1:3009/dashboard/report#report-lane-life-atlas",
-      "route": "/dashboard/report#report-lane-life-atlas",
+      "fileName": "narrow-mobile-report-composer.png",
+      "finalUrl": "http://127.0.0.1:3009/dashboard/report",
+      "route": "/dashboard/report",
       "viewport": "narrow-mobile",
       "viewportWidth": 360,
       "clippedText": 0,
@@ -266,7 +266,7 @@
       "markerVisible": true
     }
   ],
-  "generatedAt": "2026-06-05T20:28:04.617Z",
+  "generatedAt": "2026-06-15T16:03:20.702Z",
   "phase": "PREDICTA_COMPETITOR_RESPONSE_PHASE_4_APP_SURFACE_PREDICTION_FIRST_UX_REBUILD",
   "screenshotRoot": "docs/audits/PREDICTA_COMPETITOR_RESPONSE_PHASE_4_APP_SURFACE_PREDICTION_FIRST_UX_REBUILD/screenshots",
   "status": "GREEN"

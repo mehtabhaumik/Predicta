@@ -349,11 +349,9 @@ export function WebKpPredictaPanel({
           },
         ]}
         primaryGuidance={{
-          body: t(
-            'Choose a ready question, write your own, or pick “guide me.” Predicta will refine vague wording into a KP-friendly question, then answer with verdict, support/block, timing readiness, and one next step.',
-          ),
+          body: focusMeaning.guidance,
           eyebrow: t('START HERE'),
-          title: t('Ask the event. Get the answer before the KP proof.'),
+          title: focusMeaning.whatItSays,
         }}
         localEyebrow={t('KP method')}
         localTitle={t('A dedicated KP precision world.')}
