@@ -1,0 +1,24 @@
+PREDICTA_REVIVAL_V2_PHASE_7_REPORT_VISUAL_PREMIUM_AND_PDF_ARTIFACT_GATE
+
+Verdict: GREEN after fresh current PDF artifact generation and rendered PNG review.
+
+Artifacts:
+- vedic-free: 46 pages, 2680521 bytes, FREE, KUNDLI, previews 4.
+- vedic-premium: 72 pages, 2821943 bytes, PREMIUM, KUNDLI, previews 4.
+- kp-free: 8 pages, 2470419 bytes, FREE, KP, previews 4.
+- kp-premium: 13 pages, 2485308 bytes, PREMIUM, KP, previews 4.
+- jaimini-free: 15 pages, 2507017 bytes, FREE, JAIMINI, previews 4.
+- jaimini-premium: 22 pages, 2541880 bytes, PREMIUM, JAIMINI, previews 4.
+- numerology-free: 12 pages, 2477337 bytes, FREE, NUMEROLOGY, previews 4.
+- numerology-premium: 16 pages, 2496548 bytes, PREMIUM, NUMEROLOGY, previews 4.
+- signature-free: 8 pages, 2459011 bytes, FREE, SIGNATURE, previews 4.
+- signature-premium: 9 pages, 2464102 bytes, PREMIUM, SIGNATURE, previews 4.
+- life-atlas-free: 14 pages, 2485229 bytes, FREE, LIFE_ATLAS, previews 4.
+- life-atlas-premium: 17 pages, 2501041 bytes, PREMIUM, LIFE_ATLAS, previews 4.
+
+Visual checks:
+- Fresh free and premium PDFs generated for Vedic, KP, Jaimini, Numerology, Signature, and Life Atlas.
+- Cover/chart/mid/final preview pages rendered for each artifact.
+- Sparse/orphan pages rejected through extracted page text density.
+- KUNDLI and KP chart preview images passed full-width chart geometry checks.
+- Source contracts lock Pearl Editorial, watermark, footer, chart-safe rendering, and compact app previews.

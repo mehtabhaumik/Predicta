@@ -1,0 +1,402 @@
+{
+  "generatedAt": "2026-06-15T20:17:37.731Z",
+  "phase": "PREDICTA_REVIVAL_V2_PHASE_7_REPORT_VISUAL_PREMIUM_AND_PDF_ARTIFACT_GATE",
+  "status": "GREEN",
+  "artifacts": [
+    {
+      "bytes": 2680521,
+      "chartMetrics": {
+        "width": 834,
+        "height": 1179,
+        "maxChartLineRun": 658,
+        "maxChartLineRunRatio": 0.789,
+        "row": 197
+      },
+      "id": "vedic-free",
+      "mode": "FREE",
+      "pageCount": 46,
+      "pdf": "artifacts/vedic-free.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/vedic-free/cover-page-01.png",
+          "size": 119233
+        },
+        {
+          "kind": "chart",
+          "path": "previews/vedic-free/chart-page-03.png",
+          "size": 81478
+        },
+        {
+          "kind": "mid",
+          "path": "previews/vedic-free/mid-page-24.png",
+          "size": 80895
+        },
+        {
+          "kind": "final",
+          "path": "previews/vedic-free/final-page-46.png",
+          "size": 81516
+        }
+      ],
+      "reportFocus": "KUNDLI"
+    },
+    {
+      "bytes": 2821943,
+      "chartMetrics": {
+        "width": 834,
+        "height": 1179,
+        "maxChartLineRun": 658,
+        "maxChartLineRunRatio": 0.789,
+        "row": 197
+      },
+      "id": "vedic-premium",
+      "mode": "PREMIUM",
+      "pageCount": 72,
+      "pdf": "artifacts/vedic-premium.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/vedic-premium/cover-page-01.png",
+          "size": 120216
+        },
+        {
+          "kind": "chart",
+          "path": "previews/vedic-premium/chart-page-03.png",
+          "size": 80921
+        },
+        {
+          "kind": "mid",
+          "path": "previews/vedic-premium/mid-page-37.png",
+          "size": 92108
+        },
+        {
+          "kind": "final",
+          "path": "previews/vedic-premium/final-page-72.png",
+          "size": 86027
+        }
+      ],
+      "reportFocus": "KUNDLI"
+    },
+    {
+      "bytes": 2470419,
+      "chartMetrics": {
+        "width": 834,
+        "height": 1179,
+        "maxChartLineRun": 658,
+        "maxChartLineRunRatio": 0.789,
+        "row": 197
+      },
+      "id": "kp-free",
+      "mode": "FREE",
+      "pageCount": 8,
+      "pdf": "artifacts/kp-free.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/kp-free/cover-page-01.png",
+          "size": 125804
+        },
+        {
+          "kind": "chart",
+          "path": "previews/kp-free/chart-page-03.png",
+          "size": 89000
+        },
+        {
+          "kind": "mid",
+          "path": "previews/kp-free/mid-page-05.png",
+          "size": 127639
+        },
+        {
+          "kind": "final",
+          "path": "previews/kp-free/final-page-08.png",
+          "size": 84414
+        }
+      ],
+      "reportFocus": "KP"
+    },
+    {
+      "bytes": 2485308,
+      "chartMetrics": {
+        "width": 834,
+        "height": 1179,
+        "maxChartLineRun": 658,
+        "maxChartLineRunRatio": 0.789,
+        "row": 197
+      },
+      "id": "kp-premium",
+      "mode": "PREMIUM",
+      "pageCount": 13,
+      "pdf": "artifacts/kp-premium.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/kp-premium/cover-page-01.png",
+          "size": 126819
+        },
+        {
+          "kind": "chart",
+          "path": "previews/kp-premium/chart-page-03.png",
+          "size": 89039
+        },
+        {
+          "kind": "mid",
+          "path": "previews/kp-premium/mid-page-07.png",
+          "size": 83825
+        },
+        {
+          "kind": "final",
+          "path": "previews/kp-premium/final-page-13.png",
+          "size": 84688
+        }
+      ],
+      "reportFocus": "KP"
+    },
+    {
+      "bytes": 2507017,
+      "id": "jaimini-free",
+      "mode": "FREE",
+      "pageCount": 15,
+      "pdf": "artifacts/jaimini-free.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/jaimini-free/cover-page-01.png",
+          "size": 125890
+        },
+        {
+          "kind": "chart",
+          "path": "previews/jaimini-free/chart-page-04.png",
+          "size": 75219
+        },
+        {
+          "kind": "mid",
+          "path": "previews/jaimini-free/mid-page-08.png",
+          "size": 98536
+        },
+        {
+          "kind": "final",
+          "path": "previews/jaimini-free/final-page-15.png",
+          "size": 83762
+        }
+      ],
+      "reportFocus": "JAIMINI"
+    },
+    {
+      "bytes": 2541880,
+      "id": "jaimini-premium",
+      "mode": "PREMIUM",
+      "pageCount": 22,
+      "pdf": "artifacts/jaimini-premium.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/jaimini-premium/cover-page-01.png",
+          "size": 126786
+        },
+        {
+          "kind": "chart",
+          "path": "previews/jaimini-premium/chart-page-04.png",
+          "size": 75222
+        },
+        {
+          "kind": "mid",
+          "path": "previews/jaimini-premium/mid-page-12.png",
+          "size": 124305
+        },
+        {
+          "kind": "final",
+          "path": "previews/jaimini-premium/final-page-22.png",
+          "size": 83777
+        }
+      ],
+      "reportFocus": "JAIMINI"
+    },
+    {
+      "bytes": 2477337,
+      "id": "numerology-free",
+      "mode": "FREE",
+      "pageCount": 12,
+      "pdf": "artifacts/numerology-free.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/numerology-free/cover-page-01.png",
+          "size": 130481
+        },
+        {
+          "kind": "chart",
+          "path": "previews/numerology-free/chart-page-04.png",
+          "size": 80349
+        },
+        {
+          "kind": "mid",
+          "path": "previews/numerology-free/mid-page-07.png",
+          "size": 82107
+        },
+        {
+          "kind": "final",
+          "path": "previews/numerology-free/final-page-12.png",
+          "size": 80552
+        }
+      ],
+      "reportFocus": "NUMEROLOGY"
+    },
+    {
+      "bytes": 2496548,
+      "id": "numerology-premium",
+      "mode": "PREMIUM",
+      "pageCount": 16,
+      "pdf": "artifacts/numerology-premium.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/numerology-premium/cover-page-01.png",
+          "size": 131344
+        },
+        {
+          "kind": "chart",
+          "path": "previews/numerology-premium/chart-page-04.png",
+          "size": 82264
+        },
+        {
+          "kind": "mid",
+          "path": "previews/numerology-premium/mid-page-09.png",
+          "size": 85817
+        },
+        {
+          "kind": "final",
+          "path": "previews/numerology-premium/final-page-16.png",
+          "size": 80774
+        }
+      ],
+      "reportFocus": "NUMEROLOGY"
+    },
+    {
+      "bytes": 2459011,
+      "id": "signature-free",
+      "mode": "FREE",
+      "pageCount": 8,
+      "pdf": "artifacts/signature-free.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/signature-free/cover-page-01.png",
+          "size": 127144
+        },
+        {
+          "kind": "chart",
+          "path": "previews/signature-free/chart-page-04.png",
+          "size": 84458
+        },
+        {
+          "kind": "mid",
+          "path": "previews/signature-free/mid-page-05.png",
+          "size": 99387
+        },
+        {
+          "kind": "final",
+          "path": "previews/signature-free/final-page-08.png",
+          "size": 85017
+        }
+      ],
+      "reportFocus": "SIGNATURE"
+    },
+    {
+      "bytes": 2464102,
+      "id": "signature-premium",
+      "mode": "PREMIUM",
+      "pageCount": 9,
+      "pdf": "artifacts/signature-premium.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/signature-premium/cover-page-01.png",
+          "size": 128083
+        },
+        {
+          "kind": "chart",
+          "path": "previews/signature-premium/chart-page-04.png",
+          "size": 84760
+        },
+        {
+          "kind": "mid",
+          "path": "previews/signature-premium/mid-page-05.png",
+          "size": 106425
+        },
+        {
+          "kind": "final",
+          "path": "previews/signature-premium/final-page-09.png",
+          "size": 85110
+        }
+      ],
+      "reportFocus": "SIGNATURE"
+    },
+    {
+      "bytes": 2485229,
+      "id": "life-atlas-free",
+      "mode": "FREE",
+      "pageCount": 14,
+      "pdf": "artifacts/life-atlas-free.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/life-atlas-free/cover-page-01.png",
+          "size": 127132
+        },
+        {
+          "kind": "chart",
+          "path": "previews/life-atlas-free/chart-page-04.png",
+          "size": 117314
+        },
+        {
+          "kind": "mid",
+          "path": "previews/life-atlas-free/mid-page-08.png",
+          "size": 92425
+        },
+        {
+          "kind": "final",
+          "path": "previews/life-atlas-free/final-page-14.png",
+          "size": 105992
+        }
+      ],
+      "reportFocus": "LIFE_ATLAS"
+    },
+    {
+      "bytes": 2501041,
+      "id": "life-atlas-premium",
+      "mode": "PREMIUM",
+      "pageCount": 17,
+      "pdf": "artifacts/life-atlas-premium.pdf",
+      "previews": [
+        {
+          "kind": "cover",
+          "path": "previews/life-atlas-premium/cover-page-01.png",
+          "size": 127943
+        },
+        {
+          "kind": "chart",
+          "path": "previews/life-atlas-premium/chart-page-04.png",
+          "size": 130810
+        },
+        {
+          "kind": "mid",
+          "path": "previews/life-atlas-premium/mid-page-09.png",
+          "size": 124677
+        },
+        {
+          "kind": "final",
+          "path": "previews/life-atlas-premium/final-page-17.png",
+          "size": 106073
+        }
+      ],
+      "reportFocus": "LIFE_ATLAS"
+    }
+  ],
+  "visualChecks": [
+    "fresh free and premium PDFs for all six report lanes",
+    "cover/chart/mid/final preview pages rendered as PNG",
+    "page density rejects sparse/orphan pages",
+    "Kundli/KP chart pages use full-width chart geometry metrics",
+    "Pearl Editorial, watermark, footer, chart-safe, and app preview source contracts verified"
+  ]
+}

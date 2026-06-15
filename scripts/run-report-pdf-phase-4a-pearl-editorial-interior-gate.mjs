@@ -16,6 +16,7 @@ async function assertExists(file) {
 
 const renderer = await readWorkspaceFile('packages/pdf/src/reportDocument.tsx');
 const phase = await readWorkspaceFile('docs/PREDICTA_REPORT_PDF_STRICT_PHASES.md');
+const uiTokens = await readWorkspaceFile('packages/ui-tokens/src/index.ts');
 
 for (const phrase of [
   'PREDICTA_REPORT_PDF_PHASE_4A_PEARL_EDITORIAL_INTERIOR_SYSTEM',
@@ -39,13 +40,26 @@ for (const phrase of [
   'SourceSerif4-Regular.ttf',
   'SourceSerif4-SemiBold.ttf',
   'SourceSerif4-Bold.ttf',
-  "background: '#F7F7F2'",
-  "ink: '#151925'",
-  "border: '#D9D1BF'",
+  "background: pdfThemeTokens.interior.background",
+  "ink: pdfThemeTokens.interior.ink",
+  "border: pdfThemeTokens.interior.border",
+  'backgroundColor: PDF_PAGE_TEMPLATES.interior.background',
+  'color: PDF_PAGE_TEMPLATES.interior.ink',
   'getDisplayTextStyle(report.language)',
   'fontFamily: documentFontFamily',
 ]) {
   assert.match(renderer, new RegExp(escapeRegExp(phrase)), `Pearl editorial type system includes ${phrase}`);
+}
+
+for (const phrase of [
+  "porcelain: '#F6F5F0'",
+  'pdfThemeTokens',
+  'background: semanticColors.porcelain',
+  "ink: '#151925'",
+  "border: '#D9D1BF'",
+  "panel: '#FDFCF8'",
+]) {
+  assert.match(uiTokens, new RegExp(escapeRegExp(phrase)), `Pearl editorial token system includes ${phrase}`);
 }
 
 for (const phrase of [

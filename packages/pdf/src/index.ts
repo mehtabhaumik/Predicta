@@ -1462,8 +1462,8 @@ function buildReportCover(
     return {
       ...baseCover,
       birthMomentSignature: [
-        `Hidden Thread: ${compactReportPhrase(atlas.hiddenThread, 48)}`,
-        `Current Chapter: ${compactReportPhrase(atlas.currentFocus, 48)}`,
+        `Hidden Thread: ${extractLifeAtlasCoverSignal(atlas.hiddenThread, 'hidden')}`,
+        `Current Chapter: ${extractLifeAtlasCoverSignal(atlas.currentFocus, 'current')}`,
         signatureLine,
       ],
       descriptor: 'A Predicta Life Atlas Synthesis Report',
@@ -1501,6 +1501,21 @@ function compactReportPhrase(value: string, maxLength: number): string {
   }
 
   return `${normalized.slice(0, Math.max(0, maxLength - 1)).trim()}…`;
+}
+
+function extractLifeAtlasCoverSignal(value: string, kind: 'hidden' | 'current'): string {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+  const match =
+    kind === 'hidden'
+      ? normalized.match(/turn\s+(.+?)\s+into/i)
+      : normalized.match(/make\s+(.+?)\s+cleaner/i);
+  const phrase = match?.[1]?.trim();
+
+  if (phrase) {
+    return phrase.charAt(0).toUpperCase() + phrase.slice(1);
+  }
+
+  return kind === 'hidden' ? 'Life pattern active' : 'Purpose into action';
 }
 
 function buildBaseCoverIdentity(
@@ -2318,6 +2333,9 @@ function buildVedicSnapshotReportSection(
   mode: PDFMode,
 ): PdfSection {
   const snapshot = intelligence.snapshot;
+  const chartOrderTitles = intelligence.chartOrder.map(item => item.title);
+  const focusChartOrder = chartOrderTitles.slice(0, 5).join(' -> ') || 'pending';
+  const remainingChartCount = Math.max(0, chartOrderTitles.length - 5);
 
   return {
     body:
@@ -2326,7 +2344,7 @@ function buildVedicSnapshotReportSection(
       `Lagna ${snapshot.lagna}; Moon ${snapshot.moonSign}; Nakshatra ${snapshot.nakshatra}.`,
       `Current dasha: ${snapshot.currentDasha}.`,
       `Strongest houses: ${snapshot.strongestHouses.join(', ') || 'pending'}. Weakest houses: ${snapshot.weakestHouses.join(', ') || 'pending'}.`,
-      `Chart order: ${intelligence.chartOrder.map(item => item.title).join(' -> ') || 'pending'}.`,
+      `Focus chart order: ${focusChartOrder}${remainingChartCount ? `, plus ${remainingChartCount} advanced varga charts.` : '.'}`,
     ],
     evidence: [
       `Reading prepared for ${intelligence.ownerName}; calculation refreshed ${intelligence.generatedAt}.`,
