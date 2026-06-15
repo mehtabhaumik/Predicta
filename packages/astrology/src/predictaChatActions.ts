@@ -1478,13 +1478,15 @@ function buildActionText({
     return joinSections([
       intro,
       [
-        synthesis.headline,
+        `Direct answer: ${synthesis.headline}`,
         `Timing: ${synthesis.timingWindow}`,
+        'Confidence: Medium. This combines decision posture, dasha, Gochar, life balance, and remedy support; treat it as planning guidance, not a forced outcome.',
+        `Action/remedy: ${synthesis.practicalStep}. ${synthesis.sadhanaSupport}`,
         `Guidance: ${synthesis.decisionGuidance}`,
         `Next step: ${synthesis.practicalStep}`,
         `Life balance: ${synthesis.purusharthaLens}`,
         `Karma support: ${synthesis.sadhanaSupport}`,
-        proof ? `Proof:\n${proof}` : '',
+        proof ? `Evidence:\n${proof}` : '',
         `Boundary: ${synthesis.guardrails[0]}`,
       ]
         .filter(Boolean)
@@ -2415,8 +2417,11 @@ function buildKundliKarmaLocalMemoryReply({
       .join('\n');
     return [
       'Direct answer: your Kundli Karma snapshot is ready from calculated Predicta memory. No AI credit is needed.',
+      'Timing: active conditions should be judged through their dasha/transit activation, not fear or instant conclusions.',
+      'Confidence: Medium. This snapshot ranks deterministic Dosh, Shrap, Yog, and Lal Kitab signals but still keeps remedies proportional.',
       snapshot.summary,
       top ? `Top active conditions:\n${top}` : 'No major active condition is ranked in the implemented deterministic checks.',
+      `Evidence: ${snapshot.rankedConditions.slice(0, 3).map(condition => condition.item.displayName).join(', ') || 'No ranked condition is active yet.'}`,
       snapshot.topRemedy
         ? `Start safely with: ${snapshot.topRemedy.title}. ${snapshot.topRemedy.description}`
         : 'Start safely with one simple karma/dharma correction instead of fear-based remedies.',
@@ -2432,7 +2437,10 @@ function buildKundliKarmaLocalMemoryReply({
   if (!item) {
     return [
       'Direct answer: I can read Kundli Karma when the Dosh, Shrap, Yog, or Lal Kitab item is identifiable in your calculated chart. No AI credit is needed.',
+      'Timing: pending until a specific active item is selected.',
+      'Confidence: Low for this broad request because I need one condition to avoid generic fear-selling.',
       snapshot.summary,
+      `Evidence: ${snapshot.rankedConditions.slice(0, 3).map(condition => condition.item.displayName).join(', ') || 'No ranked condition is active yet.'}`,
       'Useful next questions: "explain my strongest Dosh", "why is this Shrap present", "show my supportive Yog", or "give Lal Kitab upay".',
     ].join('\n\n');
   }
@@ -2440,6 +2448,9 @@ function buildKundliKarmaLocalMemoryReply({
   if (item.status === 'not_present' || item.status === 'blocked_context') {
     return [
       `Direct answer: ${item.displayName} is ${formatKundliKarmaStatus(item.status)} in this check.`,
+      `Timing: ${item.activation.summary}`,
+      `Confidence: ${item.confidence}.`,
+      `Evidence:\n${formatKundliKarmaEvidence(item)}`,
       item.whyPresent,
       item.meaningForUser,
       item.status === 'blocked_context'
@@ -2452,6 +2463,8 @@ function buildKundliKarmaLocalMemoryReply({
   if (item.status === 'needs_data' || item.status === 'pending_evidence') {
     return [
       `Direct answer: ${item.displayName} is ${formatKundliKarmaStatus(item.status)} right now.`,
+      `Timing: ${item.activation.summary}`,
+      `Confidence: ${item.confidence}.`,
       item.whyPresent,
       item.meaningForUser,
       item.evidence.length
@@ -2477,7 +2490,7 @@ function buildKundliKarmaLocalMemoryReply({
     `Why this appears: ${item.whyPresent}`,
     `Evidence:\n${formatKundliKarmaEvidence(item)}`,
     `What it means for you: ${item.meaningForUser}`,
-    `Activation: ${item.activation.summary}`,
+    `Timing: ${item.activation.summary}`,
     reductions
       ? `What softens or reduces it:\n${reductions}`
       : 'What softens it: no strong cancellation is recorded in this deterministic check, so use the remedy gently and keep the reading proportional.',
@@ -2975,6 +2988,13 @@ function buildKpPredictaReply(
   const ruling = kp.rulingPlanets
     ? `Ruling planets: day ${kp.rulingPlanets.dayLord}, Moon star ${kp.rulingPlanets.moonStarLord}, Lagna sub ${kp.rulingPlanets.lagnaSubLord}.`
     : '';
+  const nextAction = kp.eventJudgement.nextQuestion || 'Ask one exact event question so KP can judge promise, block, timing, and proof.';
+  const confidenceLabel =
+    kp.eventJudgement.confidence === 'clear'
+      ? 'High'
+      : kp.eventJudgement.confidence === 'partial'
+        ? 'Medium'
+        : 'Low';
 
   if (language === 'hi') {
     return [
@@ -3005,10 +3025,18 @@ function buildKpPredictaReply(
   }
 
   return [
-    'KP Predicta mode: I will answer only from KP cusps, star lords, sub lords, significators, and ruling planets.',
-    `Event verdict: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
+    `Direct answer: ${kp.eventJudgement.verdictLabel}. ${kp.eventJudgement.plainLanguage}`,
+    `Timing: ${kp.eventJudgement.timingReadiness}`,
+    `Confidence: ${confidenceLabel}. ${kp.eventJudgement.promise}`,
+    `Action/remedy: ${nextAction}`,
     kp.freeInsight,
-    cuspLine ? `Cusps:\n${cuspLine}` : '',
+    `Evidence:\n${[
+      cuspLine,
+      kp.eventJudgement.promise,
+      kp.eventJudgement.mainBlock,
+    ]
+      .filter(Boolean)
+      .join(' | ') || 'KP proof is pending richer cusp/sub-lord data.'}`,
     significators ? `Significators:\n${significators}` : '',
     ruling,
     hasPremiumAccess ? kp.premiumSynthesis : foundation.premiumUnlock,
@@ -3053,6 +3081,7 @@ function buildJaiminiPredictaReply(
     ? interpretation.premiumBlocks.slice(0, 4)
     : interpretation.freeBlocks.slice(0, 3);
   const firstBlock = blocks[0];
+  const jaiminiAction = firstBlock?.guidance ?? 'Use the destiny direction as a decision filter before forcing a timing promise.';
   const premiumLine = hasPremiumAccess
     ? 'Premium Jaimini depth is active: I can connect soul role, work role, relationship mirror, visible identity, and timing chapter into one sharper action map.'
     : 'Premium Jaimini adds fuller karaka evidence, visible identity, relationship mirror, Chara Dasha depth, and report-ready synthesis.';
@@ -3088,10 +3117,10 @@ function buildJaiminiPredictaReply(
   }
 
   return [
-    'Jaimini Predicta mode: I will read through soul role, visible identity, career dharma, relationship mirror, and destiny chapters.',
-    interpretation.summary,
-    firstBlock ? `${firstBlock.title}: ${firstBlock.prediction}` : undefined,
-    firstBlock ? `Next step: ${firstBlock.guidance}` : undefined,
+    `Direct answer: ${firstBlock?.prediction ?? interpretation.summary}`,
+    'Timing: Jaimini gives destiny direction first; exact timing should be confirmed through dasha/KP when the question needs a date window.',
+    'Confidence: Medium. This is destiny-direction evidence, not a stand-alone event verdict.',
+    `Action/remedy: ${jaiminiAction}`,
     interpretation.technicalEvidence.length
       ? `Evidence:\n${interpretation.technicalEvidence.slice(0, 4).map(item => `- ${item}`).join('\n')}`
       : undefined,
@@ -3251,13 +3280,14 @@ function buildNumerologyPredictaReply(
   }
 
   return [
-    'Numerology Predicta mode: I will read from name and DOB numbers, not Parashari, KP, or Jaimini logic unless you ask for synthesis.',
+    `Direct answer: ${profile.summary}`,
+    `Timing: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
+    'Confidence: Medium. Numerology is a timing-color and name-rhythm layer, not a hard event promise by itself.',
+    `Action/remedy: use today as a ${profile.personalDay.label.toLowerCase()} day; keep decisions aligned with the current cycle instead of forcing everything at once.`,
     `${profile.name}: name number ${profile.nameNumber.root} (${profile.nameNumber.label}), birth number ${profile.birthNumber.root} (${profile.birthNumber.label}), destiny number ${profile.destinyNumber.root} (${profile.destinyNumber.label}).`,
-    `Current rhythm: personal year ${profile.personalYear.root}, month ${profile.personalMonth.root}, day ${profile.personalDay.root}.`,
-    `Useful insight: ${profile.summary}`,
     strengths ? `Strengths: ${strengths}` : '',
     cautions ? `Care points: ${cautions}` : '',
-    proof ? `Number proof:\n${proof}` : '',
+    proof ? `Evidence:\n${proof}` : '',
     premiumLine,
   ]
     .filter(Boolean)
@@ -3471,12 +3501,17 @@ function buildSignaturePredictaReply(
 
   if (analysis.status === 'ready') {
     return [
-      'Signature Predicta mode: I will read only from the confirmed signature traits, not hidden identity or document authenticity.',
+      `Direct answer: ${analysis.summary}`,
+      'Signature Predicta mode: reflective confirmed-trait reading only.',
+      'Timing: this reflects the current signature sample/session only; repeat samples can show whether the expression pattern is stable or changing.',
+      'Confidence: Medium reflective confidence. Signature is reflective guidance, not prediction or forensic proof.',
+      `Action/remedy: ${analysis.improvementPlan.slice(0, 2).join(' ')}`,
+      `Improvement plan: ${analysis.improvementPlan.slice(0, 4).join(' ')}`,
       `Observed traits: ${analysis.observedTraits.map(trait => `${trait.label} ${trait.value}`).join(', ')}.`,
       `Writing rhythm: ${analysis.rhythm.summary}`,
       `Confidence expression: ${analysis.confidenceExpression.summary}`,
       `Consistency: ${analysis.consistency.summary}`,
-      `Improvement plan: ${analysis.improvementPlan.slice(0, 4).join(' ')}`,
+      `Evidence: ${analysis.evidence.slice(0, 3).join(' | ')}`,
       analysis.synthesisReadiness.rule,
       analysis.safetyBoundaries.join(' '),
       premiumLine,

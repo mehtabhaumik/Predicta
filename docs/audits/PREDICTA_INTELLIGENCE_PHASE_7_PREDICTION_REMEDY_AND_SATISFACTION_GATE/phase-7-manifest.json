@@ -1,0 +1,65 @@
+{
+  "phase": "PREDICTA_INTELLIGENCE_PHASE_7_PREDICTION_REMEDY_AND_SATISFACTION_GATE",
+  "status": "green",
+  "strictAudit": true,
+  "transcriptAssertions": {
+    "actionOrRemedy": true,
+    "confidence": true,
+    "evidence": true,
+    "noSchoolingTone": true,
+    "predictionOrGuidanceFirst": true,
+    "timingWhereAvailable": true
+  },
+  "transcript": [
+    {
+      "action": "multi-school-consultation",
+      "id": "career-promotion-job-change",
+      "preview": "Yes. I can do that right here. I am checking timing first. KP is useful here because this is an event question. Direct answer: Delayed: Recognition is possible, but the proof still needs stronger support from authority/timing indicators. Conflicting evidence suggests the result may take longer or need one more trigger before opening smoothly. Timing: Venus/Saturn active window. This is a practical timing window, not "
+    },
+    {
+      "action": "multi-school-consultation",
+      "id": "foreign-travel-relocation",
+      "preview": "Yes. I can do that right here. I am checking timing first. KP is useful here because this is an event question. Direct answer: Delayed: Foreign movement is possible, but Predicta needs cleaner timing before calling it a strong opening. Conflicting evidence suggests the result may take longer or need one more trigger before opening smoothly. Timing: Venus/Saturn active window. This is a practical timing window, not a "
+    },
+    {
+      "action": "multi-school-consultation",
+      "id": "marriage-relationship-timing",
+      "preview": "Yes. I can do that right here. I am checking timing first. KP is useful here because this is an event question. Direct answer: Delayed: Marriage is possible, but Predicta needs cleaner commitment and timing proof before calling a strong window. Conflicting evidence suggests the result may take longer or need one more trigger before opening smoothly. Timing: Venus/Saturn active window. This is a practical timing windo"
+    },
+    {
+      "action": "decision-timing",
+      "id": "money-property",
+      "preview": "Yes. I can do that right here. Direct answer: Wealth timing: Green means the chart supports a careful wealth move, as long as practical facts agree. Timing: Wealth decisions should be tested inside the current Venus/Saturn period, ending 2027-08-22. Confidence: Medium. This combines decision posture, dasha, Gochar, life balance, and remedy support; treat it as planning guidance, not a forced outcome. Action/remedy: T"
+    },
+    {
+      "action": "multi-school-consultation",
+      "id": "family-child-matching",
+      "preview": "Yes. I can do that right here. I am checking timing first. KP is useful here because this is an event question. Direct answer: Delayed: Progress is possible, but the evidence asks for patience and one more layer of clarity. Conflicting evidence suggests the result may take longer or need one more trigger before opening smoothly. Timing: Venus/Saturn active window. This is a practical timing window, not a guaranteed d"
+    },
+    {
+      "action": "kp-predicta",
+      "id": "kp-event-question",
+      "preview": "Yes. I can do that right here. Direct answer: Not enough proof. KP is reading the strongest visible outcome signals now; a future exact event question can narrow timing later. Timing: Timing is not ready for a strong statement yet because ruling planets are missing. Confidence: Low. The promise is pending until significators are available. Action/remedy: If a real decision is in front of the user, KP can narrow the p"
+    },
+    {
+      "action": "jaimini-predicta",
+      "id": "jaimini-destiny-direction",
+      "preview": "Yes. I can do that right here. Direct answer: The deeper pattern is that responsibility, desire, and turning points will repeatedly push you back toward communication, learning, trade, and flexible intelligence. When you avoid that lane, life can feel scattered; when you accept it, your decisions become cleaner and your confidence becomes less dependent on applause. Timing: Jaimini gives destiny direction first; exac"
+    },
+    {
+      "action": "numerology-predicta",
+      "id": "numerology-cycle",
+      "preview": "Yes. I can do that right here. Direct answer: Bhaumik Mehta carries name number 4, birth number 4, and destiny number 3. Today sits in a personal day 7 rhythm. Timing: personal year 4, month 1, day 7. Confidence: Medium. Numerology is a timing-color and name-rhythm layer, not a hard event promise by itself. Action/remedy: use today as a seeker day; keep decisions aligned with the current cycle instead of forcing ever"
+    },
+    {
+      "action": "signature-predicta",
+      "id": "signature-reflection",
+      "preview": "Yes. I can do that right here. Direct answer: Signature reading is ready from 7 visual traits. Main signals: Upward baseline, Moderate flourish, Partly readable signature. Signature Predicta mode: reflective confirmed-trait reading only. Timing: this reflects the current signature sample/session only; repeat samples can show whether the expression pattern is stable or changing. Confidence: Medium reflective confidenc"
+    },
+    {
+      "action": "kundli-karma",
+      "id": "kundli-karma-remedy",
+      "preview": "Yes. I can do that right here. Direct answer: your Kundli Karma snapshot is ready from calculated Predicta memory. No AI credit is needed. Timing: active conditions should be judged through their dasha/transit activation, not fear or instant conclusions. Confidence: Medium. This snapshot ranks deterministic Dosh, Shrap, Yog, and Lal Kitab signals but still keeps remedies proportional. Predicta ranked Lal Kitab Saturn"
+    }
+  ]
+}

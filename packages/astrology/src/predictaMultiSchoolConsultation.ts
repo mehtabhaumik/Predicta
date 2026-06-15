@@ -424,10 +424,11 @@ function buildReply({
   prediction: EventOraclePredictionObject;
 }): string {
   return [
-    prediction.directAnswer,
+    `Direct answer: ${prediction.directAnswer}`,
     `Timing: ${prediction.timingWindow.label}. ${prediction.timingWindow.honestyNote}`,
     `Most likely trigger: ${prediction.mostLikelyTrigger.summary}`,
     `Confidence: ${prediction.confidence.label} (${prediction.confidence.score}/100). ${prediction.confidence.explanation}`,
+    `Action/remedy: ${nextAction}`,
     evidenceUsed.length
       ? `Evidence used:\n${evidenceUsed.slice(0, 5).map(item => `- ${item}`).join('\n')}`
       : 'Evidence used: not enough source evidence is ready yet.',

@@ -50,7 +50,7 @@ export function resolveAtmakaraka(kundli: KundliData): PlanetPosition | undefine
 }
 
 export function buildSwamsaChart(kundli?: KundliData): ChartData | undefined {
-  const navamsa = kundli?.charts.D9;
+  const navamsa = kundli?.charts?.D9;
 
   if (!kundli || !navamsa?.supported || !navamsa.ascendantSign) {
     return undefined;
@@ -64,7 +64,7 @@ export function buildSwamsaChart(kundli?: KundliData): ChartData | undefined {
 }
 
 export function buildKarakamshaChart(kundli?: KundliData): ChartData | undefined {
-  const navamsa = kundli?.charts.D9;
+  const navamsa = kundli?.charts?.D9;
   const atmakaraka = kundli ? resolveAtmakaraka(kundli) : undefined;
   const navamsaAtmakaraka = atmakaraka
     ? navamsa?.planetDistribution.find(planet => planet.name === atmakaraka.name)
