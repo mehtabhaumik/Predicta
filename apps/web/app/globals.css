@@ -26864,3 +26864,226 @@ input:not([type='radio']):not([type='checkbox']):not([type='hidden']):not([type=
     gap: var(--predicta-space-action-gap-tight);
   }
 }
+
+/* Revival V2 Phase 4: mobile/tablet app-feel contract. Phones and tablets get their own rhythm. */
+@media (max-width: 1024px) {
+  :root {
+    --predicta-mobile-shell-gap: clamp(16px, 2.2vw, 24px);
+    --predicta-mobile-card-padding: clamp(16px, 2.4vw, 24px);
+  }
+
+  .main-workspace {
+    padding: clamp(18px, 2.6vw, 28px);
+  }
+
+  .dashboard-page,
+  .predicta-world-page,
+  .dossier-preview,
+  .ask-light-shell {
+    gap: var(--predicta-mobile-shell-gap);
+  }
+
+  .predicta-world-hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--predicta-mobile-card-padding);
+  }
+
+  .predicta-world-aside {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .predicta-world-local-grid,
+  .predicta-world-proof-grid,
+  .predicta-world-focus-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .report-marketplace,
+  .report-quick-composer,
+  .report-builder,
+  .report-download-stage {
+    padding: var(--predicta-mobile-card-padding);
+  }
+
+  .chat-panel,
+  .predicta-chat-page .chat-panel {
+    min-height: min(680px, calc(100dvh - 168px));
+  }
+}
+
+@media (max-width: 834px) {
+  .dashboard-shell.has-ask-dock .main-workspace,
+  .dashboard-shell.has-compact-ask-dock .main-workspace {
+    padding-bottom: max(304px, calc(274px + env(safe-area-inset-bottom)));
+  }
+
+  .predicta-world-aside,
+  .predicta-world-local-grid,
+  .predicta-world-proof-grid,
+  .predicta-world-focus-grid,
+  .plain-summary-grid,
+  .selected-chart-insight-grid,
+  .gochar-summary-grid,
+  .family-map-summary-grid,
+  .matchmaking-summary-grid,
+  .pair-comparison-selector-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .report-marketplace-header,
+  .report-selected-panel,
+  .report-builder-header,
+  .report-download-hero {
+    align-items: stretch;
+  }
+
+  .predicta-chat-page .chat-input-row {
+    bottom: max(0px, env(safe-area-inset-bottom));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 430px) {
+  .web-shell,
+  .dashboard-shell,
+  .predicta-chat-page {
+    overflow-x: clip;
+  }
+
+  .landing-chat-first-main {
+    padding-inline: var(--predicta-space-page-mobile);
+  }
+
+  .landing-ask-hero {
+    align-content: center;
+    min-height: max(580px, calc(100svh - 84px));
+  }
+
+  .landing-ask-console,
+  .ask-light-console {
+    border-radius: 20px;
+    padding: 14px;
+  }
+
+  .landing-ask-field textarea,
+  .ask-light-field textarea {
+    min-height: 118px;
+  }
+
+  .ask-predicta-main {
+    min-height: 100svh;
+    padding: 14px var(--predicta-space-page-mobile) max(18px, env(safe-area-inset-bottom));
+  }
+
+  .ask-light-copy h1 {
+    font-size: clamp(30px, 10vw, 42px);
+    line-height: 0.98;
+  }
+
+  .ask-light-support-copy,
+  .ask-light-trust-note,
+  .ask-light-voice-note {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .ask-light-actions,
+  .landing-ask-actions {
+    display: grid;
+    gap: var(--predicta-space-action-gap-tight);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ask-light-actions .button,
+  .landing-ask-actions .button {
+    width: 100%;
+  }
+
+  .main-workspace {
+    padding: 16px;
+  }
+
+  .dashboard-shell.has-ask-dock .main-workspace,
+  .dashboard-shell.has-compact-ask-dock .main-workspace {
+    padding-bottom: max(304px, calc(274px + env(safe-area-inset-bottom)));
+  }
+
+  .dashboard-ask-dock {
+    bottom: max(10px, env(safe-area-inset-bottom));
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+
+  .dashboard-ask-dock-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard-ask-dock-copy {
+    text-align: left;
+  }
+
+  .report-inline-composer.primary,
+  .report-inline-composer,
+  .predicta-world-primary-guidance,
+  .predicta-world-phase4-guidance,
+  .school-answer-first,
+  .signature-input-card,
+  .signature-input-hero {
+    border-radius: 18px;
+    padding: 16px;
+  }
+
+  .predicta-world-local-card,
+  .predicta-world-proof-card,
+  .predicta-world-focus-grid article,
+  .report-choice-card,
+  .report-product-card {
+    min-height: 64px;
+  }
+}
+
+@media (max-width: 390px) {
+  .landing-question-chips :is(button, a):nth-child(n + 3),
+  .ask-light-chips :is(button, a):nth-child(n + 3) {
+    display: none;
+  }
+
+  .dashboard-ask-dock-field span {
+    display: none;
+  }
+
+  .report-inline-composer.primary h3,
+  .report-inline-composer h3 {
+    font-size: clamp(24px, 8.5vw, 30px);
+  }
+}
+
+@media (max-width: 360px) {
+  .main-workspace,
+  .predicta-page-shell,
+  .dashboard-content,
+  .report-marketplace,
+  .report-quick-composer,
+  .predicta-world-hero,
+  .signature-input-card,
+  .signature-input-hero {
+    padding-inline: 14px;
+  }
+
+  .dashboard-ask-dock {
+    left: 10px;
+    right: 10px;
+  }
+
+  .dashboard-ask-dock strong {
+    font-size: 12px;
+  }
+
+  .button,
+  .predicta-button,
+  button,
+  [role='button'] {
+    letter-spacing: normal;
+  }
+}
