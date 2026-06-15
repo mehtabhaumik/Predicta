@@ -187,6 +187,7 @@
     "test:revival-v2-phase-7": "node scripts/run-revival-v2-phase-7-report-visual-artifact-gate.mjs",
     "test:revival-v2-phase-8": "node scripts/run-revival-v2-phase-8-predicta-mastery-chat-gate.mjs",
     "test:revival-v2-phase-9": "node scripts/run-revival-v2-phase-9-translation-zero-leak-gate.mjs",
+    "test:revival-v2-phase-10": "node scripts/run-revival-v2-phase-10-performance-link-golden-journey-gate.mjs",
     "test:predicta-intelligence-phase-1": "node scripts/run-predicta-intelligence-phase-1-response-contract-gate.mjs",
     "test:predicta-intelligence-phase-2": "node scripts/run-predicta-intelligence-phase-2-router-gate.mjs",
     "test:predicta-intelligence-phase-3": "node scripts/run-predicta-intelligence-phase-3-app-function-mastery-gate.mjs",
