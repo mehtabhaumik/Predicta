@@ -2,6 +2,7 @@ import {
   formatNativeCopy,
   getNativeCopy,
   getPredictaMicroMessage,
+  getPredictaResponseOpening,
 } from '@pridicta/config';
 import type {
   ChartContext,
@@ -111,13 +112,31 @@ export type PredictaProviderDecisionLabel =
 
 export type PredictaInteractionMemory = {
   actionCounts: Partial<Record<PredictaAppActionId, number>>;
+  activeContext?: PredictaActiveConversationContext;
   chartSignatures: string[];
   firstSeenAt: string;
   lastAction?: PredictaAppActionId;
+  lastUserGoal?: string;
   preferredLanguageStyle?: SupportedLanguage;
   lastSeenAt: string;
   learnedThemes: string[];
+  recentOpenings?: string[];
+  recentResponsePatterns?: string[];
+  recentUpsellActions?: PredictaAppActionId[];
   totalTurns: number;
+};
+
+export type PredictaActiveConversationContext = {
+  eventQuestion?: string;
+  kundliSignature?: string;
+  lastUserGoal?: string;
+  passState?: 'active' | 'careful' | 'exhausted' | 'unknown';
+  reportContext?: string;
+  school?: PredictaSchool;
+  selectedChart?: string;
+  selectedHouse?: number;
+  selectedPlanet?: string;
+  signatureReady?: boolean;
 };
 
 export type PredictaActionRequest = {
@@ -600,6 +619,10 @@ export function buildPredictaActionReply({
     routerDecision.action,
     kundli,
     responseLanguage,
+    {
+      chartContext,
+      predictaSchool,
+    },
   );
 
   if (!routerDecision.action) {
@@ -771,6 +794,13 @@ export function learnPredictaInteraction(
   action?: PredictaAppActionId,
   kundli?: KundliData,
   responseLanguage?: SupportedLanguage,
+  context: {
+    chartContext?: ChartContext;
+    passState?: PredictaActiveConversationContext['passState'];
+    predictaSchool?: PredictaSchool;
+    reportContext?: string;
+    signatureReady?: boolean;
+  } = {},
 ): PredictaInteractionMemory {
   const now = new Date().toISOString();
   const current = memory ?? {
@@ -789,21 +819,51 @@ export function learnPredictaInteraction(
   const chartSignatures = kundli
     ? mergeUnique(current.chartSignatures, [chartSignature(kundli)], 8)
     : current.chartSignatures;
+  const nextActionCount = action ? (current.actionCounts[action] ?? 0) + 1 : 0;
+  const activeContext = buildActiveConversationContext({
+    action,
+    chartContext: context.chartContext,
+    current: current.activeContext,
+    kundli,
+    passState: context.passState,
+    predictaSchool: context.predictaSchool,
+    reportContext: context.reportContext,
+    signatureReady: context.signatureReady,
+    text,
+  });
+  const lastUserGoal = inferLastUserGoal(text, action) ?? current.lastUserGoal;
 
   return {
     ...current,
     actionCounts: action
       ? {
           ...current.actionCounts,
-          [action]: (current.actionCounts[action] ?? 0) + 1,
+          [action]: nextActionCount,
         }
       : current.actionCounts,
+    activeContext,
     chartSignatures,
     lastAction: action ?? current.lastAction,
+    lastUserGoal,
     lastSeenAt: now,
     learnedThemes,
     preferredLanguageStyle:
       responseLanguage ?? current.preferredLanguageStyle,
+    recentOpenings: action
+      ? mergeUnique(
+          current.recentOpenings ?? [],
+          [buildOpeningPatternId(action, nextActionCount)],
+          6,
+        )
+      : current.recentOpenings,
+    recentResponsePatterns: mergeUnique(
+      current.recentResponsePatterns ?? [],
+      buildResponsePatternIds(action, text),
+      10,
+    ),
+    recentUpsellActions: action
+      ? mergeUnique(current.recentUpsellActions ?? [], [action], 6)
+      : current.recentUpsellActions,
     totalTurns: current.totalTurns + 1,
   };
 }
@@ -1169,11 +1229,11 @@ function buildActionText({
   predictaSchool?: PredictaSchool;
 }): string {
   const intro = joinSections([
-    actionIntro(language),
+    actionIntro(language, memory, action),
     buildMicroPrelude({ action, kundli, language, text }),
   ]);
   const insight = buildMemoryInsight(language, memory, kundli, savedKundlis);
-  const upsell = buildUpsell(language, action, hasPremiumAccess);
+  const upsell = buildUpsell(language, action, hasPremiumAccess, memory);
 
   if (action === 'concierge') {
     return joinSections([
@@ -1238,7 +1298,7 @@ function buildActionText({
         savedKundlis,
       }),
       insight,
-      buildUpsell(language, 'wow-radar', hasPremiumAccess),
+      buildUpsell(language, 'wow-radar', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1274,7 +1334,7 @@ function buildActionText({
       intro,
       buildJaiminiPredictaReply(language, kundli, hasPremiumAccess),
       insight,
-      buildUpsell(language, 'jaimini-predicta', hasPremiumAccess),
+      buildUpsell(language, 'jaimini-predicta', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1291,7 +1351,7 @@ function buildActionText({
       intro,
       buildNumerologyPredictaReply(language, kundli, hasPremiumAccess),
       insight,
-      buildUpsell(language, 'numerology-predicta', hasPremiumAccess),
+      buildUpsell(language, 'numerology-predicta', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1308,7 +1368,7 @@ function buildActionText({
       intro,
       buildSignaturePredictaReply(language, text, hasPremiumAccess),
       insight,
-      buildUpsell(language, 'signature-predicta', hasPremiumAccess),
+      buildUpsell(language, 'signature-predicta', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1331,7 +1391,7 @@ function buildActionText({
         text,
       }),
       insight,
-      buildUpsell(language, 'kundli-karma', hasPremiumAccess),
+      buildUpsell(language, 'kundli-karma', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1346,7 +1406,7 @@ function buildActionText({
         text,
       }),
       insight,
-      buildUpsell(language, 'multi-school-consultation', hasPremiumAccess),
+      buildUpsell(language, 'multi-school-consultation', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1430,7 +1490,7 @@ function buildActionText({
         .filter(Boolean)
         .join('\n'),
       insight,
-      buildUpsell(language, 'decision-timing', hasPremiumAccess),
+      buildUpsell(language, 'decision-timing', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1454,7 +1514,7 @@ function buildActionText({
       intro,
       buildAdvancedJyotishReply(language, coverage, hasPremiumAccess),
       insight,
-      buildUpsell(language, 'advanced-jyotish', hasPremiumAccess),
+      buildUpsell(language, 'advanced-jyotish', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1490,7 +1550,7 @@ function buildActionText({
       intro,
       buildYearlyHoroscopeReply(language, yearly, hasPremiumAccess),
       insight,
-      buildUpsell(language, 'yearly-horoscope', hasPremiumAccess),
+      buildUpsell(language, 'yearly-horoscope', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1502,7 +1562,7 @@ function buildActionText({
       intro,
       buildBhavChalitReply(language, foundation, hasPremiumAccess),
       insight,
-      buildUpsell(language, 'bhav-chalit', hasPremiumAccess),
+      buildUpsell(language, 'bhav-chalit', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1514,7 +1574,7 @@ function buildActionText({
       intro,
       buildKpPredictaReply(language, foundation, hasPremiumAccess),
       insight,
-      buildUpsell(language, 'kp-predicta', hasPremiumAccess),
+      buildUpsell(language, 'kp-predicta', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1551,7 +1611,7 @@ function buildActionText({
         `Proof: ${guidance.evidence.slice(0, 3).join(' | ')}`,
       ].join('\n'),
       insight,
-      buildUpsell(language, 'holistic-daily-guidance', hasPremiumAccess),
+      buildUpsell(language, 'holistic-daily-guidance', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1587,7 +1647,7 @@ function buildActionText({
         `Proof: ${panchang.evidence.slice(0, 2).join(' | ')}`,
       ].join('\n'),
       insight,
-      buildUpsell(language, 'personal-panchang', hasPremiumAccess),
+      buildUpsell(language, 'personal-panchang', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1606,7 +1666,7 @@ function buildActionText({
         `Available rooms: ${rooms.rooms.map(room => room.title).join(', ')}`,
       ].join('\n'),
       insight,
-      buildUpsell(language, 'holistic-reading-rooms', hasPremiumAccess),
+      buildUpsell(language, 'holistic-reading-rooms', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1639,7 +1699,7 @@ function buildActionText({
         `Boundary: ${path.guardrails[0]}`,
       ].join('\n'),
       insight,
-      buildUpsell(language, 'sadhana-remedy-path', hasPremiumAccess),
+      buildUpsell(language, 'sadhana-remedy-path', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1766,6 +1826,8 @@ function buildActionText({
   }
 
   if (action === 'chart') {
+    const strongestHouses = getAshtakavargaHouseList(kundli, 'strongestHouses');
+    const weakestHouses = getAshtakavargaHouseList(kundli, 'weakestHouses');
     return joinSections([
       intro,
       [
@@ -1773,12 +1835,8 @@ function buildActionText({
         `Lagna: ${kundli.lagna}`,
         `Moon: ${kundli.moonSign} in ${kundli.nakshatra}`,
         `Current dasha: ${kundli.dasha.current.mahadasha}/${kundli.dasha.current.antardasha}`,
-        `Strong houses: ${kundli.ashtakavarga.strongestHouses
-          .slice(0, 3)
-          .join(', ')}`,
-        `Pressure houses: ${kundli.ashtakavarga.weakestHouses
-          .slice(0, 3)
-          .join(', ')}`,
+        `Strong houses: ${strongestHouses.slice(0, 3).join(', ') || 'not available yet'}`,
+        `Pressure houses: ${weakestHouses.slice(0, 3).join(', ') || 'not available yet'}`,
       ].join('\n'),
       insight,
       upsell,
@@ -1814,7 +1872,7 @@ function buildActionText({
         `Ask “prepare premium PDF bundle” when you want me to deepen it.`,
       ].join('\n'),
       insight,
-      buildUpsell(language, 'report', hasPremiumAccess),
+      buildUpsell(language, 'report', hasPremiumAccess, memory),
     ]);
   }
 
@@ -1855,14 +1913,13 @@ function buildNeedsKundliReply(
   ].join('\n\n');
 }
 
-function actionIntro(language: SupportedLanguage): string {
-  if (language === 'hi') {
-    return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.62d3f1db6c");
-  }
-  if (language === 'gu') {
-    return getNativeCopy("native.packages.astrology.src.predictaChatActions.ts.0e2af953d7");
-  }
-  return 'Yes. I can do that right here.';
+function actionIntro(
+  language: SupportedLanguage,
+  memory: PredictaInteractionMemory,
+  _action: PredictaAppActionId,
+): string {
+  const turnIndex = Math.max(0, memory.totalTurns - 1);
+  return getPredictaResponseOpening(language, turnIndex);
 }
 
 function buildMicroPrelude({
@@ -3561,9 +3618,12 @@ function buildMemoryInsight(
   kundli: KundliData | undefined,
   savedKundlis: KundliData[],
 ): string {
+  const contextSummary =
+    language === 'en' ? summarizePredictaConversationContext(memory) : '';
+
   if (!kundli) {
     if (!memory?.learnedThemes.length) {
-      return '';
+      return contextSummary;
     }
     const themes = memory.learnedThemes.slice(0, 3).join(', ');
     if (language === 'hi') {
@@ -3572,7 +3632,10 @@ function buildMemoryInsight(
     if (language === 'gu') {
       return formatNativeCopy("native.packages.astrology.src.predictaChatActions.ts.736bb3f11e", [themes]);
     }
-    return `I am learning your pattern: ${themes}.`;
+    return joinSections([
+      `I am learning your pattern: ${themes}.`,
+      contextSummary,
+    ]);
   }
 
   const similar = findSimilarSavedKundli(kundli, savedKundlis);
@@ -3594,7 +3657,7 @@ function buildMemoryInsight(
         ', ',
       )]);
     }
-    return line;
+    return joinSections([line, contextSummary]);
   }
 
   if (memory?.chartSignatures.includes(chartSignature(kundli))) {
@@ -3608,9 +3671,12 @@ function buildMemoryInsight(
         kundli,
       )]);
     }
-    return `I remember this chart signature now: ${chartSignature(
-      kundli,
-    )}. As more Kundlis enter your vault, I will compare this pattern automatically.`;
+    return joinSections([
+      `I remember this chart signature now: ${chartSignature(
+        kundli,
+      )}. As more Kundlis enter your vault, I will compare this pattern automatically.`,
+      contextSummary,
+    ]);
   }
 
   if (language === 'hi') {
@@ -3623,16 +3689,25 @@ function buildMemoryInsight(
       kundli,
     )]);
   }
-  return `I am adding this chart signature to memory: ${chartSignature(
-    kundli,
-  )}.`;
+  return joinSections([
+    `I am adding this chart signature to memory: ${chartSignature(
+      kundli,
+    )}.`,
+    contextSummary,
+  ]);
 }
 
 function buildUpsell(
   language: SupportedLanguage,
   action: PredictaAppActionId,
   hasPremiumAccess: boolean,
+  memory?: PredictaInteractionMemory,
 ): string {
+  const actionCount = memory?.actionCounts[action] ?? 0;
+  if (actionCount > 1) {
+    return '';
+  }
+
   if (hasPremiumAccess) {
     return 'Since Premium is active, I can deepen this with evidence tables, timing windows, and a report-ready synthesis.';
   }
@@ -3772,6 +3847,124 @@ function inferThemes(text: string, action?: PredictaAppActionId): string[] {
   return themes;
 }
 
+function buildActiveConversationContext({
+  action,
+  chartContext,
+  current,
+  kundli,
+  passState,
+  predictaSchool,
+  reportContext,
+  signatureReady,
+  text,
+}: {
+  action?: PredictaAppActionId;
+  chartContext?: ChartContext;
+  current?: PredictaActiveConversationContext;
+  kundli?: KundliData;
+  passState?: PredictaActiveConversationContext['passState'];
+  predictaSchool?: PredictaSchool;
+  reportContext?: string;
+  signatureReady?: boolean;
+  text: string;
+}): PredictaActiveConversationContext | undefined {
+  const eventQuestion =
+    action === 'multi-school-consultation'
+      ? compactUserGoal(text)
+      : chartContext?.handoffQuestion ?? current?.eventQuestion;
+  const lastUserGoal = inferLastUserGoal(text, action) ?? current?.lastUserGoal;
+  const next: PredictaActiveConversationContext = {
+    eventQuestion,
+    kundliSignature: kundli ? chartSignature(kundli) : current?.kundliSignature,
+    lastUserGoal,
+    passState: passState ?? current?.passState,
+    reportContext:
+      reportContext ??
+      chartContext?.generatedReport?.reportTitle ??
+      chartContext?.reportFocus ??
+      current?.reportContext,
+    school: predictaSchool ?? chartContext?.predictaSchool ?? current?.school,
+    selectedChart:
+      chartContext?.chartName ?? chartContext?.chartType ?? current?.selectedChart,
+    selectedHouse: chartContext?.selectedHouse ?? current?.selectedHouse,
+    selectedPlanet: chartContext?.selectedPlanet ?? current?.selectedPlanet,
+    signatureReady: signatureReady ?? current?.signatureReady,
+  };
+
+  return Object.values(next).some(value => value !== undefined) ? next : current;
+}
+
+export function summarizePredictaConversationContext(
+  memory: PredictaInteractionMemory | undefined,
+): string {
+  const context = memory?.activeContext;
+  if (!context) {
+    return '';
+  }
+
+  const parts = [
+    context.lastUserGoal ? `goal: ${context.lastUserGoal}` : undefined,
+    context.eventQuestion ? `event: ${context.eventQuestion}` : undefined,
+    context.school ? `school: ${context.school}` : undefined,
+    context.selectedChart ? `chart: ${context.selectedChart}` : undefined,
+    context.selectedHouse ? `house: ${context.selectedHouse}` : undefined,
+    context.selectedPlanet ? `planet: ${context.selectedPlanet}` : undefined,
+    context.reportContext ? `report: ${context.reportContext}` : undefined,
+    context.signatureReady ? 'signature: ready' : undefined,
+    context.passState && context.passState !== 'unknown'
+      ? `pass: ${context.passState}`
+      : undefined,
+  ].filter(Boolean);
+
+  return parts.length ? `Context remembered: ${parts.slice(0, 5).join(' | ')}.` : '';
+}
+
+function buildOpeningPatternId(
+  action: PredictaAppActionId,
+  actionCount: number,
+): string {
+  return `opening:${action}:${(actionCount - 1) % 3}`;
+}
+
+function buildResponsePatternIds(
+  action: PredictaAppActionId | undefined,
+  text: string,
+): string[] {
+  const patterns: string[] = [];
+  if (action) {
+    patterns.push(`action:${action}`);
+  }
+  if (isPredictaMultiSchoolQuestion(text)) {
+    patterns.push('event-question');
+  }
+  if (/\b(premium|upgrade|paid|pass|credit)\b/i.test(text)) {
+    patterns.push('monetization');
+  }
+  if (/\b(safety|medical|legal|guarantee|guaranteed)\b/i.test(text)) {
+    patterns.push('safety-boundary');
+  }
+  return patterns;
+}
+
+function inferLastUserGoal(
+  text: string,
+  action?: PredictaAppActionId,
+): string | undefined {
+  const compact = compactUserGoal(text);
+  if (compact) {
+    return compact;
+  }
+  return action ? labelAction(action) : undefined;
+}
+
+function compactUserGoal(text: string): string | undefined {
+  const normalized = text.trim().replace(/\s+/g, ' ');
+  if (!normalized) {
+    return undefined;
+  }
+  return normalized.length > 96 ? `${normalized.slice(0, 93)}...` : normalized;
+}
+
 function findSimilarSavedKundli(
   kundli: KundliData,
   savedKundlis: KundliData[],
@@ -3810,6 +4003,21 @@ function chartSignature(kundli: KundliData): string {
   return `${kundli.lagna} Lagna / ${kundli.moonSign} Moon / ${kundli.nakshatra} / ${kundli.dasha.current.mahadasha}-${kundli.dasha.current.antardasha}`;
 }
 
+function getAshtakavargaHouseList(
+  kundli: KundliData,
+  key: 'strongestHouses' | 'weakestHouses',
+): number[] {
+  const ashtakavarga = kundli.ashtakavarga as KundliData['ashtakavarga'] & {
+    sav?: Partial<Record<'strongestHouses' | 'weakestHouses', number[]>>;
+  };
+  const direct = ashtakavarga[key];
+  if (Array.isArray(direct)) {
+    return direct;
+  }
+  const sav = ashtakavarga.sav?.[key];
+  return Array.isArray(sav) ? sav : [];
+}
+
 function findMostOccupiedHouse(
   kundli: KundliData,
 ): { house: number; planets: string[] } | undefined {
@@ -3835,11 +4043,11 @@ function labelAction(action: PredictaAppActionId): string {
     .join(' ');
 }
 
-function mergeUnique(
-  current: string[],
-  next: string[],
+function mergeUnique<T extends string>(
+  current: T[],
+  next: T[],
   limit: number,
-): string[] {
+): T[] {
   return [...new Set([...next, ...current].filter(Boolean))].slice(0, limit);
 }
 

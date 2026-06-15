@@ -83,13 +83,14 @@ export function composeMahadashaIntelligence(
   const confidence = resolveConfidence(kundli, mahaPlanet, antarPlanet);
   const currentTheme = buildCurrentTheme(current.mahadasha, current.antardasha);
   const currentMeaning = buildCurrentMeaning(kundli, mahaPlanet, antarPlanet);
+  const dashaTimeline = resolveDashaTimeline(kundli);
   const antardashas = buildAntardashaWindows(kundli, nowIso, depth);
   const pratyantardashas = buildPratyantardashaWindows(
     kundli,
     nowIso,
     depth,
   );
-  const mahadashas = kundli.dasha.timeline.map(item =>
+  const mahadashas = dashaTimeline.map(item =>
     buildWindowInsight({
       depth,
       endDate: item.endDate,
@@ -200,10 +201,11 @@ function buildAntardashaWindows(
   nowIso: string,
   depth: MahadashaInsightDepth,
 ): DashaWindowInsight[] {
+  const timeline = resolveDashaTimeline(kundli);
   const currentMaha =
-    kundli.dasha.timeline.find(
+    timeline.find(
       item => item.mahadasha === kundli.dasha.current.mahadasha,
-    ) ?? kundli.dasha.timeline[0];
+    ) ?? timeline[0];
 
   return (currentMaha?.antardashas ?? []).map(item =>
     buildWindowInsight({
@@ -317,6 +319,8 @@ function buildCurrentEvidence(
   mahaPlanet?: PlanetPosition,
   antarPlanet?: PlanetPosition,
 ): DashaEvidenceItem[] {
+  const strongestHouses = getAshtakavargaHouseList(kundli, 'strongestHouses');
+  const weakestHouses = getAshtakavargaHouseList(kundli, 'weakestHouses');
   return [
     {
       id: 'current-period',
@@ -336,11 +340,7 @@ function buildCurrentEvidence(
       id: 'ashtakavarga-support',
       interpretation:
         'Strong houses show easier delivery; weak houses need discipline and realistic pacing.',
-      observation: `Strong houses: ${kundli.ashtakavarga.strongestHouses
-        .slice(0, 3)
-        .join(', ')}. Pressure houses: ${kundli.ashtakavarga.weakestHouses
-        .slice(0, 3)
-        .join(', ')}.`,
+      observation: `Strong houses: ${strongestHouses.slice(0, 3).join(', ') || 'not available yet'}. Pressure houses: ${weakestHouses.slice(0, 3).join(', ') || 'not available yet'}.`,
       title: 'Ashtakavarga support',
       weight: 'mixed',
     },
@@ -444,8 +444,14 @@ function buildPremiumCurrentSynthesis(
   mahaPlanet?: PlanetPosition,
   antarPlanet?: PlanetPosition,
 ): string {
-  const strongest = kundli.ashtakavarga.strongestHouses.slice(0, 3).join(', ');
-  const weakest = kundli.ashtakavarga.weakestHouses.slice(0, 3).join(', ');
+  const strongest =
+    getAshtakavargaHouseList(kundli, 'strongestHouses')
+      .slice(0, 3)
+      .join(', ') || 'not available yet';
+  const weakest =
+    getAshtakavargaHouseList(kundli, 'weakestHouses')
+      .slice(0, 3)
+      .join(', ') || 'not available yet';
   const maha = mahaPlanet
     ? `${mahaPlanet.name} in house ${mahaPlanet.house}, ${mahaPlanet.sign}, ${mahaPlanet.nakshatra}`
     : `${kundli.dasha.current.mahadasha} placement unavailable`;
@@ -454,6 +460,42 @@ function buildPremiumCurrentSynthesis(
     : `${kundli.dasha.current.antardasha} placement unavailable`;
 
   return `Premium synthesis: read ${maha} as the chapter lord and ${antar} as the active delivery lord. Strong Ashtakavarga houses (${strongest}) can deliver with less friction; pressure houses (${weakest}) need structure, boundaries, and realistic timing. Final judgment should cross-check the question topic with D1 and relevant divisional chart.`;
+}
+
+function getAshtakavargaHouseList(
+  kundli: KundliData,
+  key: 'strongestHouses' | 'weakestHouses',
+): number[] {
+  const ashtakavarga = kundli.ashtakavarga as KundliData['ashtakavarga'] & {
+    sav?: Partial<Record<'strongestHouses' | 'weakestHouses', number[]>>;
+  };
+  const direct = ashtakavarga[key];
+  if (Array.isArray(direct)) {
+    return direct;
+  }
+  const sav = ashtakavarga.sav?.[key];
+  return Array.isArray(sav) ? sav : [];
+}
+
+function resolveDashaTimeline(kundli: KundliData): KundliData['dasha']['timeline'] {
+  const timeline = kundli.dasha.timeline;
+  if (Array.isArray(timeline) && timeline.length > 0) {
+    return timeline;
+  }
+  return [
+    {
+      antardashas: [
+        {
+          antardasha: kundli.dasha.current.antardasha,
+          endDate: kundli.dasha.current.endDate,
+          startDate: kundli.dasha.current.startDate,
+        },
+      ],
+      endDate: kundli.dasha.current.endDate,
+      mahadasha: kundli.dasha.current.mahadasha,
+      startDate: kundli.dasha.current.startDate,
+    },
+  ];
 }
 
 function buildDashaRemedies(

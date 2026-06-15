@@ -1,0 +1,20 @@
+{
+  "phase": "PREDICTA_INTELLIGENCE_PHASE_6_ANTI_REPETITION_AND_CONVERSATION_MEMORY",
+  "status": "green",
+  "strictAudit": true,
+  "transcriptAssertions": {
+    "contextRecall": true,
+    "openingVariation": true,
+    "patternTracking": true,
+    "repeatedUpsellSuppression": true
+  },
+  "transcriptSample": {
+    "openings": [
+      "Yes. I can do that right here.",
+      "I have the thread. I will continue from your current context.",
+      "Let me keep this focused and answer the next useful part.",
+      "Yes. I can do that right here."
+    ],
+    "rememberedContext": "Context remembered: goal: Show my mahadasha again. | school: PARASHARI | chart: Rashi Chart | house: 10 | planet: Saturn."
+  }
+}

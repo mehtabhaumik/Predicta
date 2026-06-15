@@ -121,7 +121,12 @@
         "passNearingExhaustion": "You are close to the limit. I will warn you before a paid action is needed.",
         "reportReady": "Your report is ready, so I can explain the exact section.",
         "signatureReady": "Signature ready. I will use only confirmed visible traits."
-      }
+      },
+      "responseOpenings": [
+        "Yes. I can do that right here.",
+        "I have the thread. I will continue from your current context.",
+        "Let me keep this focused and answer the next useful part."
+      ]
     },
     "hi": {
       "birthExtractionFailureLines": [
@@ -158,7 +163,12 @@
         "passNearingExhaustion": "आप limit के पास हैं. Paid action से पहले मैं आपको बता दूंगी.",
         "reportReady": "आपकी रिपोर्ट तैयार है, इसलिए मैं सही अनुभाग समझा सकती हूं.",
         "signatureReady": "हस्ताक्षर तैयार है. मैं सिर्फ पक्के दिखने वाले संकेतों का उपयोग करूंगी."
-      }
+      },
+      "responseOpenings": [
+        "हां. मैं यह यहीं कर सकती हूं.",
+        "मुझे संदर्भ याद है. मैं आपकी मौजूदा स्थिति से आगे बढ़ूंगी.",
+        "मैं इसे केंद्रित रखकर अगला उपयोगी उत्तर दूंगी."
+      ]
     },
     "gu": {
       "birthExtractionFailureLines": [
@@ -195,7 +205,12 @@
         "passNearingExhaustion": "તમે limit પાસે છો. Paid action પહેલાં હું તમને જણાવીશ.",
         "reportReady": "તમારો રિપોર્ટ તૈયાર છે, એટલે હું ચોક્કસ વિભાગ સમજાવી શકું છું.",
         "signatureReady": "હસ્તાક્ષર તૈયાર છે. હું ફક્ત પુષ્ટિ થયેલા દેખાતા સંકેતોનો ઉપયોગ કરીશ."
-      }
+      },
+      "responseOpenings": [
+        "હા. હું આ અહીંથી કરી શકું છું.",
+        "મને સંદર્ભ યાદ છે. હું તમારી હાલની સ્થિતિથી આગળ વધું છું.",
+        "હું આને કેન્દ્રિત રાખીને આગળનો ઉપયોગી જવાબ આપું છું."
+      ]
     }
   }
 }

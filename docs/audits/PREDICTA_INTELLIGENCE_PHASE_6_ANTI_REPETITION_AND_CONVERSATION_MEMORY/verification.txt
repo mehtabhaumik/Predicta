@@ -1,0 +1,20 @@
+corepack pnpm test:predicta-intelligence-phase-6
+PASS - generated phase-6-manifest.json with context recall, opening variation, pattern tracking, and repeated upsell suppression.
+
+corepack pnpm --filter @pridicta/astrology typecheck
+PASS
+
+corepack pnpm --filter @pridicta/config typecheck
+PASS
+
+corepack pnpm test:predicta-intelligence-phase-5
+PASS
+
+corepack pnpm test:predicta-intelligence-phase-4
+PASS
+
+corepack pnpm test:specialist-room-qa
+PASS
+
+git diff --check
+PASS
