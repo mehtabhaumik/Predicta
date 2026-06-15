@@ -73,7 +73,7 @@ const chatRoutes = [
   {
     file: 'apps/web/app/dashboard/jaimini/chat/page.tsx',
     school: "school: 'JAIMINI'",
-    source: 'sourceScreen: copy.heroEyebrow',
+    source: "sourceScreen: 'Jaimini Predicta'",
   },
   {
     file: 'apps/web/app/dashboard/numerology/chat/page.tsx',
@@ -89,7 +89,7 @@ const chatRoutes = [
 
 for (const route of chatRoutes) {
   expectIncludes(route.file, [
-    'WebPredictaRoomChatPage',
+    'redirectLegacyChatToAsk',
     route.school,
     route.source,
     'prompt:',
@@ -101,6 +101,11 @@ expectIncludes('apps/web/components/WebPredictaRoomChatPage.tsx', [
   'room.title',
   'room.body',
   '<WebPridictaChat room={room} />',
+]);
+
+expectIncludes('apps/web/app/dashboard/_lib/legacy-chat-redirect.ts', [
+  "params.set('handoffMode', 'room_safe')",
+  'redirect(`/ask?${params.toString()}`)',
 ]);
 
 expectIncludes('packages/config/src/pricing.ts', [

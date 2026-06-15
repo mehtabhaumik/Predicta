@@ -52,6 +52,7 @@ try {
   await writeWorkspacePackageRedirect({
     main: '../../../packages/config/src/index.js',
     name: '@pridicta/config',
+    subpaths: ['uiTranslations'],
   });
   await writeWorkspacePackageRedirect({
     main: '../../../packages/types/src/index.js',
@@ -206,12 +207,21 @@ try {
   await rm(tempRoot, { force: true, recursive: true });
 }
 
-async function writeWorkspacePackageRedirect({ main, name }) {
+async function writeWorkspacePackageRedirect({ main, name, subpaths = [] }) {
   const packageDir = path.join(outDir, 'node_modules', ...name.split('/'));
 
   await mkdir(packageDir, { recursive: true });
   await writeFile(
     path.join(packageDir, 'package.json'),
     JSON.stringify({ main, name }, null, 2),
+  );
+
+  await Promise.all(
+    subpaths.map(subpath =>
+      writeFile(
+        path.join(packageDir, `${subpath}.js`),
+        `module.exports = require('../../../packages/config/src/${subpath}.js');\n`,
+      ),
+    ),
   );
 }

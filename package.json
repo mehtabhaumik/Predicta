@@ -180,6 +180,7 @@
     "test:predicta-intelligence-phase-1": "node scripts/run-predicta-intelligence-phase-1-response-contract-gate.mjs",
     "test:predicta-intelligence-phase-2": "node scripts/run-predicta-intelligence-phase-2-router-gate.mjs",
     "test:predicta-intelligence-phase-3": "node scripts/run-predicta-intelligence-phase-3-app-function-mastery-gate.mjs",
+    "test:predicta-intelligence-phase-4": "node scripts/run-predicta-intelligence-phase-4-multi-school-consultation-gate.mjs",
     "test:audit-server-preflight": "node scripts/assert-predicta-audit-server-ready.mjs",
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",

@@ -36,6 +36,10 @@ import { composeKundliKarmaSnapshot } from './kundliKarmaSnapshotEngine';
 import { composeKundliKarmaYogIntelligence } from './kundliKarmaYogEngine';
 import { composeNumerologyFoundationModel } from './numerologyFoundationModel';
 import { composePersonalPanchangLayer } from './personalPanchangLayer';
+import {
+  composePredictaMultiSchoolConsultation,
+  isPredictaMultiSchoolQuestion,
+} from './predictaMultiSchoolConsultation';
 import { composePredictaWrapped } from './predictaWrapped';
 import { composePurusharthaLifeBalance } from './purusharthaLifeBalance';
 import { composeRemedyCoach } from './remedyCoach';
@@ -69,6 +73,7 @@ export type PredictaAppActionId =
   | 'kp-predicta'
   | 'life-timeline'
   | 'mahadasha'
+  | 'multi-school-consultation'
   | 'nadi-handoff'
   | 'nadi-predicta'
   | 'numerology-handoff'
@@ -312,6 +317,11 @@ const ACTION_PATTERNS: Array<{
     id: 'signature-handoff',
     pattern:
       /\b(signature|autograph|hastakshar|sahi|handwriting\s*signature)\b/i,
+  },
+  {
+    id: 'multi-school-consultation',
+    pattern:
+      /\b(will|when|should|likely|possible|chance|predict|prediction|timing|trigger|delay)\b[\s\w'’,-]{0,90}\b(career|job|promotion|foreign|abroad|overseas|visa|pr|relocation|marriage|relationship|love|property|money|business|education|court|legal|family|child|matching|health|wellness)\b|\b(career|job|promotion|foreign|abroad|overseas|visa|pr|relocation|marriage|relationship|love|property|money|business|education|court|legal|family|child|matching|health|wellness)\b[\s\w'’,-]{0,90}\b(will|when|should|likely|possible|chance|predict|prediction|timing|trigger|delay)\b|\b(no\s*(specific\s*)?question|what\s*should\s*i\s*ask)\b/i,
   },
   {
     id: 'life-timeline',
@@ -560,10 +570,12 @@ export function buildPredictaActionReply({
     selectedLanguage: language,
     text,
   });
-  const action = resolveSchoolAwareAction(
-    detectPredictaAppAction(languageContext.normalizedText),
-    predictaSchool,
-  );
+  const detectedAction =
+    detectPredictaAppAction(languageContext.normalizedText) ??
+    (isPredictaMultiSchoolQuestion(languageContext.normalizedText)
+      ? 'multi-school-consultation'
+      : undefined);
+  const action = resolveSchoolAwareAction(detectedAction, predictaSchool);
   const routerDecision = classifyPredictaRouterDecision({
     action,
     aiCreditsExhausted,
@@ -632,6 +644,7 @@ export function buildPredictaActionReply({
         kundli,
         language: responseLanguage,
         memory: nextMemory,
+        predictaSchool,
         savedKundlis,
         text,
       }),
@@ -924,6 +937,7 @@ function actionRequiresKundli(action: PredictaAppActionId): boolean {
     'family-map',
     'kp-handoff',
     'jaimini-handoff',
+    'multi-school-consultation',
     'nadi-handoff',
     'numerology-handoff',
     'numerology-predicta',
@@ -1052,6 +1066,13 @@ function appActionRoute(
         reason: 'Chart viewing and selectable Vargas belong in the chart surface.',
         targetScreen: 'Charts',
       };
+    case 'multi-school-consultation':
+      return {
+        href: '/dashboard/chat',
+        label: 'Ask main Predicta',
+        reason: 'All-school event synthesis belongs in main Predicta, not a specialist room.',
+        targetScreen: 'Chat',
+      };
     case 'create-kundli':
       return {
         href: '/dashboard/kundli',
@@ -1102,6 +1123,7 @@ function signInRecommendedForAction(action: PredictaAppActionId): boolean {
     'account-settings',
     'create-kundli',
     'family-map',
+    'multi-school-consultation',
     'pass-redemption',
     'pricing',
     'report',
@@ -1129,6 +1151,7 @@ function buildActionText({
   kundli,
   language,
   memory,
+  predictaSchool,
   savedKundlis,
   text,
 }: Required<
@@ -1139,6 +1162,7 @@ function buildActionText({
   hasPremiumAccess: boolean;
   kundli?: KundliData;
   memory: PredictaInteractionMemory;
+  predictaSchool?: PredictaSchool;
 }): string {
   const intro = actionIntro(language);
   const insight = buildMemoryInsight(language, memory, kundli, savedKundlis);
@@ -1301,6 +1325,21 @@ function buildActionText({
       }),
       insight,
       buildUpsell(language, 'kundli-karma', hasPremiumAccess),
+    ]);
+  }
+
+  if (action === 'multi-school-consultation') {
+    return joinSections([
+      intro,
+      buildMultiSchoolConsultationReply({
+        hasPremiumAccess,
+        kundli,
+        language,
+        predictaSchool,
+        text,
+      }),
+      insight,
+      buildUpsell(language, 'multi-school-consultation', hasPremiumAccess),
     ]);
   }
 
@@ -1983,6 +2022,61 @@ function familyVaultSetupReply(
     countLine,
     'Assign saved Kundlis inside Family Vault. Family comparison needs at least 2 Kundlis and allows at most 4 at a time.',
     'If a Kundli is missing, send birth details in chat first; I can create the profile and keep the Family Vault intent alive.',
+  ].join('\n\n');
+}
+
+function buildMultiSchoolConsultationReply({
+  hasPremiumAccess,
+  kundli,
+  language,
+  predictaSchool,
+  text,
+}: {
+  hasPremiumAccess: boolean;
+  kundli?: KundliData;
+  language: SupportedLanguage;
+  predictaSchool?: PredictaSchool;
+  text: string;
+}): string {
+  const consultation = composePredictaMultiSchoolConsultation({
+    hasPremiumAccess,
+    kundli,
+    predictaSchool,
+    question: text,
+  });
+
+  if (consultation.status === 'room_safe_blocked') {
+    return consultation.reply;
+  }
+
+  if (consultation.status === 'needs_kundli') {
+    return consultation.reply;
+  }
+
+  const schoolLine = `Schools consulted: ${consultation.consultedSchools.join(', ')}.`;
+  const boundary =
+    'I am naming the schools I used instead of silently mixing methods.';
+
+  if (language === 'hi') {
+    return [
+      consultation.reply,
+      schoolLine,
+      boundary,
+    ].join('\n\n');
+  }
+
+  if (language === 'gu') {
+    return [
+      consultation.reply,
+      schoolLine,
+      boundary,
+    ].join('\n\n');
+  }
+
+  return [
+    consultation.reply,
+    schoolLine,
+    boundary,
   ].join('\n\n');
 }
 
@@ -3480,6 +3574,8 @@ function buildUpsell(
   const suggestion =
     action === 'report'
       ? 'Turn this into a polished PDF when you want the full version.'
+      : action === 'multi-school-consultation'
+      ? 'Precision Reading adds the full all-school evidence map, contradictions, timing confidence, trigger tracking, and report-ready guidance for one important life question.'
       : action === 'advanced-jyotish'
       ? 'Advanced Mode adds deeper yoga/dosha scoring, nakshatra depth, Ashtakavarga tables, muhurta planning, compatibility synthesis, Prashna workflow, and safe remedy schedules.'
       : action === 'kundli-karma'

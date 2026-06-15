@@ -45,6 +45,7 @@ export * from './personalPanchangLayer';
 export * from './pairComparison';
 export * from './predictaWrapped';
 export * from './predictaChatActions';
+export * from './predictaMultiSchoolConsultation';
 export * from './predictaIntelligenceUiPattern';
 export * from './predictaResponseContract';
 export * from './purusharthaLifeBalance';

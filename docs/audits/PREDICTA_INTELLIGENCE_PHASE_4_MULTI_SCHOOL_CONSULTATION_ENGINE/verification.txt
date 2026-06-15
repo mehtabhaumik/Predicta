@@ -1,0 +1,39 @@
+corepack pnpm test:predicta-intelligence-phase-4
+PASS - PREDICTA_INTELLIGENCE_PHASE_4_MULTI_SCHOOL_CONSULTATION_ENGINE: passed
+
+corepack pnpm --filter @pridicta/astrology typecheck
+PASS - tsc --noEmit
+
+corepack pnpm --filter @pridicta/web typecheck
+PASS - next typegen && tsc --noEmit
+
+corepack pnpm test:predicta-intelligence-phase-3
+PASS - PREDICTA_INTELLIGENCE_PHASE_3_APP_FUNCTION_MASTERY: passed
+
+corepack pnpm test:competitor-response-phase-2
+PASS - PREDICTA_COMPETITOR_RESPONSE_PHASE_2_SPECIALIST_WORLD_CLARITY_AND_NO_MIXING_GATE: GREEN
+
+corepack pnpm test:competitor-response-phase-3
+PASS - PREDICTA_COMPETITOR_RESPONSE_PHASE_3_PREDICTA_INTELLIGENCE_CONTEXT_AND_LOCAL_MEMORY_SUPREMACY: GREEN
+
+corepack pnpm test:discipline-handoff
+PASS - Discipline handoff contract passed: 42 deterministic assertions.
+
+corepack pnpm test:native-script-chat
+PASS - Native-script Predicta chat language checks passed.
+
+corepack pnpm test:numerology
+PASS - Numerology foundation model passed: deterministic English, Hindi, and Gujarati assertions.
+
+node scripts/run-numerology-predicta-room.mjs
+PASS - Numerology Predicta room passed: handoff, missing profile, native-script, and ready-profile checks.
+
+node scripts/run-signature-predicta-room.mjs
+PASS - Signature Predicta room passed: deterministic handoff, interpretation, and native-script checks.
+
+corepack pnpm test:specialist-room-qa
+PASS - Specialist room QA gate passed: room routes, context contracts, language, memory, and handoff safety are covered.
+
+corepack pnpm test:app-revival-phase-9
+PASS - PREDICTA_APP_REVIVAL_PHASE_9_FULL_USER_JOURNEY_GOLDEN_NO_GO_AUDIT passed.
+

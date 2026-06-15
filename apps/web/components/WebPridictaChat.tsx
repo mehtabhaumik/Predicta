@@ -4633,7 +4633,7 @@ function buildSchoolContextIntro(
   return [
     `${school} is ready.`,
     fromSchool
-      ? `Context was carried from ${fromSchool}. I will keep this answer inside the selected room and start with the prediction.`
+      ? `Context was carried from ${fromSchool}. The method will not be mixed. I will keep this answer inside the selected room and start with the prediction.`
       : undefined,
     chartFocus ? `Chart in focus: ${chartFocus}.` : undefined,
     reportLine ? `Report context: ${reportLine}.` : undefined,

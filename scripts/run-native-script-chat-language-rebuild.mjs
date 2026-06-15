@@ -98,6 +98,13 @@ try {
       type: 'commonjs',
     }),
   );
+  await writeFile(
+    path.join(configShimDir, 'uiTranslations.js'),
+    `module.exports = require('${path.relative(
+      configShimDir,
+      path.join(outDir, 'packages/config/src/uiTranslations.js'),
+    )}');\n`,
+  );
 
   const modulePath = path.join(
     outDir,
