@@ -1,0 +1,103 @@
+{
+  "phase": "PREDICTA_INTELLIGENCE_PHASE_9_COST_GOVERNANCE_AND_AI_USAGE_PROOF",
+  "status": "green",
+  "strictAudit": true,
+  "aiAllowedCategories": [
+    "open_ended_personal_synthesis",
+    "premium_report_writing",
+    "nuanced_follow_up",
+    "paid_precision_reading"
+  ],
+  "exhaustedCreditBehavior": {
+    "preserveQuestion": true,
+    "provider": "deterministic",
+    "replyIncludesDeterministicMenu": true,
+    "upgradeOptions": [
+      "10 questions",
+      "25 questions",
+      "100 questions",
+      "Premium"
+    ]
+  },
+  "providerAssertions": {
+    "deterministicSamplesAvoidAi": true,
+    "exhaustedOpenEndedDoesNotCallProvider": true,
+    "freeGeminiValidatorBlocked": true,
+    "freePremiumModelBlocked": true,
+    "openEndedSynthesisAiGated": true
+  },
+  "transcript": [
+    {
+      "id": "create-kundli-no-ai",
+      "action": "create-kundli",
+      "providerDecision": "deterministic_action",
+      "preview": "Yes. I can do that right here. I need your birth place before I can be precise. Deterministic mode is active, so this does not spend an AI credit. To create a Kundli, send name, date of birth, birth time, and birth place. If the birth time is not exact, send t"
+    },
+    {
+      "id": "saved-kundli-no-ai",
+      "action": "saved-kundlis",
+      "providerDecision": "deterministic_action",
+      "preview": "Yes. I can do that right here. Kundli selected. I will read this profile, not a generic chart. I do not see saved Kundlis yet. Send a family member’s birth details in chat and I can create the profile. I remember this chart signature now: Leo Lagna / Sagittari"
+    },
+    {
+      "id": "mahadasha-no-ai",
+      "action": "mahadasha",
+      "providerDecision": "deterministic_action",
+      "preview": "Yes. I can do that right here. Kundli selected. I will read this profile, not a generic chart. Direct answer: I am reading your Venus/Saturn from the dasha timing layer. Timing: Active conditions should be judged through dasha/transit activation, not fear or i"
+    },
+    {
+      "id": "gochar-no-ai",
+      "action": "transit-gochar",
+      "providerDecision": "deterministic_action",
+      "preview": "Yes. I can do that right here. Kundli selected. I will read this profile, not a generic chart. I am reading current Gochar from both Lagna and Moon. Overall tone: neutral. Transit snapshot is pending until current Gochar data is available. Planning cards: - Ju"
+    },
+    {
+      "id": "panchang-no-ai",
+      "action": "personal-panchang",
+      "providerDecision": "deterministic_action",
+      "preview": "Yes. I can do that right here. Bhaumik Mehta's Personal Panchang Moon sets the daily tone for emotional steadiness, home rhythm, food, rest, and family care, while Venus remains the larger life chapter. Moon in Mula colors the mental rhythm. Day lord: Moon (Mo"
+    },
+    {
+      "id": "report-navigation-no-ai",
+      "action": "report",
+      "providerDecision": "deterministic_action",
+      "preview": "Yes. I can do that right here. Your report is ready, so I can explain the exact section. I staged the report brief for Bhaumik Mehta. Executive signal: Leo Lagna, Sagittarius Moon, Venus/Saturn timing. Holistic spine: Today: Moon day with Artha emphasis. Daily"
+    },
+    {
+      "id": "family-vault-no-ai",
+      "action": "family-map",
+      "providerDecision": "deterministic_action",
+      "preview": "Yes. I can do that right here. Select at least 2 saved Kundlis before running family comparison. Add family profiles to unlock the map. Add at least two saved profiles to see repeated karma patterns, support zones, and care guidance. Add one more saved Kundli "
+    },
+    {
+      "id": "pass-help-no-ai",
+      "action": "pass-redemption",
+      "providerDecision": "deterministic_action",
+      "preview": "Yes. I can do that right here. You are close to the limit. I will warn you before a paid action is needed. Passes unlock exact benefits only after sign-in: AI question credits, report credits, Premium access, or family/friend offers. Open Redeem Pass, enter th"
+    },
+    {
+      "id": "kundli-karma-definition-local-memory",
+      "action": "kundli-karma",
+      "providerDecision": "local_memory_answer",
+      "preview": "Yes. I can do that right here. Direct answer: Kundli Karma covers Dosh, Shrap, Yog, and Lal Kitab as calculated chart patterns. No AI credit is needed for the basic explanation. Dosh means a pressure pattern in the Kundli. Shrap means a karmic pressure indicat"
+    }
+  ],
+  "zeroCreditCapabilities": [
+    "birth_detail_parsing",
+    "kundli_creation",
+    "saved_kundli_actions",
+    "chart_snapshot",
+    "mahadasha_summary",
+    "gochar_summary",
+    "panchang",
+    "kundli_karma_definition",
+    "dosh_shrap_yog_lal_kitab_snapshot",
+    "jaimini_room_handoff",
+    "kp_room_handoff",
+    "numerology_room_handoff",
+    "signature_room_handoff",
+    "report_navigation",
+    "family_vault_navigation",
+    "pass_redemption_help"
+  ]
+}

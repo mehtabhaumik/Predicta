@@ -5,6 +5,7 @@ import {
   getNativeCopy,
   getPredictaMicroMessage,
   getPredictaResponseOpening,
+  predictaProviderDecisionForAction,
 } from '@pridicta/config';
 import type {
   ChartContext,
@@ -1317,11 +1318,7 @@ function signInRecommendedForAction(action: PredictaAppActionId): boolean {
 function classifyProviderDecision(
   action: PredictaAppActionId,
 ): PredictaProviderDecisionLabel {
-  if (action === 'kundli-karma') {
-    return 'local_memory_answer';
-  }
-
-  return 'deterministic_action';
+  return predictaProviderDecisionForAction(action);
 }
 
 function buildActionText({

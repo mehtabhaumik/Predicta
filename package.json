@@ -185,6 +185,7 @@
     "test:predicta-intelligence-phase-6": "node scripts/run-predicta-intelligence-phase-6-anti-repetition-gate.mjs",
     "test:predicta-intelligence-phase-7": "node scripts/run-predicta-intelligence-phase-7-satisfaction-gate.mjs",
     "test:predicta-intelligence-phase-8": "node scripts/run-predicta-intelligence-phase-8-native-tone-gate.mjs",
+    "test:predicta-intelligence-phase-9": "node scripts/run-predicta-intelligence-phase-9-cost-governance-gate.mjs",
     "test:audit-server-preflight": "node scripts/assert-predicta-audit-server-ready.mjs",
     "test:public-greenlight": "node scripts/run-public-testing-greenlight-audit.mjs",
     "test:visual-proof": "node scripts/run-mobile-tablet-visual-proof-gate.mjs",

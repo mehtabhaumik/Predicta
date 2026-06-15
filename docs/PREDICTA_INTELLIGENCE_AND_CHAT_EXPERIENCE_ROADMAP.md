@@ -324,11 +324,25 @@ Protect AI cost while improving intelligence.
 - AI only for true synthesis, premium writing, nuanced follow-up, or paid
   precision reading.
 - Clear exhausted-credit behavior.
+- A shared AI usage proof contract that lists zero-credit capabilities,
+  local-memory actions, deterministic actions, and AI-allowed categories.
+- Router samples proving Kundli creation, saved profile actions, chart
+  snapshots, Mahadasha, Gochar, Panchang, Kundli Karma, school handoffs,
+  reports, Family Vault, and pass help do not call AI.
+- Provider-call samples proving open-ended synthesis uses AI only when credits
+  or paid entitlement allow it, and switches to deterministic preserved-question
+  upsell when credits are exhausted.
+- Backend telemetry proof for OpenAI, Gemini fallback/validator, deterministic
+  fallback, cache state, entitlement source, product credit source, token usage,
+  and estimated cost.
 
 ### Green Criteria
 
 - Cost governance gates pass.
 - Provider-call samples match expected intent categories.
+- Exhausted-credit chat still offers deterministic Kundli, charts, dasha,
+  Gochar, panchang, reports, saved profiles, Family Vault, and pass actions.
+- No free or zero-credit path can invoke Gemini validator or premium models.
 
 ## Phase 10: `PREDICTA_INTELLIGENCE_PHASE_10_GOLDEN_CHAT_EXPERIENCE_AUDIT`
 
