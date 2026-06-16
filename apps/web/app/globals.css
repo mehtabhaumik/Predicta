@@ -1095,9 +1095,12 @@ button + button,
 }
 
 .card-content.spacious > * + *,
-.glass-panel > * + *,
-.field-stack > * + * {
+.glass-panel > * + * {
   margin-top: clamp(14px, 1.6vw, 22px);
+}
+
+.field-stack > * + * {
+  margin-top: 0;
 }
 
 .school-grid,
@@ -27069,5 +27072,204 @@ input:not([type='radio']):not([type='checkbox']):not([type='hidden']):not([type=
   button,
   [role='button'] {
     letter-spacing: normal;
+  }
+}
+
+/* Revival hardening: personal-space, premium rhythm, and non-obstructing panels. */
+.dashboard-shell.has-ask-dock .main-workspace,
+.dashboard-shell.has-compact-ask-dock .main-workspace {
+  padding-bottom: clamp(44px, 5vw, 72px);
+}
+
+.dashboard-ask-dock,
+.dashboard-shell.has-compact-ask-dock .dashboard-ask-dock {
+  bottom: auto;
+  left: auto;
+  margin: clamp(28px, 4vw, 48px) auto 0;
+  max-width: min(1080px, 100%);
+  position: relative;
+  right: auto;
+  transform: none;
+  width: 100%;
+  z-index: var(--predicta-z-raised);
+}
+
+.dashboard-ask-dock.glass-panel {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(77, 175, 255, 0.12), transparent 34%),
+    radial-gradient(circle at 88% 24%, rgba(239, 80, 175, 0.09), transparent 32%),
+    linear-gradient(135deg, rgba(17, 17, 28, 0.88), rgba(9, 10, 18, 0.86));
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.24),
+    0 0 24px rgba(77, 175, 255, 0.08);
+}
+
+.dashboard-ask-dock-field,
+.field-stack,
+.feedback-form label,
+.admin-form-grid label,
+.redeem-card label,
+.auth-dialog label,
+.report-inline-language,
+.chart-language-selector,
+.language-selector {
+  min-width: 0;
+}
+
+.dashboard-ask-dock-field,
+.field-stack {
+  display: grid;
+  gap: clamp(10px, 1vw, 14px);
+}
+
+.dashboard-ask-dock-field > span,
+.field-label,
+.chart-language-selector > span,
+.language-selector-copy span,
+.report-language-panel span {
+  display: block;
+  margin: 0 0 2px;
+  overflow-wrap: anywhere;
+}
+
+.field-stack + .field-stack,
+.field-stack + .button,
+.field-stack + .form-status,
+.form-status + .field-stack,
+.redeem-auth-row + .field-stack,
+.admin-form-grid + .button {
+  margin-top: clamp(18px, 2vw, 28px);
+}
+
+.button,
+.predicta-button,
+.status-pill,
+.predicta-pill,
+.predicta-badge,
+.school-badge,
+.kundli-karma-chip,
+.signature-trait-chip {
+  flex-shrink: 1;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.button,
+.predicta-button {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 48%),
+    linear-gradient(135deg, rgba(111, 99, 255, 0.82), rgba(67, 188, 203, 0.84));
+  border-color: rgba(244, 241, 255, 0.16);
+  box-shadow:
+    0 10px 26px rgba(77, 175, 255, 0.12),
+    0 8px 22px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.button.secondary,
+.predicta-button--secondary {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), transparent 54%),
+    rgba(255, 255, 255, 0.055);
+  border-color: rgba(244, 241, 255, 0.14);
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: var(--text);
+}
+
+.button:hover,
+.predicta-button:hover {
+  transform: translateY(-1px);
+}
+
+.section-heading h2,
+.final-cta h2,
+.page-heading h1,
+.method-section-copy h2,
+.method-schools h2,
+.method-depth h2,
+.method-boundaries h2,
+.safety-hero h2,
+.safety-checks h2,
+.founder-section h2,
+.founder-final p {
+  font-size: clamp(32px, 4.4vw, 48px);
+  line-height: 1.06;
+}
+
+.glass-panel,
+.predicta-card,
+.predicta-panel,
+.card-content,
+.card-content.spacious {
+  max-width: 100%;
+}
+
+@media (max-width: 1180px) {
+  .dashboard-ask-dock,
+  .dashboard-shell.has-compact-ask-dock .dashboard-ask-dock {
+    left: auto;
+    right: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 820px) {
+  .hero-copy h1,
+  .page-heading h1,
+  .founder-copy h1,
+  .section-heading h2,
+  .final-cta h2 {
+    font-size: clamp(30px, 9vw, 38px);
+    line-height: 1.04;
+  }
+
+  .hero-copy p,
+  .section-heading p,
+  .page-heading p,
+  p {
+    font-size: clamp(14px, 4vw, 16px);
+    line-height: 1.62;
+  }
+
+  .dashboard-topbar {
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .dashboard-topbar-actions {
+    gap: 10px;
+  }
+
+  .dashboard-ask-dock,
+  .dashboard-shell.has-compact-ask-dock .dashboard-ask-dock {
+    gap: 12px;
+    margin-top: 24px;
+    padding: 14px;
+  }
+
+  .dashboard-ask-dock-actions {
+    gap: 10px;
+  }
+
+  .dashboard-pass-banner {
+    margin: 16px 0 22px;
+  }
+}
+
+@media (max-width: 390px) {
+  .dashboard-ask-dock-field span {
+    display: block;
+  }
+}
+
+@media (max-width: 360px) {
+  .dashboard-ask-dock,
+  .dashboard-shell.has-compact-ask-dock .dashboard-ask-dock {
+    left: auto;
+    right: auto;
   }
 }
